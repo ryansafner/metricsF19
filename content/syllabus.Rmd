@@ -27,9 +27,9 @@ I assume you have *some* working knowledge of  economics at the intermediate lev
 
 <span class="newthought">By the end of this course,</span> you will: 
 
-1. understand and evaluate statistical and empirical claims;
-2. understand research design and hypothesis testing;
-3. gain experience working with, interpreting, and communicating real data. 
+1. understand how to evaluate statistical and empirical claims;
+2. use the fundamental models of causal inference and research design;
+2. gather, analyze, and communicate with real data in R.
 
 I am less concerned with forcing you to memorize and recite proofs of statistical estimator properties, and more concerned with the development of your intuitions and the ability to think critically as an empirical social scientist---although this will require you to demonstrate proficiency with some intermediate statistical and mathematical tools. 
 
