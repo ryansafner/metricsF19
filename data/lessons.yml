@@ -6,55 +6,33 @@ lessons:
     assignment: "00-preliminary-survey"
     
   - title: "Introduction to Econometrics"
-    date: "August 27 (Tu)"
-    class: "01-class"
-    slides: "01-slides"
 
   - title: "The Quest for Causality"
-    date: "August 29 (Th)"
-    slides: "02-slides"
 
   - title: "Meet R"
-    date: "September 3 (Tu)"
-    slides: "03-slides"
-    class: "03-class"
-    r: "03-r"
-    
+
   - title: "Data Visualization with ggplot2"
-    date: "September 5 (Th)"
-    slides: "04-slides"
-    assignment: "01-problem-set"
 
   - title: "Data Wrangling in the tidyverse"
-    date: "September 10 (Tu)"
-    slides: "05-slides"
 
-  - title: "Random Variables and Distributions"
-    date: "September 12 (Th)"
-
+  - title: "Meet R Markdown"
+  
   - title: '<span class="fake-header-table">Linear Regression</span>'
     header: True
 
+  - title: "Random Variables and Distributions"
+
   - title: "OLS Linear Regression"
-    date: "September 17 (Tu)"
-    class: "07-class"
 
   - title: "Goodness of Fit, Bias, and Precision"
-    date: "September 19 (Th)"
 
   - title: "Regression Diagnostics"
-    date: "September 23 (Th)"
 
   - title: "Inferential Statistics"
-    class: "10-class"
 
   - title: "Inference for Regression with infer"
 
   - title: '<i class="fas fa-star"></i> **Midterm Exam**'
-    date: "February 15 (F)"
-
-  - title: "*No class; Presidents' Day*"
-    date: "February 18 (M)"
 
   - title: '<span class="fake-header-table">Extensions to Regression</span>'
     header: True
@@ -91,9 +69,9 @@ lessons:
   
   - title: "Binary Dependent Variables Models"
 
-  - title: '<span class="fake-header-table">Final</span>'
+  - title: "Machine Learning"
+
+  - title: '<span class="fake-header-table">Final Exam</span>'
     header: True
 
-  - title: "**Final project due** (submit online by 11:59 PM)"
-    date: "April 23 (T)"
-    assignment: "final-project"
+  - title: "**Project Due**"
