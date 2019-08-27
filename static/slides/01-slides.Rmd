@@ -105,9 +105,9 @@ class: inverse, center, middle
 .pull-left[
 - Suppose you suffer from kidney stones, your doctor offers you .shout[treatment A] or .whisper[treatment B]
 
-- In clinical trials, .shout[treatment A] was effective for a larger percentage of patients than .whisper[treatment B]
+- In clinical trials, .shout[treatment B] was effective for a larger percentage of patients than .whisper[treatment A]
 
-- .whisper[Treatment B] was effective for a higher percentage of patients with *large* stones and a higher percentage of patients with *small* stones
+- .whisper[Treatment A] was effective for a higher percentage of patients with *large* stones and a higher percentage of patients with *small* stones
 
 - Wait, what?
 ]
