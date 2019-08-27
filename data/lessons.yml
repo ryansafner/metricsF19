@@ -6,6 +6,9 @@ lessons:
     assignment: "00-preliminary-survey"
     
   - title: "Introduction to Econometrics"
+    class: "01-class"
+    slides: "01-slides"
+    reading: "01-reading"
 
   - title: "The Quest for Causality"
 
