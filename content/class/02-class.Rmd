@@ -19,6 +19,10 @@ Today we will cover the fundamental problem of causal inference. This will help 
 
 - [<i class="fas fa-external-link-square-alt"></i> Lecture Slides](/slides/02-slides.html)
 
+# Statistics Survey
+
+Don't forget to do the [preliminary survey](/assignment/00-preliminary-survey.html) for next class!
+
 # Slack
 
 - [Don't forget to join our class Slack channel](https://join.slack.com/t/hoodeconometrics/shared_invite/enQtNzQxMzI1MTU0ODM4LTVhOWI5Zjc5YzdiOGU5YzY0MmZiM2QxOGQwMWQwMjc4Y2FmYTk5Yjg5ZDZhZTY4ZDZiYWU2YzAzMTU1MDIwYTE)^[This link will expire in 5 days]
