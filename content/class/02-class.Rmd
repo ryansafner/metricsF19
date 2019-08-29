@@ -1,0 +1,26 @@
+---
+title: "Class 1: Introduction to Econometrics"
+citeproc: false
+bibliography: ../../static/bib/references.bib
+csl: ../../static/bib/chicago-syllabus-no-bib.csl
+output:
+  blogdown::html_page:
+    template: ../../pandoc/toc-title_html.template
+    toc: true
+editor_options: 
+  chunk_output_type: console
+---
+
+# Overview
+
+Today we will cover the fundamental problem of causal inference. This will help provide us a framework to understand causality and the challenges we will have to grapple with all semester. There is nothing too technical here, and we will not return to this for several weeks (focusing first on building your `R` skills), but these are the most important concepts we will return to countless times.
+
+# Slides
+
+- [<i class="fas fa-external-link-square-alt"></i> Lecture Slides](/slides/02-slides.html)
+
+# Slack
+
+- [Don't forget to join our class Slack channel](https://join.slack.com/t/hoodeconometrics/shared_invite/enQtNzQxMzI1MTU0ODM4LTVhOWI5Zjc5YzdiOGU5YzY0MmZiM2QxOGQwMWQwMjc4Y2FmYTk5Yjg5ZDZhZTY4ZDZiYWU2YzAzMTU1MDIwYTE)^[This link will expire in 5 days]
+
+Please use your hood email address and real name. Starting next week it may prove helpful you start finding yourself asking a lot of R questions -- and then later, a lot of theory and statistics questions.

@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>1.2: The Quest for Causality</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Ryan Safner  Assistant Professor of Economics    safner@hood.edu    ryansafner/metricsf19    metricsF19.classes.ryansafner.com" />
+    <link href="libs/remark-css/hygge.css" rel="stylesheet" />
+    <script src="https://use.fontawesome.com/5235085b15.js"></script>
+    <link rel="stylesheet" href="custom.css" type="text/css" />
+    <link rel="stylesheet" href="custom-fonts.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# 1.2: The Quest for Causality
+## ECON 480 · Econometrics · Fall 2019
+### Ryan Safner<br> Assistant Professor of Economics <br> <a href="mailto:safner@hood.edu"><i class="fa fa-paper-plane fa-fw"></i> safner@hood.edu</a> <br> <a href="https://github.com/ryansafner/metricsf19"><i class="fa fa-github fa-fw"></i> ryansafner/metricsf19</a><br> <a href="https://metricsF19.classes.ryansafner.com"> <i class="fa fa-globe fa-fw"></i> metricsF19.classes.ryansafner.com</a><br>
+
+---
+
+
+
+
+class: inverse, center, middle
+
+# The 2 Big Problems with Data
+
+---
+
+# Two Big Problems with Data
+
+.pull-left[
+
+- We want to use econometrics to **identify** causal relationships and make **inferences** about them
+
+1. Problem for **identification**: .shout[endogeneity]
+
+2. Problem for **inference**: .shout[randomness]
+
+]
+
+.pull-right[
+.center[
+![:scale 90%](https://www.dropbox.com/s/phhet82tcnuegxp/randomimage.jpg?raw=1)]
+]
+
+---
+
+# Identification Problem: Endogeneity I
+
+.pull-left[
+
+- An independent variable `\((X)\)` is .shout[exogenous] if its variation is *unrelated* to other factors that affect the dependent variable `\((Y)\)`
+
+- An independent variable `\((X)\)` is .shout[endogenous] if its variation is *related* to other factors that affect the dependent variable `\((Y)\)`
+]
+
+.pull-right[
+
+.center[
+![](https://www.dropbox.com/s/v5vwsadw5vs448t/causality.jpg?raw=1)
+]
+]
+
+---
+
+# Identification Problem: Endogeneity II
+
+.pull-left[
+
+- An independent variable `\((X)\)` is .shout[exogenous] if its variation is *unrelated* to other factors that affect the dependent variable `\((Y)\)`
+
+]
+
+.pull-right[
+
+&lt;img src="02-slides_files/figure-html/unnamed-chunk-1-1.png" width="504" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+
+# Identification Problem: Endogeneity III
+
+.pull-left[
+
+- An independent variable `\((X)\)` is .shout[endogenous] if its variation is *related* to other factors that affect the dependent variable `\((Y)\)`
+
+]
+
+.pull-right[
+
+&lt;img src="02-slides_files/figure-html/unnamed-chunk-2-1.png" width="504" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+
+# Identification Problem: Endogeneity IV
+
+.pull-left[
+
+- Confusingly, these terms mean something different in econometrics than in the theoretical economics models where you have heard them before
+
+- In *Theoretical* models:
+    - "Exogenous": a parameter determined outside of the model and taken as given
+    - "Endogenous": a variable whose value is determined by the model
+
+]
+
+.pull-right[
+
+.center[
+![:scale 90%](https://www.dropbox.com/s/qvr240t5j6t3arm/optimize.jpeg?raw=1)
+]
+]
+
+---
+
+
+# Identification Problem: Endogeneity V
+
+.pull-left[
+
+.content-box-green[
+.green[**Example 1**:] In a classic supply and demand model: 
+
+- Exogenous parameters: income, prices of other goods, cost, technology
+- Endogenous variables: equilibrium price, equilibrium quantity
+]
+]
+
+.pull-right[
+
+.center[
+![:scale 90%](https://www.dropbox.com/s/qvr240t5j6t3arm/optimize.jpeg?raw=1)
+]
+]
+
+---
+
+# Identification Problem: Endogeneity VI
+
+.pull-left[
+
+.content-box-green[
+
+.green[**Example 2**:] In a consumer optimization model: 
+
+- Exogenous parameters: market prices, income, utility function 
+- Endogenous variables: utility-maximizing bundle of goods
+]
+]
+
+.pull-right[
+
+.center[
+![:scale 90%](https://www.dropbox.com/s/qvr240t5j6t3arm/optimize.jpeg?raw=1)
+]
+]
+
+---
+
+# Inference Problem: Randomness
+
+.pull-left[
+- Data is random due to **natural sampling variation**
+
+    - Taking one sample of a population will yield slightly different information than another sample of the same population 
+    
+- Common in statistics, *easy to fix*
+
+- **Inferential Statistics**: making claims about a wider population using sample data 
+
+    - We use common tools and techniques to deal with randomness
+]
+
+.pull-right[
+.center[
+![:scale 90%](https://www.dropbox.com/s/bsdtuddzjouwzr1/sampling.jpg?raw=1)
+]
+]
+
+---
+
+class: inverse, center, middle
+
+# *Identifying* Causal Effects: Random Controlled Trials
+
+---
+
+# Random Controlled Trials (RCTs) I
+
+.pull-left[
+
+- The *ideal* way to demonstrate causation is through a .hl[randomized controlled trial (RCT)] or "random experiment"
+    - *Randomly* assign experimental units (e.g. people, firms, etc.) into groups
+    - **Treatment group(s)** get a (kind of) treatment
+    - **Control group** gets no treatment 
+    - Compare results of treatment and control groups to observe the **average treatment effect (ATE)**
+- .hl[We will understand "causality" to mean the ATE from an ideal RCT]
+]
+
+.pull-right[
+
+.center[
+![:scale 90%](https://www.dropbox.com/s/ninee93he1zgcon/groupsplit.jpeg?raw=1)
+]
+]
+
+---
+
+# Random Controlled Trials (RCTs) II
+
+.center[
+![:scale 75%](https://www.dropbox.com/s/wqjisnpxaoaa2yy/rct.png?raw=1)
+
+Classic (simplified) procedure of a randomized control trial (RCT) from medicine
+]
+
+---
+
+# Random Controlled Trials (RCTs) III
+
+.pull-left[
+
+- .hl[Random assignment] to groups ensures that the *only* differences between members of the treatment(s) and control groups is *receiving treatment or not*
+
+]
+
+.pull-right[
+
+.pull-left[
+.center[
+![:scale 80%](https://www.dropbox.com/s/vcqojr6k058e8hl/3apples.jpg?raw=1)
+Treatment Group
+]
+]
+
+.pull-right[
+.center[
+![:scale 100%](https://www.dropbox.com/s/xvjphzlwechgip6/3oranges.jpg?raw=1)
+Control Group
+]
+]
+]
+
+---
+
+# Random Controlled Trials (RCTs) IV
+
+.pull-left[
+
+- .hl[Random assignment] to groups ensures that the *only* differences between members of the treatment(s) and control groups is *receiving treatment or not*
+
+- .hl[Selection bias:] (pre-existing) differences between members of treatment and control groups *other* than treatment, that affect the outcome 
+
+]
+
+.pull-right[
+
+.pull-left[
+.center[
+![:scale 80%](https://www.dropbox.com/s/vcqojr6k058e8hl/3apples.jpg?raw=1)
+Treatment Group
+]
+]
+
+.pull-right[
+.center[
+![:scale 100%](https://www.dropbox.com/s/xvjphzlwechgip6/3oranges.jpg?raw=1)
+Control Group
+
+(Selection Bias)
+]
+]
+]
+
+---
+
+class: inverse, center, middle
+
+# Some Theory By Example
+
+---
+
+background-image: url(https://www.dropbox.com/s/zsx3pa4m51p82dj/twopaths.jpg?raw=1)
+background-size: cover
+
+---
+
+# Example: The Effect of Having Health Insurance I
+
+.pull-left[
+
+.content-box-green[
+.green[**Example:**] What is the effect of having health insurance on health outcomes?
+
+- National Health Interview Survey (NHIS) asks "Would you say your health in general is excellent, very good, good, fair, or poor?"
+
+- **Outcome variable `\((Y)\)`**: Index of health (1-poor to 5-excellent) in a sample of married NHIS respondents in 2009 who may or may not have health insurance
+
+- **Treatment `\((X)\)`**: Having health insurance  (vs. not)
+
+]
+]
+
+.pull-right[
+
+![](https://www.dropbox.com/s/h9c24dls3cisip1/healthcare.jpg?raw=1)
+]
+
+---
+
+# Example: The Effect of Having Health Insurance II
+
+.center[
+![:scale 42%](https://www.dropbox.com/s/5lpltvdfim6elr6/econometricshealthnocaption.png?raw=1)]
+
+.source[Angrist, Joshua &amp; Jorn-Steffen Pischke, 2015, *Mostly Harmless Econometrics*]
+---
+
+# Example: The Effect of Having Health Insurance III
+
+- `\(Y\)`: outcome variable (health index score, 1-5)
+
+- `\(Y_i\)`: health score of an individual `\(i\)`
+
+- Individual `\(i\)` has a choice, leading to one of two outcomes:
+
+    - `\(Y^0_i\)`: individual `\(i\)` has *not* purchased health insurance
+    
+    - `\(Y^1_i\)`: individual `\(i\)` has purchased health insurance
+    
+- `\(Y^1_i-Y^0_i\)`: causal effect for individual `\(i\)` of purchasing health insurance
+
+---
+
+# Example: A Hypothetical Comparison
+
+.left-column[
+
+| John      | Maria     |
+|-----------|-----------|
+| ![](https://www.dropbox.com/s/5vh181yeg0p91t7/coldman2.jpg?raw=1) | ![](https://www.dropbox.com/s/7qa0gtuy29us4p2/femalejogger2.jpg?raw=1) |
+| `\(Y_J^0=3\)` | `\(Y_M^0=5\)` | 
+| `\(Y_J^1=4\)` | `\(Y_M^1=5\)` |
+]
+
+--
+
+.right-column[
+- John will choose to buy health insurance
+
+- Maria will choose to not buy health insurance
+]
+
+---
+
+# Example: A Hypothetical Comparison
+
+.left-column[
+
+| John      | Maria     |
+|-----------|-----------|
+| ![](https://www.dropbox.com/s/5vh181yeg0p91t7/coldman2.jpg?raw=1) | ![](https://www.dropbox.com/s/7qa0gtuy29us4p2/femalejogger2.jpg?raw=1) |
+| `\(Y_J^0=3\)` | `\(Y_M^0=5\)` | 
+| `\(Y_J^1=4\)` | `\(Y_M^1=5\)` |
+| `\(Y_J^1-Y_J^0=1\)` | `\(Y_M^1-Y_M^0=0\)` |
+]
+
+.right-column[
+- John will choose to buy health insurance
+
+- Maria will choose to not buy health insurance
+
+- Health insurance improves John's score by 1, has no effect on Maria's score
+]
+
+---
+
+# Example: A Hypothetical Comparison
+
+.left-column[
+
+| John      | Maria     |
+|-----------|-----------|
+| ![](https://www.dropbox.com/s/5vh181yeg0p91t7/coldman2.jpg?raw=1) | ![](https://www.dropbox.com/s/7qa0gtuy29us4p2/femalejogger2.jpg?raw=1) |
+| `\(Y_J^0=3\)` | `\(Y_M^0=5\)` | 
+| `\(Y_J^1=4\)` | `\(Y_M^1=5\)` |
+| `\(Y_J^1-Y_J^0=1\)` | `\(Y_M^1-Y_M^0=0\)` |
+| `\(Y_J=(Y_J^1)=4\)` | `\(Y_M=(Y_M^0)=5\)` | 
+
+]
+
+.right-column[
+- John will choose to buy health insurance
+
+- Maria will choose to not buy health insurance
+
+- Health insurance improves John's score by 1, has no effect on Maria's score
+
+- Note, all we can observe in the data are their health outcomes *after* they have chosen (not) to buy health insurance: `\(Y_J=4\)` and `\(Y_M=5\)`
+]
+
+---
+
+# Example: A Hypothetical Comparison
+
+.left-column[
+
+| John      | Maria     |
+|-----------|-----------|
+| ![](https://www.dropbox.com/s/5vh181yeg0p91t7/coldman2.jpg?raw=1) | ![](https://www.dropbox.com/s/7qa0gtuy29us4p2/femalejogger2.jpg?raw=1) |
+| `\(Y_J^0=3\)` | `\(Y_M^0=5\)` | 
+| `\(Y_J^1=4\)` | `\(Y_M^1=5\)` |
+| `\(Y_J^1-Y_J^0=1\)` | `\(Y_M^1-Y_M^0=0\)` |
+| `\(Y_J=(Y_J^1)=4\)` | `\(Y_M=(Y_M^0)=5\)` | 
+
+]
+
+.right-column[
+- John will choose to buy health insurance
+
+- Maria will choose to not buy health insurance
+
+- Health insurance improves John's score by 1, has no effect on Maria's score
+
+- Note, all we can observe in the data are their health outcomes *after* they have chosen (not) to buy health insurance: `\(Y_J=4\)` and `\(Y_M=5\)`
+
+- .whisper[*Observed* difference] between John and Maria: `$$Y_J-Y_M=-1$$`
+]
+
+---
+
+# Counterfactuals
+
+.left-column[
+
+| John      | Maria     |
+|-----------|-----------|
+| ![](https://www.dropbox.com/s/5vh181yeg0p91t7/coldman2.jpg?raw=1) | ![](https://www.dropbox.com/s/7qa0gtuy29us4p2/femalejogger2.jpg?raw=1) |
+| `\(Y_J=4\)` | `\(Y_M=5\)` | 
+
+This is all the data we *actually* observe
+]
+
+.right-column[
+- Observed difference between John and Maria: 
+`$$Y_J-Y_M=\underbrace{Y^1_J-Y^0_M}_{=-1}$$`
+
+- Recall:
+    - John has bought health insurance `\((Y^1_J)\)`
+    - Maria has not bought insurance `\((Y^0_M)\)`
+
+- We don't see the .shout[counterfactuals]: 
+    - John's score *without* insurance
+    - Maria score *with* insurance
+
+]
+
+---
+
+# Counterfactuals
+
+.left-column[
+
+| John      | Maria     |
+|-----------|-----------|
+| ![](https://www.dropbox.com/s/5vh181yeg0p91t7/coldman2.jpg?raw=1) | ![](https://www.dropbox.com/s/7qa0gtuy29us4p2/femalejogger2.jpg?raw=1) |
+| `\(Y_J=4\)` | `\(Y_M=5\)` | 
+
+This is all the data we *actually* observe
+
+]
+
+.right-column[
+
+- Observed difference between John and Maria: 
+`$$Y_J-Y_M=\underbrace{Y^1_J-Y^0_M}_{=-1}$$`
+
+- Algebra trick: add and subtract `\(Y^0_J\)` to equation
+
+`$$\begin{align*}
+Y_j-Y_M=\underbrace{Y^1_J-Y^0_J}_{=1}+\underbrace{Y^0_J-Y^0_M}_{=-2}
+\end{align*}$$`
+
+- `\(Y^1_J-Y^0_J=1\)`: Causal effect for John of buying insurance
+- `\(Y^0_J-Y^0_M=-2\)`: Difference between John &amp; Maria pre-treatment, .hl["selection bias"]
+
+
+]
+
+---
+
+# Example II
+
+.pull-left[
+
+`$$Y^0_J-Y^0_M \neq 0$$`
+
+- .hl[Selection bias:] (pre-existing) differences between members of treatment and control groups *other* than treatment, that affect the outcome
+    - i.e. John and Maria *start out* with very *different* health scores before either decides to buy insurance or not ("recieve treatment" or not)
+
+]
+
+.pull-right[
+
+.pull-left[
+.center[
+![:scale 80%](https://www.dropbox.com/s/vcqojr6k058e8hl/3apples.jpg?raw=1)
+
+John (Treated)
+]
+]
+
+.pull-right[
+.center[
+![:scale 100%](https://www.dropbox.com/s/xvjphzlwechgip6/3oranges.jpg?raw=1)
+
+Maria (Control)
+]
+]
+]
+
+---
+
+# Example: Thinking about the Data
+
+.pull-left[
+
+
+.center[**Ideal** (but impossible) Data]
+
+| Individual | Insured | Not Insured | Diff |
+|---|---------|-------------|------|
+| John | 4.0 | 3.0 | 1.0 |
+| Maria | 5.0 | 5.0 | 0.0 | 
+| **Average** | 4.5 | 4.0 | **0.5** | 
+
+- .hl[Individual treatment effect] (for individual `\(i\)`):
+`$$TE_i=Y_i^1-Y_i^0$$`
+- .hl[*Average* treatment effect]:
+`$$ATE=\frac{1}{n}\sum^n_{i=1}Y_i^1-Y_i^0$$`
+
+]
+
+--
+
+.pull-right[
+
+.center[**Actual** (observed) Data]
+
+| Individual | Insured | Not Insured | Diff |
+|---|---------|-------------|------|
+| John | 4.0 | ? | ? |
+| Maria | ? | 5.0 | ? | 
+| **Average** | ? | ? | ? | 
+
+- We never get to see each person's **counterfactual** state to compare and calculate ITEs or ATE
+
+]
+
+---
+
+# Example: Thinking about the Data
+
+.pull-left[
+
+- Basic comparisons tell us *something* about outcomes, but not **ATE** (the causal effect we're looking for)
+
+`$$\text{Difference in Group Outcomes} = ATE + \text{Selection Bias}$$`
+
+- Selection bias: difference in average `\(Y^0_i\)` between groups pre-treatment
+
+- `\(Y^0_i\)` includes *everything* about person `\(i\)` relevant to health *except* treatment (insurance) status
+    - Age, sex, height, weight, climate, smoker, exercise, diet, etc. 
+    - Imagine a world where *nobody* has insurance (treatment), who would have highest health scores?
+]
+
+.pull-right[
+
+.center[**Actual** (observed) Data]
+
+| Individual | Insured | Not Insured | Diff |
+|---|---------|-------------|------|
+| John | 4.0 | ? | ? |
+| Maria | ? | 5.0 | ? | 
+| **Average** | ? | ? | ? | 
+
+]
+
+---
+
+# Random Assignment: The Silver Bullet
+
+.pull-left[
+
+- If treatment is .hl[randomly assigned] for a large sample, it eliminates selection bias!
+
+- Treatment and control groups differ *on average* by nothing *except* treatment status
+
+- Creates *ceterus paribus* conditions in economics: groups are identical *on average* (holding constant age, sex, height, etc.)
+
+]
+
+.pull-right[
+
+.pull-left[
+.center[
+![](https://www.dropbox.com/s/vcqojr6k058e8hl/3apples.jpg?raw=1)
+Treatment Group
+]
+]
+
+.pull-right[
+.center[
+![](https://www.dropbox.com/s/vcqojr6k058e8hl/3apples.jpg?raw=1)
+Control Group
+]
+]
+]
+
+---
+
+class: inverse, center, middle
+# Quasi-Experiments
+
+---
+
+# The Quest for Causal Effects I
+
+.pull-left[
+- RCTs are considered the "gold standard" for causal claims
+
+- But society is not our laboratory (probably a good thing!)
+
+- We can rarely conduct experiments to get data
+]
+
+.pull-right[
+.center[
+![:scale 100%](https://www.dropbox.com/s/j0kwzqb2ptusckt/madlaboratory.jpg?raw=1)
+]
+]
+
+---
+
+# The Quest for Causal Effects II
+
+.pull-left[
+- Instead, we often rely on .whisper[observational data]
+
+- This data is *not random*!
+
+- Must take extra care in forming an .shout[identification strategy]
+
+- To make good claims about causation in society, we must get clever! 
+]
+
+.pull-right[
+.center[
+![:scale 100%](https://www.dropbox.com/s/3j2yflalbv2ylo1/fieldobserver.jpg?raw=1)
+]
+]
+
+---
+
+# Natural Experiments
+
+.pull-left[
+
+- Economists often resort to searching for .shout[natural experiments]
+
+- Some events beyond our control occur that separate *otherwise similar* entities into a "treatment" group and a "control" group that we can compare 
+
+- e.g. natural disasters, U.S. State laws, military draft 
+]
+
+.pull-right[
+.center[
+![](https://www.dropbox.com/s/2yiww124mnvhj8l/nskorea2.png?raw=1)
+]
+]
+
+---
+
+# The First Natural Experiment
+
+.left-column[
+.center[
+![:scale 100%](https://www.dropbox.com/s/kc1yx6q6iao26mo/jonsnow.jpg?raw=1)
+
+Jon Snow
+]
+]
+
+.right-column[
+
+]
+
+---
+
+# The First Natural Experiment
+
+.left-column[
+.center[
+![:scale 80%](https://www.dropbox.com/s/w5jy5an586l7ep7/johnsnow.jpg?raw=1)
+
+1813-1858
+]
+]
+
+.right-column[
+
+- John Snow utilized the [first famous natural experiment](http://blogs.plos.org/publichealth/2013/03/11/john-snow-the-first-epidemiologist/) to establish the foundations of epidemiology and the germ theory of disease
+
+- Water pumps with sources *downstream* of a sewage dump in the Thames river spread cholera while water pumps with sources *upstream* did not
+
+.center[
+![:scale 60%](https://www.dropbox.com/s/s8ar35t7sjklf4k/choleramap.jpg?raw=1)
+]
+]
+
+---
+
+# Famous Natural Experiments
+
+- **Oregon Health Insurance Experiment**: Oregon used lottery to grant Medicare access to 10,000 people, showing access to Medicaid increased use of health services, lowered debt, etc. relative to those not on Medicaid
+- **Angrist (1990)** finds that lifetime earnings of (random) drafted Vietnam veterans is 15% lower than non-veterans
+- **Card &amp; Kreuger (1994)** find that minimum wage hike in fast-food restaurants on NJ side of border had no disemployment effects relative to restaurants on PA side of border during the same period
+- **Acemoglu, Johnson, and Robinson (2001)** find that inclusive institutions lead to higher economic development than extractive institutions, determined by a colony's disease environment in 1500
+- We will look at some of these in greater detail throughout the course
+- [A great list, with explanations is here](http://economicspsychologypolicy.blogspot.com/2015/06/list-of-19-natural-experiments.html)
+
+---
+
+# For the Next Few Classes
+
+.center[
+![:scale 45%](https://www.dropbox.com/s/k1xtcebidkonen9/r.png?raw=1)
+]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="macros.js"></script>
+<script src="https://platform.twitter.com/widgets.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "ocean",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"slideNumberFormat": "<div class=\"progress-bar-container\">   <div class=\"progress-bar\" style=\"width: calc(%current% / %total% * 100%);\">   </div> </div> "
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
