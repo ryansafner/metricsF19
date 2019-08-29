@@ -11,7 +11,10 @@ lessons:
     reading: "01-reading"
 
   - title: "The Quest for Causality"
-
+    class: "02-class"
+    slides: "02-slides"
+    reading: "01-reading"
+    
   - title: "Meet R"
 
   - title: "Data Visualization with ggplot2"
