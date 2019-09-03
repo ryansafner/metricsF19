@@ -23,17 +23,17 @@ a. Create a vector called `me` with two objects, your first name, and your last
 b. Call the vector to inspect it.
 c. Confirm it is a character class vector.
 
-## 2. Use R's help functions to determine what the `paste()` function does. Then paste together your name from `me`. 
+## 2. Use R's help functions to determine what the `paste()` function does. Then paste together your first name and last name.
 
 ## 3. Create a vector called `my_vector` with all the even integers from 2 to 10. 
 
 ## 4. Find the mean of `my_vector` with `mean()`.
 
-## 5. Take all the integers from 18 to 763, then get the mean
+## 5. Take all the integers from 18 to 763,^[Hint: use the `:` operator to create a sequence from a starting number to an ending number] then get the mean.
 
 ## Playing with Data
 
-For the following questions, we will the `diamonds` dataset, included as part of `ggplot2`.
+For the following questions, we will use the `diamonds` dataset, included as part of `ggplot2`.
 
 ### 6. Install `ggplot2`.
 

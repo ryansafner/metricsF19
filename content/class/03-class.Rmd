@@ -15,7 +15,7 @@ editor_options:
 
 # Overview
 
-Today we begin the long slog to your mastery of `R`. 
+Today we begin the long slog to your mastery of `R`. We begin with the basics - how R works, how to use it, the different data types, and how to create and manipulate objects.
 
 # Slides
 
@@ -23,7 +23,7 @@ Today we begin the long slog to your mastery of `R`.
 
 # Practice Problems
 
-Today you will be working on [R practice problems](/r/03-r-practice.html). Answers will be posted later.
+Today you will be working on [R practice problems](/r/03-r-practice.html). Answers will be posted later. Note there were a few typos on the printed sheets given to you in class, **the website and the PDF link have been corrected!**
 
 # Statistics and Software Survey
 
