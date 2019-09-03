@@ -17,11 +17,11 @@ Before we begin, start a new file with `File` $\rightarrow$ `New File` $\rightar
 
 # Creating Objects
 
-## 1.
+## 1. Work on the following parts:
 
-a. Create a vector called `me` with two objects, your first name, and your last name. 
-b. Call the vector to inspect it.
-c. Confirm it is a character class vector.
+- a. Create a vector called `me` with two objects, your first name, and your last name.
+- b. Call the vector to inspect it.
+- c. Confirm it is a character class vector.
 
 ## 2. Use R's help functions to determine what the `paste()` function does. Then paste together your first name and last name.
 
@@ -31,42 +31,42 @@ c. Confirm it is a character class vector.
 
 ## 5. Take all the integers from 18 to 763,^[Hint: use the `:` operator to create a sequence from a starting number to an ending number] then get the mean.
 
-## Playing with Data
+# Playing with Data
 
 For the following questions, we will use the `diamonds` dataset, included as part of `ggplot2`.
 
-### 6. Install `ggplot2`.
+## 6. Install `ggplot2`.
 
-### 7. Load `ggplot2` with the `library()` command.
+## 7. Load `ggplot2` with the `library()` command.
 
-### 8. Get the `str`ucture of the diamonds data frame. What are the different variables and what kind of data does each contain?
+## 8. Get the `str`ucture of the diamonds data frame. What are the different variables and what kind of data does each contain?
 
-### 9. Get summary statistics separately for `carat`, `depth`, `table`, and `price`.
+## 9. Get summary statistics separately for `carat`, `depth`, `table`, and `price`.
 
-### 10. `color`, `cut`, and `clarity` are categorical variables (factors). Use the `table()` command to generate frequency tables for each.
+## 10. `color`, `cut`, and `clarity` are categorical variables (factors). Use the `table()` command to generate frequency tables for each.
 
-### 11. Now rerun the `summary()` command on the entire data frame.
+## 11. Now rerun the `summary()` command on the entire data frame.
 
-### 12. Now look only at (subset) the first 4 diamonds in the dataset.
+## 12. Now look only at (subset) the first 4 diamonds in the dataset.
 
-### 13. Now look only at (subset) the third and seventh diamond in the dataset.
+## 13. Now look only at (subset) the third and seventh diamond in the dataset.
 
-### 14. Now look only at (subset) the second column of the dataset.
+## 14. Now look only at (subset) the second column of the dataset.
 
-### 15. Do this again, but look using the `$` to pull up the second column by name. 
+## 15. Do this again, but look using the `$` to pull up the second column by name. 
 
-### 16. Now look only at diamonds that have a `carat` greater than or equal to 1. 
+## 16. Now look only at diamonds that have a `carat` greater than or equal to 1. 
 
-### 17. Now look only at diamonds that have a VVS1 `clarity`.
+## 17. Now look only at diamonds that have a VVS1 `clarity`.
 
-### 17. Now look only at dimaonds that have a color of E, F, I, and J. 
+## 18. Now look only at dimaonds that have a color of E, F, I, and J. 
 
-### 18. Now look only at diamonds that have a `carat` greater than or equal to 1 and a VVS1 `clarity`. 
+## 19. Now look only at diamonds that have a `carat` greater than or equal to 1 and a VVS1 `clarity`. 
 
-### 19. Get the average price of diamonds in question 18.^[Hints: use your subset command as an argument to the mean function. You will not need a comma here because you are looking for a single row.]
+## 20. Get the average price of diamonds in question 18.^[Hints: use your subset command as an argument to the mean function. You will not need a comma here because you are looking for a single row.]
 
-### 20. What is the highest price for a diamond with a 1.0 carat, D color, and VVS1 clarity? 
+## 21. What is the highest price for a diamond with a 1.0 carat, D color, and VVS1 clarity? 
 
-## Execute your R Script
+# Execute your R Script
 
 Save the R Script you created at the beginning and (hopefully) have been pasting all of your valid commands to. This creates a *.R* file wherever you choose to save it to. Now looking at the file in the upper left pane of *R Studio* look for the button in the upper right corner that says **Run**. Sit back and watch `R` redo everything you've carefully worked on, all at once.

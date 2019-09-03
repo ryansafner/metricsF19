@@ -61,13 +61,13 @@ For the following questions, we will use the `diamonds` dataset, included as par
 
 ### 17. Now look only at diamonds that have a VVS1 `clarity`.
 
-### 17. Now look only at dimaonds that have a color of E, F, I, and J. 
+### 18. Now look only at dimaonds that have a color of E, F, I, and J. 
 
-### 18. Now look only at diamonds that have a `carat` greater than or equal to 1 and a VVS1 `clarity`. 
+### 19. Now look only at diamonds that have a `carat` greater than or equal to 1 and a VVS1 `clarity`. 
 
-### 19. Get the average price of diamonds in question 18.^[Hints: use your subset command as an argument to the mean function. You will not need a comma here because you are looking for a single row.]
+### 20. Get the average price of diamonds in question 18.^[Hints: use your subset command as an argument to the mean function. You will not need a comma here because you are looking for a single row.]
 
-### 20. What is the highest price for a diamond with a 1.0 carat, D color, and VVS1 clarity? 
+### 21. What is the highest price for a diamond with a 1.0 carat, D color, and VVS1 clarity? 
 
 # Execute your R Script
 
