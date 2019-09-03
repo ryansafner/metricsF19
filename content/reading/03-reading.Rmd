@@ -1,0 +1,12 @@
+---
+title: "1.3 Meet R - Readings"
+citeproc: false
+bibliography: ../../static/bib/references.bib
+csl: ../../static/bib/chicago-fullnote-bibliography-no-bib.csl
+---
+
+# Strongly Recommended
+
+- <i class="fas fa-external-link-square-alt"></i>@R4DS[Ch. 1] 1^[[https://r4ds.had.co.nz/introduction.html](https://r4ds.had.co.nz/introduction.html)]
+
+Now that we start working with R, we will 
