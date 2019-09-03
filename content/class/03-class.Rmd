@@ -19,11 +19,21 @@ Today we begin the long slog to your mastery of `R`.
 
 # Slides
 
-- [<i class="fas fa-external-link-square-alt"></i> Lecture Slides](/slides/02-slides.html)
+- [<i class="fas fa-external-link-square-alt"></i> Lecture Slides](/slides/03-slides.html)
 
-# Appendix
+# Practice Problems
+
+Today you will be working on [R practice problems](/r/03-r-practice.html). Answers will be posted later.
+
+# Statistics and Software Survey
+
+Please turn in your math surveys. I will post "answers" after both sections have turned in their surveys.
+
+# Additional Useful Information
 
 ## Installing R and R Studio
+
+We will be using the trading room computers all semester, and I will ensure you have access to the computers outside of class so that you can work on homeworks and your projects on them. However, since R is free, I **strongly recommend** you download and install it on your own computers. You may decide also you prefer to use your own computers in class when we work with R.
 
 1. [Install R](http://www.r-project.org/) from CRAN^[The Comprehensive R Archive Network] by clicking "Download R" (or the CRAN link under Downloads on the left menu). This will take you to a mirrors page, where you can select a location in the U.S. and download a copy of R
 2. [Install R Studio (Desktop Version)](https://www.rstudio.com/products/rstudio/download/), choose the "Free" option
@@ -70,15 +80,19 @@ This will display a help page specific to that function in the Viewer pane. R fu
 
 Additionally, you can turn to the community.
 
+## Other Resources for R
+
+My R4EH guide. 
+
 ## Other Useful Commands to Know
 
-One of the best/worst things about `R` is that it is a language, meaning there are multiple ways that you can accomplish the same task. 
+One of the best/worst things about `R` is that it is a language, meaning there are multiple ways that you can accomplish the same task. Here are a few alternative methods relevant to what we have learned so far that might prove useful. 
 
 ### Creating Vectors
 
 We know vectors can be created with the `c()` command (and stored with `<-`), but there are other shortcuts to combine objects into a vector, particularly numeric data:
 
-- `:` creates a series of integers
+1. `:` creates a series of integers
 
 ```{r}
 1:5 # create a vector of 1 through 5
@@ -96,7 +110,7 @@ seq(from = 1, to = 10, by = 2) # sequence from 1 to 10, by 2s
 seq(32.5,40,1.5) # sequence from 32.5 to 40, by 1.5
 ```
 
-- `rep(., times =)`^[`.` is a placeholder here.] repeats an element a specified number of times
+2. `rep(., times =)`^[The `.` is a placeholder here.] repeats an element a specified number of times
 
 ```{r}
 rep(2, times = 4) # repeat "2" four times
@@ -107,7 +121,7 @@ rep(2, 4) # does the same thing
 rep(c(1,4,7), 3) # repeat the vector "1, 4, 7" three times
 ```
 
-- We can combine these:
+3. We can combine these:
 
 ```{r}
 
@@ -115,6 +129,9 @@ rep(c(1,4,7), 3) # repeat the vector "1, 4, 7" three times
 
 c(rep(seq(4,8,2),3),1,5)
 ```
+
+### Other Object Types
+
 
 ## Style Guide for Coding
 

@@ -16,7 +16,11 @@ lessons:
     reading: "01-reading"
     
   - title: "1.3 Meet R"
-
+    class: "03-class"
+    slides: "03-slides"
+    reading: "03-reading"
+    r: "03-r-practice"
+    
   - title: "1.4 Data Visualization with ggplot2"
 
   - title: "1.5 Data Wrangling in the tidyverse"

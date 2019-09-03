@@ -87,10 +87,13 @@ code span.wa { color: #bf0303; } /* Warning */
 <ul>
 <li><a href="#overview">Overview</a></li>
 <li><a href="#slides">Slides</a></li>
-<li><a href="#appendix">Appendix</a><ul>
+<li><a href="#practice-problems">Practice Problems</a></li>
+<li><a href="#statistics-and-software-survey">Statistics and Software Survey</a></li>
+<li><a href="#additional-useful-information">Additional Useful Information</a><ul>
 <li><a href="#installing-r-and-r-studio">Installing R and R Studio</a></li>
 <li><a href="#r-packages">R Packages</a></li>
 <li><a href="#getting-help-for-r">Getting Help for R</a></li>
+<li><a href="#other-resources-for-r">Other Resources for R</a></li>
 <li><a href="#other-useful-commands-to-know">Other Useful Commands to Know</a></li>
 <li><a href="#style-guide-for-coding">Style Guide for Coding</a></li>
 </ul></li>
@@ -102,10 +105,15 @@ code span.wa { color: #bf0303; } /* Warning */
 <p>Today we begin the long slog to your mastery of <code>R</code>.</p>
 <h2 id="slides">Slides</h2>
 <ul>
-<li><a href="/slides/02-slides.html"><i class="fas fa-external-link-square-alt"></i> Lecture Slides</a></li>
+<li><a href="/slides/03-slides.html"><i class="fas fa-external-link-square-alt"></i> Lecture Slides</a></li>
 </ul>
-<h2 id="appendix">Appendix</h2>
+<h2 id="practice-problems">Practice Problems</h2>
+<p>Today you will be working on <a href="/r/03-r-practice.html">R practice problems</a>. Answers will be posted later.</p>
+<h2 id="statistics-and-software-survey">Statistics and Software Survey</h2>
+<p>Please turn in your math surveys. I will post “answers” after both sections have turned in their surveys.</p>
+<h2 id="additional-useful-information">Additional Useful Information</h2>
 <h3 id="installing-r-and-r-studio">Installing R and R Studio</h3>
+<p>We will be using the trading room computers all semester, and I will ensure you have access to the computers outside of class so that you can work on homeworks and your projects on them. However, since R is free, I <strong>strongly recommend</strong> you download and install it on your own computers. You may decide also you prefer to use your own computers in class when we work with R.</p>
 <ol style="list-style-type: decimal">
 <li><a href="http://www.r-project.org/">Install R</a> from CRAN<span><label for="sn-1" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-1" class="margin-toggle"/><span class="sidenote">The Comprehensive R Archive Network<br />
 <br />
@@ -140,13 +148,15 @@ code span.wa { color: #bf0303; } /* Warning */
 <br />
 </span></span> a short description of the function, arguments and options (as well as their default values), and several examples or vignettes to demonstrate usage of the function.</p>
 <p>Additionally, you can turn to the community.</p>
+<h3 id="other-resources-for-r">Other Resources for R</h3>
+<p>My R4EH guide.</p>
 <h3 id="other-useful-commands-to-know">Other Useful Commands to Know</h3>
-<p>One of the best/worst things about <code>R</code> is that it is a language, meaning there are multiple ways that you can accomplish the same task.</p>
+<p>One of the best/worst things about <code>R</code> is that it is a language, meaning there are multiple ways that you can accomplish the same task. Here are a few alternative methods relevant to what we have learned so far that might prove useful.</p>
 <h4 id="creating-vectors">Creating Vectors</h4>
 <p>We know vectors can be created with the <code>c()</code> command (and stored with <code>&lt;-</code>), but there are other shortcuts to combine objects into a vector, particularly numeric data:</p>
-<ul>
+<ol style="list-style-type: decimal">
 <li><code>:</code> creates a series of integers</li>
-</ul>
+</ol>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="dv">1</span><span class="op">:</span><span class="dv">5</span> <span class="co"># create a vector of 1 through 5</span></span></code></pre></div>
 <pre><code>## [1] 1 2 3 4 5</code></pre>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="dv">12</span><span class="op">:</span><span class="dv">17</span> <span class="co"># create a vector of 12 through 17</span></span></code></pre></div>
@@ -160,11 +170,11 @@ code span.wa { color: #bf0303; } /* Warning */
 <span id="cb11-2"><a href="#cb11-2"></a></span>
 <span id="cb11-3"><a href="#cb11-3"></a><span class="kw">seq</span>(<span class="fl">32.5</span>,<span class="dv">40</span>,<span class="fl">1.5</span>) <span class="co"># sequence from 32.5 to 40, by 1.5</span></span></code></pre></div>
 <pre><code>## [1] 32.5 34.0 35.5 37.0 38.5 40.0</code></pre>
-<ul>
-<li><code>rep(., times =)</code><span><label for="sn-7" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-7" class="margin-toggle"/><span class="sidenote"><code>.</code> is a placeholder here.<br />
+<ol start="2" style="list-style-type: decimal">
+<li><code>rep(., times =)</code><span><label for="sn-7" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-7" class="margin-toggle"/><span class="sidenote">The <code>.</code> is a placeholder here.<br />
 <br />
 </span></span> repeats an element a specified number of times</li>
-</ul>
+</ol>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="kw">rep</span>(<span class="dv">2</span>, <span class="dt">times =</span> <span class="dv">4</span>) <span class="co"># repeat &quot;2&quot; four times</span></span></code></pre></div>
 <pre><code>## [1] 2 2 2 2</code></pre>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="kw">rep</span>(<span class="dv">2</span>, <span class="dv">4</span>) <span class="co"># does the same thing</span></span></code></pre></div>
@@ -172,13 +182,14 @@ code span.wa { color: #bf0303; } /* Warning */
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="co"># the thing repeated could itself be a vector</span></span>
 <span id="cb17-2"><a href="#cb17-2"></a><span class="kw">rep</span>(<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">7</span>), <span class="dv">3</span>) <span class="co"># repeat the vector &quot;1, 4, 7&quot; three times</span></span></code></pre></div>
 <pre><code>## [1] 1 4 7 1 4 7 1 4 7</code></pre>
-<ul>
+<ol start="3" style="list-style-type: decimal">
 <li>We can combine these:</li>
-</ul>
+</ol>
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a><span class="co"># combine (the sequence of 4 to 8 by 2&#39;s repeated three times) and 1 and 5</span></span>
 <span id="cb19-2"><a href="#cb19-2"></a></span>
 <span id="cb19-3"><a href="#cb19-3"></a><span class="kw">c</span>(<span class="kw">rep</span>(<span class="kw">seq</span>(<span class="dv">4</span>,<span class="dv">8</span>,<span class="dv">2</span>),<span class="dv">3</span>),<span class="dv">1</span>,<span class="dv">5</span>)</span></code></pre></div>
 <pre><code>##  [1] 4 6 8 4 6 8 4 6 8 1 5</code></pre>
+<h4 id="other-object-types">Other Object Types</h4>
 <h3 id="style-guide-for-coding">Style Guide for Coding</h3>
 <p>We want to maximize <em>human</em>-readability of code, not just machine-readability. I try to follow <a href="http://adv-r.had.co.nz/Style.html">Hadley Wickham’s style guide</a> for all of my code, including that in this class.</p>
 <p><em>You will not be graded on the style of your code.</em> But now’s the best time to learn best practices (while you don’t know any alternatives!) to save yourself and your potential colleagues (including your future self) from unnecessary frustration.</p>
