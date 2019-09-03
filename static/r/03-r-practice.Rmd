@@ -15,19 +15,21 @@ Before we begin, start a new file with `File` $\rightarrow$ `New File` $\rightar
 
 # Creating Objects
 
-## 1.
+## 1. Work on the following parts:
 
 a. Create a vector called `me` with two objects, your first name, and your last name.
+
 b. Call the vector to inspect it.
+
 c. Confirm it is a character class vector.
 
 ## 2. Use R's help functions to determine what the `paste()` function does. Then paste together your name from `me`. 
 
 ## 3. Create a vector called `my_vector` with all the even integers from 2 to 10. 
 
-## 4. Find the mean of x with `mean()`.
+## 4. Find the mean of `my-vector` with `mean()`.
 
-## 5. Add up all the numbers from 18 to 763, then get the mean
+## 5. Take all the integers from 18 to 763, then get the mean
 
 \clearpage
 

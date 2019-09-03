@@ -27,9 +27,9 @@ c. Confirm it is a character class vector.
 
 ## 3. Create a vector called `my_vector` with all the even integers from 2 to 10. 
 
-## 4. Find the mean of x with `mean()`.
+## 4. Find the mean of `my_vector` with `mean()`.
 
-## 5. Add up all the numbers from 18 to 763, then get the mean
+## 5. Take all the integers from 18 to 763, then get the mean
 
 ## Playing with Data
 
