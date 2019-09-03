@@ -180,8 +180,7 @@ R Studio
 - You will do everything in R Studio and never open the R program itself
 
 - R itself is just a command language 
-    - The `R` *app* is basically just a command line
-    - You can even just use your computer's command line!&lt;sup&gt;.red[2]&lt;/sup&gt;
+- The `R` *app* is basically just a command line, you can even just use your computer's command line!&lt;sup&gt;.red[2]&lt;/sup&gt;
 ]
 
 .pull-right[
@@ -203,11 +202,12 @@ R Studio
 
 .pull-left[
 
-- R Studio has 4 window panes:
-    1. **Source**&lt;sup&gt;.red[1]&lt;/sup&gt;: a text editor for documents, R scripts, etc.
-    2. **Console**: type in commands to run
-    3. **Browser**: view files, plots, help, etc
-    4. **Environment**: view created objects, command history, version control
+R Studio has 4 window panes:
+
+1. **Source**&lt;sup&gt;.red[1]&lt;/sup&gt;: a text editor for documents, R scripts, etc.
+2. **Console**: type in commands to run
+3. **Browser**: view files, plots, help, etc
+4. **Environment**: view created objects, command history, version control
 
 - Customize the sizes of these panes (I often hide the console and use the text editor)
     - `CTRL+SHIFT+[number]` will maximize a pane. Type again to see all four. 
@@ -231,7 +231,7 @@ R Studio
 
 .pull-left[
 
-- .font130[.onfire[You don't "learn R, you learn how to do things in R]]
+- .font130[.onfire[You don't "*learn R*", you learn *how to do things in R*]]
 
 - In order to do learn this, you need to learn *how to search for what you want to do*
 
@@ -381,7 +381,7 @@ geom_smooth()
 
 - Later: `R markdown`, literate programming, workflow management
 
-- Today may seem a bit overwhelming
+- .whisper[Today may seem a bit overwhelming]
     - You don't need to know or internalize all of this today
     - Use this as a reference to come back to over the semester
     - Last year I started making [a partial book](http://ryansafner.com/tutorial/r4eh), I may revive it
@@ -448,9 +448,11 @@ Chief Scientist, R Studio
 
 - type `help(function_name)` or `?(function_name)` to get documentation on a function
 .center[
-![:scale 50%](http://socviz.co/assets/ch-09-read-a-help-page.png)
 
 From Kieran Healy's excellent (free online!) [book on Data Visualization](http://socviz.co/).]
+
+![:scale 50%](http://socviz.co/assets/ch-09-read-a-help-page.png)
+
 ]
 ---
 
@@ -474,8 +476,8 @@ summary(reg1$coefficients) #prints coefficients
 
 # Style and Naming
 
-- Not relevant yet, but once we start writing longer blocks of code, it helps to have a consistent (and human-readable!) style
-    - I follow [this style guide](http://adv-r.had.co.nz/Style.html) (you are not required to)&lt;sup&gt;.red[1]&lt;/sup&gt;
+- Once we start writing longer blocks of code, it helps to have a consistent (and human-readable!) style
+- I follow [this style guide](http://adv-r.had.co.nz/Style.html) (you are not required to)&lt;sup&gt;.red[1]&lt;/sup&gt;
 
 - Naming objects and files will become important&lt;sup&gt;.red[2]&lt;/sup&gt;
     - DO NOT USE SPACES! You've seen seen webpages intended to be called `my webpage in html` turned into `http://my%20webpage%20in%20html.html`
@@ -487,7 +489,7 @@ some.people.use.snake.case
 othersUseCamelCase
 ```
 
-.footnote[&lt;sup&gt;.red[1]&lt;/sup&gt; Also described in [today's course notes page](http://metricsf19.classes.ryansafner.com/class/03-class/) and the course [reference page](http://metricsf19.classes.ryansafner.com/reference.
+.footnote[&lt;sup&gt;.red[1]&lt;/sup&gt; Also described in [today's course notes page](http://metricsf19.classes.ryansafner.com/class/03-class/) and the course [reference page](http://metricsf19.classes.ryansafner.com/reference).
 
 &lt;sup&gt;.red[2]&lt;/sup&gt; Consider your folders on your computer as well...]
 
@@ -610,7 +612,7 @@ pi/2
 # R: Objects and Functions
 
 .pull-left[
-- R is an "**object-oriented**" programming language
+- R is an .shout[**object-oriented**] programming language
 - 99% of the time, you will be:
 
 1. creating `objects`
@@ -835,8 +837,8 @@ z &lt;= 1 | z==10 # is z &gt;= 1 OR equal to 10?
 
 
 ```
-##  [1] junior    freshman  sophomore sophomore junior    freshman  sophomore
-##  [8] freshman  freshman  sophomore
+##  [1] junior    sophomore sophomore senior    sophomore sophomore junior   
+##  [8] junior    freshman  junior   
 ## Levels: freshman sophomore junior senior
 ```
 
@@ -844,8 +846,8 @@ z &lt;= 1 | z==10 # is z &gt;= 1 OR equal to 10?
 
 
 ```
-##  [1] junior    freshman  sophomore sophomore junior    freshman  sophomore
-##  [8] freshman  freshman  sophomore
+##  [1] junior    sophomore sophomore senior    sophomore sophomore junior   
+##  [8] junior    freshman  junior   
 ## Levels: freshman &lt; sophomore &lt; junior &lt; senior
 ```
 
@@ -936,6 +938,7 @@ diamonds
 - You can make data frames by combinining named vectors with `data.frame()` or creating each column/vector in each argument 
 ]
 
+.pull-right[
 
 ```r
 # make two vectors
@@ -1674,12 +1677,6 @@ mtcars[mtcars$cyl==4 | mtcars$cyl==6,] # select obs with 4 OR 6 cyl
 
 ---
 
-class: inverse, center, middle
-# Resources
-
-
----
-
 # What's To Come
 
 - Next class: data visualization with `ggplot2`
@@ -1695,7 +1692,7 @@ class: inverse, center, middle
 <script src="macros.js"></script>
 <script src="https://platform.twitter.com/widgets.js"></script>
 <script>var slideshow = remark.create({
-"highlightStyle": "github",
+"highlightStyle": "solarized-dark",
 "highlightLines": true,
 "countIncrementalSlides": false,
 "ratio": "16:9",
