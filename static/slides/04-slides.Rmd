@@ -302,6 +302,69 @@ Chief Scientist, R Studio
 
 ---
 
+# The Grammar of Graphics (gg): All at Once
+
+.pull-left[
+
+All in one command
+
+- Produces plot output in viewer
+
+- Does not save plot
+    - Save with `Export` menu in viewer
+
+- Adding layers requires whole code for new plot
+
+]
+
+.pull-right[
+```{r, eval = F}
+ggplot(data = mpg)+
+  aes(x = displ,
+        y = hwy)+
+  geom_point()+
+  geom_smooth()
+```
+]
+
+---
+
+# The Grammar of Graphics (gg): As R Objects
+
+.pull-left[
+- Saving as an Object
+
+- Does not show in viewer
+    - Rune the name of the plot as command to see it
+
+- Saves your plot as an `R` object
+
+- Can add layers by calling the original plot name
+]
+
+.pull-right[
+
+```{r, eval=F}
+# make and save plot
+p <- ggplot(data = mpg)+
+  aes(x = displ,
+        y = hwy)+
+  geom_point()
+
+p # view plot
+
+# add a layer
+
+p + geom_smooth() # shows new plot
+
+p <- p + geom_smooth() # saves and overwrites p
+p2 <- p + geom_smooth() # saves as different object
+
+```
+]
+
+---
+
 # Example Data
 
 - We'll use the `mpg` example dataset that is built-in with `ggplot2`
@@ -455,7 +518,7 @@ ggplot(data = mpg)
 .center[
 ![](https://www.dropbox.com/s/f5msffqgvbs4nkb/aes.png?raw=1)
 ]
-
+]
 ---
 
 # The Grammar of Graphics (gg): Aesthetics IV
@@ -852,15 +915,17 @@ ggplot(data = mpg)+
 
 ---
 
-# Back to the Original
+# Back to the Original (and saving it)
 
 .left-code[
 ```{r plot-8a, eval=F, echo=T}
-ggplot(data = mpg)+
+p <- ggplot(data = mpg)+ #<<
   aes(x = displ,
         y = hwy)+
   geom_point(aes(color = class))+
-  geom_smooth() 
+  geom_smooth()
+
+p # show plot
 ```
 ]
 
@@ -889,12 +954,7 @@ ggplot(data = mpg)+
 .right-plot[
 
 ```{r, fig.retina=3, fig.height=3.5, fig.align="center"}
-ggplot(data = mpg)+
-  aes(x = displ,
-        y = hwy)+
-  geom_point(aes(color = class))+
-  geom_smooth()+
-  facet_wrap(~year) #<<
+p + facet_wrap(~year) #<<
 ```
 ]
 
@@ -917,12 +977,7 @@ ggplot(data = mpg)+
 .right-plot[
 
 ```{r, fig.retina=3, fig.height=3.5, fig.align="center"}
-ggplot(data = mpg)+
-  aes(x = displ,
-        y = hwy)+
-  geom_point(aes(color = class))+
-  geom_smooth()+
-  facet_grid(cyl~year) #<<
+p + facet_grid(cyl~year) #<<
 ```
 ]
 
@@ -943,18 +998,13 @@ ggplot(data = mpg)+
 
 .right-plot[
 
-```{r, fig.retina=3, fig.align="center"}
-ggplot(data = mpg)+
-  aes(x = displ,
-        y = hwy)+
-  geom_point(aes(color = class))+
-  geom_smooth()+
-  facet_wrap(~year)+
-  labs(x = "Engine Displacement (Liters)",
-       y = "Highway MPG",
-       title = "Car Mileage and Displacement",
-       subtitle = "More Displacement Lowers Highway MPG",
-       caption = "Source: EPA",
+```{r, fig.retina=3, fig.height=4, fig.align="center"}
+p + facet_wrap(~year)+
+  labs(x = "Engine Displacement (Liters)", #<<
+       y = "Highway MPG", #<<
+       title = "Car Mileage and Displacement", #<<
+       subtitle = "More Displacement Lowers Highway MPG", #<<
+       caption = "Source: EPA", #<<
        color = "Vehicle Class")#<<
 ```
 ]
@@ -1369,16 +1419,65 @@ ggplot(data = mpg, aes(x = displ,
 
 ---
 
-class: inverse, center, middle
-# Saving Plots
+# Go Crazy I
+
+.left-code[
+```{r gap-map, echo=F}
+library("socviz")
+library(mapproj)
+
+us_states <- map_data("state")
+
+election$region <- tolower(election$state)
+us_states_elec <- left_join(us_states, election)
+
+theme_map <- function(base_size=9, base_family="") {
+    require(grid)
+    theme_bw(base_size=base_size, base_family=base_family) %+replace%
+        theme(axis.line=element_blank(),
+              axis.text=element_blank(),
+              axis.ticks=element_blank(),
+              axis.title=element_blank(),
+              panel.background=element_blank(),
+              panel.border=element_blank(),
+              panel.grid=element_blank(),
+              panel.spacing=unit(0, "lines"),
+              plot.background=element_blank(),
+              legend.justification = c(0,0),
+              legend.position = c(0,0)
+              )
+}
+
+county_full <- left_join(county_map, county_data, by = "id")
+```
+
+```{r gap-map2, eval=F}
+
+# I did some (hidden) data work before this! 
+ggplot(data = county_full,
+            mapping = aes(x = long, y = lat,
+                          fill = pop_dens, 
+                          group = group))+ 
+  geom_polygon(color = "gray90", size = 0.05)+
+  coord_equal()+
+  scale_fill_brewer(palette="Blues",
+                             labels = c("0-10", "10-50", "50-100", "100-500",
+                                        "500-1,000", "1,000-5,000", ">5,000"))+
+  labs(fill = "Population per\nsquare mile") +
+    theme_map() +
+    guides(fill = guide_legend(nrow = 1)) + 
+    theme(legend.position = "bottom")
+```
+]
+
+.right-plot[
+```{r ref.label="gap-map2", fig.retina=3, fig.height=5.5, fig.align="center", echo=F}
+```
+]
 
 ---
 
-# Saving Plots
-
----
-
-# Go Crazy
+# Go Crazy II
 
 .left-code[
 ```{r gap-anim, eval=F}
@@ -1489,7 +1588,7 @@ On `ggplot2`
 - **`ggplot2`'s website [reference section](https://ggplot2.tidyverse.org/reference/index.html)**
 - STHDA's [be awesome in ggplot2](http://www.sthda.com/english/wiki/be-awesome-in-ggplot2-a-practical-guide-to-be-highly-effective-r-software-and-data-visualization)
 - r-statistic's [top 50 ggplot2 visualizations](http://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html)
-- Hadley Wickham's \href{http://r4ds.had.co.nz/data-visualisation.html}{R for Data Science book chapter on ggplot2}
+- Hadley Wickham's[ R for Data Science book chapter on ggplot2](http://r4ds.had.co.nz/data-visualisation.html)
 
 On data visualization
 

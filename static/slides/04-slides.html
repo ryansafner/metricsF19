@@ -296,6 +296,70 @@ Chief Scientist, R Studio
 
 ---
 
+# The Grammar of Graphics (gg): All at Once
+
+.pull-left[
+
+All in one command
+
+- Produces plot output in viewer
+
+- Does not save plot
+    - Save with `Export` menu in viewer
+
+- Adding layers requires whole code for new plot
+
+]
+
+.pull-right[
+
+```r
+ggplot(data = mpg)+
+  aes(x = displ,
+        y = hwy)+
+  geom_point()+
+  geom_smooth()
+```
+]
+
+---
+
+# The Grammar of Graphics (gg): As R Objects
+
+.pull-left[
+- Saving as an Object
+
+- Does not show in viewer
+    - Rune the name of the plot as command to see it
+
+- Saves your plot as an `R` object
+
+- Can add layers by calling the original plot name
+]
+
+.pull-right[
+
+
+```r
+# make and save plot
+p &lt;- ggplot(data = mpg)+
+  aes(x = displ,
+        y = hwy)+
+  geom_point()
+
+p # view plot
+
+# add a layer
+
+p + geom_smooth() # shows new plot
+
+p &lt;- p + geom_smooth() # saves and overwrites p
+p2 &lt;- p + geom_smooth() # saves as different object
+```
+]
+
+---
+
 # Example Data
 
 - We'll use the `mpg` example dataset that is built-in with `ggplot2`
@@ -472,7 +536,7 @@ ggplot(data = mpg)
 .center[
 ![](https://www.dropbox.com/s/f5msffqgvbs4nkb/aes.png?raw=1)
 ]
-
+]
 ---
 
 # The Grammar of Graphics (gg): Aesthetics IV
@@ -623,7 +687,7 @@ ggplot(data = mpg)
 ]
 
 .right-plot[
-&lt;img src="04-slides_files/figure-html/unnamed-chunk-23-1.png" width="504" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-slides_files/figure-html/unnamed-chunk-25-1.png" width="504" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -641,7 +705,7 @@ ggplot(data = mpg)+
 ]
 
 .right-plot[
-&lt;img src="04-slides_files/figure-html/unnamed-chunk-24-1.png" width="504" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-slides_files/figure-html/unnamed-chunk-26-1.png" width="504" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -660,7 +724,7 @@ ggplot(data = mpg)+
 ]
 
 .right-plot[
-&lt;img src="04-slides_files/figure-html/unnamed-chunk-25-1.png" width="504" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-slides_files/figure-html/unnamed-chunk-27-1.png" width="504" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -679,7 +743,7 @@ ggplot(data = mpg)+
 ]
 
 .right-plot[
-&lt;img src="04-slides_files/figure-html/unnamed-chunk-26-1.png" width="504" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-slides_files/figure-html/unnamed-chunk-28-1.png" width="504" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -699,7 +763,7 @@ ggplot(data = mpg)+
 ]
 
 .right-plot[
-&lt;img src="04-slides_files/figure-html/unnamed-chunk-27-1.png" width="504" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-slides_files/figure-html/unnamed-chunk-29-1.png" width="504" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -744,7 +808,7 @@ ggplot(data = mpg)+
 ]
 
 .right-plot[
-&lt;img src="04-slides_files/figure-html/unnamed-chunk-29-1.png" width="504" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-slides_files/figure-html/unnamed-chunk-31-1.png" width="504" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -787,7 +851,7 @@ ggplot(data = mpg)+
 ]
 
 .right-plot[
-&lt;img src="04-slides_files/figure-html/unnamed-chunk-31-1.png" width="504" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-slides_files/figure-html/unnamed-chunk-33-1.png" width="504" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -805,7 +869,7 @@ ggplot(data = mpg)+
 ]
 
 .right-plot[
-&lt;img src="04-slides_files/figure-html/unnamed-chunk-32-1.png" width="504" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-slides_files/figure-html/unnamed-chunk-34-1.png" width="504" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -824,7 +888,7 @@ ggplot(data = mpg)+
 ]
 
 .right-plot[
-&lt;img src="04-slides_files/figure-html/unnamed-chunk-33-1.png" width="504" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-slides_files/figure-html/unnamed-chunk-35-1.png" width="504" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -843,28 +907,30 @@ ggplot(data = mpg)+
 ]
 
 .right-plot[
-&lt;img src="04-slides_files/figure-html/unnamed-chunk-34-1.png" width="504" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-slides_files/figure-html/unnamed-chunk-36-1.png" width="504" style="display: block; margin: auto;" /&gt;
 
 ]
 
 
 ---
 
-# Back to the Original
+# Back to the Original (and saving it)
 
 .left-code[
 
 ```r
-ggplot(data = mpg)+
+*p &lt;- ggplot(data = mpg)+
   aes(x = displ,
         y = hwy)+
   geom_point(aes(color = class))+
-  geom_smooth() 
+  geom_smooth()
+
+p # show plot
 ```
 ]
 
 .right-plot[
-&lt;img src="04-slides_files/figure-html/unnamed-chunk-35-1.png" width="504" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-slides_files/figure-html/unnamed-chunk-37-1.png" width="504" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -889,15 +955,10 @@ ggplot(data = mpg)+
 
 
 ```r
-ggplot(data = mpg)+
-  aes(x = displ,
-        y = hwy)+
-  geom_point(aes(color = class))+
-  geom_smooth()+
-* facet_wrap(~year)
+*p + facet_wrap(~year)
 ```
 
-&lt;img src="04-slides_files/figure-html/unnamed-chunk-37-1.png" width="504" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-slides_files/figure-html/unnamed-chunk-39-1.png" width="504" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -921,15 +982,10 @@ ggplot(data = mpg)+
 
 
 ```r
-ggplot(data = mpg)+
-  aes(x = displ,
-        y = hwy)+
-  geom_point(aes(color = class))+
-  geom_smooth()+
-* facet_grid(cyl~year)
+*p + facet_grid(cyl~year)
 ```
 
-&lt;img src="04-slides_files/figure-html/unnamed-chunk-39-1.png" width="504" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-slides_files/figure-html/unnamed-chunk-41-1.png" width="504" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -952,21 +1008,16 @@ ggplot(data = mpg)+
 
 
 ```r
-ggplot(data = mpg)+
-  aes(x = displ,
-        y = hwy)+
-  geom_point(aes(color = class))+
-  geom_smooth()+
-  facet_wrap(~year)+
-  labs(x = "Engine Displacement (Liters)",
-       y = "Highway MPG",
-       title = "Car Mileage and Displacement",
-       subtitle = "More Displacement Lowers Highway MPG",
-       caption = "Source: EPA",
+p + facet_wrap(~year)+
+* labs(x = "Engine Displacement (Liters)",
+*      y = "Highway MPG",
+*      title = "Car Mileage and Displacement",
+*      subtitle = "More Displacement Lowers Highway MPG",
+*      caption = "Source: EPA",
 *      color = "Vehicle Class")
 ```
 
-&lt;img src="04-slides_files/figure-html/unnamed-chunk-41-1.png" width="504" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-slides_files/figure-html/unnamed-chunk-43-1.png" width="504" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -1024,7 +1075,7 @@ ggplot(data = mpg)+
 
 .right-plot[
 
-&lt;img src="04-slides_files/figure-html/unnamed-chunk-43-1.png" width="504" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-slides_files/figure-html/unnamed-chunk-45-1.png" width="504" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -1117,7 +1168,7 @@ ggplot(data = mpg)+
 
 .right-plot[
 
-&lt;img src="04-slides_files/figure-html/unnamed-chunk-46-1.png" width="504" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-slides_files/figure-html/unnamed-chunk-48-1.png" width="504" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -1147,7 +1198,7 @@ ggplot(data = mpg)+
 
 .right-plot[
 
-&lt;img src="04-slides_files/figure-html/unnamed-chunk-47-1.png" width="504" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-slides_files/figure-html/unnamed-chunk-49-1.png" width="504" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -1178,7 +1229,7 @@ ggplot(data = mpg)+
 
 .right-plot[
 
-&lt;img src="04-slides_files/figure-html/unnamed-chunk-48-1.png" width="504" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-slides_files/figure-html/unnamed-chunk-50-1.png" width="504" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -1210,7 +1261,7 @@ ggplot(data = mpg)+
 
 .right-plot[
 
-&lt;img src="04-slides_files/figure-html/unnamed-chunk-49-1.png" width="504" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-slides_files/figure-html/unnamed-chunk-51-1.png" width="504" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -1274,7 +1325,7 @@ ggplot(data = mpg)+
 
 .right-plot[
 
-&lt;img src="04-slides_files/figure-html/unnamed-chunk-52-1.png" width="504" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-slides_files/figure-html/unnamed-chunk-54-1.png" width="504" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -1307,7 +1358,7 @@ ggplot(data = mpg)+
 
 .right-plot[
 
-&lt;img src="04-slides_files/figure-html/unnamed-chunk-53-1.png" width="504" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-slides_files/figure-html/unnamed-chunk-55-1.png" width="504" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -1335,7 +1386,7 @@ ggplot(data = mpg, aes(x = displ,
   geom_smooth()
 ```
 
-&lt;img src="04-slides_files/figure-html/unnamed-chunk-54-1.png" width="504" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-slides_files/figure-html/unnamed-chunk-56-1.png" width="504" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -1349,7 +1400,7 @@ ggplot(data = mpg, aes(x = displ,
   geom_smooth()
 ```
 
-&lt;img src="04-slides_files/figure-html/unnamed-chunk-55-1.png" width="504" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-slides_files/figure-html/unnamed-chunk-57-1.png" width="504" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -1370,7 +1421,7 @@ ggplot(data = mpg, aes(x = displ,
   geom_smooth()
 ```
 
-&lt;img src="04-slides_files/figure-html/unnamed-chunk-56-1.png" width="504" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-slides_files/figure-html/unnamed-chunk-58-1.png" width="504" style="display: block; margin: auto;" /&gt;
 ]
 
 
@@ -1384,21 +1435,42 @@ ggplot(data = mpg, aes(x = displ,
   geom_smooth(aes(), color = "blue")
 ```
 
-&lt;img src="04-slides_files/figure-html/unnamed-chunk-57-1.png" width="504" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-slides_files/figure-html/unnamed-chunk-59-1.png" width="504" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
 
-class: inverse, center, middle
-# Saving Plots
+# Go Crazy I
+
+.left-code[
+
+
+
+```r
+# I did some (hidden) data work before this! 
+ggplot(data = county_full,
+            mapping = aes(x = long, y = lat,
+                          fill = pop_dens, 
+                          group = group))+ 
+  geom_polygon(color = "gray90", size = 0.05)+
+  coord_equal()+
+  scale_fill_brewer(palette="Blues",
+                             labels = c("0-10", "10-50", "50-100", "100-500",
+                                        "500-1,000", "1,000-5,000", "&gt;5,000"))+
+  labs(fill = "Population per\nsquare mile") +
+    theme_map() +
+    guides(fill = guide_legend(nrow = 1)) + 
+    theme(legend.position = "bottom")
+```
+]
+
+.right-plot[
+&lt;img src="04-slides_files/figure-html/unnamed-chunk-60-1.png" width="504" style="display: block; margin: auto;" /&gt;
+]
 
 ---
 
-# Saving Plots
-
----
-
-# Go Crazy
+# Go Crazy II
 
 .left-code[
 
@@ -1429,7 +1501,7 @@ ggplot(gapminder) +
 ]
 
 .right-plot[
-&lt;img src="04-slides_files/figure-html/unnamed-chunk-58-1.gif" style="display: block; margin: auto;" /&gt;
+&lt;img src="04-slides_files/figure-html/unnamed-chunk-61-1.gif" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -1509,7 +1581,7 @@ On `ggplot2`
 - **`ggplot2`'s website [reference section](https://ggplot2.tidyverse.org/reference/index.html)**
 - STHDA's [be awesome in ggplot2](http://www.sthda.com/english/wiki/be-awesome-in-ggplot2-a-practical-guide-to-be-highly-effective-r-software-and-data-visualization)
 - r-statistic's [top 50 ggplot2 visualizations](http://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html)
-- Hadley Wickham's \href{http://r4ds.had.co.nz/data-visualisation.html}{R for Data Science book chapter on ggplot2}
+- Hadley Wickham's[ R for Data Science book chapter on ggplot2](http://r4ds.had.co.nz/data-visualisation.html)
 
 On data visualization
 
