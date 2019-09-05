@@ -1,0 +1,1615 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>1.4: Data Visualization with ggplot2</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Ryan Safner  Assistant Professor of Economics    safner@hood.edu    ryansafner/metricsf19    metricsF19.classes.ryansafner.com" />
+    <link href="libs/remark-css/hygge.css" rel="stylesheet" />
+    <script src="https://use.fontawesome.com/5235085b15.js"></script>
+    <link rel="stylesheet" href="custom.css" type="text/css" />
+    <link rel="stylesheet" href="custom-fonts.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# 1.4: Data Visualization with ggplot2
+## ECON 480 · Econometrics · Fall 2019
+### Ryan Safner<br> Assistant Professor of Economics <br> <a href="mailto:safner@hood.edu"><i class="fa fa-paper-plane fa-fw"></i> safner@hood.edu</a> <br> <a href="https://github.com/ryansafner/metricsf19"><i class="fa fa-github fa-fw"></i> ryansafner/metricsf19</a><br> <a href="https://metricsF19.classes.ryansafner.com"> <i class="fa fa-globe fa-fw"></i> metricsF19.classes.ryansafner.com</a><br>
+
+---
+
+
+
+
+# Graphics and Statistics
+
+- Admittedly, we still need to cover basic descriptive statistics and data fundamentals
+    - continuous, discrete, cross-sectional, time series, panel data
+    - mean, median, variance, standard deviation
+    - random variables, distributions, PDFs, Z-scores
+    - bargraphs, boxplots, histograms, scatterplots
+
+- All of this is coming in 2 weeks as we return to statistics and econometric theory
+
+- But let's start with the fun stuff right away, even if you don't fully know the *reasons*: .shout[data visualiation]
+
+---
+
+class: inverse, center, middle
+
+# Plotting in Base R
+
+---
+
+# Plotting in Base R
+
+- Base `R` is very powerful and intuitive to plot, but not very sexy
+
+- Basic syntax for most types of plots:
+
+
+```r
+plot_type(my_df$variable)
+```
+
+- If using multiple variables, you can avoid typing `$` by just typing the variable names and then in another argument to the plotting function, specify `data = my_df`
+
+
+```r
+plot_type(my_df$variable1, my_df$variable2, data = my_df)
+```
+
+---
+
+# Plotting in Base R: Histogram
+
+
+.left-code[
+- Using the built-in `mtcars` data, plotting a histogram of `mpg`
+
+
+```r
+hist(mtcars$mpg)
+```
+
+]
+
+.right-plot[
+.center[
+&lt;img src="04-slides_files/figure-html/unnamed-chunk-3-1.png" width="504" /&gt;
+]
+]
+
+---
+
+# Plotting in Base R: Boxplot
+
+.left-code[
+- Using the built-in `mtcars` data, plotting a boxplot of `mpg`
+
+
+```r
+boxplot(mtcars$mpg)
+```
+
+]
+
+.right-plot[
+.center[
+&lt;img src="04-slides_files/figure-html/unnamed-chunk-4-1.png" width="504" /&gt;
+]
+]
+
+---
+
+# Plotting in Base R: Boxplot by Category
+
+.left-code[
+- Using the built-in `mtcars` data, plotting a boxplot of `mpg` by `cyl`
+
+
+```r
+boxplot(mtcars$mpg~mtcars$cyl)
+```
+
+
+```r
+# second method
+boxplot(mpg~cyl, data = mtcars)
+```
+
+- The `~` is part of `R`'s **"formula" notation**: 
+    - Dependent variable goes to left
+    - Independent variable(s) to right, separated with `+`'s
+    - Think `y~x+z` means "`y` is explained by `x` and `z`"
+
+]
+
+.right-plot[
+.center[
+&lt;img src="04-slides_files/figure-html/unnamed-chunk-6-1.png" width="504" /&gt;
+]
+]
+
+---
+
+# Plotting in Base R: Scatterplot
+
+.left-code[
+- Using the built-in `mtcars` data, plotting a scatterplot of `mpg` against `disp`
+
+
+```r
+plot(mtcars$mpg~mtcars$disp)
+```
+
+
+```r
+# second method
+plot(mpg~disp, data = mtcars)
+```
+
+]
+
+.right-plot[
+.center[
+&lt;img src="04-slides_files/figure-html/unnamed-chunk-8-1.png" width="504" /&gt;
+]
+]
+
+---
+
+class: inverse, center, middle
+
+# ggplot2 and the tidyverse
+
+---
+
+class: blank
+
+background-image: url(https://www.dropbox.com/s/np8v4ihjotkckc1/tidyverse1.png?raw=1)
+background-size: cover
+
+---
+
+# The tidyverse
+
+&gt; "The tidyverse is an opinionated collection of R packages designed for data science. All packages share an underlying design philosophy, grammar, and data structures.
+
+- Largely (but not only) created by Hadley Wickham
+
+- We will look at this much more extensively next week!
+
+- This "flavor" of `R` will make your coding life *so much easier!* 
+
+![](https://www.dropbox.com/s/81ijxswbwqor0up/tidyverse.png?raw=1)
+
+---
+
+# ggplot
+
+.pull-left[
+
+- `ggplot2` is perhaps the most popular package in `R` and a core element of the `tidyverse`
+
+- `gg` stands for a .whisper[grammar of graphics]
+
+- Very powerful and beautiful graphics, very customizable and reproducible, but requires a bit of a learning curve
+
+- All those "cool graphics" you've seen in the New York Times, fivethirtyeight, the Economist, Vox, etc use the grammar of graphics
+]
+
+.pull-right[
+.center[
+![:scale 65%](https://www.dropbox.com/s/4bxo0ac3gwwgd9y/hadleyplot2.png?raw=1)
+]
+]
+
+---
+
+# ggplot: All Your Figure are Belong to Us
+
+.pull-left[
+.center[
+![:scale 80%](https://www.dropbox.com/s/4ij96m7h66i9o4p/538gg1.png?raw=1)
+
+Source: [fivethirtyeight](https://fivethirtyeight.com/features/fastest-airlines-fastest-airports/)
+]
+]
+.pull-left[
+.center[
+![:scale 80%](https://www.dropbox.com/s/2bkklsrsl0ep902/538gg.png?raw=1)
+
+Source: [fivethirtyeight](https://fivethirtyeight.com/features/how-to-tell-someones-age-when-all-you-know-is-her-name/)
+]
+]
+
+---
+
+# Why Go gg? 
+
+.left-column[
+
+.center[
+![:scale 80%](https://www.dropbox.com/s/u34dakjyq4hkyov/hadley.jpg?raw=1)
+
+Hadley Wickham
+
+Chief Scientist, R Studio
+]
+]
+
+.right-column[
+
+&gt; "The transferrable skills from ggplot2 are not the idiosyncracies of plotting syntax, but a powerful way of thinking about visualisation, as a way of **mapping between variables and the visual properties of geometric objects** that you can perceive." 
+
+]
+
+.source[[http://disq.us/p/sv640d](http://disq.us/p/sv640d)]
+
+---
+
+# The Grammar of Graphics (gg) I
+
+.pull-left[
+
+- Any graphic can be built from the same components:
+    1. **Data** to be drawn from
+    2. **Aesthetic mappings** from data to some visual marking
+    3. **Geometric objects** that appear on the plot
+    4. **Coordinates** to organize location of objects
+    5. **Scales** define the range of values
+    6. **Facets** group into subplots
+
+- Not every plot needs *every* component, but all plots *must* have the first 3!
+]
+
+.pull-right[
+.center[
+![](https://www.dropbox.com/s/flw1dbvhssn1q23/ggplotlayers.png?raw=1)
+]
+]
+
+---
+
+# The Grammar of Graphics (gg) II
+
+.pull-left[
+
+- Any graphic can be built from the same components:
+    1. `data` to be drawn from
+    2. `aes`**thetic mappings** from data to some visual marking
+    3. `geom`**etric objects** that appear on the plot
+    4. `coord`**inates** to scale axes
+    5. `scale`**s** define the range of values
+    6. `facet`**s** group into subplots
+    
+- Not every plot needs *every* component, but all plots *must* have the first 3!
+]
+
+.pull-right[
+.center[
+![](https://www.dropbox.com/s/flw1dbvhssn1q23/ggplotlayers.png?raw=1)
+]
+]
+
+---
+
+# Example Data
+
+- We'll use the `mpg` example dataset that is built-in with `ggplot2`
+
+
+```r
+head(mpg, n=10)
+```
+
+```
+## # A tibble: 10 x 11
+##    manufacturer model displ  year   cyl trans drv     cty   hwy fl    class
+##    &lt;chr&gt;        &lt;chr&gt; &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt;
+##  1 audi         a4      1.8  1999     4 auto… f        18    29 p     comp…
+##  2 audi         a4      1.8  1999     4 manu… f        21    29 p     comp…
+##  3 audi         a4      2    2008     4 manu… f        20    31 p     comp…
+##  4 audi         a4      2    2008     4 auto… f        21    30 p     comp…
+##  5 audi         a4      2.8  1999     6 auto… f        16    26 p     comp…
+##  6 audi         a4      2.8  1999     6 manu… f        18    26 p     comp…
+##  7 audi         a4      3.1  2008     6 auto… f        18    27 p     comp…
+##  8 audi         a4 q…   1.8  1999     4 manu… 4        18    26 p     comp…
+##  9 audi         a4 q…   1.8  1999     4 auto… 4        16    25 p     comp…
+## 10 audi         a4 q…   2    2008     4 manu… 4        20    28 p     comp…
+```
+
+---
+
+# The Grammar of Graphics (gg): Data
+
+.left-code[
+### Data
+
+```r
+ggplot(data = mpg)
+```
+
+]
+
+.right-plot[
+
+**Data** is the source of our data. As part of the `tidyverse`, `ggplot2` requires data to be .whisper["tidy"]&lt;sup&gt;.red[1]&lt;/sup&gt;:
+
+1. Each variable forms a .hl[column]
+
+2. Each observation forms a .hl[row]
+
+3. Each observational unit forms a table
+
+]
+
+.footnote[&lt;sup&gt;.red[1]&lt;/sup&gt; Data "tidyness" is the core element of all `tidyverse` packages. Much more on all of this next class.]
+
+---
+
+# The Grammar of Graphics (gg): Adding Layers
+
+.left-code[
+### Data
+]
+
+.right-plot[
+- Add a layer with `+` at the end of a line (never at the beginning!)
+
+- Style recommendation: start a new line after each `+` to improve legibility!
+
+- We will build a plot layer-by-layer
+]
+
+---
+
+# The Grammar of Graphics (gg): Aesthetics I
+
+.left-code[
+### Data
+### Aesthetics
+
+```r
++ aes()
+```
+]
+
+.right-plot[
+**Aesthetics** map data to visual elements or parameters
+
+.center[
+![](https://www.dropbox.com/s/d226uyjrru1sn36/ggplotaes.png?raw=1)
+]
+]
+
+---
+
+# The Grammar of Graphics (gg): Aesthetics II
+
+.left-code[
+### Data
+### Aesthetics
+
+```r
++ aes()
+```
+]
+
+.right-plot[
+**Aesthetics** map data to visual elements or parameters
+
+- `displ`
+
+- `hwy`
+
+- `class`
+
+]
+
+---
+
+# The Grammar of Graphics (gg): Aesthetics II
+
+.left-code[
+### Data
+### Aesthetics
+
+```r
++ aes()
+```
+]
+
+.right-plot[
+**Aesthetics** map data to visual elements or parameters
+
+- `displ` → **x**
+
+- `hwy` → **y**
+
+- `class` → *shape*, *size*, **color**, etc.
+
+]
+
+---
+
+# The Grammar of Graphics (gg): Aesthetics II
+
+.left-code[
+### Data
+### Aesthetics
+
+```r
++ aes()
+```
+]
+
+.right-plot[
+**Aesthetics** map data to visual elements or parameters
+
+.center[
+![](https://www.dropbox.com/s/e1nvb7x330c7ruk/aes2.png?raw=1)
+]
+]
+---
+
+# The Grammar of Graphics (gg): Aesthetics III
+
+.left-code[
+### Data
+### Aesthetics
+
+```r
++ aes()
+```
+]
+
+.right-plot[
+**Aesthetics** map data to visual elements or parameters
+
+.center[
+![](https://www.dropbox.com/s/f5msffqgvbs4nkb/aes.png?raw=1)
+]
+
+---
+
+# The Grammar of Graphics (gg): Aesthetics IV
+
+.left-code[
+### Data
+### Aesthetics
+
+```r
++ aes()
+```
+]
+
+.right-plot[
+**Aesthetics** map data to visual elements or parameters
+
+
+```r
+aes(x = displ,
+    y = hwy,
+    color = class)
+```
+]
+
+---
+
+# The Grammar of Graphics (gg): Geoms I
+
+.left-code[
+### Data
+### Aesthetics
+### Geoms
+
+```r
++ geom_*()
+```
+]
+
+.right-plot[
+**Geometric objects** displayed on the plot
+
+.center[
+&lt;img src="04-slides_files/figure-html/geom_demo-1.png" width="504" /&gt;
+]
+]
+
+---
+
+# The Grammar of Graphics (gg): Geoms II
+
+.left-code[
+### Data
+### Aesthetics
+### Geoms
+
+```r
++ geom_*()
+```
+]
+
+.right-plot[
+**Geometric objects** displayed on the plot
+
+- What `geom`s you should use depends on what you want to show:
+
+| Type | `geom` |
+|------|--------|
+| Point | `geom_point()` |
+| Line  | `geom_line()`, `geom_path()`  |
+| Bar   | `geom_bar()`, `geom_col()` |
+| Histogram | `geom_histogram()` |
+| Regression | `geom_smooth()` |
+| Boxplot | `geom_boxplot()` |
+| Text | `geom_text()` |
+| Density | `geom_density()` |
+]
+
+---
+
+# The Grammar of Graphics (gg): Geoms III
+
+.left-code[
+### Data
+### Aesthetics
+### Geoms
+
+```r
++ geom_*()
+```
+]
+
+.right-plot[
+**Geometric objects** displayed on the plot
+
+
+```r
+##  [1] "geom_abline"     "geom_area"       "geom_bar"        "geom_bin2d"     
+##  [5] "geom_blank"      "geom_boxplot"    "geom_col"        "geom_contour"   
+##  [9] "geom_count"      "geom_crossbar"   "geom_curve"      "geom_density"   
+## [13] "geom_density_2d" "geom_density2d"  "geom_dotplot"    "geom_errorbar"  
+## [17] "geom_errorbarh"  "geom_freqpoly"   "geom_hex"        "geom_histogram" 
+## [21] "geom_hline"      "geom_jitter"     "geom_label"      "geom_line"      
+## [25] "geom_linerange"  "geom_map"        "geom_path"       "geom_point"     
+## [29] "geom_pointrange" "geom_polygon"    "geom_qq"         "geom_qq_line"   
+## [33] "geom_quantile"   "geom_raster"     "geom_rect"       "geom_ribbon"    
+## [37] "geom_rug"        "geom_segment"    "geom_sf"         "geom_sf_label"  
+## [41] "geom_sf_text"    "geom_smooth"     "geom_spoke"      "geom_step"      
+## [45] "geom_text"       "geom_tile"       "geom_violin"     "geom_vline"
+```
+
+See [http://ggplot2.tidyverse.org/reference](http://ggplot2.tidyverse.org/reference) for many more options
+
+]
+
+---
+
+# The Grammar of Graphics (gg): Geoms IV
+
+.left-code[
+### Data
+### Aesthetics
+### Geoms
+
+```r
++ geom_*()
+```
+]
+
+.right-plot[
+**Geometric objects** displayed on the plot
+
+Or just start typing `geom_` in R Studio!
+
+.center[
+![](https://www.dropbox.com/s/xui9bxccztlqmyz/geoms.gif?raw=1)
+]
+]
+
+---
+
+# Let's Make a Plot!
+
+.left-code[
+
+```r
+ggplot(data = mpg)
+```
+]
+
+.right-plot[
+&lt;img src="04-slides_files/figure-html/unnamed-chunk-23-1.png" width="504" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+
+# Let's Make a Plot!
+
+.left-code[
+
+```r
+ggplot(data = mpg)+
+* aes(x = displ,
+*       y = hwy)
+```
+]
+
+.right-plot[
+&lt;img src="04-slides_files/figure-html/unnamed-chunk-24-1.png" width="504" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+
+# Let's Make a Plot!
+
+.left-code[
+
+```r
+ggplot(data = mpg)+
+  aes(x = displ,
+        y = hwy)+
+* geom_point()
+```
+]
+
+.right-plot[
+&lt;img src="04-slides_files/figure-html/unnamed-chunk-25-1.png" width="504" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+
+# Let's Make a Plot!
+
+.left-code[
+
+```r
+ggplot(data = mpg)+
+  aes(x = displ,
+        y = hwy)+
+* geom_point(aes(color = class))
+```
+]
+
+.right-plot[
+&lt;img src="04-slides_files/figure-html/unnamed-chunk-26-1.png" width="504" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+
+# Let's Make a Plot!
+
+.left-code[
+
+```r
+ggplot(data = mpg)+
+  aes(x = displ,
+        y = hwy)+
+  geom_point()+
+* geom_smooth()
+```
+]
+
+.right-plot[
+&lt;img src="04-slides_files/figure-html/unnamed-chunk-27-1.png" width="504" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+
+# More Geoms
+
+.left-code[
+### Data
+### Aesthetics
+### Geoms
+
+```r
++ geom_*()
+```
+]
+
+.right-plot[
+`geom_*(aes, data, stat, position)`
+
+- `data`: geoms can have their own data
+    - has to map onto global coordinates
+
+- `aes`: geoms can have their own aesthetics
+    - inherits global aesthetics by default
+    - different geoms have different available aesthetics
+]
+
+---
+
+# Change Our Plot
+
+.left-code[
+
+```r
+ggplot(data = mpg)+
+  aes(x = displ,
+        y = hwy)+
+* geom_point(aes(color = class))+
+  geom_smooth()
+```
+]
+
+.right-plot[
+&lt;img src="04-slides_files/figure-html/unnamed-chunk-29-1.png" width="504" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+
+# More Geoms II
+
+.left-code[
+### Data
+### Aesthetics
+### Geoms
+
+```r
++ geom_*()
+```
+]
+
+.right-plot[
+`geom_*(aes, data, stat, position)`
+
+- `stat`: some geoms statistically transform data
+    - `geom_histogram()` uses `stat_bin()` to group observations into bins
+
+- `position`: some adjust location of objects
+    - `dodge`, `stack`, `jitter`
+]
+
+---
+
+# Let's Change Our Plot
+
+.left-code[
+
+```r
+ggplot(data = mpg)+
+* aes(x = class,
+*     y = hwy)+
+* geom_boxplot()
+```
+]
+
+.right-plot[
+&lt;img src="04-slides_files/figure-html/unnamed-chunk-31-1.png" width="504" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+
+# Let's Change Our Plot
+
+.left-code[
+
+```r
+ggplot(data = mpg)+
+* aes(x = class)+
+* geom_bar()
+```
+]
+
+.right-plot[
+&lt;img src="04-slides_files/figure-html/unnamed-chunk-32-1.png" width="504" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+
+# Let's Change Our Plot
+
+.left-code[
+
+```r
+ggplot(data = mpg)+
+  aes(x = class,
+*     fill = drv)+
+  geom_bar() 
+```
+]
+
+.right-plot[
+&lt;img src="04-slides_files/figure-html/unnamed-chunk-33-1.png" width="504" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+
+# Let's Change Our Plot
+
+.left-code[
+
+```r
+ggplot(data = mpg)+
+  aes(x = class,
+      fill = drv)+ 
+* geom_bar(position = "dodge")
+```
+]
+
+.right-plot[
+&lt;img src="04-slides_files/figure-html/unnamed-chunk-34-1.png" width="504" style="display: block; margin: auto;" /&gt;
+
+]
+
+
+---
+
+# Back to the Original
+
+.left-code[
+
+```r
+ggplot(data = mpg)+
+  aes(x = displ,
+        y = hwy)+
+  geom_point(aes(color = class))+
+  geom_smooth() 
+```
+]
+
+.right-plot[
+&lt;img src="04-slides_files/figure-html/unnamed-chunk-35-1.png" width="504" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+
+# The Grammar of Graphics (gg): Facets I
+
+.left-code[
+### Data
+### Aesthetics
+### Geoms
+### Facets
+
+```r
++ facet_wrap()
+
++ facet_grid()
+```
+]
+
+.right-plot[
+
+
+```r
+ggplot(data = mpg)+
+  aes(x = displ,
+        y = hwy)+
+  geom_point(aes(color = class))+
+  geom_smooth()+
+* facet_wrap(~year)
+```
+
+&lt;img src="04-slides_files/figure-html/unnamed-chunk-37-1.png" width="504" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+# The Grammar of Graphics (gg): Facets II
+
+.left-code[
+### Data
+### Aesthetics
+### Geoms
+### Facets
+
+```r
++ facet_wrap()
+
++ facet_grid()
+```
+]
+
+.right-plot[
+
+
+```r
+ggplot(data = mpg)+
+  aes(x = displ,
+        y = hwy)+
+  geom_point(aes(color = class))+
+  geom_smooth()+
+* facet_grid(cyl~year)
+```
+
+&lt;img src="04-slides_files/figure-html/unnamed-chunk-39-1.png" width="504" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+# The Grammar of Graphics (gg): Labels
+
+.left-code[
+### Data
+### Aesthetics
+### Geoms
+### Facets
+### Labels
+
+```r
++ labs()
+```
+]
+
+.right-plot[
+
+
+```r
+ggplot(data = mpg)+
+  aes(x = displ,
+        y = hwy)+
+  geom_point(aes(color = class))+
+  geom_smooth()+
+  facet_wrap(~year)+
+  labs(x = "Engine Displacement (Liters)",
+       y = "Highway MPG",
+       title = "Car Mileage and Displacement",
+       subtitle = "More Displacement Lowers Highway MPG",
+       caption = "Source: EPA",
+*      color = "Vehicle Class")
+```
+
+&lt;img src="04-slides_files/figure-html/unnamed-chunk-41-1.png" width="504" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+# The Grammar of Graphics (gg): Scales
+
+.left-code[
+### Data
+### Aesthetics
+### Geoms
+### Facets
+### Labels
+### Scales
+
+```r
++ scale_*_*()
+```
+]
+
+.right-plot[
+
+`scale`+`_`+`&lt;aes&gt;`+`_`+`&lt;type&gt;`+`()`
+
+- `&lt;aes&gt;`: parameter you want to adjust
+- `&lt;type`: type of parameter
+
+- I want to change my discrete x-axis: `scale_x_discrete()`
+- I want to change my continuous y-axis: `scale_y_continuous()`
+- I want to rescale x-axis to log: `scale_x_log10()`
+- I want to use a different color palette: `scale_fill_discrete()`, `scale_color_manual()`
+]
+---
+
+# The Grammar of Graphics (gg): Scales
+
+.left-code[
+
+
+```r
+ggplot(data = mpg)+
+  aes(x = displ,
+        y = hwy)+
+  geom_point(aes(color = class))+
+  geom_smooth()+
+  facet_wrap(~year)+
+  labs(x = "Engine Displacement (Liters)",
+       y = "Highway MPG",
+       title = "Car Mileage and Displacement",
+       subtitle = "More Displacement Lowers Highway MPG",
+       caption = "Source: EPA",
+       color = "Vehicle Class")+
+* scale_color_viridis_d()
+```
+]
+
+.right-plot[
+
+&lt;img src="04-slides_files/figure-html/unnamed-chunk-43-1.png" width="504" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+# The Grammar of Graphics (gg): Themes
+
+.left-code[
+### Data
+### Aesthetics
+### Geoms
+### Facets
+### Labels
+### Scales
+### Theme
+
+```r
++ theme_*()
+```
+]
+
+.right-plot[
+
+**Theme** changes appearance of plot decorations (things not mapped to data)
+
+- Some themes that come with `ggplot2`:
+
+- `+ theme_bw()`
+- `+ theme_dark()`
+- `+ theme_gray()`
+- `+ theme_minimal()`
+- `+ theme_light()`
+- `+ theme_classic()`
+]
+---
+
+# The Grammar of Graphics (gg): Themes
+
+.left-code[
+### Data
+### Aesthetics
+### Geoms
+### Facets
+### Labels
+### Scales
+### Theme
+
+```r
++ theme_*()
+```
+]
+
+.right-plot[
+
+**Theme** changes appearance of plot decorations (things not mapped to data)
+
+- Many parameters we could change
+
+- Global options: `line`, `rect`, `text`, `title`
+- `axis`: x-, y-, or other axis title, ticks, lines
+- `legend`: plot legends for fill or color
+- `panel`: actual plot area
+- `plot`: whole image
+- `strip`: facet labels
+]
+
+---
+
+# The Grammar of Graphics (gg): Themes
+
+.left-code[
+
+
+```r
+ggplot(data = mpg)+
+  aes(x = displ,
+        y = hwy)+
+  geom_point(aes(color = class))+
+  geom_smooth()+
+  facet_wrap(~year)+
+  labs(x = "Engine Displacement (Liters)",
+       y = "Highway MPG",
+       title = "Car Mileage and Displacement",
+       subtitle = "More Displacement Lowers Highway MPG",
+       caption = "Source: EPA",
+       color = "Vehicle Class")+
+  scale_color_viridis_d()+
+* theme_bw()
+```
+]
+
+.right-plot[
+
+&lt;img src="04-slides_files/figure-html/unnamed-chunk-46-1.png" width="504" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+# The Grammar of Graphics (gg): Themes II
+
+.left-code[
+
+
+```r
+ggplot(data = mpg)+
+  aes(x = displ,
+        y = hwy)+
+  geom_point(aes(color = class))+
+  geom_smooth()+
+  facet_wrap(~year)+
+  labs(x = "Engine Displacement (Liters)",
+       y = "Highway MPG",
+       title = "Car Mileage and Displacement",
+       subtitle = "More Displacement Lowers Highway MPG",
+       caption = "Source: EPA",
+       color = "Vehicle Class")+
+  scale_color_viridis_d()+
+* theme_minimal()
+```
+]
+
+.right-plot[
+
+&lt;img src="04-slides_files/figure-html/unnamed-chunk-47-1.png" width="504" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+# The Grammar of Graphics (gg): Themes III
+
+.left-code[
+
+
+```r
+ggplot(data = mpg)+
+  aes(x = displ,
+        y = hwy)+
+  geom_point(aes(color = class))+
+  geom_smooth()+
+  facet_wrap(~year)+
+  labs(x = "Engine Displacement (Liters)",
+       y = "Highway MPG",
+       title = "Car Mileage and Displacement",
+       subtitle = "More Displacement Lowers Highway MPG",
+       caption = "Source: EPA",
+       color = "Vehicle Class")+
+  scale_color_viridis_d()+
+  theme_minimal()+
+* theme(text = element_text(family = "Fira Sans"))
+```
+]
+
+.right-plot[
+
+&lt;img src="04-slides_files/figure-html/unnamed-chunk-48-1.png" width="504" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+# The Grammar of Graphics (gg): Themes III
+
+.left-code[
+
+
+```r
+ggplot(data = mpg)+
+  aes(x = displ,
+        y = hwy)+
+  geom_point(aes(color = class))+
+  geom_smooth()+
+  facet_wrap(~year)+
+  labs(x = "Engine Displacement (Liters)",
+       y = "Highway MPG",
+       title = "Car Mileage and Displacement",
+       subtitle = "More Displacement Lowers Highway MPG",
+       caption = "Source: EPA",
+       color = "Vehicle Class")+
+  scale_color_viridis_d()+
+  theme_minimal()+
+  theme(text = element_text(family = "Fira Sans"),
+*       legend.position="bottom")
+```
+]
+
+.right-plot[
+
+&lt;img src="04-slides_files/figure-html/unnamed-chunk-49-1.png" width="504" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+# The Grammar of Graphics (gg): Themes (ggthemes)
+
+.left-code[
+### Data
+### Aesthetics
+### Geoms
+### Facets
+### Labels
+### Scales
+### Theme
+
+```r
++ theme_*()
+```
+]
+
+.right-plot[
+
+- `ggthemes` package adds some other nice themes
+
+
+```r
+# install if you don't have it
+# install.packages("ggthemes")
+library("ggthemes") # load package
+```
+
+]
+
+---
+
+# The Grammar of Graphics (gg): Themes IV
+
+.left-code[
+
+
+```r
+*library("ggthemes")
+ggplot(data = mpg)+
+  aes(x = displ,
+        y = hwy)+
+  geom_point(aes(color = class))+
+  geom_smooth()+
+  facet_wrap(~year)+
+  labs(x = "Engine Displacement (Liters)",
+       y = "Highway MPG",
+       title = "Car Mileage and Displacement",
+       subtitle = "More Displacement Lowers Highway MPG",
+       caption = "Source: EPA",
+       color = "Vehicle Class")+
+  scale_color_viridis_d()+
+* theme_economist()+
+  theme(text = element_text(family = "Fira Sans"),
+        legend.position="bottom") 
+```
+]
+
+.right-plot[
+
+&lt;img src="04-slides_files/figure-html/unnamed-chunk-52-1.png" width="504" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+# The Grammar of Graphics (gg): Themes V
+
+.left-code[
+
+
+```r
+*library("ggthemes")
+ggplot(data = mpg)+
+  aes(x = displ,
+        y = hwy)+
+  geom_point(aes(color = class))+
+  geom_smooth()+
+  facet_wrap(~year)+
+  labs(x = "Engine Displacement (Liters)",
+       y = "Highway MPG",
+       title = "Car Mileage and Displacement",
+       subtitle = "More Displacement Lowers Highway MPG",
+       caption = "Source: EPA",
+       color = "Vehicle Class")+
+  scale_color_viridis_d()+
+* theme_fivethirtyeight()+
+  theme(text = element_text(family = "Fira Sans"),
+        legend.position="bottom") 
+```
+]
+
+.right-plot[
+
+&lt;img src="04-slides_files/figure-html/unnamed-chunk-53-1.png" width="504" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+class: inverse, center, middle
+
+# Some Troubleshooting
+
+---
+
+# Global vs. Local Aesthetics
+
+- `aes()` can go in base (`data`) layer and/or in individual `geom()` layers
+- All `geoms` will inherit global `aes` from `data` layer unless overridden
+
+.pull-left[
+
+
+```r
+# ALL GEOMS will map data to colors
+ggplot(data = mpg, aes(x = displ,
+                       y = hwy,
+                       color = class))+
+  geom_point()+
+  geom_smooth()
+```
+
+&lt;img src="04-slides_files/figure-html/unnamed-chunk-54-1.png" width="504" style="display: block; margin: auto;" /&gt;
+
+]
+
+.pull-right[
+
+```r
+# ONLY points will map data to colors
+ggplot(data = mpg, aes(x = displ,
+                       y = hwy))+
+  geom_point(aes(color = class))+
+  geom_smooth()
+```
+
+&lt;img src="04-slides_files/figure-html/unnamed-chunk-55-1.png" width="504" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+# Mapped vs. Set Aesthetics
+
+- `aes`thetics such as `size` and `color` can be mapped from data or set to a single value
+- Map *inside* of `aes()`, set *outside* of `aes()` 
+
+.pull-left[
+
+
+```r
+# Point colors are mapped from class data
+ggplot(data = mpg, aes(x = displ,
+                       y = hwy))+
+  geom_point(aes(color = class))+
+  geom_smooth()
+```
+
+&lt;img src="04-slides_files/figure-html/unnamed-chunk-56-1.png" width="504" style="display: block; margin: auto;" /&gt;
+]
+
+
+.pull-right[
+
+```r
+# Point colors are all set to blue
+ggplot(data = mpg, aes(x = displ,
+                       y = hwy))+
+  geom_point(aes(), color = "red")+
+  geom_smooth(aes(), color = "blue")
+```
+
+&lt;img src="04-slides_files/figure-html/unnamed-chunk-57-1.png" width="504" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+class: inverse, center, middle
+# Saving Plots
+
+---
+
+# Saving Plots
+
+---
+
+# Go Crazy
+
+.left-code[
+
+```r
+library("gapminder")
+library("gganimate")
+ggplot(gapminder) +
+  aes(x = gdpPercap, y = lifeExp, size = pop, color = country) +
+  geom_point() +
+  guides(color = FALSE, size = FALSE) +
+  scale_x_log10(
+    breaks = c(10^3, 10^4, 10^5), 
+    labels = c("$1k", "$10k", "$100k")) +
+  scale_color_manual(values = gapminder::country_colors) +
+  scale_size(range = c(0.5, 12)) +
+  labs(
+    x = "GDP per capita",
+    y = "Life Expectancy",
+    caption = "Source: Hans Rosling's gapminder.org") +
+  theme_minimal(14, base_family = "Fira Sans") +
+  theme(
+    strip.text = element_text(size = 16, face = "bold"),
+    panel.border = element_rect(fill = NA, color = "grey40"),
+    panel.grid.minor = element_blank())+
+  transition_states(year, 1, 0)+
+  ggtitle("Income and Life Expectancy - {closest_state}")
+```
+]
+
+.right-plot[
+&lt;img src="04-slides_files/figure-html/unnamed-chunk-58-1.gif" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+# Data Visualization and Graphic Design Principles
+
+.pull-left[
+
+- We will return to various graphics as we cover descriptive statistics and regression
+
+- I hope to cover some basic principles of good graphic design for figures and plots
+    - If not in class, I will make a page on the website, and/or a video
+]
+
+--
+
+.pull-right[
+
+Remember:
+
+.center[
+![](https://www.dropbox.com/s/noj9n3ohqpgq2pc/powerresponsibility.jpg?raw=1)
+]
+]
+
+---
+
+# Less is More
+
+.pull-left[
+
+.center[
+
+"Shoot me"
+![](https://www.dropbox.com/s/azh5zxzqkmyuxoh/badfigure.png?raw=1)
+]
+
+]
+
+--
+
+.pull-right[
+
+
+.center[
+Less is More:
+
+![](http://stat545.com/img/less-is-more-darkhorse-analytics.gif)
+]
+]
+---
+
+# Try to Show One Trend Really Clearly
+
+.center[
+![](https://www.dropbox.com/s/gd9eisleu21lgga/goodfigure.png?raw=1)
+]
+
+.source[New York Times: ["How Stable Are Democracies? ‘Warning Signs Are Flashing Red’"](https://www.nytimes.com/2016/11/29/world/americas/western-liberal-democracy.html), Nov 29, 2016]
+
+---
+
+# Reference: R Studio Makes Great "Cheat Sheet"s! 
+
+.center[
+![](https://www.dropbox.com/s/k7fe3fpe6sc5oq7/ggplot2cheat.png?raw=1)
+]
+
+.source[[RStudio: ggplot2 Cheat Sheet](https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf)]
+---
+
+# Reference
+
+On `ggplot2`
+
+- **R Studio's [ggplot2 Cheat Sheet](https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf)**
+- **`ggplot2`'s website [reference section](https://ggplot2.tidyverse.org/reference/index.html)**
+- STHDA's [be awesome in ggplot2](http://www.sthda.com/english/wiki/be-awesome-in-ggplot2-a-practical-guide-to-be-highly-effective-r-software-and-data-visualization)
+- r-statistic's [top 50 ggplot2 visualizations](http://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html)
+- Hadley Wickham's \href{http://r4ds.had.co.nz/data-visualisation.html}{R for Data Science book chapter on ggplot2}
+
+On data visualization
+
+- **Kieran Healy's [Data Visualization: A Practical Guide](http://socviz.co/)**
+- **Claus Wilke's [Fundamentals of Data Visualization](https://serialmentor.com/dataviz)**
+- PolicyViz [Better Presentations](https://policyviz.com/) 
+- Karl Broman's [How to Display Data Badly](https://www.biostat.wisc.edu/~kbroman/presentations/IowaState2013/graphs_combined.pdf)
+- [I Want Hue](http://tools.medialab.sciences-po.fr/iwanthue/)
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="macros.js"></script>
+<script src="https://platform.twitter.com/widgets.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "solarized-dark",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"slideNumberFormat": "<div class=\"progress-bar-container\">   <div class=\"progress-bar\" style=\"width: calc(%current% / %total% * 100%);\">   </div> </div> "
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

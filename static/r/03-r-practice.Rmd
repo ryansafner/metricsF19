@@ -9,7 +9,7 @@ output: pdf_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# Getting Set Up 
+# Getting Set Up
 
 Before we begin, start a new file with `File` $\rightarrow$ `New File` $\rightarrow$ `R Script`. As you work through this sheet in the console in `R`, also add (copy/paste) your commands that work into this new file. At the end, save it, and run to execute all of your commands at once.
 

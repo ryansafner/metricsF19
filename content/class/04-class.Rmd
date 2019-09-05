@@ -1,0 +1,33 @@
+---
+title: "1.3 Meet R - Class Notes"
+citeproc: false
+bibliography: ../../static/bib/references.bib
+csl: ../../static/bib/chicago-syllabus-no-bib.csl
+output:
+  blogdown::html_page:
+    template: ../../pandoc/toc-title_html.template
+    toc: true
+editor_options: 
+  chunk_output_type: console
+---
+
+*Tuesday, September 3, 2019*
+
+# Overview
+
+We may spend at maximum 10 minutes at the beginning of class continuing to work on last class' R practice questions. I will put up the answer key after class. Today we start the fun stuff - data visualization. We will cover how to build plots with the package `ggplot2` (part of the `tidyverse`): I will lecture for the first half (again, it will be a lot of information that you can refer back to as needed over the semester) and you will practice making plots.
+
+# Slides
+
+- [<i class="fas fa-external-link-square-alt"></i> Lecture Slides](/slides/04-slides.html)
+
+# Practice Problems
+
+Today you will be working on [R practice problems](/r/04-r-practice.html).
+
+# Statistics and Software Survey
+
+I will post "answers" after both sections have turned in their surveys.
+
+# Additional Useful Information
+

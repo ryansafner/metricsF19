@@ -22,6 +22,10 @@ lessons:
     r: "03-r-practice"
     
   - title: "1.4 Data Visualization with ggplot2"
+    class: "04-class"
+    slides: "04-slides"
+    reading: "04-reading"
+    r: "04-r-practice"
 
   - title: "1.5 Data Wrangling in the tidyverse"
 
