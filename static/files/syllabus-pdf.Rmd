@@ -72,7 +72,7 @@ See my [tips for success in this course](http://metricsf19.classes.ryansafner.co
 
 # Course materials
 
-You can find all course materials at my academic website dedicated for (all sections of) this course [microf19.classes.ryansafner.com](http://microf19.classes.ryansafner.com).
+You can find all course materials at my academic website dedicated for (all sections of) this course [metricsF19.classes.ryansafner.com](http://metricsf19.classes.ryansafner.com).
 
 My lecture slides will be shared with you, and serve as your primary resource, but our main "textbook" below is **recommended** as the next best resource and will be available from the campus bookstore. 
 
