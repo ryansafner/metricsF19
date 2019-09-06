@@ -1,0 +1,1374 @@
+---
+title: "1.5: Data Wrangling in the tidyverse"
+subtitle: "ECON 480 · Econometrics · Fall 2019"
+author: 'Ryan Safner<br> Assistant Professor of Economics <br> <a href="mailto:safner@hood.edu"><i class="fa fa-paper-plane fa-fw"></i> safner@hood.edu</a> <br> <a href="https://github.com/ryansafner/metricsf19"><i class="fa fa-github fa-fw"></i> ryansafner/metricsf19</a><br> <a href="https://metricsF19.classes.ryansafner.com"> <i class="fa fa-globe fa-fw"></i> metricsF19.classes.ryansafner.com</a><br>'
+#date:
+output:
+  xaringan::moon_reader:
+    mathjax: "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML" # rescales math with css changes https://github.com/yihui/xaringan/issues/143
+    lib_dir: libs
+    #seal: false
+    css: [custom.css, custom-fonts.css, "hygge"] #, metropolis, metropolis-fonts
+    nature:
+      beforeInit: ["macros.js", "https://platform.twitter.com/widgets.js"] # first is for rescaling images , second is for embedding tweets, https://github.com/yihui/xaringan/issues/100
+      highlightStyle: solarized-dark #ocean rainbow #monokai rainbow solarized-light #tomorrow-night -blue -eighties zenburn
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: "16:9"
+      slideNumberFormat: |
+        <div class="progress-bar-container">
+          <div class="progress-bar" style="width: calc(%current% / %total% * 100%);">
+          </div>
+        </div>
+    includes:
+      in_header: header.html # for font awesome, used in title  
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(message=F,
+                      warning=F)
+library(tidyverse)
+
+```
+
+# Data Wrangling
+
+- Most real world data analysis transforming chaos into order
+    - Data strewn from multiple sources
+    - Missing data
+    - Data not in readable form
+
+---
+
+# Workflow of a Data Scientist
+
+.pull-left[
+.center[.polaroid[![](https://www.dropbox.com/s/zke6m65wp3upouj/workflow.png?raw=1)]]
+]
+
+.pull-right[
+- Consider Hadley Wickham's famous diagram from [R for Data Science](http://r4ds.had.co.nz)
+1. .shoutcaps[Import] raw data from out there in the world
+2. .shoutcaps[Tidy] it into a form that you can use to 
+3. .shoutcaps[Explore] the data
+4. .shoutcaps[Communicate] results to target audience
+]
+
+---
+
+# Workflow of a Data Scientist
+
+.pull-left[
+.center[.polaroid[![](https://www.dropbox.com/s/zke6m65wp3upouj/workflow.png?raw=1)]]
+]
+
+.pull-right[
+
+3. .shoutcaps[Explore] the data:
+- .whisper[Transform] existing variables into more useful ones
+- Make plots to .whisper[visualize] .onfire[relationships]
+- Create .whisper[models] to analyze, predict, and interpret causal relationships
+
+- 95% of the day-to-day work of data scientists, researchers, econometricians: ".hl[data wrangling]"
+]
+
+---
+
+# Workflow of a Data Scientist
+
+.pull-left[
+.center[
+![](https://www.dropbox.com/s/jd68ky17gb7pmu0/datawranglingnyt.png?raw=1)
+]
+]
+
+.pull-right[
+.center[
+![](https://www.dropbox.com/s/8kzy823yubdv8gh/datawranglingnyt2.png?raw=1)
+]
+]
+
+.center[
+[New York Times](https://www.nytimes.com/2014/08/18/technology/for-big-data-scientists-hurdle-to-insights-is-janitor-work.html)
+]
+
+---
+
+class: blank
+
+background-image: url(https://www.dropbox.com/s/np8v4ihjotkckc1/tidyverse1.png?raw=1)
+background-size: cover
+
+---
+
+# The tidyverse
+
+> "The tidyverse is an opinionated  collection of R packages designed for data science. All packages share an underlying design philosophy, grammar, and data structures. 
+
+- Core packages include ones we've discussed before: `ggplot2`, `dplyr`, `magrittr` among several others (`tidy` `readr`, `purr`, `forcats`, `stringr`)
+- Loading any `tidyverse` package loads `magrittr` (so you can use `%>%`)
+- Learn more at [tidyverse.org](tidyverse.org) 
+
+![](https://www.dropbox.com/s/81ijxswbwqor0up/tidyverse.png?raw=1)
+
+---
+
+# The tidyverse II 
+
+- Easiest to just load the core tidyverse all at once
+    - Note loading the tidyverse is "noisy", it will spew a lot of messages
+    - Hide them with `suppressPackageStartupMessages()` and insert the `library()` command inside the `()` 
+
+```{r, echo=FALSE}
+detach("package:tidyverse", TRUE) # just to show start up message of tidyverse, let's unload it first
+```
+
+```{r, message=TRUE, warning=TRUE}
+library("tidyverse")
+```
+
+---
+
+# The tidyverse III
+
+![](https://www.dropbox.com/s/9h1trto0iapnklx/tidyverse2.png?raw=1)
+
+---
+
+# Tidyverse Packages
+
+- We will make **extensive** use of:
+
+1. `dplyr` for data wrangling
+2. `tidyr` for tidying data
+3. `ggplot2` for plotting data
+
+- Loading `tidyverse` makes **automatically** uses
+
+4. `tibble` for better data frames
+5. `magrittr` for "pipeable" code
+
+- We might later look at 
+
+6. `readr` for importing data
+7. `forcats` for working with factors
+8. `stringr` for working with strings
+
+---
+
+# Tibble
+
+.left-column[
+
+.center[![](https://www.dropbox.com/s/u6ubqkng1ja5jwf/tibble.png?raw=1)]
+]
+
+.right-column[
+
+- `tibble` converts all `data.frames` into a .whisper[friendlier] version called `tibbles`
+
+]
+
+---
+
+# Tibble
+
+.pull-left[
+
+```{r, eval=F}
+diamonds
+```
+
+<!--Can't fit in columns so artificially selecting to print only first 7 columns --> 
+
+```{r, echo=F} 
+diamonds %>% 
+  select(1:7)
+```
+
+]
+
+.pull-right[
+
+- Prints much nicer output in R
+- Shows a bit of the `str`ucture of a dataframe automatically:
+    - `nrow() x ncol()`
+    - `<dbl>` is numeric ("double")
+    - `<ord>` is an ordered factor
+    - `<int>` is an integer
+- Fundamental grammar of tidyverse: 
+    1. start with a tibble 
+    2. run a function on it
+    3. output a new tibble
+]
+
+---
+
+# Magrittr I
+
+.right-column[
+
+- The .hl[magrittr] package allows us to use the **"pipe" operator** (`%>%`)<sup>.red[1]</sup>
+- `%>%` "pipes" the *output* of the *left* of the pipe *into* the *argument* of the *right* 
+    - Running a function `f` on object `x` as `f(x)` becomes `x %>% f` in pipeable form
+    - i.e. "take `x` and then run function `f` on it"
+]
+
+.left-column[
+
+.center[![](https://www.dropbox.com/s/74srdjrw13mgx4x/magrittr.png?raw=1)]
+]
+
+.footnote[<sup>.red[1]</sup> Keyboard shortcuts in R Studio: `CTRL+Shift+M` (Windows) or `Cmd+Shift+M` (Mac)]
+
+---
+
+# Magrittr II
+
+.right-column[
+
+- With ordinary math functions, read from outside $\leftarrow$ (inside): 
+$$g(f(x))$$
+
+i.e. take `x` and perform function `f()` on `x` and then take that result and perform function `g()` on it
+- With pipes, read operations from left $\rightarrow$ right: 
+
+
+```{r, eval=FALSE}
+x %>% f %>% g
+``` 
+
+
+take `x` and then perform function `f` on it, then perform function `g` on that result 
+
+
+- So read `%>%` mentally as "and then"
+
+]
+
+.left-column[
+
+.center[![](https://www.dropbox.com/s/74srdjrw13mgx4x/magrittr.png?raw=1)]
+]
+
+---
+
+# Magrittr III
+
+.right-column[
+
+.content-box-green[
+.green[**Example**]
+
+$$ln(exp(x))$$
+
+- First, exponentiate $x$, then take the natural log of that (resulting in just x)
+- In pipes:
+
+```{r, eval=F}
+x %>% exp() %>% ln()
+```
+]
+
+]
+
+.left-column[
+
+.center[![](https://www.dropbox.com/s/74srdjrw13mgx4x/magrittr.png?raw=1)]
+]
+
+---
+
+# Magrittr III
+
+.right-column[
+.content-box-green[
+.green[**Example**]
+
+- Sequence: find keys, unlock car, drive to school, park 
+- Using nested functions in pseudo-"code":
+
+```{r, eval=F}
+park(drive(start_car(find("keys")), to = "campus"))
+```
+
+- Using pipes:
+
+```{r, eval=F}
+find("keys") %>%
+  start_car() %>%
+  drive(to = "campus") %>%
+  park()
+```
+
+]
+
+]
+
+.left-column[
+
+.center[![](https://www.dropbox.com/s/74srdjrw13mgx4x/magrittr.png?raw=1)]
+]
+
+---
+
+# Magrittr: Simple Example
+
+```{r, echo=FALSE}
+library("gapminder")
+```
+
+.pull-left[
+
+```{r}
+# look at top 6 rows
+head(gapminder) 
+```
+]
+
+.pull-right[
+```{r}
+# use the pipe instead 
+gapminder %>% head()
+```
+]
+
+
+---
+
+# Magrittr: More Involved Example
+
+- These two methods produce the same output (avg hwy mpg of Audi cars)
+
+- Without the pipe
+
+```{r, eval=F}
+summarise(group_by(filter(mpg, manufacturer=="audi"), model), hwy_mean = mean(hwy))
+```
+
+- Using the pipe
+
+```{r}
+mpg %>%
+  filter(manufacturer=="audi") %>%
+  group_by(model) %>%
+  summarise(hwy_mean = mean(hwy))
+
+```
+
+---
+
+# Readr
+
+.left-column[
+
+.center[![](https://www.dropbox.com/s/cqv60z3cznsmr9a/readr.png?raw=1)]
+]
+
+.right-column[
+
+- `Readr` lets you load common spreadsheet files (`.csv`, `.tsv`) with simple commands:
+- `read_csv(path/to/my_data.csv)`<sup>.red[1]</sup>
+    - `read_tsv(path/to/my_data.tsv)`
+- Often this is enough, but there are many more customizations as necessary
+- You can also export your data from R into a common spreadsheet file with:
+- `write_csv(my_dataframe, path=path/to/file_name.csv)`<sup>.red[2]</sup> 
+- Read more on the [tidyverse website](https://readr.tidyverse.org/) and the [Readr Cheatsheet](https://rawgit.com/rstudio/cheatsheets/master/data-import.pdf)
+]
+
+.footnote[<sup>.red[1]</sup> If you are using an R Project, this file path is in your main project folder, or any subfolders you decided to create, such as `data/my_data.csv`
+
+<sup>.red[2]</sup> where `my_dataframe` is the name of the dataframe you want to export, and `file_name` is the name of the file you want to create.]
+
+---
+
+# Readxl and Haven: When Readr isn't Enough
+
+.left-column[
+
+.center[![](https://www.dropbox.com/s/rl1sj67y2m8fqy5/readxl.png?raw=1)]
+.center[![](https://www.dropbox.com/s/ua6t5wz1se34vmo/haven.png?raw=1)]
+]
+
+.right-column[
+
+- Some data types, particularly for other software programs like Excel, STATA, SAS, and SPSS are not `.csv` or `.txt` spreadsheets
+- `readxl` has commands equivalent to `readr`'s for Excel data types:
+    - `read_xls("path/to/my/data.xls")` for older Excel `.xls` files
+    - `read_xlsx("path/to/my/data.xlsx")` for modern Excel `.xls` files
+    - `write_xls(my_dataframe, path=path/to/file_name.xls)` or ``write_xlsx(my_dataframe, path=path/to/file_name.xlsx)` to export as `xls` or `xlsx` files
+- `haven` has commands equivalent to `readr`'s for these data types:
+    - `read_dta("path/to/my_data.dta")` for STATA `.dta` files
+    - `read_sav("path/to/my_data.sav")` for SPSS `.sav` files
+    - `read_sas("path/to/my_data.sas7bdat")` for SAS files 
+]
+
+---
+
+# dplyr I
+
+.left-column[
+
+.center[![](https://www.dropbox.com/s/6ao0u4xc3w492ak/dplyr.png?raw=1)]
+]
+
+.right-column[
+
+- `dplyr` uses much more efficient and intuitive commands<sup>.magenta[1]</sup> to manipulate dataframes
+- Grammatically:
+    - `Base R` is all about passively running functions on nouns: `function(object)`
+    - `dplyr` is all about actively using verbs: `dplyr_verb(df, conditions)`<sup>.red[2]</sup>
+- Three great features:
+
+1. Allows use of `%>%` pipe operator
+2. Input and output is always a dataframe<sup>.magenta[3]</sup>
+3. Shows the output from a manipulation, but does not save/overwrite as an object unless explicitly assigned to an object
+
+]
+
+.footnote[<sup>.magenta[1]</sup> Particularly when combined with `magrittr`'s pipe (`%>%`) command!
+
+<sup>.red[2]</sup> With the pipe, even simpler: `df %>% dplyr_verb(conditions)`
+
+<sup>.red[3]</sup> Technically a `tibble` with `tidyverse`!]
+
+---
+
+# dplyr II
+
+.left-column[
+
+.center[![](https://www.dropbox.com/s/6ao0u4xc3w492ak/dplyr.png?raw=1)]
+]
+
+.right-column[
+
+- Common `dplyr` functions:
+
+| Verb | Does | 
+|----------|------|
+| `filter` | Keep only selected *observations* | 
+| `select` | Keep only selected *variables* |
+| `arrange` | Reorder rows (e.g. in numerical order) |
+| `mutate` | Create new variables | 
+| `recode` | Change a variable's values or categories/`factor` levels |
+| `summarize` | Collapse data into summary statistics| 
+| `group_by` | Perform any of the above functions by groups/categories | 
+
+]
+
+---
+
+# dplyr::filter
+
+- `filter` keeps only selected **observations** (rows)
+
+--
+
+.left-code[
+
+```{r, eval=F}
+# look only at African observations
+# syntax without the pipe
+filter(gapminder, continent=="Africa")
+
+# using the pipe
+
+gapminder %>%
+  filter(continent == "Africa")
+```
+
+]
+
+--
+
+.right-plot[
+
+```{r, echo=F}
+# syntax with the pipe 
+gapminder %>%
+  filter(continent=="Africa")
+```
+
+]
+
+---
+
+# dplyr: saving and storing outputs I
+
+- `dplyr` functions never modify their inputs (i.e. never overwrite the original `tibble`)
+- If you want to save a result, use `<-` to assign it to a new `tibble`
+- If assigned, you will not see the output until you call up the new `tibble` by name
+
+--
+
+.left-code[
+
+```{r, eval = F}
+# base syntax
+africa <- filter(gapminder, continent=="Africa")
+
+# using the pipe
+africa <- gapminder %>%
+  filter(continent == "Africa")
+
+# look at new tibble
+africa
+```
+]
+
+.right-plot[
+```{r, echo = F}
+africa <- gapminder %>%
+  filter(continent == "Africa")
+
+# look at new tibble
+africa
+```
+]
+
+---
+
+# dplyr: saving and storing outputs II
+
+- If you want to *both* store and view the output at the same time, wrap the command in parentheses!
+
+```{r}
+(africa <- gapminder %>%
+  filter(continent == "Africa"))
+```
+
+---
+
+# dplyr: saving and storing outputs III
+
+- If you were to assign the output to the original `tibble`, it would *overwrite* the original!
+
+
+```{r, eval = F}
+# base syntax
+gapminder <- filter(gapminder, continent=="Africa")
+
+# using the pipe
+gapminder <- gapminder %>%
+  filter(continent == "Africa")
+
+# this overwrites gapminder!
+```
+
+---
+
+# dplyr conditionals
+
+- In many data wrangling contexts, you will want to select data .whisper[conditionally]
+    - In computer code, you are selecting only observations for which a set of logical conditions are `TRUE`
+- For example:
+    - `>`, `<`: greater than, less than
+    - `>=`, `<=`: greater than or equal to, less than or equal to
+    - `==`, `!=`: is equal to, is not equal to
+    - `%in%`: is a member of some defined set $(\in)$
+    - `&`: AND<sup>1</sup>
+    - `|`: OR
+
+.footnote[<sup>1</sup> Commas also work in `dplyr`.]
+
+---
+
+# dplyr::filter with conditionals
+
+--
+
+.left-code[
+
+```{r, eval=F}
+# look only at African observations in 1997
+gapminder %>%
+  filter(continent == "Africa", year == 1997)
+```
+]
+
+--
+
+.right-plot[
+
+```{r, echo=F}
+gapminder %>%
+filter(continent == "Africa", year == 1997)
+```
+]
+
+---
+
+# dplyr::filter with conditionals II
+
+--
+
+.left-code[
+
+```{r, eval=F}
+# look only at African observations or observations in 1997
+gapminder %>%
+  filter(continent == "Africa" | year == 1997)
+```
+]
+
+--
+
+.right-plot[
+
+```{r, echo=F}
+gapminder %>%
+filter(continent == "Africa" | year == 1997)
+```
+]
+
+---
+
+# dplyr::filter with conditionals III
+
+--
+
+.left-code[
+
+```{r, eval=F}
+# look only at U.S. and U.K. observations in 2002
+gapminder %>%
+  filter(country %in% c("United States", "United Kingdom"), year == 2002)
+```
+]
+
+--
+
+.right-plot[
+
+```{r, echo=F}
+gapminder %>%
+  filter(country %in% c("United States", "United Kingdom"), year == 2002)
+```
+]
+
+---
+
+# dplyr::arrange I
+
+- `arrange` reorders **observations** (rows) in a logical order
+    - e.g. alphabetical, numeric, small to large
+    
+--
+
+.left-code[
+
+```{r, eval=F}
+# order by smallest to largest population
+# syntax without the pipe
+arrange(gapminder, pop)
+
+# using the pipe
+
+gapminder %>%
+  arrange(pop)
+```
+
+]
+
+--
+
+.right-plot[
+
+```{r, echo=F}
+# syntax with the pipe 
+gapminder %>%
+  arrange(pop)
+```
+
+]
+
+---
+
+# dplyr::arrange II
+
+- Break ties in the value of one variable with the values of additional variables
+    
+--
+
+.left-code[
+
+```{r, eval=F}
+# order by year, with the smallest to largest population in each year
+# syntax without the pipe
+arrange(gapminder, year, pop)
+
+# using the pipe
+
+gapminder %>%
+  arrange(year, pop)
+```
+
+]
+
+--
+
+.right-plot[
+
+```{r, echo=F}
+# syntax with the pipe 
+gapminder %>%
+  arrange(year, pop)
+```
+
+]
+
+---
+
+# dplyr::arrange III
+
+- Use `desc()` to re-order in the opposite direction
+    
+--
+
+.left-code[
+
+```{r, eval=F}
+# order by largest to smallest population
+# syntax without the pipe
+arrange(gapminder, desc(pop))
+
+# using the pipe
+
+gapminder %>%
+  arrange(desc(pop))
+```
+
+]
+
+--
+
+.right-plot[
+
+```{r, echo=F}
+# syntax with the pipe 
+gapminder %>%
+  arrange(desc(pop))
+```
+
+]
+
+---
+
+# dplyr::select I
+
+- `select` keeps only selected **variables** (columns)
+    - Don't need quotes around column names
+--
+
+.left-code[
+
+```{r, eval=F}
+# keep only country, year, and population variables
+# syntax without the pipe
+select(gapminder, country, year, pop)
+
+# using the pipe
+
+gapminder %>%
+  select(country, year, pop)
+```
+
+]
+
+--
+
+.right-plot[
+
+```{r, echo=F}
+# syntax with the pipe 
+gapminder %>%
+  select(country, year, pop)
+```
+
+]
+
+---
+
+# dplyr::select II
+
+- `select` "all except" by negating a variable with `-`
+
+--
+
+.left-code[
+
+```{r, eval=F}
+# keep all except gdpPercap
+# syntax without the pipe
+select(gapminder, -gdpPercap)
+
+# using the pipe
+
+gapminder %>%
+  select(-gdpPercap)
+```
+
+]
+
+--
+
+.right-plot[
+
+```{r, echo=F}
+# syntax with the pipe 
+gapminder %>%
+  select(-gdpPercap)
+```
+
+]
+
+---
+
+# dplyr::select III
+
+- `select` reorders the columns in the order you provide
+    - sometimes useful to keep all variables, and drag one or a few  to the front, add `everything()` at the end
+
+--
+
+.left-code[
+
+```{r, eval=F}
+# keep all and move pop first
+# syntax without the pipe
+select(gapminder, pop, everything())
+
+# using the pipe
+
+gapminder %>%
+  select(pop, everything())
+```
+
+]
+
+--
+
+.right-plot[
+
+```{r, echo=F}
+# syntax with the pipe 
+gapminder %>%
+  select(pop, everything())
+```
+
+]
+
+---
+
+# dplyr::select IV
+
+- `select` has a lot of helper functions, useful for when you have hundreds of variables
+    - see `?select()` for a list
+    
+--
+
+.pull-left[
+
+```{r}
+# keep all variables starting with "co"
+
+gapminder %>%
+  select(starts_with("co"))
+```
+
+]
+
+--
+
+.pull-right[
+
+```{r}
+# keep country and all variables containing "per"
+
+gapminder %>%
+  select(country, contains("per"))
+```
+
+]
+
+---
+
+# dplyr::rename
+
+- `rename` changes the name of a variable (column)
+    - Format: `new_name=old_name`
+--
+
+.left-code[
+
+```{r, eval=F}
+# rename gdpPercap to GDP
+# syntax without the pipe
+rename(gapminder, GDP = gdpPercap)
+
+# using the pipe
+
+gapminder %>%
+  rename(GDP = gdpPercap)
+```
+
+]
+
+--
+
+.right-plot[
+
+```{r, echo=F}
+# syntax with the pipe 
+gapminder %>%
+  rename(GDP = gdpPercap)
+```
+
+]
+
+---
+
+# dplyr::mutate
+
+- `mutate` creates a new variable (column)
+    - always adds a new column at the end
+    - general formula: `new_variable_name = operation` 
+
+---
+
+# dplyr::mutate II
+
+
+- Three major types of mutates:
+
+1. Create a variable that is a specific value (often categorical)
+
+--
+
+.left-code[
+
+```{r, eval=F}
+# create variable "europe" if country is in Europe
+# syntax without the pipe
+mutate(gapminder, europe = ifelse(continent == "Europe", 
+                                  yes = "In Europe", 
+                                  no = "Not in Europe"))
+
+# using the pipe
+
+gapminder %>%
+  mutate(europe = ifelse(continent == "Europe", 
+                                  yes = "In Europe", 
+                                  no = "Not in Europe"))
+```
+
+]
+
+--
+
+.right-plot[
+
+```{r, echo=F}
+# syntax with the pipe 
+gapminder %>%
+  mutate(europe = ifelse(continent == "Europe", 
+                                  yes = "In Europe", 
+                                  no = "Not in Europe"))
+```
+]
+
+---
+
+
+# dplyr::mutate III
+
+
+- Three major types of mutates:
+
+1. Create a variable that is a specific value (often categorical)
+2. Change an existing variable (often rescaling)
+
+--
+
+.left-code[
+
+```{r, eval=F}
+# create population in millions 
+# syntax without the pipe
+mutate(gapminder, pop_millions = pop / 1000000)
+
+# using the pipe
+
+gapminder %>%
+  rename(pop_millions = pop / 1000000)
+```
+
+]
+
+--
+
+.right-plot[
+
+```{r, echo=F}
+# syntax with the pipe 
+gapminder %>%
+  mutate(pop_millions = pop / 1000000)
+```
+]
+
+---
+
+
+# dplyr::mutate IV
+
+
+- Three major types of mutates:
+
+1. Create a variable that is a specific value (often categorical)
+2. Change an existing variable (often rescaling)
+3. Create a variable based on other variables
+
+--
+
+.left-code[
+
+```{r, eval=F}
+# create GDP variable from gdpPercap and pop
+# syntax without the pipe
+mutate(gapminder, GDP = gdpPercap * pop)
+
+# using the pipe
+
+gapminder %>%
+  rename(GDP = gdpPercap * pop)
+```
+
+]
+
+--
+
+.right-plot[
+
+```{r, echo=F}
+# syntax with the pipe 
+gapminder %>%
+  mutate(GDP = gdpPercap * pop)
+```
+]
+
+---
+
+# dplyr::mutate V
+
+
+- Can create multiple new variables with commas:
+
+--
+
+```{r}
+gapminder %>%
+  mutate(GDP = gdpPercap * pop,
+         pop_millions = pop / 1000000)
+```
+
+--
+
+- `transmute` keeps *only* newly created variables (`select`s only the new `mutate`d variables)
+
+```{r}
+gapminder %>%
+  transmute(GDP = gdpPercap * pop,
+         pop_millions = pop / 1000000)
+```
+
+
+--
+
+- Don't forget to assign the output to  new `tibble` if you want to "save" the new variables!
+
+---
+
+# Exporting Tables with knitr::kable
+
+---
+
+# dplyr::tally with group_by
+
+- `tally` provides counts, best used with `group_by` for categorical data
+
+```{r}
+gapminder %>%
+  tally
+```
+
+```{r}
+gapminder %>%
+  group_by(continent) %>%
+  tally
+```
+
+---
+
+# Advanced: tidyr and joining data
+
+---
+
+# tidyr: reshaping and tidying data 
+
+.left-column[
+
+.center[![](https://www.dropbox.com/s/p6gmb4tds18ueyp/tidyr.png?raw=1)]
+]
+
+.right-column[
+
+- `tidyr` helps clean data into more usable format for other `tidyverse` packages
+- .hl["tidy" data].footnote[This is the core and eponym of the `tidyverse`: all associated packages and functions use or require this data format!] are (an opinionated view of) data where
+
+1. Each .shout[variable] is in a .shout[column]
+2. Each .whisper[observation] is a .whisper[row]
+3. Each .onfire[value] is a .onfire[cell]
+
+- Un-tidy data needs to be tidied into this format
+    - You will spend less time fighting tools and more time on analysis!
+
+]
+
+---
+
+# Tidying Data: `gather()` wide to long I
+
+.pull-left[
+
+```{r, echo=F}
+ex_wide<-tribble(
+  ~"Country", ~"2000", ~"2010",
+  "United States", 140, 180,
+  "Canada", 102, 98,
+  "China", 111, 123
+)
+```
+
+```{r}
+ex_wide
+```
+
+]
+
+.pull-right[
+
+- Common source of "un-tidy" data: .l[Column headers are values, not variable names]
+    - Column names are *values* of a `year` variable!
+    - Each row represents *two* observations (one in 2000 and one in 2010)!
+- We need to `gather()` these columns into a new pair of variables
+    - set of columns that represent values, not variables (`2000` and `2010`)
+    - `key`: name of variable whose values form the column names (we'll call it the `year`)
+    - `value`: name of the variable whose values are spread over the cells (we'll call it number of `cases`)
+]
+
+---
+
+# Tidying Data: `gather()` wide to long II
+
+- `gather()` a wide data frame into a long data frame 
+
+.pull-left[
+
+```{r}
+ex_wide
+```
+]
+
+.pull-right[
+
+```{r}
+ex_wide %>% gather("2000","2010",
+              key = "year",
+              value = "cases")
+```
+
+]
+
+---
+
+# Tidying Data: `spread()` long to wide I
+
+.pull-left[
+
+```{r, echo=F}
+ex_long<-tribble(
+  ~"Country", ~"Year", ~"Type", ~"Count",
+  "United States", 2000, "Cases", 140,
+  "United States", 2000, "Population", 300,
+  "United States", 2010, "Cases", 180,
+  "United States", 2010, "Population", 310,
+  "Canada", 2000, "Cases", 102,
+  "Canada", 2000, "Population", 110,
+  "Canada", 2010, "Cases", 98,
+  "Canada", 2010, "Population", 121,
+  "China", 2000, "Cases", 111,
+  "China", 2000, "Population", 1201,
+  "China", 2010, "Cases", 123,
+  "China", 2010, "Population", 1241
+)
+
+```
+
+```{r}
+ex_long
+```
+
+]
+
+.pull-right[
+
+- Common source of "un-tidy" data: .l[observations are scattered across multiple rows]
+    - Each country has two rows per observation, one for `Cases` and one for `Population` (categorized by `type` of variable)
+- We need to `spread()` these columns into a new pair of variables
+    - `key`: column that contains variable names (here, the `type`)
+    - `value`: column that contains values from multiple variables (here, the `count`)
+]
+
+---
+
+# Tidying Data: `spread()` long to wide II
+
+- `spread()` a long data frame into a wide data frame 
+
+.pull-left[
+
+```{r}
+ex_long
+```
+]
+
+.pull-right[
+
+```{r}
+ex_long %>% spread(key = "Type",
+                   value = "Count")
+```
+
+]
+
+---
+
+# Combining Datasets
+
+- Often, data doesn't come from just one source, but several sources
+- We can combine datasets into a single dataframe (tibble) using `dplyr` commands in several ways:
+    1. `bind` dataframes together by row or by column
+        - `bind_rows()` adds observations (rows) to existing dataset<sup>.magenta[1]</sup>
+        - `bind_cols()` adds variables (columns) to existing dataset<sup>.magenta[2]</sup>
+    2. `join` two existing dataframes by designating a variable(s) as a `key` to match rows by identical values of that `key`
+        
+.footnote[<sup>.magenta[1]</sup> Note the columns must be identical between the original dataset and the new observations
+
+<sup>.magenta[1]</sup> Note the rows must be identical between original dataset and new variable]
+
+---
+
+# Two *Similar* Datasets
+
+- Sometimes you want to add rows (observations) or columns (variables) that happen to match up perfectly
+    - New observations contain all the same variables as existing data
+    - OR
+    - New variables contain all the same observations as existing data
+- In this case, simply using `bind_*(old, new)` will work
+    - `bind_columns(old, new)` adds columns from `new` to `old` dataframe
+    - `bind_rows(old, new)` adds rows from `new` to `old` dataframe
+
+---
+
+# Two *Different* Datasets
+
+.pull-left[
+
+- For the following examples, consider the following two dataframes, `x` and `y`<sup>*</sup>
+    - each has one unique variable, `x$x` and `y$y`
+    - both have values for observations `1` and `2`
+    - `x` has observation `3` which `y` does not have
+    - `y` has observation `4` which `x` does not have
+- We next consider the ways we can merge dataframes `x` and `y` into a single dataframe
+
+]
+
+.pull-right[
+
+![](https://raw.githubusercontent.com/gadenbuie/tidyexplain/master/images/static/png/original-dfs.png)
+
+]
+
+.footnote[<sup>*</sup> Images on all following slides come from Gaden Buie's excellent [tidyexplain](https://github.com/gadenbuie/tidyexplain)]
+
+---
+
+# Inner-Join
+
+.pull-left[
+
+- Merge columns from `x` and `y` for which there are matching rows
+    - Rows in `x` with no match in `y` (3) will be dropped
+    - Rows in `y` with no match in `x` (4) will be dropped
+
+]
+
+.pull-right[
+
+![](https://raw.githubusercontent.com/gadenbuie/tidyexplain/master/images/inner-join.gif)
+
+]
+---
+
+# Left-Join
+
+.pull-left[
+
+- Start with all rows from `x` and add all columns from `y`
+    - Rows in `x` with no match in `y` (3) will have `NA`s
+    - Rows in `y` with no match in `x` (4) will be dropped
+
+]
+
+.pull-right[
+
+![](https://raw.githubusercontent.com/gadenbuie/tidyexplain/master/images/left-join.gif)
+
+]
+
+---
+
+# Right-Join
+
+.pull-left[
+
+- Start with all rows from `y` and add all columns from `x`
+    - Rows in `y` with no match in `x` (4) will have `NA`s
+    - Rows in `x` with no match in `y` (3) will be dropped
+
+]
+
+.pull-right[
+
+![](https://raw.githubusercontent.com/gadenbuie/tidyexplain/master/images/right-join.gif)
+
+]
+
+---
+
+# Full-Join
+
+.pull-left[
+
+- All rows and all columns from `x` and `y`
+    - Rows that do not match (3 and 4) will have `NA`s
+
+]
+
+.pull-right[
+
+![](https://raw.githubusercontent.com/gadenbuie/tidyexplain/master/images/full-join.gif)
+
+]

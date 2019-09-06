@@ -1,0 +1,1866 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>1.5: Data Wrangling in the tidyverse</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Ryan Safner  Assistant Professor of Economics    safner@hood.edu    ryansafner/metricsf19    metricsF19.classes.ryansafner.com" />
+    <link href="libs/remark-css/hygge.css" rel="stylesheet" />
+    <script src="https://use.fontawesome.com/5235085b15.js"></script>
+    <link rel="stylesheet" href="custom.css" type="text/css" />
+    <link rel="stylesheet" href="custom-fonts.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# 1.5: Data Wrangling in the tidyverse
+## ECON 480 · Econometrics · Fall 2019
+### Ryan Safner<br> Assistant Professor of Economics <br> <a href="mailto:safner@hood.edu"><i class="fa fa-paper-plane fa-fw"></i> safner@hood.edu</a> <br> <a href="https://github.com/ryansafner/metricsf19"><i class="fa fa-github fa-fw"></i> ryansafner/metricsf19</a><br> <a href="https://metricsF19.classes.ryansafner.com"> <i class="fa fa-globe fa-fw"></i> metricsF19.classes.ryansafner.com</a><br>
+
+---
+
+
+
+
+# Data Wrangling
+
+- Most real world data analysis transforming chaos into order
+    - Data strewn from multiple sources
+    - Missing data
+    - Data not in readable form
+
+---
+
+# Workflow of a Data Scientist
+
+.pull-left[
+.center[.polaroid[![](https://www.dropbox.com/s/zke6m65wp3upouj/workflow.png?raw=1)]]
+]
+
+.pull-right[
+- Consider Hadley Wickham's famous diagram from [R for Data Science](http://r4ds.had.co.nz)
+1. .shoutcaps[Import] raw data from out there in the world
+2. .shoutcaps[Tidy] it into a form that you can use to 
+3. .shoutcaps[Explore] the data
+4. .shoutcaps[Communicate] results to target audience
+]
+
+---
+
+# Workflow of a Data Scientist
+
+.pull-left[
+.center[.polaroid[![](https://www.dropbox.com/s/zke6m65wp3upouj/workflow.png?raw=1)]]
+]
+
+.pull-right[
+
+3. .shoutcaps[Explore] the data:
+- .whisper[Transform] existing variables into more useful ones
+- Make plots to .whisper[visualize] .onfire[relationships]
+- Create .whisper[models] to analyze, predict, and interpret causal relationships
+
+- 95% of the day-to-day work of data scientists, researchers, econometricians: ".hl[data wrangling]"
+]
+
+---
+
+# Workflow of a Data Scientist
+
+.pull-left[
+.center[
+![](https://www.dropbox.com/s/jd68ky17gb7pmu0/datawranglingnyt.png?raw=1)
+]
+]
+
+.pull-right[
+.center[
+![](https://www.dropbox.com/s/8kzy823yubdv8gh/datawranglingnyt2.png?raw=1)
+]
+]
+
+.center[
+[New York Times](https://www.nytimes.com/2014/08/18/technology/for-big-data-scientists-hurdle-to-insights-is-janitor-work.html)
+]
+
+---
+
+class: blank
+
+background-image: url(https://www.dropbox.com/s/np8v4ihjotkckc1/tidyverse1.png?raw=1)
+background-size: cover
+
+---
+
+# The tidyverse
+
+&gt; "The tidyverse is an opinionated  collection of R packages designed for data science. All packages share an underlying design philosophy, grammar, and data structures. 
+
+- Core packages include ones we've discussed before: `ggplot2`, `dplyr`, `magrittr` among several others (`tidy` `readr`, `purr`, `forcats`, `stringr`)
+- Loading any `tidyverse` package loads `magrittr` (so you can use `%&gt;%`)
+- Learn more at [tidyverse.org](tidyverse.org) 
+
+![](https://www.dropbox.com/s/81ijxswbwqor0up/tidyverse.png?raw=1)
+
+---
+
+# The tidyverse II 
+
+- Easiest to just load the core tidyverse all at once
+    - Note loading the tidyverse is "noisy", it will spew a lot of messages
+    - Hide them with `suppressPackageStartupMessages()` and insert the `library()` command inside the `()` 
+
+
+
+
+```r
+library("tidyverse")
+```
+
+---
+
+# The tidyverse III
+
+![](https://www.dropbox.com/s/9h1trto0iapnklx/tidyverse2.png?raw=1)
+
+---
+
+# Tidyverse Packages
+
+- We will make **extensive** use of:
+
+1. `dplyr` for data wrangling
+2. `tidyr` for tidying data
+3. `ggplot2` for plotting data
+
+- Loading `tidyverse` makes **automatically** uses
+
+4. `tibble` for better data frames
+5. `magrittr` for "pipeable" code
+
+- We might later look at 
+
+6. `readr` for importing data
+7. `forcats` for working with factors
+8. `stringr` for working with strings
+
+---
+
+# Tibble
+
+.left-column[
+
+.center[![](https://www.dropbox.com/s/u6ubqkng1ja5jwf/tibble.png?raw=1)]
+]
+
+.right-column[
+
+- `tibble` converts all `data.frames` into a .whisper[friendlier] version called `tibbles`
+
+]
+
+---
+
+# Tibble
+
+.pull-left[
+
+
+```r
+diamonds
+```
+
+&lt;!--Can't fit in columns so artificially selecting to print only first 7 columns --&gt; 
+
+
+```
+## # A tibble: 53,940 x 7
+##    carat cut       color clarity depth table price
+##    &lt;dbl&gt; &lt;ord&gt;     &lt;ord&gt; &lt;ord&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;
+##  1 0.23  Ideal     E     SI2      61.5    55   326
+##  2 0.21  Premium   E     SI1      59.8    61   326
+##  3 0.23  Good      E     VS1      56.9    65   327
+##  4 0.290 Premium   I     VS2      62.4    58   334
+##  5 0.31  Good      J     SI2      63.3    58   335
+##  6 0.24  Very Good J     VVS2     62.8    57   336
+##  7 0.24  Very Good I     VVS1     62.3    57   336
+##  8 0.26  Very Good H     SI1      61.9    55   337
+##  9 0.22  Fair      E     VS2      65.1    61   337
+## 10 0.23  Very Good H     VS1      59.4    61   338
+## # … with 53,930 more rows
+```
+
+]
+
+.pull-right[
+
+- Prints much nicer output in R
+- Shows a bit of the `str`ucture of a dataframe automatically:
+    - `nrow() x ncol()`
+    - `&lt;dbl&gt;` is numeric ("double")
+    - `&lt;ord&gt;` is an ordered factor
+    - `&lt;int&gt;` is an integer
+- Fundamental grammar of tidyverse: 
+    1. start with a tibble 
+    2. run a function on it
+    3. output a new tibble
+]
+
+---
+
+# Magrittr I
+
+.right-column[
+
+- The .hl[magrittr] package allows us to use the **"pipe" operator** (`%&gt;%`)&lt;sup&gt;.red[1]&lt;/sup&gt;
+- `%&gt;%` "pipes" the *output* of the *left* of the pipe *into* the *argument* of the *right* 
+    - Running a function `f` on object `x` as `f(x)` becomes `x %&gt;% f` in pipeable form
+    - i.e. "take `x` and then run function `f` on it"
+]
+
+.left-column[
+
+.center[![](https://www.dropbox.com/s/74srdjrw13mgx4x/magrittr.png?raw=1)]
+]
+
+.footnote[&lt;sup&gt;.red[1]&lt;/sup&gt; Keyboard shortcuts in R Studio: `CTRL+Shift+M` (Windows) or `Cmd+Shift+M` (Mac)]
+
+---
+
+# Magrittr II
+
+.right-column[
+
+- With ordinary math functions, read from outside `\(\leftarrow\)` (inside): 
+`$$g(f(x))$$`
+
+i.e. take `x` and perform function `f()` on `x` and then take that result and perform function `g()` on it
+- With pipes, read operations from left `\(\rightarrow\)` right: 
+
+
+
+```r
+x %&gt;% f %&gt;% g
+```
+
+
+take `x` and then perform function `f` on it, then perform function `g` on that result 
+
+
+- So read `%&gt;%` mentally as "and then"
+
+]
+
+.left-column[
+
+.center[![](https://www.dropbox.com/s/74srdjrw13mgx4x/magrittr.png?raw=1)]
+]
+
+---
+
+# Magrittr III
+
+.right-column[
+
+.content-box-green[
+.green[**Example**]
+
+`$$ln(exp(x))$$`
+
+- First, exponentiate `\(x\)`, then take the natural log of that (resulting in just x)
+- In pipes:
+
+
+```r
+x %&gt;% exp() %&gt;% ln()
+```
+]
+
+]
+
+.left-column[
+
+.center[![](https://www.dropbox.com/s/74srdjrw13mgx4x/magrittr.png?raw=1)]
+]
+
+---
+
+# Magrittr III
+
+.right-column[
+.content-box-green[
+.green[**Example**]
+
+- Sequence: find keys, unlock car, drive to school, park 
+- Using nested functions in pseudo-"code":
+
+
+```r
+park(drive(start_car(find("keys")), to = "campus"))
+```
+
+- Using pipes:
+
+
+```r
+find("keys") %&gt;%
+  start_car() %&gt;%
+  drive(to = "campus") %&gt;%
+  park()
+```
+
+]
+
+]
+
+.left-column[
+
+.center[![](https://www.dropbox.com/s/74srdjrw13mgx4x/magrittr.png?raw=1)]
+]
+
+---
+
+# Magrittr: Simple Example
+
+
+
+.pull-left[
+
+
+```r
+# look at top 6 rows
+head(gapminder) 
+```
+
+```
+## # A tibble: 6 x 6
+##   country     continent  year lifeExp      pop gdpPercap
+##   &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;
+## 1 Afghanistan Asia       1952    28.8  8425333      779.
+## 2 Afghanistan Asia       1957    30.3  9240934      821.
+## 3 Afghanistan Asia       1962    32.0 10267083      853.
+## 4 Afghanistan Asia       1967    34.0 11537966      836.
+## 5 Afghanistan Asia       1972    36.1 13079460      740.
+## 6 Afghanistan Asia       1977    38.4 14880372      786.
+```
+]
+
+.pull-right[
+
+```r
+# use the pipe instead 
+gapminder %&gt;% head()
+```
+
+```
+## # A tibble: 6 x 6
+##   country     continent  year lifeExp      pop gdpPercap
+##   &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;
+## 1 Afghanistan Asia       1952    28.8  8425333      779.
+## 2 Afghanistan Asia       1957    30.3  9240934      821.
+## 3 Afghanistan Asia       1962    32.0 10267083      853.
+## 4 Afghanistan Asia       1967    34.0 11537966      836.
+## 5 Afghanistan Asia       1972    36.1 13079460      740.
+## 6 Afghanistan Asia       1977    38.4 14880372      786.
+```
+]
+
+
+---
+
+# Magrittr: More Involved Example
+
+- These two methods produce the same output (avg hwy mpg of Audi cars)
+
+- Without the pipe
+
+
+```r
+summarise(group_by(filter(mpg, manufacturer=="audi"), model), hwy_mean = mean(hwy))
+```
+
+- Using the pipe
+
+
+```r
+mpg %&gt;%
+  filter(manufacturer=="audi") %&gt;%
+  group_by(model) %&gt;%
+  summarise(hwy_mean = mean(hwy))
+```
+
+```
+## # A tibble: 3 x 2
+##   model      hwy_mean
+##   &lt;chr&gt;         &lt;dbl&gt;
+## 1 a4             28.3
+## 2 a4 quattro     25.8
+## 3 a6 quattro     24
+```
+
+---
+
+# Readr
+
+.left-column[
+
+.center[![](https://www.dropbox.com/s/cqv60z3cznsmr9a/readr.png?raw=1)]
+]
+
+.right-column[
+
+- `Readr` lets you load common spreadsheet files (`.csv`, `.tsv`) with simple commands:
+- `read_csv(path/to/my_data.csv)`&lt;sup&gt;.red[1]&lt;/sup&gt;
+    - `read_tsv(path/to/my_data.tsv)`
+- Often this is enough, but there are many more customizations as necessary
+- You can also export your data from R into a common spreadsheet file with:
+- `write_csv(my_dataframe, path=path/to/file_name.csv)`&lt;sup&gt;.red[2]&lt;/sup&gt; 
+- Read more on the [tidyverse website](https://readr.tidyverse.org/) and the [Readr Cheatsheet](https://rawgit.com/rstudio/cheatsheets/master/data-import.pdf)
+]
+
+.footnote[&lt;sup&gt;.red[1]&lt;/sup&gt; If you are using an R Project, this file path is in your main project folder, or any subfolders you decided to create, such as `data/my_data.csv`
+
+&lt;sup&gt;.red[2]&lt;/sup&gt; where `my_dataframe` is the name of the dataframe you want to export, and `file_name` is the name of the file you want to create.]
+
+---
+
+# Readxl and Haven: When Readr isn't Enough
+
+.left-column[
+
+.center[![](https://www.dropbox.com/s/rl1sj67y2m8fqy5/readxl.png?raw=1)]
+.center[![](https://www.dropbox.com/s/ua6t5wz1se34vmo/haven.png?raw=1)]
+]
+
+.right-column[
+
+- Some data types, particularly for other software programs like Excel, STATA, SAS, and SPSS are not `.csv` or `.txt` spreadsheets
+- `readxl` has commands equivalent to `readr`'s for Excel data types:
+    - `read_xls("path/to/my/data.xls")` for older Excel `.xls` files
+    - `read_xlsx("path/to/my/data.xlsx")` for modern Excel `.xls` files
+    - `write_xls(my_dataframe, path=path/to/file_name.xls)` or ``write_xlsx(my_dataframe, path=path/to/file_name.xlsx)` to export as `xls` or `xlsx` files
+- `haven` has commands equivalent to `readr`'s for these data types:
+    - `read_dta("path/to/my_data.dta")` for STATA `.dta` files
+    - `read_sav("path/to/my_data.sav")` for SPSS `.sav` files
+    - `read_sas("path/to/my_data.sas7bdat")` for SAS files 
+]
+
+---
+
+# dplyr I
+
+.left-column[
+
+.center[![](https://www.dropbox.com/s/6ao0u4xc3w492ak/dplyr.png?raw=1)]
+]
+
+.right-column[
+
+- `dplyr` uses much more efficient and intuitive commands&lt;sup&gt;.magenta[1]&lt;/sup&gt; to manipulate dataframes
+- Grammatically:
+    - `Base R` is all about passively running functions on nouns: `function(object)`
+    - `dplyr` is all about actively using verbs: `dplyr_verb(df, conditions)`&lt;sup&gt;.red[2]&lt;/sup&gt;
+- Three great features:
+
+1. Allows use of `%&gt;%` pipe operator
+2. Input and output is always a dataframe&lt;sup&gt;.magenta[3]&lt;/sup&gt;
+3. Shows the output from a manipulation, but does not save/overwrite as an object unless explicitly assigned to an object
+
+]
+
+.footnote[&lt;sup&gt;.magenta[1]&lt;/sup&gt; Particularly when combined with `magrittr`'s pipe (`%&gt;%`) command!
+
+&lt;sup&gt;.red[2]&lt;/sup&gt; With the pipe, even simpler: `df %&gt;% dplyr_verb(conditions)`
+
+&lt;sup&gt;.red[3]&lt;/sup&gt; Technically a `tibble` with `tidyverse`!]
+
+---
+
+# dplyr II
+
+.left-column[
+
+.center[![](https://www.dropbox.com/s/6ao0u4xc3w492ak/dplyr.png?raw=1)]
+]
+
+.right-column[
+
+- Common `dplyr` functions:
+
+| Verb | Does | 
+|----------|------|
+| `filter` | Keep only selected *observations* | 
+| `select` | Keep only selected *variables* |
+| `arrange` | Reorder rows (e.g. in numerical order) |
+| `mutate` | Create new variables | 
+| `recode` | Change a variable's values or categories/`factor` levels |
+| `summarize` | Collapse data into summary statistics| 
+| `group_by` | Perform any of the above functions by groups/categories | 
+
+]
+
+---
+
+# dplyr::filter
+
+- `filter` keeps only selected **observations** (rows)
+
+--
+
+.left-code[
+
+
+```r
+# look only at African observations
+# syntax without the pipe
+filter(gapminder, continent=="Africa")
+
+# using the pipe
+
+gapminder %&gt;%
+  filter(continent == "Africa")
+```
+
+]
+
+--
+
+.right-plot[
+
+
+```
+## # A tibble: 624 x 6
+##    country continent  year lifeExp      pop gdpPercap
+##    &lt;fct&gt;   &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;
+##  1 Algeria Africa     1952    43.1  9279525     2449.
+##  2 Algeria Africa     1957    45.7 10270856     3014.
+##  3 Algeria Africa     1962    48.3 11000948     2551.
+##  4 Algeria Africa     1967    51.4 12760499     3247.
+##  5 Algeria Africa     1972    54.5 14760787     4183.
+##  6 Algeria Africa     1977    58.0 17152804     4910.
+##  7 Algeria Africa     1982    61.4 20033753     5745.
+##  8 Algeria Africa     1987    65.8 23254956     5681.
+##  9 Algeria Africa     1992    67.7 26298373     5023.
+## 10 Algeria Africa     1997    69.2 29072015     4797.
+## # … with 614 more rows
+```
+
+]
+
+---
+
+# dplyr: saving and storing outputs I
+
+- `dplyr` functions never modify their inputs (i.e. never overwrite the original `tibble`)
+- If you want to save a result, use `&lt;-` to assign it to a new `tibble`
+- If assigned, you will not see the output until you call up the new `tibble` by name
+
+--
+
+.left-code[
+
+
+```r
+# base syntax
+africa &lt;- filter(gapminder, continent=="Africa")
+
+# using the pipe
+africa &lt;- gapminder %&gt;%
+  filter(continent == "Africa")
+
+# look at new tibble
+africa
+```
+]
+
+.right-plot[
+
+```
+## # A tibble: 624 x 6
+##    country continent  year lifeExp      pop gdpPercap
+##    &lt;fct&gt;   &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;
+##  1 Algeria Africa     1952    43.1  9279525     2449.
+##  2 Algeria Africa     1957    45.7 10270856     3014.
+##  3 Algeria Africa     1962    48.3 11000948     2551.
+##  4 Algeria Africa     1967    51.4 12760499     3247.
+##  5 Algeria Africa     1972    54.5 14760787     4183.
+##  6 Algeria Africa     1977    58.0 17152804     4910.
+##  7 Algeria Africa     1982    61.4 20033753     5745.
+##  8 Algeria Africa     1987    65.8 23254956     5681.
+##  9 Algeria Africa     1992    67.7 26298373     5023.
+## 10 Algeria Africa     1997    69.2 29072015     4797.
+## # … with 614 more rows
+```
+]
+
+---
+
+# dplyr: saving and storing outputs II
+
+- If you want to *both* store and view the output at the same time, wrap the command in parentheses!
+
+
+```r
+(africa &lt;- gapminder %&gt;%
+  filter(continent == "Africa"))
+```
+
+```
+## # A tibble: 624 x 6
+##    country continent  year lifeExp      pop gdpPercap
+##    &lt;fct&gt;   &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;
+##  1 Algeria Africa     1952    43.1  9279525     2449.
+##  2 Algeria Africa     1957    45.7 10270856     3014.
+##  3 Algeria Africa     1962    48.3 11000948     2551.
+##  4 Algeria Africa     1967    51.4 12760499     3247.
+##  5 Algeria Africa     1972    54.5 14760787     4183.
+##  6 Algeria Africa     1977    58.0 17152804     4910.
+##  7 Algeria Africa     1982    61.4 20033753     5745.
+##  8 Algeria Africa     1987    65.8 23254956     5681.
+##  9 Algeria Africa     1992    67.7 26298373     5023.
+## 10 Algeria Africa     1997    69.2 29072015     4797.
+## # … with 614 more rows
+```
+
+---
+
+# dplyr: saving and storing outputs III
+
+- If you were to assign the output to the original `tibble`, it would *overwrite* the original!
+
+
+
+```r
+# base syntax
+gapminder &lt;- filter(gapminder, continent=="Africa")
+
+# using the pipe
+gapminder &lt;- gapminder %&gt;%
+  filter(continent == "Africa")
+
+# this overwrites gapminder!
+```
+
+---
+
+# dplyr conditionals
+
+- In many data wrangling contexts, you will want to select data .whisper[conditionally]
+    - In computer code, you are selecting only observations for which a set of logical conditions are `TRUE`
+- For example:
+    - `&gt;`, `&lt;`: greater than, less than
+    - `&gt;=`, `&lt;=`: greater than or equal to, less than or equal to
+    - `==`, `!=`: is equal to, is not equal to
+    - `%in%`: is a member of some defined set `\((\in)\)`
+    - `&amp;`: AND&lt;sup&gt;1&lt;/sup&gt;
+    - `|`: OR
+
+.footnote[&lt;sup&gt;1&lt;/sup&gt; Commas also work in `dplyr`.]
+
+---
+
+# dplyr::filter with conditionals
+
+--
+
+.left-code[
+
+
+```r
+# look only at African observations in 1997
+gapminder %&gt;%
+  filter(continent == "Africa", year == 1997)
+```
+]
+
+--
+
+.right-plot[
+
+
+```
+## # A tibble: 52 x 6
+##    country                  continent  year lifeExp      pop gdpPercap
+##    &lt;fct&gt;                    &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;
+##  1 Algeria                  Africa     1997    69.2 29072015     4797.
+##  2 Angola                   Africa     1997    41.0  9875024     2277.
+##  3 Benin                    Africa     1997    54.8  6066080     1233.
+##  4 Botswana                 Africa     1997    52.6  1536536     8647.
+##  5 Burkina Faso             Africa     1997    50.3 10352843      946.
+##  6 Burundi                  Africa     1997    45.3  6121610      463.
+##  7 Cameroon                 Africa     1997    52.2 14195809     1694.
+##  8 Central African Republic Africa     1997    46.1  3696513      741.
+##  9 Chad                     Africa     1997    51.6  7562011     1005.
+## 10 Comoros                  Africa     1997    60.7   527982     1174.
+## # … with 42 more rows
+```
+]
+
+---
+
+# dplyr::filter with conditionals II
+
+--
+
+.left-code[
+
+
+```r
+# look only at African observations or observations in 1997
+gapminder %&gt;%
+  filter(continent == "Africa" | year == 1997)
+```
+]
+
+--
+
+.right-plot[
+
+
+```
+## # A tibble: 714 x 6
+##    country     continent  year lifeExp      pop gdpPercap
+##    &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;
+##  1 Afghanistan Asia       1997    41.8 22227415      635.
+##  2 Albania     Europe     1997    73.0  3428038     3193.
+##  3 Algeria     Africa     1952    43.1  9279525     2449.
+##  4 Algeria     Africa     1957    45.7 10270856     3014.
+##  5 Algeria     Africa     1962    48.3 11000948     2551.
+##  6 Algeria     Africa     1967    51.4 12760499     3247.
+##  7 Algeria     Africa     1972    54.5 14760787     4183.
+##  8 Algeria     Africa     1977    58.0 17152804     4910.
+##  9 Algeria     Africa     1982    61.4 20033753     5745.
+## 10 Algeria     Africa     1987    65.8 23254956     5681.
+## # … with 704 more rows
+```
+]
+
+---
+
+# dplyr::filter with conditionals III
+
+--
+
+.left-code[
+
+
+```r
+# look only at U.S. and U.K. observations in 2002
+gapminder %&gt;%
+  filter(country %in% c("United States", "United Kingdom"), year == 2002)
+```
+]
+
+--
+
+.right-plot[
+
+
+```
+## # A tibble: 2 x 6
+##   country        continent  year lifeExp       pop gdpPercap
+##   &lt;fct&gt;          &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;     &lt;int&gt;     &lt;dbl&gt;
+## 1 United Kingdom Europe     2002    78.5  59912431    29479.
+## 2 United States  Americas   2002    77.3 287675526    39097.
+```
+]
+
+---
+
+# dplyr::arrange I
+
+- `arrange` reorders **observations** (rows) in a logical order
+    - e.g. alphabetical, numeric, small to large
+    
+--
+
+.left-code[
+
+
+```r
+# order by smallest to largest population
+# syntax without the pipe
+arrange(gapminder, pop)
+
+# using the pipe
+
+gapminder %&gt;%
+  arrange(pop)
+```
+
+]
+
+--
+
+.right-plot[
+
+
+```
+## # A tibble: 1,704 x 6
+##    country               continent  year lifeExp   pop gdpPercap
+##    &lt;fct&gt;                 &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt; &lt;int&gt;     &lt;dbl&gt;
+##  1 Sao Tome and Principe Africa     1952    46.5 60011      880.
+##  2 Sao Tome and Principe Africa     1957    48.9 61325      861.
+##  3 Djibouti              Africa     1952    34.8 63149     2670.
+##  4 Sao Tome and Principe Africa     1962    51.9 65345     1072.
+##  5 Sao Tome and Principe Africa     1967    54.4 70787     1385.
+##  6 Djibouti              Africa     1957    37.3 71851     2865.
+##  7 Sao Tome and Principe Africa     1972    56.5 76595     1533.
+##  8 Sao Tome and Principe Africa     1977    58.6 86796     1738.
+##  9 Djibouti              Africa     1962    39.7 89898     3021.
+## 10 Sao Tome and Principe Africa     1982    60.4 98593     1890.
+## # … with 1,694 more rows
+```
+
+]
+
+---
+
+# dplyr::arrange II
+
+- Break ties in the value of one variable with the values of additional variables
+    
+--
+
+.left-code[
+
+
+```r
+# order by year, with the smallest to largest population in each year
+# syntax without the pipe
+arrange(gapminder, year, pop)
+
+# using the pipe
+
+gapminder %&gt;%
+  arrange(year, pop)
+```
+
+]
+
+--
+
+.right-plot[
+
+
+```
+## # A tibble: 1,704 x 6
+##    country               continent  year lifeExp    pop gdpPercap
+##    &lt;fct&gt;                 &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;  &lt;int&gt;     &lt;dbl&gt;
+##  1 Sao Tome and Principe Africa     1952    46.5  60011      880.
+##  2 Djibouti              Africa     1952    34.8  63149     2670.
+##  3 Bahrain               Asia       1952    50.9 120447     9867.
+##  4 Iceland               Europe     1952    72.5 147962     7268.
+##  5 Comoros               Africa     1952    40.7 153936     1103.
+##  6 Kuwait                Asia       1952    55.6 160000   108382.
+##  7 Equatorial Guinea     Africa     1952    34.5 216964      376.
+##  8 Reunion               Africa     1952    52.7 257700     2719.
+##  9 Gambia                Africa     1952    30   284320      485.
+## 10 Swaziland             Africa     1952    41.4 290243     1148.
+## # … with 1,694 more rows
+```
+
+]
+
+---
+
+# dplyr::arrange III
+
+- Use `desc()` to re-order in the opposite direction
+    
+--
+
+.left-code[
+
+
+```r
+# order by largest to smallest population
+# syntax without the pipe
+arrange(gapminder, desc(pop))
+
+# using the pipe
+
+gapminder %&gt;%
+  arrange(desc(pop))
+```
+
+]
+
+--
+
+.right-plot[
+
+
+```
+## # A tibble: 1,704 x 6
+##    country continent  year lifeExp        pop gdpPercap
+##    &lt;fct&gt;   &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;      &lt;int&gt;     &lt;dbl&gt;
+##  1 China   Asia       2007    73.0 1318683096     4959.
+##  2 China   Asia       2002    72.0 1280400000     3119.
+##  3 China   Asia       1997    70.4 1230075000     2289.
+##  4 China   Asia       1992    68.7 1164970000     1656.
+##  5 India   Asia       2007    64.7 1110396331     2452.
+##  6 China   Asia       1987    67.3 1084035000     1379.
+##  7 India   Asia       2002    62.9 1034172547     1747.
+##  8 China   Asia       1982    65.5 1000281000      962.
+##  9 India   Asia       1997    61.8  959000000     1459.
+## 10 China   Asia       1977    64.0  943455000      741.
+## # … with 1,694 more rows
+```
+
+]
+
+---
+
+# dplyr::select I
+
+- `select` keeps only selected **variables** (columns)
+    - Don't need quotes around column names
+--
+
+.left-code[
+
+
+```r
+# keep only country, year, and population variables
+# syntax without the pipe
+select(gapminder, country, year, pop)
+
+# using the pipe
+
+gapminder %&gt;%
+  select(country, year, pop)
+```
+
+]
+
+--
+
+.right-plot[
+
+
+```
+## # A tibble: 1,704 x 3
+##    country      year      pop
+##    &lt;fct&gt;       &lt;int&gt;    &lt;int&gt;
+##  1 Afghanistan  1952  8425333
+##  2 Afghanistan  1957  9240934
+##  3 Afghanistan  1962 10267083
+##  4 Afghanistan  1967 11537966
+##  5 Afghanistan  1972 13079460
+##  6 Afghanistan  1977 14880372
+##  7 Afghanistan  1982 12881816
+##  8 Afghanistan  1987 13867957
+##  9 Afghanistan  1992 16317921
+## 10 Afghanistan  1997 22227415
+## # … with 1,694 more rows
+```
+
+]
+
+---
+
+# dplyr::select II
+
+- `select` "all except" by negating a variable with `-`
+
+--
+
+.left-code[
+
+
+```r
+# keep all except gdpPercap
+# syntax without the pipe
+select(gapminder, -gdpPercap)
+
+# using the pipe
+
+gapminder %&gt;%
+  select(-gdpPercap)
+```
+
+]
+
+--
+
+.right-plot[
+
+
+```
+## # A tibble: 1,704 x 5
+##    country     continent  year lifeExp      pop
+##    &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;    &lt;int&gt;
+##  1 Afghanistan Asia       1952    28.8  8425333
+##  2 Afghanistan Asia       1957    30.3  9240934
+##  3 Afghanistan Asia       1962    32.0 10267083
+##  4 Afghanistan Asia       1967    34.0 11537966
+##  5 Afghanistan Asia       1972    36.1 13079460
+##  6 Afghanistan Asia       1977    38.4 14880372
+##  7 Afghanistan Asia       1982    39.9 12881816
+##  8 Afghanistan Asia       1987    40.8 13867957
+##  9 Afghanistan Asia       1992    41.7 16317921
+## 10 Afghanistan Asia       1997    41.8 22227415
+## # … with 1,694 more rows
+```
+
+]
+
+---
+
+# dplyr::select III
+
+- `select` reorders the columns in the order you provide
+    - sometimes useful to keep all variables, and drag one or a few  to the front, add `everything()` at the end
+
+--
+
+.left-code[
+
+
+```r
+# keep all and move pop first
+# syntax without the pipe
+select(gapminder, pop, everything())
+
+# using the pipe
+
+gapminder %&gt;%
+  select(pop, everything())
+```
+
+]
+
+--
+
+.right-plot[
+
+
+```
+## # A tibble: 1,704 x 6
+##         pop country     continent  year lifeExp gdpPercap
+##       &lt;int&gt; &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;     &lt;dbl&gt;
+##  1  8425333 Afghanistan Asia       1952    28.8      779.
+##  2  9240934 Afghanistan Asia       1957    30.3      821.
+##  3 10267083 Afghanistan Asia       1962    32.0      853.
+##  4 11537966 Afghanistan Asia       1967    34.0      836.
+##  5 13079460 Afghanistan Asia       1972    36.1      740.
+##  6 14880372 Afghanistan Asia       1977    38.4      786.
+##  7 12881816 Afghanistan Asia       1982    39.9      978.
+##  8 13867957 Afghanistan Asia       1987    40.8      852.
+##  9 16317921 Afghanistan Asia       1992    41.7      649.
+## 10 22227415 Afghanistan Asia       1997    41.8      635.
+## # … with 1,694 more rows
+```
+
+]
+
+---
+
+# dplyr::select IV
+
+- `select` has a lot of helper functions, useful for when you have hundreds of variables
+    - see `?select()` for a list
+    
+--
+
+.pull-left[
+
+
+```r
+# keep all variables starting with "co"
+
+gapminder %&gt;%
+  select(starts_with("co"))
+```
+
+```
+## # A tibble: 1,704 x 2
+##    country     continent
+##    &lt;fct&gt;       &lt;fct&gt;    
+##  1 Afghanistan Asia     
+##  2 Afghanistan Asia     
+##  3 Afghanistan Asia     
+##  4 Afghanistan Asia     
+##  5 Afghanistan Asia     
+##  6 Afghanistan Asia     
+##  7 Afghanistan Asia     
+##  8 Afghanistan Asia     
+##  9 Afghanistan Asia     
+## 10 Afghanistan Asia     
+## # … with 1,694 more rows
+```
+
+]
+
+--
+
+.pull-right[
+
+
+```r
+# keep country and all variables containing "per"
+
+gapminder %&gt;%
+  select(country, contains("per"))
+```
+
+```
+## # A tibble: 1,704 x 2
+##    country     gdpPercap
+##    &lt;fct&gt;           &lt;dbl&gt;
+##  1 Afghanistan      779.
+##  2 Afghanistan      821.
+##  3 Afghanistan      853.
+##  4 Afghanistan      836.
+##  5 Afghanistan      740.
+##  6 Afghanistan      786.
+##  7 Afghanistan      978.
+##  8 Afghanistan      852.
+##  9 Afghanistan      649.
+## 10 Afghanistan      635.
+## # … with 1,694 more rows
+```
+
+]
+
+---
+
+# dplyr::rename
+
+- `rename` changes the name of a variable (column)
+    - Format: `new_name=old_name`
+--
+
+.left-code[
+
+
+```r
+# rename gdpPercap to GDP
+# syntax without the pipe
+rename(gapminder, GDP = gdpPercap)
+
+# using the pipe
+
+gapminder %&gt;%
+  rename(GDP = gdpPercap)
+```
+
+]
+
+--
+
+.right-plot[
+
+
+```
+## # A tibble: 1,704 x 6
+##    country     continent  year lifeExp      pop   GDP
+##    &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;    &lt;int&gt; &lt;dbl&gt;
+##  1 Afghanistan Asia       1952    28.8  8425333  779.
+##  2 Afghanistan Asia       1957    30.3  9240934  821.
+##  3 Afghanistan Asia       1962    32.0 10267083  853.
+##  4 Afghanistan Asia       1967    34.0 11537966  836.
+##  5 Afghanistan Asia       1972    36.1 13079460  740.
+##  6 Afghanistan Asia       1977    38.4 14880372  786.
+##  7 Afghanistan Asia       1982    39.9 12881816  978.
+##  8 Afghanistan Asia       1987    40.8 13867957  852.
+##  9 Afghanistan Asia       1992    41.7 16317921  649.
+## 10 Afghanistan Asia       1997    41.8 22227415  635.
+## # … with 1,694 more rows
+```
+
+]
+
+---
+
+# dplyr::mutate
+
+- `mutate` creates a new variable (column)
+    - always adds a new column at the end
+    - general formula: `new_variable_name = operation` 
+
+---
+
+# dplyr::mutate II
+
+
+- Three major types of mutates:
+
+1. Create a variable that is a specific value (often categorical)
+
+--
+
+.left-code[
+
+
+```r
+# create variable "europe" if country is in Europe
+# syntax without the pipe
+mutate(gapminder, europe = ifelse(continent == "Europe", 
+                                  yes = "In Europe", 
+                                  no = "Not in Europe"))
+
+# using the pipe
+
+gapminder %&gt;%
+  mutate(europe = ifelse(continent == "Europe", 
+                                  yes = "In Europe", 
+                                  no = "Not in Europe"))
+```
+
+]
+
+--
+
+.right-plot[
+
+
+```
+## # A tibble: 1,704 x 7
+##    country     continent  year lifeExp      pop gdpPercap europe       
+##    &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt; &lt;chr&gt;        
+##  1 Afghanistan Asia       1952    28.8  8425333      779. Not in Europe
+##  2 Afghanistan Asia       1957    30.3  9240934      821. Not in Europe
+##  3 Afghanistan Asia       1962    32.0 10267083      853. Not in Europe
+##  4 Afghanistan Asia       1967    34.0 11537966      836. Not in Europe
+##  5 Afghanistan Asia       1972    36.1 13079460      740. Not in Europe
+##  6 Afghanistan Asia       1977    38.4 14880372      786. Not in Europe
+##  7 Afghanistan Asia       1982    39.9 12881816      978. Not in Europe
+##  8 Afghanistan Asia       1987    40.8 13867957      852. Not in Europe
+##  9 Afghanistan Asia       1992    41.7 16317921      649. Not in Europe
+## 10 Afghanistan Asia       1997    41.8 22227415      635. Not in Europe
+## # … with 1,694 more rows
+```
+]
+
+---
+
+
+# dplyr::mutate III
+
+
+- Three major types of mutates:
+
+1. Create a variable that is a specific value (often categorical)
+2. Change an existing variable (often rescaling)
+
+--
+
+.left-code[
+
+
+```r
+# create population in millions 
+# syntax without the pipe
+mutate(gapminder, pop_millions = pop / 1000000)
+
+# using the pipe
+
+gapminder %&gt;%
+  rename(pop_millions = pop / 1000000)
+```
+
+]
+
+--
+
+.right-plot[
+
+
+```
+## # A tibble: 1,704 x 7
+##    country     continent  year lifeExp      pop gdpPercap pop_millions
+##    &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;        &lt;dbl&gt;
+##  1 Afghanistan Asia       1952    28.8  8425333      779.         8.43
+##  2 Afghanistan Asia       1957    30.3  9240934      821.         9.24
+##  3 Afghanistan Asia       1962    32.0 10267083      853.        10.3 
+##  4 Afghanistan Asia       1967    34.0 11537966      836.        11.5 
+##  5 Afghanistan Asia       1972    36.1 13079460      740.        13.1 
+##  6 Afghanistan Asia       1977    38.4 14880372      786.        14.9 
+##  7 Afghanistan Asia       1982    39.9 12881816      978.        12.9 
+##  8 Afghanistan Asia       1987    40.8 13867957      852.        13.9 
+##  9 Afghanistan Asia       1992    41.7 16317921      649.        16.3 
+## 10 Afghanistan Asia       1997    41.8 22227415      635.        22.2 
+## # … with 1,694 more rows
+```
+]
+
+---
+
+
+# dplyr::mutate IV
+
+
+- Three major types of mutates:
+
+1. Create a variable that is a specific value (often categorical)
+2. Change an existing variable (often rescaling)
+3. Create a variable based on other variables
+
+--
+
+.left-code[
+
+
+```r
+# create GDP variable from gdpPercap and pop
+# syntax without the pipe
+mutate(gapminder, GDP = gdpPercap * pop)
+
+# using the pipe
+
+gapminder %&gt;%
+  rename(GDP = gdpPercap * pop)
+```
+
+]
+
+--
+
+.right-plot[
+
+
+```
+## # A tibble: 1,704 x 7
+##    country     continent  year lifeExp      pop gdpPercap          GDP
+##    &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;        &lt;dbl&gt;
+##  1 Afghanistan Asia       1952    28.8  8425333      779.  6567086330.
+##  2 Afghanistan Asia       1957    30.3  9240934      821.  7585448670.
+##  3 Afghanistan Asia       1962    32.0 10267083      853.  8758855797.
+##  4 Afghanistan Asia       1967    34.0 11537966      836.  9648014150.
+##  5 Afghanistan Asia       1972    36.1 13079460      740.  9678553274.
+##  6 Afghanistan Asia       1977    38.4 14880372      786. 11697659231.
+##  7 Afghanistan Asia       1982    39.9 12881816      978. 12598563401.
+##  8 Afghanistan Asia       1987    40.8 13867957      852. 11820990309.
+##  9 Afghanistan Asia       1992    41.7 16317921      649. 10595901589.
+## 10 Afghanistan Asia       1997    41.8 22227415      635. 14121995875.
+## # … with 1,694 more rows
+```
+]
+
+---
+
+# dplyr::mutate V
+
+
+- Can create multiple new variables with commas:
+
+--
+
+
+```r
+gapminder %&gt;%
+  mutate(GDP = gdpPercap * pop,
+         pop_millions = pop / 1000000)
+```
+
+```
+## # A tibble: 1,704 x 8
+##    country   continent  year lifeExp    pop gdpPercap      GDP pop_millions
+##    &lt;fct&gt;     &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;  &lt;int&gt;     &lt;dbl&gt;    &lt;dbl&gt;        &lt;dbl&gt;
+##  1 Afghanis… Asia       1952    28.8 8.43e6      779.  6.57e 9         8.43
+##  2 Afghanis… Asia       1957    30.3 9.24e6      821.  7.59e 9         9.24
+##  3 Afghanis… Asia       1962    32.0 1.03e7      853.  8.76e 9        10.3 
+##  4 Afghanis… Asia       1967    34.0 1.15e7      836.  9.65e 9        11.5 
+##  5 Afghanis… Asia       1972    36.1 1.31e7      740.  9.68e 9        13.1 
+##  6 Afghanis… Asia       1977    38.4 1.49e7      786.  1.17e10        14.9 
+##  7 Afghanis… Asia       1982    39.9 1.29e7      978.  1.26e10        12.9 
+##  8 Afghanis… Asia       1987    40.8 1.39e7      852.  1.18e10        13.9 
+##  9 Afghanis… Asia       1992    41.7 1.63e7      649.  1.06e10        16.3 
+## 10 Afghanis… Asia       1997    41.8 2.22e7      635.  1.41e10        22.2 
+## # … with 1,694 more rows
+```
+
+--
+
+- `transmute` keeps *only* newly created variables (`select`s only the new `mutate`d variables)
+
+
+```r
+gapminder %&gt;%
+  transmute(GDP = gdpPercap * pop,
+         pop_millions = pop / 1000000)
+```
+
+```
+## # A tibble: 1,704 x 2
+##             GDP pop_millions
+##           &lt;dbl&gt;        &lt;dbl&gt;
+##  1  6567086330.         8.43
+##  2  7585448670.         9.24
+##  3  8758855797.        10.3 
+##  4  9648014150.        11.5 
+##  5  9678553274.        13.1 
+##  6 11697659231.        14.9 
+##  7 12598563401.        12.9 
+##  8 11820990309.        13.9 
+##  9 10595901589.        16.3 
+## 10 14121995875.        22.2 
+## # … with 1,694 more rows
+```
+
+
+--
+
+- Don't forget to assign the output to  new `tibble` if you want to "save" the new variables!
+
+---
+
+# Exporting Tables with knitr::kable
+
+---
+
+# dplyr::tally with group_by
+
+- `tally` provides counts, best used with `group_by` for categorical data
+
+
+```r
+gapminder %&gt;%
+  tally
+```
+
+```
+## # A tibble: 1 x 1
+##       n
+##   &lt;int&gt;
+## 1  1704
+```
+
+
+```r
+gapminder %&gt;%
+  group_by(continent) %&gt;%
+  tally
+```
+
+```
+## # A tibble: 5 x 2
+##   continent     n
+##   &lt;fct&gt;     &lt;int&gt;
+## 1 Africa      624
+## 2 Americas    300
+## 3 Asia        396
+## 4 Europe      360
+## 5 Oceania      24
+```
+
+---
+
+# Advanced: tidyr and joining data
+
+---
+
+# tidyr: reshaping and tidying data 
+
+.left-column[
+
+.center[![](https://www.dropbox.com/s/p6gmb4tds18ueyp/tidyr.png?raw=1)]
+]
+
+.right-column[
+
+- `tidyr` helps clean data into more usable format for other `tidyverse` packages
+- .hl["tidy" data].footnote[This is the core and eponym of the `tidyverse`: all associated packages and functions use or require this data format!] are (an opinionated view of) data where
+
+1. Each .shout[variable] is in a .shout[column]
+2. Each .whisper[observation] is a .whisper[row]
+3. Each .onfire[value] is a .onfire[cell]
+
+- Un-tidy data needs to be tidied into this format
+    - You will spend less time fighting tools and more time on analysis!
+
+]
+
+---
+
+# Tidying Data: `gather()` wide to long I
+
+.pull-left[
+
+
+
+
+```r
+ex_wide
+```
+
+```
+## # A tibble: 3 x 3
+##   Country       `2000` `2010`
+##   &lt;chr&gt;          &lt;dbl&gt;  &lt;dbl&gt;
+## 1 United States    140    180
+## 2 Canada           102     98
+## 3 China            111    123
+```
+
+]
+
+.pull-right[
+
+- Common source of "un-tidy" data: .l[Column headers are values, not variable names]
+    - Column names are *values* of a `year` variable!
+    - Each row represents *two* observations (one in 2000 and one in 2010)!
+- We need to `gather()` these columns into a new pair of variables
+    - set of columns that represent values, not variables (`2000` and `2010`)
+    - `key`: name of variable whose values form the column names (we'll call it the `year`)
+    - `value`: name of the variable whose values are spread over the cells (we'll call it number of `cases`)
+]
+
+---
+
+# Tidying Data: `gather()` wide to long II
+
+- `gather()` a wide data frame into a long data frame 
+
+.pull-left[
+
+
+```r
+ex_wide
+```
+
+```
+## # A tibble: 3 x 3
+##   Country       `2000` `2010`
+##   &lt;chr&gt;          &lt;dbl&gt;  &lt;dbl&gt;
+## 1 United States    140    180
+## 2 Canada           102     98
+## 3 China            111    123
+```
+]
+
+.pull-right[
+
+
+```r
+ex_wide %&gt;% gather("2000","2010",
+              key = "year",
+              value = "cases")
+```
+
+```
+## # A tibble: 6 x 3
+##   Country       year  cases
+##   &lt;chr&gt;         &lt;chr&gt; &lt;dbl&gt;
+## 1 United States 2000    140
+## 2 Canada        2000    102
+## 3 China         2000    111
+## 4 United States 2010    180
+## 5 Canada        2010     98
+## 6 China         2010    123
+```
+
+]
+
+---
+
+# Tidying Data: `spread()` long to wide I
+
+.pull-left[
+
+
+
+
+```r
+ex_long
+```
+
+```
+## # A tibble: 12 x 4
+##    Country        Year Type       Count
+##    &lt;chr&gt;         &lt;dbl&gt; &lt;chr&gt;      &lt;dbl&gt;
+##  1 United States  2000 Cases        140
+##  2 United States  2000 Population   300
+##  3 United States  2010 Cases        180
+##  4 United States  2010 Population   310
+##  5 Canada         2000 Cases        102
+##  6 Canada         2000 Population   110
+##  7 Canada         2010 Cases         98
+##  8 Canada         2010 Population   121
+##  9 China          2000 Cases        111
+## 10 China          2000 Population  1201
+## 11 China          2010 Cases        123
+## 12 China          2010 Population  1241
+```
+
+]
+
+.pull-right[
+
+- Common source of "un-tidy" data: .l[observations are scattered across multiple rows]
+    - Each country has two rows per observation, one for `Cases` and one for `Population` (categorized by `type` of variable)
+- We need to `spread()` these columns into a new pair of variables
+    - `key`: column that contains variable names (here, the `type`)
+    - `value`: column that contains values from multiple variables (here, the `count`)
+]
+
+---
+
+# Tidying Data: `spread()` long to wide II
+
+- `spread()` a long data frame into a wide data frame 
+
+.pull-left[
+
+
+```r
+ex_long
+```
+
+```
+## # A tibble: 12 x 4
+##    Country        Year Type       Count
+##    &lt;chr&gt;         &lt;dbl&gt; &lt;chr&gt;      &lt;dbl&gt;
+##  1 United States  2000 Cases        140
+##  2 United States  2000 Population   300
+##  3 United States  2010 Cases        180
+##  4 United States  2010 Population   310
+##  5 Canada         2000 Cases        102
+##  6 Canada         2000 Population   110
+##  7 Canada         2010 Cases         98
+##  8 Canada         2010 Population   121
+##  9 China          2000 Cases        111
+## 10 China          2000 Population  1201
+## 11 China          2010 Cases        123
+## 12 China          2010 Population  1241
+```
+]
+
+.pull-right[
+
+
+```r
+ex_long %&gt;% spread(key = "Type",
+                   value = "Count")
+```
+
+```
+## # A tibble: 6 x 4
+##   Country        Year Cases Population
+##   &lt;chr&gt;         &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;
+## 1 Canada         2000   102        110
+## 2 Canada         2010    98        121
+## 3 China          2000   111       1201
+## 4 China          2010   123       1241
+## 5 United States  2000   140        300
+## 6 United States  2010   180        310
+```
+
+]
+
+---
+
+# Combining Datasets
+
+- Often, data doesn't come from just one source, but several sources
+- We can combine datasets into a single dataframe (tibble) using `dplyr` commands in several ways:
+    1. `bind` dataframes together by row or by column
+        - `bind_rows()` adds observations (rows) to existing dataset&lt;sup&gt;.magenta[1]&lt;/sup&gt;
+        - `bind_cols()` adds variables (columns) to existing dataset&lt;sup&gt;.magenta[2]&lt;/sup&gt;
+    2. `join` two existing dataframes by designating a variable(s) as a `key` to match rows by identical values of that `key`
+        
+.footnote[&lt;sup&gt;.magenta[1]&lt;/sup&gt; Note the columns must be identical between the original dataset and the new observations
+
+&lt;sup&gt;.magenta[1]&lt;/sup&gt; Note the rows must be identical between original dataset and new variable]
+
+---
+
+# Two *Similar* Datasets
+
+- Sometimes you want to add rows (observations) or columns (variables) that happen to match up perfectly
+    - New observations contain all the same variables as existing data
+    - OR
+    - New variables contain all the same observations as existing data
+- In this case, simply using `bind_*(old, new)` will work
+    - `bind_columns(old, new)` adds columns from `new` to `old` dataframe
+    - `bind_rows(old, new)` adds rows from `new` to `old` dataframe
+
+---
+
+# Two *Different* Datasets
+
+.pull-left[
+
+- For the following examples, consider the following two dataframes, `x` and `y`&lt;sup&gt;*&lt;/sup&gt;
+    - each has one unique variable, `x$x` and `y$y`
+    - both have values for observations `1` and `2`
+    - `x` has observation `3` which `y` does not have
+    - `y` has observation `4` which `x` does not have
+- We next consider the ways we can merge dataframes `x` and `y` into a single dataframe
+
+]
+
+.pull-right[
+
+![](https://raw.githubusercontent.com/gadenbuie/tidyexplain/master/images/static/png/original-dfs.png)
+
+]
+
+.footnote[&lt;sup&gt;*&lt;/sup&gt; Images on all following slides come from Gaden Buie's excellent [tidyexplain](https://github.com/gadenbuie/tidyexplain)]
+
+---
+
+# Inner-Join
+
+.pull-left[
+
+- Merge columns from `x` and `y` for which there are matching rows
+    - Rows in `x` with no match in `y` (3) will be dropped
+    - Rows in `y` with no match in `x` (4) will be dropped
+
+]
+
+.pull-right[
+
+![](https://raw.githubusercontent.com/gadenbuie/tidyexplain/master/images/inner-join.gif)
+
+]
+---
+
+# Left-Join
+
+.pull-left[
+
+- Start with all rows from `x` and add all columns from `y`
+    - Rows in `x` with no match in `y` (3) will have `NA`s
+    - Rows in `y` with no match in `x` (4) will be dropped
+
+]
+
+.pull-right[
+
+![](https://raw.githubusercontent.com/gadenbuie/tidyexplain/master/images/left-join.gif)
+
+]
+
+---
+
+# Right-Join
+
+.pull-left[
+
+- Start with all rows from `y` and add all columns from `x`
+    - Rows in `y` with no match in `x` (4) will have `NA`s
+    - Rows in `x` with no match in `y` (3) will be dropped
+
+]
+
+.pull-right[
+
+![](https://raw.githubusercontent.com/gadenbuie/tidyexplain/master/images/right-join.gif)
+
+]
+
+---
+
+# Full-Join
+
+.pull-left[
+
+- All rows and all columns from `x` and `y`
+    - Rows that do not match (3 and 4) will have `NA`s
+
+]
+
+.pull-right[
+
+![](https://raw.githubusercontent.com/gadenbuie/tidyexplain/master/images/full-join.gif)
+
+]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="macros.js"></script>
+<script src="https://platform.twitter.com/widgets.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "solarized-dark",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"slideNumberFormat": "<div class=\"progress-bar-container\">   <div class=\"progress-bar\" style=\"width: calc(%current% / %total% * 100%);\">   </div> </div> "
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
