@@ -12,7 +12,8 @@ editor_options:
 <h2 id="getting-set-up">Getting Set Up</h2>
 <p>Before we begin, start a new file with <code>File</code> <span class="math inline">\(\rightarrow\)</span> <code>New File</code> <span class="math inline">\(\rightarrow\)</span> <code>R Script</code>. As you work through this sheet in the console in <code>R</code>, also add (copy/paste) your commands that work into this new file. At the end, save it, and run to execute all of your commands at once.</p>
 <h2 id="creating-objects">Creating Objects</h2>
-<h3 id="work-on-the-following-parts">1. Work on the following parts:</h3>
+<h3 id="section">1</h3>
+<p>Work on the following parts:</p>
 <ul>
 <li>a. Create a vector called <code>me</code> with two objects, your first name, and your last name.</li>
 <li><ol start="2" style="list-style-type: lower-alpha">
@@ -22,31 +23,51 @@ editor_options:
 <li>Confirm it is a character class vector.</li>
 </ol></li>
 </ul>
-<h3 id="use-rs-help-functions-to-determine-what-the-paste-function-does.-then-paste-together-your-first-name-and-last-name.">2. Use R’s help functions to determine what the <code>paste()</code> function does. Then paste together your first name and last name.</h3>
-<h3 id="create-a-vector-called-my_vector-with-all-the-even-integers-from-2-to-10.">3. Create a vector called <code>my_vector</code> with all the even integers from 2 to 10.</h3>
-<h3 id="find-the-mean-of-my_vector-with-mean.">4. Find the mean of <code>my_vector</code> with <code>mean()</code>.</h3>
-<h3 id="take-all-the-integers-from-18-to-763-then-get-the-mean.">5. Take all the integers from 18 to 763,<span><label for="sn-1" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-1" class="margin-toggle"/><span class="sidenote">Hint: use the <code>:</code> operator to create a sequence from a starting number to an ending number<br />
+<h3 id="section-1">2</h3>
+<p>Use R’s help functions to determine what the <code>paste()</code> function does. Then paste together your first name and last name.</p>
+<h3 id="section-2">3</h3>
+<p>Create a vector called <code>my_vector</code> with all the even integers from 2 to 10.</p>
+<h3 id="section-3">4</h3>
+<p>Find the mean of <code>my_vector</code> with <code>mean()</code>.</p>
+<h3 id="section-4">5</h3>
+<p>Take all the integers from 18 to 763,<span><label for="sn-1" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-1" class="margin-toggle"/><span class="sidenote">Hint: use the <code>:</code> operator to create a sequence from a starting number to an ending number<br />
 <br />
-</span></span> then get the mean.</h3>
+</span></span> then get the mean.</p>
 <h2 id="playing-with-data">Playing with Data</h2>
 <p>For the following questions, we will use the <code>diamonds</code> dataset, included as part of <code>ggplot2</code>.</p>
-<h3 id="install-ggplot2.">6. Install <code>ggplot2</code>.</h3>
-<h3 id="load-ggplot2-with-the-library-command.">7. Load <code>ggplot2</code> with the <code>library()</code> command.</h3>
-<h3 id="get-the-structure-of-the-diamonds-data-frame.-what-are-the-different-variables-and-what-kind-of-data-does-each-contain">8. Get the <code>str</code>ucture of the diamonds data frame. What are the different variables and what kind of data does each contain?</h3>
-<h3 id="get-summary-statistics-separately-for-carat-depth-table-and-price.">9. Get summary statistics separately for <code>carat</code>, <code>depth</code>, <code>table</code>, and <code>price</code>.</h3>
-<h3 id="color-cut-and-clarity-are-categorical-variables-factors.-use-the-table-command-to-generate-frequency-tables-for-each.">10. <code>color</code>, <code>cut</code>, and <code>clarity</code> are categorical variables (factors). Use the <code>table()</code> command to generate frequency tables for each.</h3>
-<h3 id="now-rerun-the-summary-command-on-the-entire-data-frame.">11. Now rerun the <code>summary()</code> command on the entire data frame.</h3>
-<h3 id="now-look-only-at-subset-the-first-4-diamonds-in-the-dataset.">12. Now look only at (subset) the first 4 diamonds in the dataset.</h3>
-<h3 id="now-look-only-at-subset-the-third-and-seventh-diamond-in-the-dataset.">13. Now look only at (subset) the third and seventh diamond in the dataset.</h3>
-<h3 id="now-look-only-at-subset-the-second-column-of-the-dataset.">14. Now look only at (subset) the second column of the dataset.</h3>
-<h3 id="do-this-again-but-look-using-the-to-pull-up-the-second-column-by-name.">15. Do this again, but look using the <code>$</code> to pull up the second column by name.</h3>
-<h3 id="now-look-only-at-diamonds-that-have-a-carat-greater-than-or-equal-to-1.">16. Now look only at diamonds that have a <code>carat</code> greater than or equal to 1.</h3>
-<h3 id="now-look-only-at-diamonds-that-have-a-vvs1-clarity.">17. Now look only at diamonds that have a VVS1 <code>clarity</code>.</h3>
-<h3 id="now-look-only-at-dimaonds-that-have-a-color-of-e-f-i-and-j.">18. Now look only at dimaonds that have a color of E, F, I, and J.</h3>
-<h3 id="now-look-only-at-diamonds-that-have-a-carat-greater-than-or-equal-to-1-and-a-vvs1-clarity.">19. Now look only at diamonds that have a <code>carat</code> greater than or equal to 1 and a VVS1 <code>clarity</code>.</h3>
-<h3 id="get-the-average-price-of-diamonds-in-question-18.">20. Get the average price of diamonds in question 18.<span><label for="sn-2" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-2" class="margin-toggle"/><span class="sidenote">Hints: use your subset command as an argument to the mean function. You will not need a comma here because you are looking for a single row.<br />
+<h3 id="section-5">6</h3>
+<p>Install <code>ggplot2</code>.</p>
+<h3 id="section-6">7</h3>
+<p>Load <code>ggplot2</code> with the <code>library()</code> command.</p>
+<h3 id="section-7">8</h3>
+<p>Get the <code>str</code>ucture of the diamonds data frame. What are the different variables and what kind of data does each contain?</p>
+<h3 id="section-8">9</h3>
+<p>Get summary statistics separately for <code>carat</code>, <code>depth</code>, <code>table</code>, and <code>price</code>.</p>
+<h3 id="section-9">10</h3>
+<p><code>color</code>, <code>cut</code>, and <code>clarity</code> are categorical variables (factors). Use the <code>table()</code> command to generate frequency tables for each.</p>
+<h3 id="section-10">11</h3>
+<p>Now rerun the <code>summary()</code> command on the entire data frame.</p>
+<h3 id="section-11">12</h3>
+<p>Now look only at (subset) the first 4 diamonds in the dataset.</p>
+<h3 id="section-12">13</h3>
+<p>Now look only at (subset) the third and seventh diamond in the dataset.</p>
+<h3 id="section-13">14</h3>
+<p>Now look only at (subset) the second column of the dataset.</p>
+<h3 id="section-14">15</h3>
+<p>Do this again, but look using the <code>$</code> to pull up the second column by name.</p>
+<h3 id="section-15">16</h3>
+<p>Now look only at diamonds that have a <code>carat</code> greater than or equal to 1.</p>
+<h3 id="section-16">17</h3>
+<p>Now look only at diamonds that have a VVS1 <code>clarity</code>.</p>
+<h3 id="section-17">18</h3>
+<p>Now look only at dimaonds that have a color of E, F, I, and J.</p>
+<h3 id="section-18">19</h3>
+<p>Now look only at diamonds that have a <code>carat</code> greater than or equal to 1 and a VVS1 <code>clarity</code>.</p>
+<h3 id="section-19">20</h3>
+<p>Get the average price of diamonds in question 18.<span><label for="sn-2" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-2" class="margin-toggle"/><span class="sidenote">Hints: use your subset command as an argument to the mean function. You will not need a comma here because you are looking for a single row.<br />
 <br />
-</span></span></h3>
-<h3 id="what-is-the-highest-price-for-a-diamond-with-a-1.0-carat-d-color-and-vvs1-clarity">21. What is the highest price for a diamond with a 1.0 carat, D color, and VVS1 clarity?</h3>
+</span></span></p>
+<h3 id="section-20">21</h3>
+<p>What is the highest price for a diamond with a 1.0 carat, D color, and VVS1 clarity?</p>
 <h2 id="execute-your-r-script">Execute your R Script</h2>
 <p>Save the R Script you created at the beginning and (hopefully) have been pasting all of your valid commands to. This creates a <em>.R</em> file wherever you choose to save it to. Now looking at the file in the upper left pane of <em>R Studio</em> look for the button in the upper right corner that says <strong>Run</strong>. Sit back and watch <code>R</code> redo everything you’ve carefully worked on, all at once.</p>
