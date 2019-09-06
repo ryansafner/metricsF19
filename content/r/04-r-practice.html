@@ -28,7 +28,7 @@ editor_options:
 <h3 id="section-3">4</h3>
 <p>Use base <code>R</code>’s <code>boxplot()</code> function to plot a <em>boxplot</em> of <code>gdpPercap</code>.</p>
 <h3 id="section-4">5</h3>
-<p>Now make it a <em>boxplot</em> by <code>continent</code>.<span><label for="sn-1" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-1" class="margin-toggle"/><span class="sidenote">Hint: use formula notation with<code>~</code>.<br />
+<p>Now make it a <em>boxplot</em> by <code>continent</code>.<span><label for="sn-1" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-1" class="margin-toggle"/><span class="sidenote">Hint: use formula notation with <code>~</code>.<br />
 <br />
 </span></span></p>
 <h3 id="section-5">6</h3>
@@ -41,11 +41,13 @@ editor_options:
 <h3 id="section-8">9</h3>
 <p>For quantitative data, we want a <code>histogram</code> to visualize the distribution of a variable. Make a <code>histogram</code> of <code>gdpPercap</code>. Your only <code>aes</code>thetic here is to map <code>gdpPercap</code> to <code>x</code>.</p>
 <h3 id="section-9">10</h3>
-<p>Now let’s try adding some color, specifically, add an <code>aes</code>thetic that maps <code>continent</code> to <code>color.</code></p>
+<p>Now let’s try adding some color, specifically, add an <code>aes</code>thetic that maps <code>continent</code> to <code>fill.</code><span><label for="sn-2" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-2" class="margin-toggle"/><span class="sidenote">In general, <code>color</code> refers to the outside borders of a <code>geom</code> (except points), <code>fill</code> is the interior of an object.<br />
+<br />
+</span></span></p>
 <h3 id="section-10">11</h3>
 <p>Instead of a <code>histogram</code>, change the <code>geom</code> to make it a <code>density</code> graph. To avoid overplotting, add <code>alpha=0.4</code> to the <code>geom</code> argument (alpha changes the <em>transparency</em> of a <code>fill</code>).</p>
 <h3 id="section-11">12</h3>
-<p>Redo your plot from 10 for <code>lifeExp</code> instead of <code>gdpPercap</code>.</p>
+<p>Redo your plot from 11 for <code>lifeExp</code> instead of <code>gdpPercap</code>.</p>
 <h3 id="section-12">13</h3>
 <p>Now let’s try a scatterplot for <code>lifeExp</code> (as <code>y</code>) on <code>gdpPercap</code> (as <code>x</code>). You’ll need both for <code>aes</code>thetics. The <code>geom</code> here is <code>geom_point()</code>.</p>
 <h3 id="section-13">14</h3>
@@ -67,4 +69,4 @@ editor_options:
 <h3 id="section-21">22</h3>
 <p>Now let’s try subsetting by looking only at North America. Take the <code>gapminder</code> dataframe and subset it to only look at <code>continent=="Americas"</code>). Assign this to a new dataframe object (call it something like <code>america</code>.) Now, use <em>this</em> as your <code>data</code>, and redo the graph from question 17. (You might want to take a look at your new dataframe to make sure it worked first!)</p>
 <h3 id="section-22">23</h3>
-<p>Try this again for the <em>whole</em> world, but just for observations in the year 2000.</p>
+<p>Try this again for the <em>whole</em> world, but just for observations in the year 2002.</p>

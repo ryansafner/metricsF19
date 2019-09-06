@@ -173,9 +173,9 @@ diamonds[,2] # select all rows, 2nd column
 ```
 ### 15. Do this again, but look using the `$` to pull up the second column by name. 
 
-```{r}
+```{r, eval=F}
 # second column is called "cut"
-diamonds$cut
+diamonds$cut # dont' run this, it'll print 53,000 rows!
 ```
 
 ### 16. Now look only at diamonds that have a `carat` greater than or equal to 1. 
@@ -355,7 +355,7 @@ diamonds[,2] # select all rows, 2nd column
 # 15 ------------------
 
 # second column is called "cut"
-diamonds$cut
+# diamonds$cut dont' run this, it'll print 53,000 rows!
 
 # 16 -------------------
 

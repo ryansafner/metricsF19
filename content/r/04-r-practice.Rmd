@@ -42,7 +42,7 @@ Use base `R`'s `boxplot()` function to plot a *boxplot* of `gdpPercap`.
 
 ## 5
 
-Now make it a *boxplot* by `continent`.^[Hint: use formula notation with`~`.]
+Now make it a *boxplot* by `continent`.^[Hint: use formula notation with `~`.]
 
 ## 6
 
@@ -64,7 +64,7 @@ For quantitative data, we want a `histogram` to visualize the distribution of a 
 
 ## 10
 
-Now let's try adding some color, specifically, add an `aes`thetic that maps `continent` to `color.` 
+Now let's try adding some color, specifically, add an `aes`thetic that maps `continent` to `fill.`^[In general, `color` refers to the outside borders of a `geom` (except points), `fill` is the interior of an object.] 
 
 ## 11
 
@@ -72,7 +72,7 @@ Instead of a `histogram`, change the `geom` to make it a `density` graph. To avo
 
 ## 12
 
-Redo your plot from 10 for `lifeExp` instead of `gdpPercap`.
+Redo your plot from 11 for `lifeExp` instead of `gdpPercap`.
 
 ## 13
 
@@ -116,4 +116,4 @@ Now let's try subsetting by looking only at North America. Take the `gapminder` 
 
 ## 23
 
-Try this again for the *whole* world, but just for observations in the year 2000. 
+Try this again for the *whole* world, but just for observations in the year 2002. 
