@@ -465,6 +465,27 @@ ggplot(data = mpg)
 .right-plot[
 **Aesthetics** map data to visual elements or parameters
 
+.center[
+![:scale 90%](https://www.dropbox.com/s/e1nvb7x330c7ruk/aes2.png?raw=1)
+]
+]
+
+---
+
+# The Grammar of Graphics (gg): Aesthetics III
+
+.left-code[
+### Data
+### Aesthetics
+
+```r
++ aes()
+```
+]
+
+.right-plot[
+**Aesthetics** map data to visual elements or parameters
+
 - `displ`
 
 - `hwy`
@@ -475,7 +496,7 @@ ggplot(data = mpg)
 
 ---
 
-# The Grammar of Graphics (gg): Aesthetics II
+# The Grammar of Graphics (gg): Aesthetics III
 
 .left-code[
 ### Data
@@ -499,27 +520,7 @@ ggplot(data = mpg)
 
 ---
 
-# The Grammar of Graphics (gg): Aesthetics II
-
-.left-code[
-### Data
-### Aesthetics
-
-```r
-+ aes()
-```
-]
-
-.right-plot[
-**Aesthetics** map data to visual elements or parameters
-
-.center[
-![](https://www.dropbox.com/s/e1nvb7x330c7ruk/aes2.png?raw=1)
-]
-]
----
-
-# The Grammar of Graphics (gg): Aesthetics III
+# The Grammar of Graphics (gg): Aesthetics IV
 
 .left-code[
 ### Data
@@ -757,7 +758,7 @@ ggplot(data = mpg)+
 ggplot(data = mpg)+
   aes(x = displ,
         y = hwy)+
-  geom_point()+
+  geom_point(aes(color = class))+
 * geom_smooth()
 ```
 ]
@@ -1557,7 +1558,7 @@ Less is More:
 # Try to Show One Trend Really Clearly
 
 .center[
-![](https://www.dropbox.com/s/gd9eisleu21lgga/goodfigure.png?raw=1)
+![:scale 70%](https://www.dropbox.com/s/gd9eisleu21lgga/goodfigure.png?raw=1)
 ]
 
 .source[New York Times: ["How Stable Are Democracies? ‘Warning Signs Are Flashing Red’"](https://www.nytimes.com/2016/11/29/world/americas/western-liberal-democracy.html), Nov 29, 2016]
@@ -1567,7 +1568,7 @@ Less is More:
 # Reference: R Studio Makes Great "Cheat Sheet"s! 
 
 .center[
-![](https://www.dropbox.com/s/k7fe3fpe6sc5oq7/ggplot2cheat.png?raw=1)
+![:scale 55%](https://www.dropbox.com/s/k7fe3fpe6sc5oq7/ggplot2cheat.png?raw=1)
 ]
 
 .source[[RStudio: ggplot2 Cheat Sheet](https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf)]
@@ -1579,9 +1580,9 @@ On `ggplot2`
 
 - **R Studio's [ggplot2 Cheat Sheet](https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf)**
 - **`ggplot2`'s website [reference section](https://ggplot2.tidyverse.org/reference/index.html)**
+- Hadley Wickham's[ R for Data Science book chapter on ggplot2](http://r4ds.had.co.nz/data-visualisation.html)
 - STHDA's [be awesome in ggplot2](http://www.sthda.com/english/wiki/be-awesome-in-ggplot2-a-practical-guide-to-be-highly-effective-r-software-and-data-visualization)
 - r-statistic's [top 50 ggplot2 visualizations](http://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html)
-- Hadley Wickham's[ R for Data Science book chapter on ggplot2](http://r4ds.had.co.nz/data-visualisation.html)
 
 On data visualization
 
