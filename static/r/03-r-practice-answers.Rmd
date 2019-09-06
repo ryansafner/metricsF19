@@ -2,7 +2,15 @@
 title: "1.3 Meet R - R Practice (Answers)"
 author: "Ryan Safner"
 date: "ECON 480 - Fall 2019"
-output: pdf_document
+output:
+  html_document:
+    df_print: paged
+    theme: simplex
+    toc: true 
+    toc_depth: 3
+    toc_float: true
+    code_folding: show
+    highlight: tango
 ---
 
 ```{r setup, include=FALSE}
@@ -15,27 +23,33 @@ Before we begin, start a new file with `File` $\rightarrow$ `New File` $\rightar
 
 # Creating Objects
 
-## 1. Work on the following parts:
+## 1.
 
-a. Create a vector called `me` with two objects, your first name, and your last name.
+#### Work on the following parts:
+
+### a.
+#### Create a vector called `me` with two objects, your first name, and your last name.
 
 ```{r}
 me <- c("Ryan", "Safner")
 ```
 
-b. Call the vector to inspect it.
+### b.
+#### Call the vector to inspect it.
 
 ```{r}
 me
 ```
 
-c. Confirm it is a character class vector.
+### c.
+#### Confirm it is a character class vector.
 
 ```{r}
 class(me)
 ```
 
-## 2. Use R's help functions to determine what the `paste()` function does. Then paste together your first name and last name.
+## 2.
+#### Use R's help functions to determine what the `paste()` function does. Then paste together your first name and last name.
 
 ```{r}
 ?paste() # or help(paste)
@@ -48,7 +62,8 @@ paste("Ryan", "Safner", sep="") # no separation
 paste("Ryan", "Safner", sep=" ") # separate with a space " " (the default)
 paste("Ryan", "Safner", sep="_") # separate with underscore
 ```
-## 3. Create a vector called `my_vector` with all the even integers from 2 to 10. 
+## 3.
+#### Create a vector called `my_vector` with all the even integers from 2 to 10. 
 
 ```{r}
 my_vector <- c(2,4,6,8,10)
@@ -68,13 +83,15 @@ my_vector <- seq(2,10,2)
 my_vector
 ```
 
-## 4. Find the mean of `my_vector` with `mean()`.
+## 4.
+#### Find the mean of `my_vector` with `mean()`.
 
 ```{r}
 mean(my_vector)
 ```
 
-## 5. Take all the integers from 18 to 763,^[Hint: use the `:` operator to create a sequence from a starting number to an ending number] then get the mean.
+## 5.
+#### Take all the integers from 18 to 763,^[Hint: use the `:` operator to create a sequence from a starting number to an ending number] then get the mean.
 
 ```{r}
 
@@ -96,19 +113,22 @@ mean(vec1)
 
 For the following questions, we will use the `diamonds` dataset, included as part of `ggplot2`.
 
-### 6. Install `ggplot2`.
+### 6. 
+#### Install `ggplot2`.
 
 ```{r, eval=F}
 install.packages("ggplot2") # note the s and the quotes
 ```
 
-### 7. Load `ggplot2` with the `library()` command.
+### 7. 
+#### Load `ggplot2` with the `library()` command.
 
 ```{r}
 library("ggplot2") # quotes not necessary, but can be used
 ```
 
-### 8. Get the `str`ucture of the diamonds data frame. What are the different variables and what kind of data does each contain?
+### 8.
+#### Get the `str`ucture of the diamonds data frame. What are the different variables and what kind of data does each contain?
 
 ```{r}
 str(diamonds)
@@ -126,7 +146,8 @@ str(diamonds)
 # - z: a number
 ```
 
-### 9. Get summary statistics separately for `carat`, `depth`, `table`, and `price`.
+### 9. 
+#### Get summary statistics separately for `carat`, `depth`, `table`, and `price`.
 
 ```{r}
 summary(diamonds$carat)
@@ -136,7 +157,8 @@ summary(diamonds$price)
 ```
 
 
-### 10. `color`, `cut`, and `clarity` are categorical variables (factors). Use the `table()` command to generate frequency tables for each.
+### 10. 
+#### `color`, `cut`, and `clarity` are categorical variables (factors). Use the `table()` command to generate frequency tables for each.
 
 ```{r}
 table(diamonds$color)
@@ -144,13 +166,15 @@ table(diamonds$cut)
 table(diamonds$clarity)
 ```
 
-### 11. Now rerun the `summary()` command on the entire data frame.
+### 11. 
+#### Now rerun the `summary()` command on the entire data frame.
 
 ```{r}
 summary(diamonds)
 ```
 
-### 12. Now look only at (subset) the first 4 diamonds in the dataset.
+### 12. 
+#### Now look only at (subset) the first 4 diamonds in the dataset.
 
 ```{r}
 # remember, dataframes are indexed by: df[row#s, column#s]
@@ -160,25 +184,29 @@ diamonds[1:4,] # select first through fourth rows, all columns
 diamonds[c(1,2,3,4),] # using a vector-approach
 ```
 
-### 13. Now look only at (subset) the third and seventh diamond in the dataset.
+### 13. 
+#### Now look only at (subset) the third and seventh diamond in the dataset.
 
 ```{r}
 diamonds[c(3,7),] # select 3rd and 7th row, all columns
 ```
 
-### 14. Now look only at (subset) the second column of the dataset.
+### 14. 
+#### Now look only at (subset) the second column of the dataset.
 
 ```{r}
 diamonds[,2] # select all rows, 2nd column
 ```
-### 15. Do this again, but look using the `$` to pull up the second column by name. 
+### 15. 
+#### Do this again, but look using the `$` to pull up the second column by name. 
 
 ```{r, eval=F}
 # second column is called "cut"
 diamonds$cut # dont' run this, it'll print 53,000 rows!
 ```
 
-### 16. Now look only at diamonds that have a `carat` greater than or equal to 1. 
+### 16. 
+#### Now look only at diamonds that have a `carat` greater than or equal to 1. 
 
 ```{r}
 # use the [square brackets] to subset, 
@@ -187,7 +215,8 @@ diamonds$cut # dont' run this, it'll print 53,000 rows!
 diamonds[diamonds$carat >= 1,] # select rows on condition, and all columns
 ```
 
-### 17. Now look only at diamonds that have a VVS1 `clarity`.
+### 17. 
+#### Now look only at diamonds that have a VVS1 `clarity`.
 
 ```{r}
 # we are testing for equality, so we need two ==
@@ -195,7 +224,8 @@ diamonds[diamonds$carat >= 1,] # select rows on condition, and all columns
 diamonds[diamonds$clarity=="VVS1",] # select rows on condition, and all columns
 ```
 
-### 18. Now look only at dimaonds that have a color of E, F, I, and J. 
+### 18. 
+#### Now look only at dimaonds that have a color of E, F, I, and J. 
 
 ```{r}
 # same idea as last problem, except now we want one of any of these 4 colors
@@ -207,14 +237,16 @@ diamonds[diamonds$color=="E" | diamonds$color=="F" | diamonds$color=="I" | diamo
 diamonds[diamonds$color %in% c("E","F","I","J"),] # select rows on condition, and all columns 
 ```
 
-### 19. Now look only at diamonds that have a `carat` greater than or equal to 1 and a VVS1 `clarity`. 
+### 19.
+#### Now look only at diamonds that have a `carat` greater than or equal to 1 and a VVS1 `clarity`. 
 
 ```{r}
 # testing for two conditions (AND)
 diamonds[diamonds$carat>=1 & diamonds$clarity=="VVS1",] # select rows on condition, and all columns 
 ```
 
-### 20. Get the average price of diamonds in question 18.^[Hints: use your subset command as an argument to the mean function. You will not need a comma here because you are looking for a single row.]
+### 20.
+#### Get the average price of diamonds in question 18.^[Hints: use your subset command as an argument to the mean function. You will not need a comma here because you are looking for a single row.]
 
 ```{r}
 # use command from last question as the argument to the mean function, 
@@ -223,7 +255,8 @@ diamonds[diamonds$carat>=1 & diamonds$clarity=="VVS1",] # select rows on conditi
 mean(diamonds$price[diamonds$carat>=1 & diamonds$color=="D" & diamonds$clarity=="VVS1"])
 ```
 
-### 21. What is the highest price for a diamond with a 1.0 carat, D color, and VVS1 clarity? 
+### 21.
+#### What is the highest price for a diamond with a 1.0 carat, D color, and VVS1 clarity? 
 
 ```{r}
 max(diamonds$price[diamonds$carat>=1 & diamonds$color=="D" & diamonds$clarity=="VVS1"])
