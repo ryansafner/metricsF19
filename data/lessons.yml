@@ -28,7 +28,11 @@ lessons:
     r: "04-r-practice"
 
   - title: "1.5 Data Wrangling in the tidyverse"
-
+    class: "05-class"
+    slides: "05-slides"
+    reading: "05-reading"
+    r: "05-r-practice"
+    
   - title: "1.6 Meet R Markdown"
   
   - title: '<span class="fake-header-table">Linear Regression</span>'

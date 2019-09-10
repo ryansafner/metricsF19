@@ -1,0 +1,35 @@
+---
+title: "1.3 Meet R - Class Notes"
+citeproc: false
+bibliography: ../../static/bib/references.bib
+csl: ../../static/bib/chicago-syllabus-no-bib.csl
+output:
+  blogdown::html_page:
+    template: ../../pandoc/toc-title_html.template
+    toc: true
+editor_options: 
+  chunk_output_type: console
+---
+
+*Tuesday, September 10, 2019*
+
+# Overview
+
+Today we will cover the heart of `tidyverse` and use it for ["data wrangling"](https://en.wikipedia.org/wiki/Data_wrangling). Today will again be a lot of content thrown at you, so you can look back at this as a reference all semester. Then we will do more practice problems. 
+
+
+# Slides
+
+- [<i class="fas fa-external-link-square-alt"></i> Lecture Slides](/slides/05-slides.html)
+
+# Practice Problems
+
+Today you will be working on [R practice problems](/r/05-r-practice.html). Check back later for solutions. 
+
+# Statistics and Software Survey
+
+I have posted ["answers"](/static/homeworks/00-preliminary-survey-answers.html) to the statistics survey.
+
+# Additional Useful Information
+
+Check back here!
