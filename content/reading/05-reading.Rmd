@@ -1,0 +1,10 @@
+---
+title: "1.4 Data Visualization with ggplot2 - Readings"
+citeproc: false
+bibliography: ../../static/bib/references.bib
+csl: ../../static/bib/chicago-fullnote-bibliography-no-bib.csl
+---
+
+# Strongly Recommended
+
+- <i class="fas fa-external-link-square-alt"></i>Ch.3^[http://r4ds.had.co.nz] in @R4DS[Chs. 5, 10, 11, 12, 18]
