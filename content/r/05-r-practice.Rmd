@@ -22,56 +22,56 @@ library("tidyverse")
 
 # Warm Up to `dplyr` With `gapminder`
 
-## 
-#### 1. Load `gapminder`. `select()` the variables `year`, `lifeExp`, `country`.
+## 1.
+Load `gapminder`. `select()` the variables `year`, `lifeExp`, `country`.
 
-## 
-#### 2. `select()` all variables *except* `pop`.
+## 2.
+`select()` all variables *except* `pop`.
 
-## 
-#### 3. `rename()` `continent` to `cont`.
+## 3.
+`rename()` `continent` to `cont`.
 
 ## 4. 
-#### `arrange()` by year.
+`arrange()` by year.
 
 ## 5. 
-#### `arrange()` by year, but in descending order.
+`arrange()` by year, but in descending order.
 
 ## 6. 
-#### `arrange()` by year, then by life expectancy.
+`arrange()` by year, then by life expectancy.
 
 ## 7. 
-#### `filter()` observations with `pop` greater than 1 billion.
+`filter()` observations with `pop` greater than 1 billion.
 
 ## 8. 
 #### Of those, look only at `India`. 
 
 ## 9.
-#### Try out the pipe (`%`) if you haven't already, by chaining commands: `select()` your data to look only at `year`, `gdpPercap`, and `country` in the year `1997`, for countries that have a `gdpPercap` greater than 20,000, and `arrange()` them alphabetically.
+Try out the pipe (`%`) if you haven't already, by chaining commands: `select()` your data to look only at `year`, `gdpPercap`, and `country` in the year `1997`, for countries that have a `gdpPercap` greater than 20,000, and `arrange()` them alphabetically.
 
 ## 10.
-#### `mutate()` a new variable called `GDP` that is equal to `gdpPercap * pop`.
+`mutate()` a new variable called `GDP` that is equal to `gdpPercap * pop`.
 
 ## 11.
-#### `mutate()` a new population variable that is the `pop` in millions. 
+`mutate()` a new population variable that is the `pop` in millions. 
 
 ## 12.
-#### `summarize()` to get the average GDP per capita.
+`summarize()` to get the average GDP per capita.
 
 ## 13.
-#### Get the number of observations, average, minimum, maximum, and standard deviation for GDP per capita.
+Get the number of observations, average, minimum, maximum, and standard deviation for GDP per capita.
 
 ## 14.
-#### Get the average GDP per capita over time. Hint, first `group_by()` year.
+Get the average GDP per capita over time. Hint, first `group_by()` year.
 
 ## 15.
-#### Get the average GDP per capita by continent.
+Get the average GDP per capita by continent.
 
 ## 16.
-#### Get the average GDP per capita by year and by continent.^[Hint: do `year` first, if you do `continent` first, there are no years to group by!] Then save this as another `tibble` called `gdp`. Create a `ggplot` of a `line` graph of average continent GDP over time using the `gdp` data. 
+Get the average GDP per capita by year and by continent.^[Hint: do `year` first, if you do `continent` first, there are no years to group by!] Then save this as another `tibble` called `gdp`. Create a `ggplot` of a `line` graph of average continent GDP over time using the `gdp` data. 
 
 ## 17.
-#### Try it again all in one command with the pipe `%>%`. Instead of saving the data as `gdp`, pipe it right into `ggplot`!^[Hint: You can use `.` as a placeholder.] 
+Try it again all in one command with the pipe `%>%`. Instead of saving the data as `gdp`, pipe it right into `ggplot`!^[Hint: You can use `.` as a placeholder.] 
 
 # Example I: Majors
 
@@ -108,29 +108,29 @@ Header | Description
 `Low_wage_jobs` | Number in low-wage service jobs
 
 ## 18. 
+Import the data with `read_csv()` and assign it to `tibble` called `majors`.^[One way to avoid error messages is to move it to the same file as R's working directory, which again you can determine with `getwd()`.] The first argument of this command the name of the original file, in quotes.^[If the file is in a different folder, the argument is the full path in quotes.]
 
-#### Import the data with `read_csv()` and assign it to `tibble` called `majors`.^[One way to avoid error messages is to move it to the same file as R's working directory, which again you can determine with `getwd()`.] The first argument of this command the name of the original file, in quotes.^[If the file is in a different folder, the argument is the full path in quotes.]
-
-## 19. Look at the data with `glimpse()`. This is a suped-up version of `str()` in `tidyverse`. 
+## 19.
+Look at the data with `glimpse()`. This is a suped-up version of `str()` in `tidyverse`. 
 
 ## 20.
 What are all of the unique values of `Major`? How many are there?
 
 ## 21.
-### Which major has the lowest unemployment rate?
+Which major has the lowest unemployment rate?
 
 ## 22. 
-#### What are the top 3 majors that have the highest percentage of women?
+What are the top 3 majors that have the highest percentage of women?
 
 ### 23. 
-#### Make a boxplot of `Median` wage by `Major_Category`.^[You won't be able to read the labels easily, so add `theme(axis.text.x=element_text(angle=45, hjust=1)` to angle `x`-axis labels (and move them down by 1)]
+Make a boxplot of `Median` wage by `Major_Category`.^[You won't be able to read the labels easily, so add `theme(axis.text.x=element_text(angle=45, hjust=1)` to angle `x`-axis labels (and move them down by 1)]
 
 ### 24.
-#### Which major category is the least popular in this sample?^[Hint: use `group_by` first.]
+Which major category is the least popular in this sample?^[Hint: use `group_by` first.]
 
 
 ### 25. 
-#### Is there a systematic difference between STEM majors and non-STEM majors? First define: 
+Is there a systematic difference between STEM majors and non-STEM majors? First define: 
 
 ```{r}
 stem_categories <- c("Biology & Life Science",
