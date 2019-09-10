@@ -23,7 +23,7 @@ library("tidyverse")
 # Warm Up to `dplyr` With `gapminder`
 
 ## 1.
-Load `gapminder`. `select()` the variables `year`, `lifeExp`, `country`.
+Load `gapminder`. First, `select()` the variables `year`, `lifeExp`, `country`.
 
 ## 2.
 `select()` all variables *except* `pop`.
@@ -44,7 +44,7 @@ Load `gapminder`. `select()` the variables `year`, `lifeExp`, `country`.
 `filter()` observations with `pop` greater than 1 billion.
 
 ## 8. 
-#### Of those, look only at `India`. 
+Of those, look only at `India`. 
 
 ## 9.
 Try out the pipe (`%`) if you haven't already, by chaining commands: `select()` your data to look only at `year`, `gdpPercap`, and `country` in the year `1997`, for countries that have a `gdpPercap` greater than 20,000, and `arrange()` them alphabetically.
@@ -73,7 +73,7 @@ Get the average GDP per capita by year and by continent.^[Hint: do `year` first,
 ## 17.
 Try it again all in one command with the pipe `%>%`. Instead of saving the data as `gdp`, pipe it right into `ggplot`!^[Hint: You can use `.` as a placeholder.] 
 
-# Example I: Majors
+# Example: the Economics of College Majors
 
 Now let's step it up to work with some data "in the wild" to answer some research questions. This will have you combine your `dplyr` skills and add some new things such as importing with `readr`. 
 
@@ -108,16 +108,16 @@ Header | Description
 `Low_wage_jobs` | Number in low-wage service jobs
 
 ## 18. 
-Import the data with `read_csv()` and assign it to `tibble` called `majors`.^[One way to avoid error messages is to move it to the same file as R's working directory, which again you can determine with `getwd()`.] The first argument of this command the name of the original file, in quotes.^[If the file is in a different folder, the argument is the full path in quotes.]
+Import the data with `read_csv()` and assign it to an object called `majors`.^[One way to avoid error messages is to move it to the same file as R's working directory, which again you can determine with `getwd()`.] The first argument of this command is the name of the original file, in quotes.^[If the file is in a different folder, the argument is the full path in quotes.]
 
 ## 19.
 Look at the data with `glimpse()`. This is a suped-up version of `str()` in `tidyverse`. 
 
 ## 20.
-What are all of the unique values of `Major`? How many are there?
+What are all of the *unique* values of `Major`? How many are there?
 
 ## 21.
-Which major has the lowest unemployment rate?
+Which major has the *lowest* unemployment rate?
 
 ## 22. 
 What are the top 3 majors that have the highest percentage of women?
@@ -138,7 +138,13 @@ stem_categories <- c("Biology & Life Science",
                      "Engineering",
                      "Physical Sciences")
 ```
-Next, make a variable `stem`, for whether or not a `Major_category` is `"stem"` or `"not_stem"`.^[Hint: try out the `ifelse()` function which has three inputs: condition(s) for a variable(s), what to do if `TRUE` (the if), and what to if `FALSE` (the else).]
+Next, make a variable called `stem`, for whether or not a `Major_category` is `"stem"` or `"not_stem"`.^[Hint: try out the `ifelse()` function which has three inputs: condition(s) for a variable(s), what to do if `TRUE` (the if), and what to if `FALSE` (the else), i.e. 
+
+```{r, eval=F}
+ifelse(my_conditions,
+       yes = do_this_if_TRUE,
+       no = do_this_if_FALSE)
+```
+]
 
 Then `summarize()` `median` for stem and not stem groups.
-

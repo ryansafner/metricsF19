@@ -80,7 +80,7 @@ code span.wa { color: #bf0303; } /* Warning */
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(<span class="st">&quot;tidyverse&quot;</span>)</span></code></pre></div>
 <h2 id="warm-up-to-dplyr-with-gapminder">Warm Up to <code>dplyr</code> With <code>gapminder</code></h2>
 <h3 id="section">1.</h3>
-<p>Load <code>gapminder</code>. <code>select()</code> the variables <code>year</code>, <code>lifeExp</code>, <code>country</code>.</p>
+<p>Load <code>gapminder</code>. First, <code>select()</code> the variables <code>year</code>, <code>lifeExp</code>, <code>country</code>.</p>
 <h3 id="section-1">2.</h3>
 <p><code>select()</code> all variables <em>except</em> <code>pop</code>.</p>
 <h3 id="section-2">3.</h3>
@@ -94,7 +94,7 @@ code span.wa { color: #bf0303; } /* Warning */
 <h3 id="section-6">7.</h3>
 <p><code>filter()</code> observations with <code>pop</code> greater than 1 billion.</p>
 <h3 id="section-7">8.</h3>
-<h5 id="of-those-look-only-at-india.">Of those, look only at <code>India</code>.</h5>
+<p>Of those, look only at <code>India</code>.</p>
 <h3 id="section-8">9.</h3>
 <p>Try out the pipe (<code>%</code>) if you haven’t already, by chaining commands: <code>select()</code> your data to look only at <code>year</code>, <code>gdpPercap</code>, and <code>country</code> in the year <code>1997</code>, for countries that have a <code>gdpPercap</code> greater than 20,000, and <code>arrange()</code> them alphabetically.</p>
 <h3 id="section-9">10.</h3>
@@ -117,7 +117,7 @@ code span.wa { color: #bf0303; } /* Warning */
 <p>Try it again all in one command with the pipe <code>%&gt;%</code>. Instead of saving the data as <code>gdp</code>, pipe it right into <code>ggplot</code>!<span><label for="sn-2" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-2" class="margin-toggle"/><span class="sidenote">Hint: You can use <code>.</code> as a placeholder.<br />
 <br />
 </span></span></p>
-<h2 id="example-i-majors">Example I: Majors</h2>
+<h2 id="example-the-economics-of-college-majors">Example: the Economics of College Majors</h2>
 <p>Now let’s step it up to work with some data “in the wild” to answer some research questions. This will have you combine your <code>dplyr</code> skills and add some new things such as importing with <code>readr</code>.</p>
 <p>Let’s look at fivethirtyeight’s article <a href="https://fivethirtyeight.com/features/the-economic-guide-to-picking-a-college-major/">"
 The Economic Guide To Picking A College Major
@@ -224,17 +224,17 @@ The Economic Guide To Picking A College Major
 </tbody>
 </table>
 <h3 id="section-17">18.</h3>
-<p>Import the data with <code>read_csv()</code> and assign it to <code>tibble</code> called <code>majors</code>.<span><label for="sn-4" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-4" class="margin-toggle"/><span class="sidenote">One way to avoid error messages is to move it to the same file as R’s working directory, which again you can determine with <code>getwd()</code>.<br />
+<p>Import the data with <code>read_csv()</code> and assign it to an object called <code>majors</code>.<span><label for="sn-4" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-4" class="margin-toggle"/><span class="sidenote">One way to avoid error messages is to move it to the same file as R’s working directory, which again you can determine with <code>getwd()</code>.<br />
 <br />
-</span></span> The first argument of this command the name of the original file, in quotes.<span><label for="sn-5" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-5" class="margin-toggle"/><span class="sidenote">If the file is in a different folder, the argument is the full path in quotes.<br />
+</span></span> The first argument of this command is the name of the original file, in quotes.<span><label for="sn-5" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-5" class="margin-toggle"/><span class="sidenote">If the file is in a different folder, the argument is the full path in quotes.<br />
 <br />
 </span></span></p>
 <h3 id="section-18">19.</h3>
 <p>Look at the data with <code>glimpse()</code>. This is a suped-up version of <code>str()</code> in <code>tidyverse</code>.</p>
 <h3 id="section-19">20.</h3>
-<p>What are all of the unique values of <code>Major</code>? How many are there?</p>
+<p>What are all of the <em>unique</em> values of <code>Major</code>? How many are there?</p>
 <h3 id="section-20">21.</h3>
-<p>Which major has the lowest unemployment rate?</p>
+<p>Which major has the <em>lowest</em> unemployment rate?</p>
 <h3 id="section-21">22.</h3>
 <p>What are the top 3 majors that have the highest percentage of women?</p>
 <h4 id="section-22">23.</h4>
@@ -251,7 +251,9 @@ The Economic Guide To Picking A College Major
 <span id="cb2-2"><a href="#cb2-2"></a>                     <span class="st">&quot;Computers &amp; Mathematics&quot;</span>,</span>
 <span id="cb2-3"><a href="#cb2-3"></a>                     <span class="st">&quot;Engineering&quot;</span>,</span>
 <span id="cb2-4"><a href="#cb2-4"></a>                     <span class="st">&quot;Physical Sciences&quot;</span>)</span></code></pre></div>
-<p>Next, make a variable <code>stem</code>, for whether or not a <code>Major_category</code> is <code>"stem"</code> or <code>"not_stem"</code>.<span><label for="sn-8" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-8" class="margin-toggle"/><span class="sidenote">Hint: try out the <code>ifelse()</code> function which has three inputs: condition(s) for a variable(s), what to do if <code>TRUE</code> (the if), and what to if <code>FALSE</code> (the else).<br />
-<br />
-</span></span></p>
+<p>Next, make a variable called <code>stem</code>, for whether or not a <code>Major_category</code> is <code>"stem"</code> or <code>"not_stem"</code>.^[Hint: try out the <code>ifelse()</code> function which has three inputs: condition(s) for a variable(s), what to do if <code>TRUE</code> (the if), and what to if <code>FALSE</code> (the else), i.e. </p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">ifelse</span>(my_conditions,</span>
+<span id="cb3-2"><a href="#cb3-2"></a>       <span class="dt">yes =</span> do_this_if_TRUE,</span>
+<span id="cb3-3"><a href="#cb3-3"></a>       <span class="dt">no =</span> do_this_if_FALSE)</span></code></pre></div>
+<p>]</p>
 <p>Then <code>summarize()</code> <code>median</code> for stem and not stem groups.</p>
