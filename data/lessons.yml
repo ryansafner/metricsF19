@@ -1,5 +1,5 @@
 lessons:
-  - title: '<span class="fake-header-table">Data Analysis in R</span>'
+  - title: '<span class="fake-header-table">1. Data Analysis in R</span>'
     header: True
 
   - title: "Preliminary Survey"
@@ -33,9 +33,11 @@ lessons:
     reading: "05-reading"
     r: "05-r-practice"
     
-  - title: "1.6 Meet R Markdown"
+  - title: "1.6 Optimize Your Workflow: Projects and Markdown"
   
-  - title: '<span class="fake-header-table">Linear Regression</span>'
+  - title: '<i class="fas fa-laptop-code"></i> **Problem Set 1**'
+  
+  - title: '<span class="fake-header-table">2. Linear Regression</span>'
     header: True
 
   - title: "2.1 Random Variables and Distributions"
@@ -52,7 +54,7 @@ lessons:
 
   - title: '<i class="fas fa-star"></i> **Midterm Exam**'
 
-  - title: '<span class="fake-header-table">Extensions to Regression</span>'
+  - title: '<span class="fake-header-table">3. Extensions to Regression</span>'
     header: True
 
   - title: "3.1 Omitted Variable Bias"
@@ -71,14 +73,14 @@ lessons:
   
   - title: "3.8 Logarithmic Models"
   
-  - title: '<span class="fake-header-table">Panel Data Models</span>'
+  - title: '<span class="fake-header-table">4. Panel Data Models</span>'
     header: True
 
   - title: "4.1 Panel Data and Fixed Effects Models"
   
   - title: "4.2 Difference in Difference Models"
 
-  - title: '<span class="fake-header-table">Advanced Regression</span>'
+  - title: '<span class="fake-header-table">5. Advanced Regression</span>'
     header: True
     
   - title: "5.1 Instrumental Variables Models"
