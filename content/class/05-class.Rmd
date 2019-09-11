@@ -28,7 +28,7 @@ Today you will be working on [R practice problems](/r/05-r-practice.html). Check
 
 # Statistics and Software Survey
 
-I have posted ["answers"](/static/homeworks/00-preliminary-survey-answers.html) to the statistics survey.
+I have posted ["answers"](/homeworks/00-preliminary-survey-answers.html) to the statistics survey.
 
 # Additional Useful Information
 

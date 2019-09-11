@@ -2,7 +2,15 @@
 title: "1.4 Data Visualization with ggplot2 - R Practice (Answers)"
 author: "Ryan Safner"
 date: "ECON 480 - Fall 2019"
-output: pdf_document
+output:
+  html_document:
+    df_print: paged
+    theme: simplex
+    toc: true 
+    toc_depth: 3
+    toc_float: true
+    code_folding: show
+    highlight: tango
 ---
 
 ```{r setup, include=FALSE}
@@ -15,7 +23,8 @@ Before we begin, start a new file with `File` $\rightarrow$ `New File` $\rightar
 
 # Exploring the Data
 
-## 1. We will look at GDP per Capita and Life Expectancy using some data from the [gapminder project](http://gapminder.org). There is a [handy package](https://github.com/jennybc/gapminder) called `gapminder` that uses a small snippet of this data for exploratory analysis. Install and load the package `gapminder`. Type `?gapminder` and hit enter to see a description of the data.
+## 1.
+#### We will look at GDP per Capita and Life Expectancy using some data from the [gapminder project](http://gapminder.org). There is a [handy package](https://github.com/jennybc/gapminder) called `gapminder` that uses a small snippet of this data for exploratory analysis. Install and load the package `gapminder`. Type `?gapminder` and hit enter to see a description of the data.
 
 ```{r}
 # first time only
@@ -28,15 +37,18 @@ library(gapminder)
 ?gapminder
 ```
 
-## 2. Let's get a quick look at `gapminder` to see what we're dealing with. 
+## 2
+#### Let's get a quick look at `gapminder` to see what we're dealing with. 
 
-a. Get the `str`ucture of the `gapminder` data. 
+### a.
+#### Get the `str`ucture of the `gapminder` data. 
 
 ```{r}
 str(gapminder)
 ```
 
-b. What variables are there?
+### b.
+#### What variables are there?
 
 ```{r}
 # - country: a factor
@@ -46,13 +58,15 @@ b. What variables are there?
 # - gdpPercap: a number
 ```
 
-c. Look at the `head` of the dataset to get an idea of what the data looks like.
+### c.
+#### Look at the `head` of the dataset to get an idea of what the data looks like.
 
 ```{r}
 head(gapminder)
 ```
 
-d. Get `summary` statistics of all variables. 
+### d.
+#### Get `summary` statistics of all variables. 
 
 ```{r}
 summary(gapminder)
@@ -60,19 +74,22 @@ summary(gapminder)
 
 # Simple Plots in Base R
 
-## 3. Let's make sure you can do some basic plots before we get into the `gg`. Use base `R`'s `hist()` function to plot a *histogram* of `gdpPercap`.
+## 3.
+#### Let's make sure you can do some basic plots before we get into the `gg`. Use base `R`'s `hist()` function to plot a *histogram* of `gdpPercap`.
 
 ```{r}
 hist(gapminder$gdpPercap)
 ```
 
-## 4. Use base `R`'s `boxplot()` function to plot a *boxplot* of `gdpPercap`.
+## 4. 
+#### Use base `R`'s `boxplot()` function to plot a *boxplot* of `gdpPercap`.
 
 ```{r}
 boxplot(gapminder$gdpPercap)
 ```
 
-## 5. Now make it a *boxplot* by `continent`.^[Hint: use formula notation with`~`.]
+## 5. 
+#### Now make it a *boxplot* by `continent`.^[Hint: use formula notation with`~`.]
 
 ```{r}
 boxplot(gapminder$gdpPercap~gapminder$continent)
@@ -81,7 +98,8 @@ boxplot(gapminder$gdpPercap~gapminder$continent)
 # boxplot(gdpPercap~continent, data = gapminder)
 ```
 
-## 6. Now make a *scatterplot* of `gdpPercap` on the $x$-axis and `LifeExp` on the $y$-axis.
+## 6. 
+#### Now make a *scatterplot* of `gdpPercap` on the $x$-axis and `LifeExp` on the $y$-axis.
 
 ```{r}
 plot(gapminder$lifeExp~gapminder$gdpPercap)
@@ -92,7 +110,8 @@ plot(gapminder$lifeExp~gapminder$gdpPercap)
 
 # Plots with `ggplot2`
 
-## 7. Load the package `ggplot2` (you should have installed it previously. If not, install first with `install.packages("ggplot2")`).
+## 7. 
+#### Load the package `ggplot2` (you should have installed it previously. If not, install first with `install.packages("ggplot2")`).
 
 ```{r}
 # install if you don't have
@@ -102,7 +121,8 @@ plot(gapminder$lifeExp~gapminder$gdpPercap)
 library(ggplot2)
 ```
 
-## 8. Let's first make a `bar` graph to see how many countries are in each continent. The only `aes`thetic you need is to map `continent` to `x`. Bar graphs are great for representing categories, but not quantitative data.
+## 8. 
+#### Let's first make a `bar` graph to see how many countries are in each continent. The only `aes`thetic you need is to map `continent` to `x`. Bar graphs are great for representing categories, but not quantitative data.
 
 ```{r}
 ggplot(data = gapminder,
@@ -110,7 +130,8 @@ ggplot(data = gapminder,
   geom_bar()
 ```
 
-## 9. For quantitative data, we want a `histogram` to visualize the distribution of a variable. Make a `histogram` of `gdpPercap`. Your only `aes`thetic here is to map `gdpPercap` to `x`.
+## 9. 
+#### For quantitative data, we want a `histogram` to visualize the distribution of a variable. Make a `histogram` of `gdpPercap`. Your only `aes`thetic here is to map `gdpPercap` to `x`.
 
 ```{r}
 ggplot(data = gapminder,
@@ -118,7 +139,8 @@ ggplot(data = gapminder,
   geom_histogram()
 ```
 
-## 10. Now let's try adding some color, specifically, add an `aes`thetic that maps `continent` to `fill`.^[In general, `color` refers to the outside borders of a `geom` (except points), `fill` is the interior of an object.] 
+## 10. 
+#### Now let's try adding some color, specifically, add an `aes`thetic that maps `continent` to `fill`.^[In general, `color` refers to the outside borders of a `geom` (except points), `fill` is the interior of an object.] 
 
 ```{r}
 ggplot(data = gapminder,
@@ -127,7 +149,8 @@ ggplot(data = gapminder,
   geom_histogram()
 ```
 
-## 11. Instead of a `histogram`, change the `geom` to make it a `density` graph. To avoid overplotting, add `alpha=0.4` to the `geom` argument (alpha changes the *transparency* of a `fill`).
+## 11. 
+#### Instead of a `histogram`, change the `geom` to make it a `density` graph. To avoid overplotting, add `alpha=0.4` to the `geom` argument (alpha changes the *transparency* of a `fill`).
 
 ```{r}
 ggplot(data = gapminder,
@@ -136,7 +159,8 @@ ggplot(data = gapminder,
   geom_density(alpha=0.4)
 ```
 
-## 12. Redo your plot from 11 for `lifeExp` instead of `gdpPercap`.
+## 12. 
+#### Redo your plot from 11 for `lifeExp` instead of `gdpPercap`.
 
 ```{r}
 ggplot(data = gapminder,
@@ -145,7 +169,8 @@ ggplot(data = gapminder,
   geom_density(alpha=0.4)
 ```
 
-## 13. Now let's try a scatterplot for `lifeExp` (as `y`) on `gdpPercap` (as `x`). You'll need both for `aes`thetics. The `geom` here is `geom_point()`.
+## 13. 
+#### Now let's try a scatterplot for `lifeExp` (as `y`) on `gdpPercap` (as `x`). You'll need both for `aes`thetics. The `geom` here is `geom_point()`.
 
 ```{r}
 ggplot(data = gapminder,
@@ -154,7 +179,8 @@ ggplot(data = gapminder,
   geom_point()
 ```
 
-## 14. Add some color by mapping `continent` to `color` in your `aes`thetics.
+## 14. 
+#### Add some color by mapping `continent` to `color` in your `aes`thetics.
 
 ```{r}
 ggplot(data = gapminder,
@@ -164,7 +190,8 @@ ggplot(data = gapminder,
   geom_point()
 ```
 
-## 15. Now let's try adding a regression line with `geom_smooth()`. Add this layer on top of your `geom_point()` layer.
+## 15. 
+#### Now let's try adding a regression line with `geom_smooth()`. Add this layer on top of your `geom_point()` layer.
 
 ```{r}
 ggplot(data = gapminder,
@@ -175,7 +202,8 @@ ggplot(data = gapminder,
   geom_smooth()
 ```
 
-## 16. Did you notice that you got multiple regression lines (colored by continent)? That's because we set a `global` `aes`thetic of mapping `continent` to `color`. If we want just *one* regression line, we need to instead move the `color = continent` inside the `aes` of `geom_point`. This will only map `continent` to `color` for points, not for anything else.
+## 16. 
+#### Did you notice that you got multiple regression lines (colored by continent)? That's because we set a `global` `aes`thetic of mapping `continent` to `color`. If we want just *one* regression line, we need to instead move the `color = continent` inside the `aes` of `geom_point`. This will only map `continent` to `color` for points, not for anything else.
 
 ```{r}
 ggplot(data = gapminder,
@@ -185,7 +213,8 @@ ggplot(data = gapminder,
   geom_smooth()
 ```
 
-## 17. Now add an `aes`thetic to your `point`s to map `pop` to `size`.
+## 17. 
+#### Now add an `aes`thetic to your `point`s to map `pop` to `size`.
 
 ```{r}
 ggplot(data = gapminder,
@@ -196,7 +225,8 @@ ggplot(data = gapminder,
   geom_smooth()
 ```
 
-## 18. Change the color of the regression line to `"black"`. Try first by putting this inside an `aes()` in your `geom_smooth`, and try a second time by just putting it inside `geom_smooth` without an `aes()`. What's the difference, and why?
+## 18. 
+#### Change the color of the regression line to `"black"`. Try first by putting this inside an `aes()` in your `geom_smooth`, and try a second time by just putting it inside `geom_smooth` without an `aes()`. What's the difference, and why?
 
 ```{r}
 ggplot(data = gapminder,
@@ -220,7 +250,8 @@ ggplot(data = gapminder,
 # putting it outside aesthetics (correctly) sets color to black
 ```
 
-## 19. Another way to separate out continents is with `facet`ing. Add `+facet_wrap(~continent)` to create subplots by `continent`.
+## 19. 
+#### Another way to separate out continents is with `facet`ing. Add `+facet_wrap(~continent)` to create subplots by `continent`.
 
 ```{r}
 ggplot(data = gapminder,
@@ -232,7 +263,8 @@ ggplot(data = gapminder,
   facet_wrap(~continent)
 ```
 
-## 20. Remove the `facet` layer. The `scale` is quite annoying for the `x`-axis, a lot of points are clustered on the lower level. Let's try changing the scale by adding a layer: `+scale_x_log10()`.
+## 20. 
+#### Remove the `facet` layer. The `scale` is quite annoying for the `x`-axis, a lot of points are clustered on the lower level. Let's try changing the scale by adding a layer: `+scale_x_log10()`.
 
 ```{r}
 ggplot(data = gapminder,
@@ -244,7 +276,8 @@ ggplot(data = gapminder,
   scale_x_log10()
 ```
 
-## 21. Now let's fix the labels by adding `+labs()`. Inside `labs`, make proper axes titles for `x`, `y`, and a `title` to the plot. If you want to change the name of the legends (continent color), add one for `color` and `size`.
+## 21. 
+#### Now let's fix the labels by adding `+labs()`. Inside `labs`, make proper axes titles for `x`, `y`, and a `title` to the plot. If you want to change the name of the legends (continent color), add one for `color` and `size`.
 
 ```{r}
 ggplot(data = gapminder,
@@ -260,7 +293,8 @@ ggplot(data = gapminder,
        size = "Population")
 ```
 
-## 22. Now let's try subsetting by looking only at North America. Take the `gapminder` dataframe and subset it to only look at `continent=="Americas"`). Assign this to a new dataframe object (call it something like `america`.) Now, use *this* as your `data`, and redo the graph from question 17. (You might want to take a look at your new dataframe to make sure it worked first!)
+## 22. 
+#### Now let's try subsetting by looking only at North America. Take the `gapminder` dataframe and subset it to only look at `continent=="Americas"`). Assign this to a new dataframe object (call it something like `america`.) Now, use *this* as your `data`, and redo the graph from question 17. (You might want to take a look at your new dataframe to make sure it worked first!)
 
 ```{r}
 america<-gapminder[gapminder$continent=="Americas",]
@@ -276,7 +310,8 @@ ggplot(data = america,
   geom_smooth()
 ```
 
-## 23. Try this again for the *whole* world, but just for observations in the year 2002. 
+## 23. 
+#### Try this again for the *whole* world, but just for observations in the year 2002. 
 
 ```{r}
 gap_2002<-gapminder[gapminder$year==2002,]
