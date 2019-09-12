@@ -34,7 +34,6 @@ library(tidyverse)
 
 class: inverse, middle, center
 
-.pull-left[
 
 ### [The Office Model](#4)
 
@@ -50,23 +49,6 @@ class: inverse, middle, center
 
 ### [Resources](#69)
 
-]
-
-.pull-right[
-
-### [dplyr::select(): select variables](#60)
-
-### [dplyr::rename(): rename variables](#73)
-
-### [dplyr::mutate(): create new variables](#77)
-
-### [dplyr::summarize(): create statistics](#98)
-
-### [tidyr: reshaping data](#133)
-
-### [dplyr: combining datasets](#134)
-
-]
 
 ---
 
@@ -249,8 +231,8 @@ class: inverse, center, middle
 .center[
 ![](https://www.dropbox.com/s/546o01icserlone/rmdout.png?raw=1)
 
-![From [R Studio's R Markdown Cheatsheet](https://www.rstudio.com/wp-content/uploads/2016/03/rmarkdown-cheatsheet-2.0.pdf)](images/rmd2.png)
-
+From [R Studio's R Markdown Cheatsheet](https://www.rstudio.com/wp-content/uploads/2016/03/rmarkdown-cheatsheet-2.0.pdf)(images/rmd2.png)
+]
 ]
 ]
 
@@ -343,7 +325,7 @@ class: inverse, center, middle
 
 .pull-right[
 .center[
-![](https://www.dropbox.com/s/czklhgt5llrekjc/newrmarkdown.png?raw=1)
+![](https://www.dropbox.com/s/ebf8lod67dqvaoe/newrmarkdown.png?raw=1)
 ]
 ]
 
@@ -368,7 +350,9 @@ class: inverse, center, middle
 
 ---
 
-# Structure of an `R Markdown` Document
+# Structure of an R Markdown Document
+
+.pull-left[
 
 - Entire document is written in a single file:<sup>.red[1]<sup>
 
@@ -377,8 +361,14 @@ class: inverse, center, middle
 2. Text of the document written with `markdown`
 
 3. `R` chunks for data analysis, plots, figures, tables, statistics, as necessary
+]
 
+.pull-right[
 
+.center[
+![](https://www.dropbox.com/s/og99cl4vw761m1n/rmarkdownex1.png?raw=1)
+]
+]
 .footnote[<sup>.red[1]</sup> The one exception is for managing bibliographies, this requires an additional `.bib` file!]
 
 ---
@@ -438,7 +428,7 @@ header-includes:
 # R Chunks I
 
 - You can create a "chunk" of `R` code with three backticks<sup>.red[1]</sup> above and below your code
-  - After the first pair of backticks, signify the language of the code<sup>.red[2]</sup> inside braces, e.g:
+- After the first pair of backticks, signify the language of the code<sup>.red[2]</sup> inside braces, e.g:
 
 .pull-left[
 
@@ -525,7 +515,7 @@ ggplot(data = mpg)+
 
 # R Chunks Options
 
-- You can add [additional options](this guide](https://yihui.name/knitr/options/)) inside the `{braces}` after `r`, some common options:
+- You can add [additional options](https://yihui.name/knitr/options/) inside the `{braces}` after `r`, some common options:
 
 - **Name**: you can name your chunk for further reference later (not required)<sup>.red[1]</sup>
 
@@ -596,6 +586,8 @@ The average GDP per capita is $`r round(mean(gapminder$gdpPercap),2)` with a sta
 
 # Writing Text with Markdown
 
+.pull-left[
+
 - [Markdown](https://en.wikipedia.org/wiki/Markdown) is a lightweight markup language geared towards HTML (i.e. the internet)
     - [Markup languages](https://en.wikipedia.org/wiki/Markup_language) used to add commands about how to display plain text
 - Very simple and intuitive
@@ -603,7 +595,13 @@ The average GDP per capita is $`r round(mean(gapminder$gdpPercap),2)` with a sta
 - Change font styling with tags (asterisks): 
     - `*italics text*` creates *italics text*
     - `**bold text**` creates **bold text** 
-    
+]
+
+.pull-right[
+.center[
+![](https://www.dropbox.com/s/c2jq6hpqybksp6q/rmarkdownex2.png?raw=1)
+]
+]
 ---
 
 # Writing Text with Markdown: Lists
@@ -724,7 +722,6 @@ $$\hat{\beta_1}=\frac{\displaystyle \sum_{i=1}^n (X_i-\bar{X})(Y_i-\bar{Y})}{\di
 | `$A=\begin{bmatrix} a_{1,1} & a_{1,2} \\ a_{2,1} & a_{2,2} \\ \end{bmatrix}$` | $A=\begin{bmatrix} a_{1,1} & a_{1,2} \\ a_{2,1} & a_{2,2} \\ \end{bmatrix}$ | 
 
 - A great resource: [Wikibooks LaTeX Mathematics chapter](https://en.wikibooks.org/wiki/LaTeX/Mathematics)
-- And for more about $\LaTeX{}$ in general: [Wikibooks LaTeX](https://en.wikibooks.org/wiki/LaTeX/)
 
 ---
 
@@ -763,7 +760,8 @@ $$\hat{\beta_1}=\frac{\displaystyle \sum_{i=1}^n (X_i-\bar{X})(Y_i-\bar{Y})}{\di
 - Classes for `@article`, `@book`, `@collectedwork`, `@unpublished`, etc. 
     - Each will have different keys needed (e.g. `editor`, `publisher`, `address`)
 
-- First term after the `{` is your **citation key** (e.g. `safner2016`)
+- First input after the `@article` is your **citation key** (e.g. `safner2016`)
+    - Whenever you want to cite this article, you'll invoke this key
 ]
 ---
 
@@ -771,11 +769,14 @@ $$\hat{\beta_1}=\frac{\displaystyle \sum_{i=1}^n (X_i-\bar{X})(Y_i-\bar{Y})}{\di
 
 - Whenever you want to cite a work in your text, call up the **citation key** with `@`, like so: `@safner2016[]`, which produces @safner2016[]
     - You can customize citations, e.g.:
-        - **All in parentheses**: `[@safner2016]` produces [@safner2016]
-        - **No parentheses**: `@safner2016` produces @safner2016
-        - **Date only**: `[-@safner2016]` produces [-@safner2016]
-        - **Adding pages or comments**: `@safner2016[p.743-744 and passim]` produces @safner2016[p.743-744 and passim]
+        - **All in parentheses**: `[@safner2016]` produces: (Safner, 2016)
+        - **No parentheses**: `@safner2016` produces: Safner 2016
+        - **Date only**: `[-@safner2016]` produces (2016)
+        - **Adding pages or comments**: `@safner2016[p.743-744 and passim]` produces (Safner, 2016, p.743-744 and passim)
+        
 - BibTeX will automatically collect all works cited at the end and produce a **bibliography** according to a style you can choose
+
+- We'll see more when we discuss writing your paper
 
 ---
 
@@ -793,7 +794,7 @@ $$\hat{\beta_1}=\frac{\displaystyle \sum_{i=1}^n (X_i-\bar{X})(Y_i-\bar{Y})}{\di
 
 - Markdown files are [**plain text**](https://en.wikipedia.org/wiki/Plain_text) files and can be edited in *any* text editor
     - something as basic (and boring!) as "**Notepad**," for example
-    - many good [text editors](https://en.wikipedia.org/wiki/Text_editor) out there
+    - many good [text editors](https://en.wikipedia.org/wiki/Text_editor) out there, I like [Typora](https://www.typora.io/) or [Ulysses](https://ulysses.app/) (Mac only) for writing (and previewing) Markdown in a simple interface, with no distractions
 
 - Any good editor will have **syntax highlighting** and **coloring** when you use tags (like **bold**, *italic*, `code`, and `code #comments`).
 
@@ -812,18 +813,16 @@ $$\hat{\beta_1}=\frac{\displaystyle \sum_{i=1}^n (X_i-\bar{X})(Y_i-\bar{Y})}{\di
 
 ]
 
-.footnote[Big shout outs also to [Typora](https://www.typora.io/) and [Ulysses](https://ulysses.app/) (Mac only) that both write (and preview) Markdown in a simple interface, no distractions.]
-
 ---
 
 # R Studio is My Text Editor of Choice
 
 - Honestly, I write **everything** in R Studio's text editor
     - Syntax highlighting
-    - Actually can *run* R code, autocomplete, etc<sup>.red[1]</sup>
+    - Actually can *run* R code, autocomplete, etc
     - Can render the markdown to an output format: html, pdf, etc.
 
-.footnote[<sup>.red[1]</sup> You can *write* R code in other text editors, but you can't *execute* them outside of *R Studio* (or the command line, but that's too advanced.) Same with actually rendering your markdown to an output (pdf, html, etc)]
+- You can *write* R code in other text editors, but you can't *execute* them outside of *R Studio* (or the command line, but that's too advanced.) Same with actually rendering your markdown to an output (pdf, html, etc)
 
 ---
 
@@ -848,21 +847,23 @@ class: inverse, center, middle
 
 # knitr
 
+.pull-left[
 - When you are ready, you "compile" your markdown and code into an output format using: 
-    - [`knitr`](https://yihui.name/knitr/)<sup>.red[1]</sup>, an R package that "`knit`s" your R code and markdown `.Rmd` into a `.md` file for:  
-  - [pandoc](http://pandoc.org) is a "swiss-army knife" utility that can convert between *dozens* of document types
+
+- [`knitr`](https://yihui.name/knitr/)<sup>.red[1]</sup>, an R package that "`knit`s" your R code and markdown `.Rmd` into a `.md` file for:  
+
+- [pandoc](http://pandoc.org) is a "swiss-army knife" utility that can convert between *dozens* of document types
 
 - All you need to do is click the `Knit` button at the top of the text editor!
-
-.footnote[<sup>.red[1]</sup> `knitr` also relies on the `rmarkdown` package, which will probably be installed when you first `knit.`]
----
-
-# knitr: What's Happening On Your Computer
-
-.center[
-![](https://www.dropbox.com/s/kzvb8n8fpf6lstz/pandoc1.png?raw=1)
 ]
 
+.pull-right[
+.center[
+![](https://www.dropbox.com/s/kzvb8n8fpf6lstz/pandoc1.png?raw=1)
+
+]
+]
+.footnote[<sup>.red[1]</sup> `knitr` also relies on the `rmarkdown` package, which will probably be installed when you first `knit.`]
 ---
 
 class: inverse, center, middle
@@ -964,11 +965,11 @@ Switch between each project (Window) on your computer (this is on a Mac).
 # Loading Others' Projects
 
 .center[
-![:scale 80%](https://www.dropbox.com/s/i1ijatt56ncxi0e/github%202.png?raw=1)
-
+![:scale 70%](https://www.dropbox.com/s/i1ijatt56ncxi0e/github%202.png?raw=1)
+]
 - This project is on [GitHub](http://github.com/ryansafner/workflow)
 - Click the green button, download to your computer, open `.Rproj` file in R Studio
-]
+
 
 
 ---
@@ -1101,27 +1102,7 @@ My Dropbox - my life goes here
     - `push` these to the cloud
     - `pull` changes to (other) computers as needed
 
-- `GitHub` is a popular (not the only!) cloud destination for these repositories
-
-]
-
----
-
-# The Expert Version
-
-.pull-left[
-.center[
-![](https://www.dropbox.com/s/hm2bquswiqmk4ac/git.png?raw=1)
-
-![](https://www.dropbox.com/s/5mmsx958d0l0a2j/github.png?raw=1)
-
-]
-]
-.pull-right[
-- Shows history (`versions`) of files with comments
-    - Can `fork` or `branch` repository into multiple versions at once
-    - Good for "testing" things out without destroying old versions!
-    - `revert` back to original versions as needed
+- [`GitHub`](http://github.com) is a popular (not the only!) cloud destination for these repositories
 
 ]
 
@@ -1147,7 +1128,7 @@ My Dropbox - my life goes here
 # The Expert Version
 
 .center[
-![:scale 70%](https://www.dropbox.com/s/egfojonn2s54dk2/basic-remote-workflow.png?raw=1)
+![:scale 60%](https://www.dropbox.com/s/egfojonn2s54dk2/basic-remote-workflow.png?raw=1)
 ]
 
 ---
