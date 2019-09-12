@@ -1,0 +1,44 @@
+---
+title: "1.6: Optimize Your Workflow: Projects, Markdown, and Git - Class Notes"
+citeproc: false
+bibliography: ../../static/bib/references.bib
+csl: ../../static/bib/chicago-syllabus-no-bib.csl
+output:
+  blogdown::html_page:
+    template: ../../pandoc/toc-title_html.template
+    toc: true
+editor_options: 
+  chunk_output_type: console
+---
+
+*Tuesday, September 10, 2019*
+
+# Overview
+
+Today I will give you about half the class period to finish your practice problems and I can answer questions.   
+
+# Knitting on Trading Room Computers
+
+Last year, IT and I were unable to get the Trading Room computers to knit to pdf. I may have a workaround. We will install a minimal version of $\LaTeX{}$ inside of R Studio. Run the following code:
+
+```{r, eval=F}
+tinytex::install_tinytex()
+```
+
+Then make a new `.Rmd` and try to `knit` it to `pdf`. It may install several packages (`knitr` and `rmarkdown` at least) and ask you a few prompts. It should then work. 
+
+# Slides
+
+- [<i class="fas fa-external-link-square-alt"></i> Lecture Slides](/slides/05-slides.html)
+
+# Practice Problems
+
+Today you will be working on [R practice problems](/r/05-r-practice.html). Check back later for solutions. 
+
+# Statistics and Software Survey
+
+I have posted ["answers"](/homeworks/00-preliminary-survey-answers.html) to the statistics survey.
+
+# Additional Useful Information
+
+Check back here!

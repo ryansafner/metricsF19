@@ -33,7 +33,11 @@ lessons:
     reading: "05-reading"
     r: "05-r-practice"
     
-  - title: "1.6 Optimize Your Workflow: Projects and Markdown"
+  - title: "1.6 Optimize Workflow: Projects, Markdown, and Git"
+    class: "06-class"
+    slides: "06-slides"
+    reading: "06-reading"
+    r: "06-r-practice"
   
   - title: '<i class="fas fa-laptop-code"></i> **Problem Set 1**'
   
