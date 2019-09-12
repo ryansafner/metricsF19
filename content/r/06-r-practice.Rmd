@@ -1,0 +1,16 @@
+---
+title: "1.5 Data Wrangling with tidyverse - R Practice"
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+library(tidyverse)
+library(pander)
+source(file.path(here::here(), "lib", "graphics.R"))
+```
+
+- [<i class="fab fa-markdown"></i> Download R Practice 4 answers as  `.Rmd`](/r/04-r-practice-answers.Rmd)
+- [<i class="fab fa-markdown"></i> See my `.Rmd` for today's slides on github](https://github.com/ryansafner/metricsF19/blob/master/static/slides/06-slides.Rmd)
+
+Download these and look through the markdown to see how they make the webpages or slides. Note the slides are a bit advanced - I use a lot of formatting! 
