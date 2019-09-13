@@ -1182,6 +1182,26 @@ My Dropbox - my life goes here
 
 ---
 
+# My Workflow (that I suggest to you)
+
+1. Create a new repository on Github.
+2. Start a New R Project in R Studio (link it to the github repository - [see guide](http://happygitwithr.com))
+3. Create a logical file system ([see example](https://github.com/ryansafner/workflow)), such as:
+```
+project # folder on my computer (the new working directory)
+|
+|- Data/ # folder for data files 
+|- Scripts/ # folder .R code
+|- Bibliography/ # folder for .bib files
+|- Figures/ # folder to plots and figures to
+|- paper.Rmd # write document here
+```
+4. Write document in `paper.Rmd`, loading/saving files from/to various folders in project
+5. Knit document to `pdf` or `html`.
+6. Occasionally, `stage` and `commit` changes with a description, `push` to GitHub.
+
+---
+
 # Resources
 
 1. R Studio's [R Markdown Cheatsheet](https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf) for a quick overview of R markdown 

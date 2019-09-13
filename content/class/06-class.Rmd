@@ -29,16 +29,12 @@ Then make a new `.Rmd` and try to `knit` it to `pdf`. It may install several pac
 
 # Slides
 
-- [<i class="fas fa-external-link-square-alt"></i> Lecture Slides](/slides/05-slides.html)
+- [<i class="fas fa-external-link-square-alt"></i> Lecture Slides](/slides/06-slides.html)
 
 # Practice Problems
 
-Today you will be working on [R practice problems](/r/05-r-practice.html). Check back later for solutions. 
-
-# Statistics and Software Survey
-
-I have posted ["answers"](/homeworks/00-preliminary-survey-answers.html) to the statistics survey.
+Today's "[practice problems](/r/06-r-practice.html)" are a series of raw `.Rmd` files that I've used for various things, so you can see how they work.
 
 # Additional Useful Information
 
-Check back here!
+See the last 2 slides and the readings page for my workflow, my suggestions to you, and a series of links to more resources and readings.

@@ -1,5 +1,5 @@
 ---
-title: "1.5 Data Wrangling with tidyverse - R Practice"
+title: "1.6 Optimize Workflow: Projects, Markdown, and Git - R Practice"
 editor_options: 
   chunk_output_type: console
 ---
@@ -10,7 +10,13 @@ library(pander)
 source(file.path(here::here(), "lib", "graphics.R"))
 ```
 
-- [<i class="fab fa-markdown"></i> Download R Practice 4 answers as  `.Rmd`](/r/04-r-practice-answers.Rmd)
-- [<i class="fab fa-markdown"></i> See my `.Rmd` for today's slides on github](https://github.com/ryansafner/metricsF19/blob/master/static/slides/06-slides.Rmd)
+There's currently no actual *practice* problems, but you should start taking a look at some actual `.Rmd` files to see how they work, if you are interested:
 
-Download these and look through the markdown to see how they make the webpages or slides. Note the slides are a bit advanced - I use a lot of formatting! 
+- [<i class="fas fa-external-link-square-alt"></i> Workflow R Project on GitHub](http://github.com/ryansafner/workflow)
+
+Look at my `Workflow` R project on GitHub (first link). Also, see the 2nd-to-last slide in the slides (updated)! Follow the instructions to download and open the `.RProj` file on your computer (in RStudio). Look around the files (in the bottom-right panel), and open `Example_paper.Rmd` to see how you might write a paper in `R Markdown`.
+
+If you are curious, below are two other examples. The first is the raw `.Rmd` file I wrote that created the (`html`) answer key for R practice 4 (on `ggplot2`). The second is the code for today's slides, written in [`Xaringan`](http://github.com/yihui/xaringan) (a special, `html`-based slides package), hosted on github. Note the slides are quite advanced - I use a lot of html and css formatting to make them pretty!
+
+- [<i class="fab fa-markdown"></i> `04-r-practice-answers.Rmd`](/r/04-r-practice-answers.Rmd)
+- [<i class="fab fa-markdown"></i> See my `.Rmd` for today's slides on github](https://github.com/ryansafner/metricsF19/blob/master/static/slides/06-slides.Rmd)
