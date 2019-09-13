@@ -12,8 +12,8 @@ source(file.path(here::here(), "lib", "graphics.R"))
 
 *Due by Thursday, September 19, 2019*
 
-- [<i class="fas fa-file-pdf"></i> `Download as PDF`](/homeworks/01-problem-set.pdf)
-- [<i class="fab fa-markdown"></i> `Download Markdown`](/homeworks/01-r-problem-set.Rmd)
+- [<i class="fas fa-file-pdf"></i> `Download as PDF`](/homeworks/01-problem-set-pdf.pdf)
+- [<i class="fab fa-markdown"></i> `Download Markdown`](/homeworks/01-problem-set.Rmd)
 
 # Instructions
 
@@ -53,7 +53,8 @@ Make a table of the most common name for boys by year between 1980-2017.^[Hint: 
 ### b.
 Now do the same for girls.
 
-## 6. Now let's graph the evolution of the most common names since 1880.
+## 6. 
+Now let's graph the evolution of the most common names since 1880.
 ### a.
 First, find out what are the top 10 *overall* most popular names for boys and for girls. You may want to create two vectors, each with these top 5 names.
 
@@ -90,4 +91,4 @@ Now make a scatterplot of Political Freedom (`total`)^[Feel free to `rename` the
 Let's do this again, but highlight some key countries. Pick three countries, and make a new tibble from `freedom` that is only the observations of those countries. Additionally, *install* and *load* a packaged called `ggrepel`^[This automatically adjusts labels so they don't cover points on a plot!] Next, redo your plot from question 11, but now add a layer: `geom_label_repel` and set its `data` to your three-country tibble, use same `aes`thetics as your overall plot, but be sure to add `label = ISO`, to use the ISO country code to label.^[You might also want to set a low `alpha` level to make sure the labels don't obscure other points!]
 
 ## 13.
-Make another plot similar to 12, except this time use GDP per Capita (`gdp`) as `y`. Feel free to try to put a regression line with `geom_smooth()`!^[If you do, be sure to set its data to the full `freedom`, not just your three countries!]^[Those of you in my Development course, you just made my graphs from [Lesson 2](https://devf19.classes.ryansafner.com/slides/02-slides#23)!]
+Make another plot similar to 12, except this time use GDP per Capita (`gdp`) as `y`. Feel free to try to put a regression line with `geom_smooth()`!^[If you do, be sure to set its data to the full `freedom`, not just your three countries!] Those of you in my Development course, you just made my graphs from [Lesson 2](https://devf19.classes.ryansafner.com/slides/02-slides#23)!

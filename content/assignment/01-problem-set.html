@@ -8,8 +8,8 @@ editor_options:
 
 <p><em>Due by Thursday, September 19, 2019</em></p>
 <ul>
-<li><a href="/homeworks/01-problem-set.pdf"><i class="fas fa-file-pdf"></i> <code>Download as PDF</code></a></li>
-<li><a href="/homeworks/01-r-problem-set.Rmd"><i class="fab fa-markdown"></i> <code>Download Markdown</code></a></li>
+<li><a href="/homeworks/01-problem-set-pdf.pdf"><i class="fas fa-file-pdf"></i> <code>Download as PDF</code></a></li>
+<li><a href="/homeworks/01-problem-set.Rmd"><i class="fab fa-markdown"></i> <code>Download Markdown</code></a></li>
 </ul>
 <h2 id="instructions">Instructions</h2>
 <p>For this problem set, you may type up your answers to each question (save plots as images and include them with your answers) and also turn in a (commented!) <em>.R</em> file of commands for each relevant question. You may email or turn in a paper copy. It is not relevant for this particular problem set, but in the future, I will allow handwritten answers for math/theory questions.</p>
@@ -42,18 +42,19 @@ editor_options:
 </span></span></p>
 <h4 id="b.-1">b.</h4>
 <p>Now do the same for girls.</p>
-<h3 id="now-lets-graph-the-evolution-of-the-most-common-names-since-1880.">6. Now let’s graph the evolution of the most common names since 1880.</h3>
-<h4 id="a.-2">a.</h4>
-<p>First, find out what are the top 10 <em>overall</em> most popular names for boys and for girls. You may want to create two vectors, each with these top 5 names.</p>
+<h3 id="section-5">6.</h3>
+<p>Now let’s graph the evolution of the most common names since 1880.
+### a.
+First, find out what are the top 10 <em>overall</em> most popular names for boys and for girls. You may want to create two vectors, each with these top 5 names.</p>
 <h4 id="b.-2">b.</h4>
 <p>Now make two <code>line</code>graphs of these 5 names over time, one for boys, and one for girls.</p>
-<h3 id="section-5">7.</h3>
+<h3 id="section-6">7.</h3>
 <p><strong>Bonus (hard!)</strong>: What are the 10 most common “gender-neutral” names?<span><label for="sn-5" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-5" class="margin-toggle"/><span class="sidenote">This is hard to define. For our purposes, let’s define this as names where between 48 and 52% of the babies with the name are Male.<br />
 <br />
 </span></span></p>
 <h2 id="political-and-economic-freedom-around-the-world">Political and Economic Freedom Around the World</h2>
 <p>For the remaining questions, we’ll look at the relationship between Economic Freedom and Political Freedom in countries around the world today. Our data for economic freedom comes from the <a href="https://www.fraserinstitute.org/economic-freedom/dataset?geozone=world&amp;year=2016&amp;page=dataset">Fraser Institute</a>, and our data for political freedom comes from <a href="https://freedomhouse.org/content/freedom-world-data-and-resources">Freedom House</a>.</p>
-<h3 id="section-6">8.</h3>
+<h3 id="section-7">8.</h3>
 <p>Download these two datasets that I’ve cleaned up a bit:<span><label for="sn-6" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-6" class="margin-toggle"/><span class="sidenote">If you want, try downloading them from the websites yourself!<br />
 <br />
 </span></span></p>
@@ -62,21 +63,23 @@ editor_options:
 <li><a href="http://metricsf19.classes.ryansafner.com/data/freedomhouse2018.csv"><i class="fas fa-table"></i> <code>freedomhouse2018.csv</code></a></li>
 </ul>
 <p>Load them with <code>df&lt;-read_csv("name_of_the_file.csv")</code> and save one as <code>econfreedom</code> and the other as <code>polfreedom</code>. Look at each <code>tibble</code> you’ve created.</p>
-<h3 id="section-7">9.</h3>
+<h3 id="section-8">9.</h3>
 <p>The <code>polfreedom</code> dataset is still a bit messy. Let’s overwrite it (or assign to something like <code>polfreedom2</code>) and select <code>Country.Territory</code> and <code>Total</code> (total freedom score) and rename <code>Country.Territory</code> to <code>Country</code>.</p>
-<h3 id="section-8">10.</h3>
+<h3 id="section-9">10.</h3>
 <p>Now we can try to merge these two datasets into one. Since they both have <code>Country</code> as a variable, we can merge these tibbles using <code>left_join(econfreedom, polfreedom, by="Country")</code><span><label for="sn-7" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-7" class="margin-toggle"/><span class="sidenote">Note, if you saved as something else in question 9., use that instead of <code>polfreedom</code>!<br />
 <br />
 </span></span> and save this as a new tibble (something like <code>freedom</code>).</p>
-<h3 id="section-9">11.</h3>
+<h3 id="section-10">11.</h3>
 <p>Now make a scatterplot of Political Freedom (<code>total</code>)<span><label for="sn-8" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-8" class="margin-toggle"/><span class="sidenote">Feel free to <code>rename</code> these!<br />
 <br />
 </span></span> as <code>y</code> on Economic Freedom (<code>ef</code>) as <code>x</code> and <code>color</code> by <code>continent</code>.</p>
-<h3 id="section-10">12.</h3>
+<h3 id="section-11">12.</h3>
 <p>Let’s do this again, but highlight some key countries. Pick three countries, and make a new tibble from <code>freedom</code> that is only the observations of those countries. Additionally, <em>install</em> and <em>load</em> a packaged called <code>ggrepel</code><span><label for="sn-9" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-9" class="margin-toggle"/><span class="sidenote">This automatically adjusts labels so they don’t cover points on a plot!<br />
 <br />
 </span></span> Next, redo your plot from question 11, but now add a layer: <code>geom_label_repel</code> and set its <code>data</code> to your three-country tibble, use same <code>aes</code>thetics as your overall plot, but be sure to add <code>label = ISO</code>, to use the ISO country code to label.<span><label for="sn-10" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-10" class="margin-toggle"/><span class="sidenote">You might also want to set a low <code>alpha</code> level to make sure the labels don’t obscure other points!<br />
 <br />
 </span></span></p>
-<h3 id="section-11">13.</h3>
-<p>Make another plot similar to 12, except this time use GDP per Capita (<code>gdp</code>) as <code>y</code>. Feel free to try to put a regression line with <code>geom_smooth()</code>!<sup>[If you do, be sure to set its data to the full <code>freedom</code>, not just your three countries!]</sup>[Those of you in my Development course, you just made my graphs from <a href="https://devf19.classes.ryansafner.com/slides/02-slides#23">Lesson 2</a>!]</p>
+<h3 id="section-12">13.</h3>
+<p>Make another plot similar to 12, except this time use GDP per Capita (<code>gdp</code>) as <code>y</code>. Feel free to try to put a regression line with <code>geom_smooth()</code>!<span><label for="sn-11" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-11" class="margin-toggle"/><span class="sidenote">If you do, be sure to set its data to the full <code>freedom</code>, not just your three countries!<br />
+<br />
+</span></span> Those of you in my Development course, you just made my graphs from <a href="https://devf19.classes.ryansafner.com/slides/02-slides#23">Lesson 2</a>!</p>
