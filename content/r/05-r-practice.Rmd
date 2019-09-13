@@ -10,6 +10,11 @@ library(pander)
 source(file.path(here::here(), "lib", "graphics.R"))
 ```
 
+- [<i class="fas fa-external-link-square-alt"></i> `Answer Key (html)`](/r/05-r-practice-answers.html)
+- [<i class="fab fa-markdown"></i> `Answer Key (markdown)`](/r/05-r-practice-answers.Rmd)
+- [<i class="fas fa-registered"></i> `Answer Key (R Script)`](/r/05-r-practice-answers.R)
+
+
 # Getting Set Up 
 
 Before we begin, start a new file with `File` $\rightarrow$ `New File` $\rightarrow$ `R Script`. As you work through this sheet in the console in `R`, also add (copy/paste) your commands that work into this new file. At the end, save it, and run to execute all of your commands at once.

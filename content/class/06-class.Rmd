@@ -33,7 +33,11 @@ Then make a new `.Rmd` and try to `knit` it to `pdf`. It may install several pac
 
 # Practice Problems
 
-Today's "[practice problems](/r/06-r-practice.html)" are a series of raw `.Rmd` files that I've used for various things, so you can see how they work.
+The answer keys (in various formats) to last class's practice problems (on data wrangling in the `tidyverse`) have been [posted](/r/05-r-practice.html). Today's "[practice problems](/r/06-r-practice.html)" are a series of raw `.Rmd` files that I've used for various things, so you can see how they work.
+
+# Problem Set
+
+[Problem Set 1](/assignments/01-problem-set.html) is posted and is due Thursday September 19. 
 
 # Additional Useful Information
 

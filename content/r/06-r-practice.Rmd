@@ -14,7 +14,7 @@ There's currently no actual *practice* problems, but you should start taking a l
 
 - [<i class="fas fa-external-link-square-alt"></i> Workflow R Project on GitHub](http://github.com/ryansafner/workflow)
 
-Look at my `Workflow` R project on GitHub (first link). Also, see the 2nd-to-last slide in the slides (updated)! Follow the instructions to download and open the `.RProj` file on your computer (in RStudio). Look around the files (in the bottom-right panel), and open `Example_paper.Rmd` to see how you might write a paper in `R Markdown`.
+Look at my `Workflow` R project on GitHub (first link). Also, see the 2nd-to-last slide in the class slides (updated)! Follow the instructions to download and open the `.RProj` file on your computer (in RStudio). Look around the files (in the bottom-right panel), and open `Example_paper.Rmd` to see how you might write a paper in `R Markdown`.
 
 If you are curious, below are two other examples. The first is the raw `.Rmd` file I wrote that created the (`html`) answer key for R practice 4 (on `ggplot2`). The second is the code for today's slides, written in [`Xaringan`](http://github.com/yihui/xaringan) (a special, `html`-based slides package), hosted on github. Note the slides are quite advanced - I use a lot of html and css formatting to make them pretty!
 
