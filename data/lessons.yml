@@ -39,7 +39,7 @@ lessons:
     reading: "06-reading"
     r: "06-r-practice"
   
-  - title: '<i class="fas fa-laptop-code"></i> **Problem Set 1**'
+  - title: '<i class="fas fa-laptop-code"></i> **Problem Set 1** due Sept 19'
     assignment: "01-problem-set"
   
   - title: '<span class="fake-header-table">2. Linear Regression</span>'

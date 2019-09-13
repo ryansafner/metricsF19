@@ -37,7 +37,7 @@ The answer keys (in various formats) to last class's practice problems (on data 
 
 # Problem Set
 
-[Problem Set 1](/assignments/01-problem-set.html) is posted and is due Thursday September 19. 
+[Problem Set 1](/assignment/01-problem-set.html) is posted and is due Thursday September 19. 
 
 # Additional Useful Information
 
