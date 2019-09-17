@@ -45,18 +45,27 @@ lessons:
   - title: '<span class="fake-header-table">2. Linear Regression</span>'
     header: True
 
-  - title: "2.1 Random Variables and Distributions"
+  - title: "2.1 Data 101 and Descriptive Statistics"
     reading: "07-reading"
+    class: "07-class"
+    slides: "07-slides"
+
+  - title: "2.2 Random Variables and Distributions"
+    reading: "08-reading"
     
-  - title: "2.2 OLS Linear Regression"
+  - title: '<i class="fas fa-laptop-code"></i> **Problem Set 2**'
 
-  - title: "2.3 Goodness of Fit, Bias, and Precision"
+  - title: "2.3 OLS Linear Regression"
 
-  - title: "2.4 Regression Diagnostics"
+  - title: "2.4 Goodness of Fit, Bias, and Precision"
 
-  - title: "2.5 Inferential Statistics"
+  - title: "2.5 Regression Diagnostics"
 
-  - title: "2.6 Inference for Regression with infer"
+  - title: "2.6 Inferential Statistics"
+
+  - title: "2.7 Inference for Regression with infer"
+
+  - title: '<i class="fas fa-laptop-code"></i> **Problem Set 3**'
 
   - title: '<i class="fas fa-star"></i> **Midterm Exam**'
 

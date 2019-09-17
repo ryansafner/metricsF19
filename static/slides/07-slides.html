@@ -1,0 +1,1812 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>2.1: Data 101 and Descriptive Statistics</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Ryan Safner  Assistant Professor of Economics    safner@hood.edu    ryansafner/metricsf19    metricsF19.classes.ryansafner.com" />
+    <link href="libs/remark-css/hygge.css" rel="stylesheet" />
+    <script src="https://use.fontawesome.com/5235085b15.js"></script>
+    <link rel="stylesheet" href="custom.css" type="text/css" />
+    <link rel="stylesheet" href="custom-fonts.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# 2.1: Data 101 and Descriptive Statistics
+## ECON 480 · Econometrics · Fall 2019
+### Ryan Safner<br> Assistant Professor of Economics <br> <a href="mailto:safner@hood.edu"><i class="fa fa-paper-plane fa-fw"></i> safner@hood.edu</a> <br> <a href="https://github.com/ryansafner/metricsf19"><i class="fa fa-github fa-fw"></i> ryansafner/metricsf19</a><br> <a href="https://metricsF19.classes.ryansafner.com"> <i class="fa fa-globe fa-fw"></i> metricsF19.classes.ryansafner.com</a><br>
+
+---
+
+
+
+
+# Review From 1.2: Two Big Problems with Data
+
+.pull-left[
+
+- We want to use econometrics to **identify** causal relationships and make **inferences** about them
+
+1. Problem for **identification**: .shout[endogeneity]
+
+2. Problem for **inference**: .shout[randomness]
+
+]
+
+.pull-right[
+.center[
+![:scale 90%](https://www.dropbox.com/s/phhet82tcnuegxp/randomimage.jpg?raw=1)]
+]
+
+---
+
+# Review from 1.2: Identification Problem: Endogeneity
+
+.pull-left[
+
+- An independent variable `\((X)\)` is .shout[exogenous] if its variation is *unrelated* to other factors that affect the dependent variable `\((Y)\)`
+
+- An independent variable `\((X)\)` is .shout[endogenous] if its variation is *related* to other factors that affect the dependent variable `\((Y)\)`
+]
+
+.pull-right[
+
+.center[
+![](https://www.dropbox.com/s/v5vwsadw5vs448t/causality.jpg?raw=1)
+]
+]
+
+---
+
+# Review from 1.2: Inference Problem: Randomness
+
+.pull-left[
+- Data is random due to **natural sampling variation**
+
+    - Taking one sample of a population will yield slightly different information than another sample of the same population 
+    
+- Common in statistics, *easy to fix*
+
+- **Inferential Statistics**: making claims about a wider population using sample data 
+
+    - We use common tools and techniques to deal with randomness
+]
+
+.pull-right[
+.center[
+![:scale 90%](https://www.dropbox.com/s/bsdtuddzjouwzr1/sampling.jpg?raw=1)
+]
+]
+
+---
+
+# The Two Problems: Where We're Heading...Ultimately
+
+`$$\text{Sample} \underbrace{\rightarrow}_{\text{statistical inference}} \text{Population} \underbrace{\rightarrow}_{\text{causal indentification}} \text{Unobserved Parameters}$$`
+
+- We want to .whisper[identify] causal relationships between **population** variables
+    - Logically first thing to consider
+    - **Endogeneity problem**
+
+- We'll use **sample** *statistics* to .whisper[infer] something about population *parameters*
+    - In practice, we'll only ever have a finite *sample distribution* of data
+    - We *don't* know the *population distribution* of data
+    - **Randomness problem**
+
+---
+
+class: inverse, center, middle
+# Data 101
+
+---
+
+# Data 101
+
+.pull-left[
+
+- .hl[Data] are information with context
+- .hl[Individuals] are the entities described by a set of data 
+    - e.g. persons, households, firms, countries 
+- .hl[Variables] are particular characteristics about an individual
+    - e.g. age, income, profits, population, GDP, marital status, type of legal institutions
+- .hl[Observations] or .hl[cases] are the separate individuals described by a collection of variables
+    - e.g. for one individual, we have their age, sex, income, education, etc.  
+    - individuals and observations are *not necessarily* the same: 
+        - e.g. we can have separate observations on the same individual over time 
+]
+
+.pull-right[
+
+![](https://www.dropbox.com/s/gmb5xihskovjrly/individual1.jpg?raw=1)
+
+]
+
+---
+
+# Categorical Data
+
+.pull-left[
+
+- .hl[Categorial data] place an individual into one of several possible *categories*
+    - e.g. sex, season, political party
+    - may be responses to survey questions
+    - can be quantitative (e.g. age, zip code)
+
+- `R` calls these `factors` (we'll deal with them much later in the course)
+]
+
+.pull-right[
+
+![](https://www.dropbox.com/s/pgdswagr7b348vu/categoricaldata.png?raw=1)
+
+]
+
+---
+
+# Categorical Data: Visualizing I
+
+.pull-left[
+
+
+
+&lt;table&gt;
+&lt;caption&gt;Summary of diamonds by cut&lt;/caption&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; cut &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; n &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; frequency &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Fair &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1610 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0298480 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Good &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 4906 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0909529 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Very Good &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 12082 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.2239896 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Premium &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 13791 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.2556730 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Ideal &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 21551 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.3995365 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+]
+
+.pull-right[
+
+- Good way to represent categorical data is with a .hl[frequency table]
+
+- **Count (n)**: total number of individuals in a category
+
+- **Frequency**: proportion of a category relative to all data
+
+]
+
+---
+
+
+# Categorical Data: Visualizing II
+
+.pull-left[
+
+- Charts and graphs are *always* better ways to visualize data
+
+- A .shout[bar graph] represents categories as bars, with lengths proportional to the count or relative frequency fo each category
+
+
+```r
+ggplot(diamonds, aes(x=cut,
+                     fill=cut))+
+  geom_bar()+
+  guides(fill=F)+
+  theme_bw(base_family = "Fira Sans Condensed",
+           base_size=20)
+```
+
+]
+
+.pull-right[
+
+&lt;img src="07-slides_files/figure-html/unnamed-chunk-4-1.png" width="504" /&gt;
+
+]
+
+---
+
+# Categorical Data: Visualizing III
+
+.pull-left[
+
+- Avoid pie charts!
+
+- People are *not* good at judging 2-d differences (angles, area)
+
+- People *are* good at judging 1-d differences (length)
+
+]
+
+--
+
+.pull-right[
+
+.center[
+![](https://www.dropbox.com/s/jk79mb94qohqekb/piechart.jpg?raw=1)
+]
+
+]
+
+---
+
+# Categorical Data: Visualizing IV
+
+.pull-left[
+
+- Maybe a *stacked bar chart*
+
+
+```r
+diamonds %&gt;%
+  count(cut) %&gt;%
+ggplot(., aes(x="", y=n, fill=cut))+
+  geom_col()+
+  geom_label(aes(x="", y=n, label=cut), position = position_stack(), color="white")+
+  guides(fill=F)+
+  theme_void()
+```
+
+]
+
+.pull-right[
+
+&lt;img src="07-slides_files/figure-html/unnamed-chunk-6-1.png" width="504" /&gt;
+
+]
+
+---
+
+# Categorical Data: Visualizing IV
+
+.pull-left[
+
+- Maybe *lollipop chart*
+
+
+```r
+diamonds %&gt;%
+  count(cut) %&gt;%
+  mutate(cut_name = as.factor(cut)) %&gt;%
+ggplot(., aes(x = cut_name, y = n, color = cut))+
+ geom_point(stat="identity",
+            fill="black",
+            size=12)  +
+  geom_segment(aes(x = cut_name, y = 0,
+                   xend = cut_name,
+                   yend = n), size = 2)+
+  geom_text(aes(label = n),color="white", size=3) +
+  coord_flip()+
+  labs(x = "Cut")+
+  theme_classic(base_family = "Fira Sans Condensed",
+                base_size=20)+
+  guides(color = F)
+```
+
+]
+
+.pull-right[
+
+&lt;img src="07-slides_files/figure-html/unnamed-chunk-8-1.png" width="504" /&gt;
+
+]
+
+---
+
+# Categorical Data: Visualizing IV
+
+.pull-left[
+
+- Maybe a *treemap*
+
+
+```r
+library(treemapify)
+diamonds %&gt;%
+  count(cut) %&gt;%
+ggplot(., aes(area = n, fill = cut)) +
+  geom_treemap() +
+  guides(fill = FALSE) +
+  geom_treemap_text(aes(label = cut), 
+                    colour = "white",
+                    place = "center",
+                    grow = TRUE)
+```
+
+]
+
+.pull-right[
+
+&lt;img src="07-slides_files/figure-html/unnamed-chunk-10-1.png" width="504" /&gt;
+
+]
+
+---
+
+# Quantitative Data I
+
+.pull-left[
+
+- .hl[Quantitative variables] take on numerical values of equal units that describe an individual
+    - Units: points, dollars, inches 
+    - Context: GPA, prices, height
+
+- We can mathematically manipulate *only* quantitative data
+    - e.g. sum, average, standard deviation
+
+]
+
+.pull-right[
+
+.image-75[![](https://www.dropbox.com/s/1e0mcehgzqgnfs8/mathoperations.jpg?raw=1)]
+
+]
+
+---
+
+# Context is Key!
+
+- How variables are classified depends on the *purpose* of collecting and using the data
+
+--
+
+.content-box-blue[
+.blue[**Quick Check**]: What kind of data (categorical or quantitative) does each variable describe?
+]
+
+--
+
+1. Age measured in years
+
+--
+
+2. Age measured in ranges (0-9 years, 10-19 years, 20-29 years, etc)
+
+--
+
+3. The date a purchase was made
+
+--
+
+4. Transaction ID
+
+--
+
+5. The amount of money spent on a Super Bowl ad
+
+--
+
+6. Customer ratings
+
+--
+
+7. The number of correct answers on an exam
+
+---
+
+# Discrete Data
+
+.pull-left[
+
+- .hl[Discrete data] are finite, with a countable number of alternatives 
+
+- Categorical: e.g. letter grades A, B, C, D, F
+
+- Quantitative: integers, e.g. SAT Score, number of children 
+
+]
+
+.pull-right[
+
+![](https://www.dropbox.com/s/qfziu7r0wob0q1n/buildingblocks.jpeg?raw=1)
+]
+
+---
+
+# Continuous Data
+
+.pull-left[
+
+- .hl[Continuous data] are infinitely divisible, with an uncountable number of alternatives
+    - e.g. weights, temperature, GPA
+
+- Many discrete variables may be treated as if they are continuous
+    - e.g. SAT scores, wages 
+    
+]
+
+.pull-right[
+.center[
+![:scale 90%](https://www.dropbox.com/s/lgjpc9cxmrkio0x/continuous.png?raw=1)
+]
+]
+---
+
+# Discrete or Continuous?
+
+.content-box-blue[
+.blue[**Quick Check**]: What kind of data (discrete or continuous) does each variable describe?
+]
+
+--
+
+1. Weight in pounds
+
+--
+
+2. Price in dollars
+
+--
+
+3. Grade (Letter)
+
+--
+
+4. Grade (Percentage)
+
+--
+
+5. Temperature
+
+--
+
+6. Amazon Star Rating
+
+--
+
+7. Number of customers
+
+---
+
+# Spreadsheets
+
+.pull-left[
+
+
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:right;"&gt; ID &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Name &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Age &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Sex &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Income &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; John &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 23 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Male &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 41000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Emile &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 18 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Male &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 52600 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Natalya &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 28 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Female &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 48000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 4 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Lakisha &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 31 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Female &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 60200 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 5 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Cheng &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 36 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Male &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 81900 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+]
+
+.pull-right[
+
+- The most common data structure we use is a .hl[spreadsheet]
+    - Note, in *R*: a `data.frame` or `tibble`
+    
+- A **row** contains data about all variables for a single **individual**
+
+- A **column** contains data about a single **variable** across all individuals
+
+]
+
+---
+
+# Spreadsheets II
+
+- It is common to use some notation like the following:
+
+- Let `\(\{x_1, x_2, \cdots, x_n\}\)` be a simple data series on variable `\(X\)`
+    - `\(n\)` individual observations
+    - `\(x_i\)` is the value of the `\(i\)`&lt;sup&gt;th&lt;/sup&gt; observation for `\(i=1,2,\cdots, n\)`
+
+--
+
+.content-box-blue[
+.blue[**Quick Check**]: Let `\(x\)` represent the score on a homework assignment:
+`$$75, 100, 92, 87, 79, 0, 95$$`
+
+1. What is `\(n\)`?
+2. What is `\(x_1\)`?
+3. What is `\(x_6\)`?
+]
+
+---
+
+# Datasets: Cross-Sectional
+
+.pull-left[
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:right;"&gt; ID &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Name &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Age &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Sex &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Income &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; John &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 23 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Male &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 41000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Emile &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 18 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Male &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 52600 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Natalya &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 28 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Female &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 48000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 4 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Lakisha &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 31 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Female &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 60200 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 5 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Cheng &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 36 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Male &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 81900 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+]
+
+.pull-right[
+
+- .hl[Cross-sectional data]: observations of individuals at a given point in time
+
+- Each observation is a unique individual
+
+- Simplest and most common data 
+
+- A "snapshot" to compare differences across individuals
+
+]
+
+---
+
+# Datasets: Time-Series
+
+.pull-left[
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:right;"&gt; Year &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; GDP &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Unemployment &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; CPI &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 1950 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 8.2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.06 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 100 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 1960 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 9.9 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.04 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 118 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 1970 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 10.2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.08 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 130 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 1980 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 12.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.08 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 190 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 1985 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 13.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.06 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 196 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+]
+
+.pull-right[
+
+- .hl[Time-series data]: observations of the same individuals over time 
+
+- Each observation is an individual-year
+
+- Often used for macroeconomics, finance, and forecasting
+
+- Unique challenges for time series 
+
+- A "moving picture" to see how individuals change over time 
+
+]
+
+---
+
+# Datasets: Panel
+
+.pull-left[
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; City &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Year &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Murders &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Population &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Unemployment &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Philadelphia &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1986 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 5 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3.700 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 8.7 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Philadelphia &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1990 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 8 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 4.200 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 7.2 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; D.C. &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1986 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.250 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 5.4 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; D.C. &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1990 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 10 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.275 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 5.5 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; New York &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1986 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 6.400 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 9.6 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+]
+
+.pull-right[
+
+- .hl[Panel], or .hl[longitudinal] dataset: a time-series for *each* cross-sectional entity
+
+- Must be the *same* cross-sectional entities over time 
+
+- More common today for serious researchers 
+
+- Unique challenges for panel data
+
+- A combination of "snapshot" comparisons and differences over time 
+]
+
+---
+
+class: inverse, center, middle
+
+# Descriptive Statistics
+
+---
+
+# Variables and Distributions
+
+- Variables take on different values, we can describe a variable's .hl[distribution] (of these values)
+
+- We want to *visualize* and *analyze* distributions to search for meaningful patterns using **statistics** 
+
+---
+
+# Two Branches of Statistics 
+
+.pull-left[
+
+- Two main branches of statistics:
+
+1. .hl[Descriptive Statistics:] describes or summarizes the properties of a sample
+
+2. .hl[Inferential Statistics:] infers properties about a larger population from the properties of a sample&lt;sup&gt;.red[1]&lt;/sup&gt; 
+
+]
+
+.pull-right[
+.center[
+![](https://www.dropbox.com/s/l2s6c0s55lsws6y/statsgraphs.jpg?raw=1)
+]
+]
+
+.footnote[&lt;sup&gt;.red[1]&lt;/sup&gt; We'll encounter inferential statistics mainly in the context of regression later.]
+
+---
+
+# Histograms
+
+.pull-left[
+
+- A common way to present a *quantitative* variable's distribution is a .hl[histogram]
+    - The quantitative analog to the bar graph for a categorical variable
+
+- Divide up values into **bins** of a certain size, and count the number of values falling within each bin, representing them visually as bars 
+
+]
+
+.pull-right[
+
+![](07-slides_files/figure-html/unnamed-chunk-11-1.png)&lt;!-- --&gt;
+]
+
+---
+
+# Histogram: Example
+
+.pull-left[
+
+.content-box-green[
+.green[**Example**]: a class of 13 students takes a quiz (out of 100 points) with the following results:
+
+`$$\{ 0, 62, 66, 71, 71, 74, 76, 79, 83, 86, 88, 93, 95 \}$$`
+]
+]
+
+---
+
+# Histogram: Example
+
+.pull-left[
+
+.content-box-green[
+.green[**Example**]: a class of 13 students takes a quiz (out of 100 points) with the following results:
+
+`$$\{ 0, 62, 66, 71, 71, 74, 76, 79, 83, 86, 88, 93, 95 \}$$`
+]
+
+
+```r
+quizzes&lt;-tibble(scores = c(0,62,66,71,71,74,76,79,83,86,88,93,95))
+```
+]
+
+---
+
+# Histogram: Example
+
+.pull-left[
+
+.content-box-green[
+.green[**Example**]: a class of 13 students takes a quiz (out of 100 points) with the following results:
+
+`$$\{ 0, 62, 66, 71, 71, 74, 76, 79, 83, 86, 88, 93, 95 \}$$`
+]
+
+
+```r
+h&lt;-ggplot(quizzes,aes(x=scores))+
+  geom_histogram(breaks = seq(0,100,10),
+                 color = "black",
+                 fill = "#56B4E9")+
+  scale_x_continuous(breaks = seq(0,100,10))+
+  labs(x = "Scores",
+       y = "Number of Students")+
+  theme_bw(base_family = "Fira Sans Condensed",
+           base_size=20)
+h
+```
+]
+
+.pull-right[
+.center[
+&lt;img src="07-slides_files/figure-html/unnamed-chunk-12-1.png" width="504" /&gt;
+]
+]
+---
+
+# Descriptive Statistics
+
+.pull-left[
+- We are often interested in the *shape* or *pattern* of a distribution, particularly: 
+    - Measures of **center**
+    - Measures of **dispersion**
+    - **Shape** of distribution 
+]
+
+.pull-right[
+.center[
+![](https://www.dropbox.com/s/l2s6c0s55lsws6y/statsgraphs.jpg?raw=1)
+]
+]
+
+---
+
+# Mode
+
+- The .shout[mode] of a variable is simply its most frequent value
+
+- A variable can have multiple modes
+
+--
+
+.content-box-green[
+.green[**Example**]: a class of 13 students takes a quiz (out of 100 points) with the following results:
+
+`$$\{ 0, 62, 66, \mathbf{71}, \mathbf{71}, 74, 76, 79, 83, 86, 88, 93, 95 \}$$`
+]
+
+---
+
+# Mode
+
+.pull-left[
+
+- There is no dedicated `mode()` function in `R`, surprisingly
+
+- A workaround in `dplyr`: 
+
+
+```r
+quizzes %&gt;%
+  count(scores) %&gt;%
+  arrange(desc(n))
+```
+
+]
+
+.pull-right[
+
+```
+## # A tibble: 12 x 2
+##    scores     n
+##     &lt;dbl&gt; &lt;int&gt;
+##  1     71     2
+##  2      0     1
+##  3     62     1
+##  4     66     1
+##  5     74     1
+##  6     76     1
+##  7     79     1
+##  8     83     1
+##  9     86     1
+## 10     88     1
+## 11     93     1
+## 12     95     1
+```
+]
+
+---
+
+# Multi-Modal Distributions
+
+.pull-left[
+
+- Looking at a histogram, the modes are the "peaks" of the distribution
+    - Note: depends on how wide you make the bins!
+
+- May be unimodal, bimodal, trimodal, etc
+
+
+```r
+tibble(scores=c(0,33,33,33,33,35,62,66,71,71,74,76,79,83,86,88,93,95)) %&gt;%
+  count(scores) %&gt;%
+  arrange(desc(n))
+```
+
+```
+## # A tibble: 14 x 2
+##    scores     n
+##     &lt;dbl&gt; &lt;int&gt;
+##  1     33     4
+##  2     71     2
+##  3      0     1
+##  4     35     1
+##  5     62     1
+##  6     66     1
+##  7     74     1
+##  8     76     1
+##  9     79     1
+## 10     83     1
+## 11     86     1
+## 12     88     1
+## 13     93     1
+## 14     95     1
+```
+
+]
+
+.pull-right[
+&lt;img src="07-slides_files/figure-html/unnamed-chunk-15-1.png" width="504" /&gt;
+]
+
+---
+
+# Symmetry and Skew I
+
+.pull-left[
+
+- A distribution is **symmetric** if it looks roughly the same on either side of the "center"
+
+- The thinner ends (far left and far right) are called the **tails** of a distribution
+]
+
+.pull-right[
+&lt;img src="07-slides_files/figure-html/unnamed-chunk-16-1.png" width="504" /&gt;
+]
+
+---
+
+# Symmetry and Skew I
+
+.pull-left[
+
+- If one tail stretches farther than the other, distribution is **skewed** in the direction of the longer tail
+]
+
+.pull-right[
+&lt;img src="07-slides_files/figure-html/unnamed-chunk-17-1.png" width="504" /&gt;
+]
+
+---
+
+# Outliers
+
+.pull-left[
+
+- .shout[Outlier]: extreme value that does not appear part of the general pattern of a distribution
+
+- Can strongly affect descriptive statistics
+
+- Might be the most informative part of the data
+
+- Could be the result of errors
+
+- Should always be explored and discussed!
+
+]
+
+.pull-right[
+&lt;img src="07-slides_files/figure-html/unnamed-chunk-18-1.png" width="504" /&gt;
+]
+
+---
+
+class: inverse, center, middle
+# Measures of Center
+
+---
+
+# Arithmetic Mean (Population)
+
+- The natural measure of the center of a *population*'s distribution is its "average" or .shout[arithmetic mean `\\((\mu)\\)`]
+
+`$$\mu=\frac{x_1+x_2+...+x_N}{N} = \frac{1}{N} \sum^N_{i=1} x_i$$`
+
+- For `\(N\)` values of variable `\(x\)`, "mu" is the sum of all individual `\(x\)` values `\((x_i)\)` from 1 to `\(N\)`, divided by the `\(N\)` number of values&lt;sup&gt;.red[1]&lt;/sup&gt;
+
+- See today's class notes for more about the summation operator, `\(\displaystyle\Sigma\)`, it'll come up again!
+
+.footnote[&lt;sup&gt;.red[1]&lt;/sup&gt; Note the mean need not be an actual value of the data!]
+
+---
+
+# Arithmetic Mean (Sample)
+
+- When we have a *sample*, we compute the .shout[sample mean `\\((\bar{x})\\)`]
+
+`$$\bar{x}=\frac{x_1+x_2+...+x_n}{n} = \frac{1}{n} \sum^n_{i=1} x_i$$`
+
+- For `\(n\)` values of variable `\(x\)`, "x-bar" is the sum of all individual `\(x\)` values `\((x_i)\)` divided by the `\(n\)` number of values
+
+--
+
+.pull-left[
+
+.content-box-green[
+.green[**Example**]:
+
+`$$\{0, 62, 66, 71, 71, 74, 76, 79, 83, 86, 88, 93, 95\}$$`
+
+`$$\begin{align*}
+\bar{x}&amp;=\frac{1}{13}(0+62+66+71+71+74+76+79+83+86+88+93+95)\\
+\bar{x}&amp;=\frac{944}{13}\\
+\bar{x}&amp;=72.62\\
+\end{align*}$$`
+
+]
+]
+
+--
+
+.pull-right[
+
+
+```r
+quizzes %&gt;%
+  summarize(mean=mean(scores))
+```
+
+```
+## # A tibble: 1 x 1
+##    mean
+##   &lt;dbl&gt;
+## 1  72.6
+```
+]
+
+
+---
+
+# Arithmetic Mean: Affected by Outliers
+
+- If we drop the outlier (0)
+
+--
+
+.pull-left[
+
+.content-box-green[
+.green[**Example**]:
+
+`$$\{62, 66, 71, 71, 74, 76, 79, 83, 86, 88, 93, 95\}$$`
+
+`$$\begin{align*}
+\bar{x}&amp;=\frac{1}{12}(62+66+71+71+74+76+79+83+86+88+93+95)
+&amp;=\frac{944}{12}\\
+&amp;=78.67\\
+\end{align*}$$`
+]
+]
+
+--
+
+.pull-right[
+
+
+```r
+quizzes %&gt;%
+  filter(scores&gt;0) %&gt;%
+  summarize(mean=mean(scores))
+```
+
+```
+## # A tibble: 1 x 1
+##    mean
+##   &lt;dbl&gt;
+## 1  78.7
+```
+]
+
+---
+
+# Median
+
+`$$\{0, 62, 66, 71, 71, 74, \mathbf{76}, 79, 83, 86, 88, 93, 95\}$$`
+
+- The .shout[median] is the midpoint of the distribution
+    - 50% to the left of the median, 50% to the right of the median
+
+- Arrange values in numerical order
+    - For odd `\(n\)`: median is middle observation
+    - For even `\(n\)`: median is average of two middle observations
+
+---
+
+# Mean, Median, and Outliers
+
+.center[
+![](https://www.dropbox.com/s/znl2rdi3f19r6ap/meanoutliers.jpg?raw=1)
+]
+
+---
+
+# Mean, Median, Symmetry, Skew I
+
+.pull-left[
+
+- A symmetric distribution has mean `\(\approx\)` median
+
+
+
+
+```r
+symmetric %&gt;%
+  summarize(mean = mean(x),
+            median = median(x))
+```
+
+```
+## # A tibble: 1 x 2
+##    mean median
+##   &lt;dbl&gt;  &lt;dbl&gt;
+## 1     4      4
+```
+]
+
+.pull-right[
+
+&lt;img src="07-slides_files/figure-html/unnamed-chunk-23-1.png" width="504" /&gt;
+]
+
+---
+
+# Mean, Median, Symmetry, Skew II
+
+.pull-left[
+
+- A left-skewed distribution has mean `\(&lt;\)` median
+
+
+
+
+```r
+leftskew %&gt;%
+  summarize(mean = mean(x),
+            median = median(x))
+```
+
+```
+##       mean median
+## 1 4.615385      5
+```
+]
+
+.pull-right[
+
+&lt;img src="07-slides_files/figure-html/unnamed-chunk-26-1.png" width="504" /&gt;
+]
+
+---
+
+# Mean, Median, Symmetry, Skew III
+
+.pull-left[
+
+- A right-skewed distribution has mean `\(&gt;\)` median
+
+
+
+
+```r
+rightskew %&gt;%
+  summarize(mean = mean(x),
+            median = median(x))
+```
+
+```
+## # A tibble: 1 x 2
+##    mean median
+##   &lt;dbl&gt;  &lt;dbl&gt;
+## 1  3.38      3
+```
+]
+
+.pull-right[
+
+&lt;img src="07-slides_files/figure-html/unnamed-chunk-29-1.png" width="504" /&gt;
+]
+
+---
+
+class: inverse, center, middle
+# Measures of Spread
+
+---
+
+# Measures of Spread: Range
+
+- The more *variation* in the data, the less helpful a measure of central tendency will tell us
+- Beyond just the center, we also want to measure the spread
+- Simplest metric is .shout[range] `\(=max-min\)`
+
+---
+
+# Measures of Spread: 5 Number Summary I
+
+A common set of summary statistics about a distribution is known as the .shout["five number summary"]:
+
+.pull-left[
+.font90[
+1. Minimum value
+2. 25&lt;sup&gt;th&lt;/sup&gt; percentile `\((Q_1\)`, the median of the first 50% of data)
+3. 50&lt;sup&gt;th&lt;/sup&gt; percentile (median, `\(Q_2)\)`
+4. 25&lt;sup&gt;th&lt;/sup&gt; percentile `\((Q_3\)`, the median of the last 50% of data)
+5. Maximum value
+]
+]
+.pull-right[
+
+.font90[
+
+```r
+# Base R summary command (includes Mean)
+summary(quizzes$scores)
+```
+
+```
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##    0.00   71.00   76.00   72.62   86.00   95.00
+```
+
+```r
+quizzes %&gt;% # dplyr
+  summarize(Min = min(scores),
+            Q1 = quantile(scores, 0.25),
+            Median = median(scores),
+            Q3 = quantile(scores, 0.75),
+            Max = max(scores))
+```
+
+```
+## # A tibble: 1 x 5
+##     Min    Q1 Median    Q3   Max
+##   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1     0    71     76    86    95
+```
+]
+]
+---
+
+# Measures of Spread: 5 Number Summary II
+
+- The `\(n\)`&lt;sup&gt;th&lt;/sup&gt; percentile of a distribution is the value that places `\(n\)` percent of values beneath it
+
+
+```r
+quizzes %&gt;%
+  summarize("37th percentile" = quantile(scores,0.37))
+```
+
+```
+## # A tibble: 1 x 1
+##   `37th percentile`
+##               &lt;dbl&gt;
+## 1              72.3
+```
+
+---
+
+# Boxplots I
+
+.pull-left[
+
+- .shout[Boxplots] are a great way to visualize the 5 number summary
+
+- Height of box: `\(Q_1\)` to `\(Q_3\)` (known as .onfire[interquartile range (IQR)], middle 50% of data)
+- Line inside box: median (50&lt;sup&gt;th&lt;/sup&gt; percentile)
+- "Whiskers" identify data within `\(1.5 \times IQR\)`
+- Points *beyond* whiskers are a common definition of **outliers**
+]
+.pull-right[
+
+![](07-slides_files/figure-html/unnamed-chunk-32-1.png)&lt;!-- --&gt;
+
+]
+
+---
+
+# Comparisons I
+
+- Boxplots (and five number summaries) are great for comparing two distributions
+
+.content-box-green[
+.green[**Example**]:
+
+`$$\begin{align*} \text{Quiz 1}&amp;: \{0, 62, 66, 71, 71, 74, 76, 79, 83, 86, 88, 93, 95\}	\\
+			\text{Quiz 2}&amp;: \{50, 62, 72, 73, 79, 81, 82, 82, 86, 90, 94, 98, 99\} \\ \end{align*}$$`
+
+]
+
+
+
+---
+
+# Comparisons II
+
+.pull-left[
+
+
+```r
+quizzes_new %&gt;% summary(quiz_1)
+```
+
+```
+##     student       quiz_1          quiz_2     
+##  Min.   : 1   Min.   : 0.00   Min.   :50.00  
+##  1st Qu.: 4   1st Qu.:71.00   1st Qu.:73.00  
+##  Median : 7   Median :76.00   Median :82.00  
+##  Mean   : 7   Mean   :72.62   Mean   :80.62  
+##  3rd Qu.:10   3rd Qu.:86.00   3rd Qu.:90.00  
+##  Max.   :13   Max.   :95.00   Max.   :99.00
+```
+
+```r
+quizzes_new %&gt;% summary(quiz_2)
+```
+
+```
+##     student       quiz_1          quiz_2     
+##  Min.   : 1   Min.   : 0.00   Min.   :50.00  
+##  1st Qu.: 4   1st Qu.:71.00   1st Qu.:73.00  
+##  Median : 7   Median :76.00   Median :82.00  
+##  Mean   : 7   Mean   :72.62   Mean   :80.62  
+##  3rd Qu.:10   3rd Qu.:86.00   3rd Qu.:90.00  
+##  Max.   :13   Max.   :95.00   Max.   :99.00
+```
+]
+
+.pull-right[
+
+![](07-slides_files/figure-html/unnamed-chunk-35-1.png)&lt;!-- --&gt;
+
+]
+
+---
+
+# Aside: Making Nice Summary Tables I
+
+- I don't like the options available for printing out summary statistics
+
+- So I wrote my own `R` function that makes nice summary tables that uses `dplyr` and `tidyr`
+
+- One day I will release as a package; until then the `.R` file is [saved here](/files/summaries.R)
+
+
+```r
+# loads .R files to full functions from; make sure it's in working directory/Project!
+source("../files/summaries.R") 
+
+# let's summarize "hwy" and "cty" from mpg dataset
+mpg %&gt;%
+  summary_table(hwy, cty)
+```
+
+```
+## # A tibble: 2 x 9
+##   Variable   Obs   Min    Q1 Median    Q3   Max  Mean `Std. Dev.`
+##   &lt;chr&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;       &lt;dbl&gt;
+## 1 cty        234     9    14     17    19    35  16.9        4.26
+## 2 hwy        234    12    18     24    27    44  23.4        5.95
+```
+
+---
+
+# Aside: Making Nice Summary Tables II
+
+- And when `knit`ted in `R markdown`:
+
+
+```r
+mpg %&gt;%
+  summary_table(hwy, cty) %&gt;%
+  knitr::kable(., format="html")
+```
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Variable &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Obs &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Min &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Q1 &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Median &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Q3 &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Max &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Mean &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Std. Dev. &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; cty &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 234 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 9 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 14 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 17 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 19 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 35 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 16.86 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 4.26 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; hwy &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 234 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 12 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 18 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 24 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 27 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 44 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 23.44 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 5.95 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+- We'll talk more about using `markdown` and making final products nicer when we discuss your paper project (have you forgotten?)
+
+---
+
+# Deviations
+
+- Every observation .onfire[deviates] from the mean of the data: 
+`$$deviation_i = x_i-\mu	$$`
+
+- There are as many deviations as there are data points `\((n)\)`
+- We can measure the *average* or .shout[standard deviation] of a variable from its mean
+
+---
+
+# Variance (Population)
+
+- The .shout[population variance `\\((\sigma^2)\\)`] of a *population* distribution measures the average of the *squared* deviations from the *population* mean
+
+`$$\sigma^2 = \frac{1}{N}\displaystyle\sum^N_{i=1} (x_i-\mu)^2$$`
+
+- Why do we square deviations?
+
+- What are these units? 
+
+---
+
+# Standard Deviation (Population)
+
+- Square root the variance to get the .shout[population standard deviation `\\((\sigma)\\)`], the average deviation from the population mean (in same units as `\(x\)`)
+
+`$$\sigma=\sqrt{\sigma^2}=\sqrt{\frac{1}{N}\displaystyle\sum^N_{i=1} (x_i-\mu)^2	}$$`
+
+---
+
+# Variance (Sample)
+
+- The .shout[sample variance `\\((s^2)\\)`] of a *sample* distribution measures the average of the *squared* deviations from the *sample* mean
+
+`$$\sigma^2 = \frac{1}{n-1}\displaystyle\sum^n_{i=1} (x_i-\mu)^2$$`
+
+- Why do we divide by `\(n-1\)`?
+
+---
+
+# Standard Deviation (Sample)
+
+- Square root the sample variance to get the .shout[sample standard deviation `\\((s)\\)`], the average deviation from the *sample* mean (in same units as `\(x\)`)
+
+`$$s=\sqrt{s^2}=\sqrt{\frac{1}{n-1}\displaystyle\sum^n_{i=1} (x_i-\mu)^2	}$$`
+
+---
+
+# Sample Standard Deviation: Example
+
+.content-box-green[
+.green[**Example**]: Calculate the sample standard deviation for the following series: 
+
+`$$\{2, 4, 6, 8, 10 \}$$`
+
+]
+
+--
+
+
+```r
+sd(c(2,4,6,8,10))
+```
+
+```
+## [1] 3.162278
+```
+
+---
+
+# The Steps to Calculate sd(), Coded I
+
+
+```r
+#  first let's save our data in a tibble
+sd_example&lt;-tibble(x=c(2,4,6,8,10))
+
+# first find the mean (just so we know)
+
+sd_example %&gt;%
+  summarize(mean(x))
+```
+
+```
+## # A tibble: 1 x 1
+##   `mean(x)`
+##       &lt;dbl&gt;
+## 1         6
+```
+
+```r
+# now let's make some more columns:
+sd_example &lt;- sd_example %&gt;%
+  mutate(deviations = x-mean(x), # take deviations from mean
+         deviations_sq = deviations^2) # square them
+```
+
+---
+
+# The Steps to Calculate sd(), Coded II
+
+.pull-left[
+
+```r
+sd_example # see what we made
+```
+]
+
+.pull-right[
+
+```
+## # A tibble: 5 x 3
+##       x deviations deviations_sq
+##   &lt;dbl&gt;      &lt;dbl&gt;         &lt;dbl&gt;
+## 1     2         -4            16
+## 2     4         -2             4
+## 3     6          0             0
+## 4     8          2             4
+## 5    10          4            16
+```
+]
+---
+
+# The Steps to Calculate sd(), Coded III
+
+.pull-left[
+
+```r
+sd_example %&gt;%
+  # sum the squared deviations
+  summarize(sum_sq_devs = sum(deviations_sq), 
+            # divide by n-1 to get variance
+            variance = sum_sq_devs/(n()-1), 
+            # square root to get sd
+            std_dev = sqrt(variance)) 
+```
+]
+.pull-right[
+
+```
+## # A tibble: 1 x 3
+##   sum_sq_devs variance std_dev
+##         &lt;dbl&gt;    &lt;dbl&gt;   &lt;dbl&gt;
+## 1          40       10    3.16
+```
+
+]
+
+---
+
+# Sample Standard Deviation: You Try
+
+.content-box-blue[
+.blue[**You Try**]: Calculate the sample standard deviation for the following series: 
+
+`$$\{1, 3, 5, 7 \}$$`
+
+]
+
+--
+
+
+```r
+sd(c(1,3,5,7))
+```
+
+```
+## [1] 2.581989
+```
+
+---
+
+# Descriptive Statistics: Populations vs. Samples
+
+.pull-left[
+## Population parameters
+
+- **Population size**: `\(N\)`
+
+- **Mean**: `\(\mu\)`
+
+- **Variance**: `\(\sigma^2=\frac{1}{N} \displaystyle\sum^N_{i=1} (x_i-\mu)^2\)`
+
+- **Standard deviation**: `\(\sigma = \sqrt{\sigma^2}\)`
+]
+
+.pull-right[
+## Sample statistics
+
+- **Population size**: `\(n\)`
+
+- **Mean**: `\(\bar{x}\)`
+
+- **Variance**: `\(s^2=\frac{1}{n-1} \displaystyle\sum^n_{i=1} (x_i-\bar{x})^2\)`
+
+- **Standard deviation**: `\(s = \sqrt{s^2}\)`
+
+]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="macros.js"></script>
+<script src="https://platform.twitter.com/widgets.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"slideNumberFormat": "<div class=\"progress-bar-container\">   <div class=\"progress-bar\" style=\"width: calc(%current% / %total% * 100%);\">   </div> </div> "
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

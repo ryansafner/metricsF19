@@ -1,5 +1,5 @@
 ---
-title: "1.6 Optimize Your Workflow: Projects and Markdown - Readings"
+title: "2.1 Data 101 and Descriptive Statistics - Readings"
 citeproc: false
 bibliography: ../../static/bib/references.bib
 csl: ../../static/bib/chicago-fullnote-bibliography-no-bib.csl
@@ -7,6 +7,8 @@ csl: ../../static/bib/chicago-fullnote-bibliography-no-bib.csl
 
 # Strongly Recommended
 
-- <i class="fas fa-book"></i> @Bailey[Math and Probability Background Appendices A-I]
+- <i class="fas fa-book"></i> @Bailey[Math and Probability Background Appendix A]
 
-Now that we return to the statistics, we will do a minimal overview of basic statistics and distributions. Review Bailey's appendices. 
+Now that we return to the statistics, we will do a minimal overview of basic statistics and distributions. Review Bailey's appendices. Today, only A is really useful, the rest will come next 
+
+Chapter 2 is optional, but will give you a good overview of using data.
