@@ -113,19 +113,37 @@ class: inverse, center, middle
 
 ---
 
-# Data 101
+# Data 101 I
 
 .pull-left[
 
 - .hl[Data] are information with context
+
 - .hl[Individuals] are the entities described by a set of data 
     - e.g. persons, households, firms, countries 
+    
+]
+
+.pull-right[
+
+![](https://www.dropbox.com/s/gmb5xihskovjrly/individual1.jpg?raw=1)
+
+]
+
+---
+
+# Data 101 I
+
+.pull-left[
+
 - .hl[Variables] are particular characteristics about an individual
     - e.g. age, income, profits, population, GDP, marital status, type of legal institutions
+
 - .hl[Observations] or .hl[cases] are the separate individuals described by a collection of variables
     - e.g. for one individual, we have their age, sex, income, education, etc.  
-    - individuals and observations are *not necessarily* the same: 
-        - e.g. we can have separate observations on the same individual over time 
+
+- individuals and observations are *not necessarily* the same: 
+    - e.g. we can have separate observations on the same individual over time 
 ]
 
 .pull-right[
@@ -140,7 +158,7 @@ class: inverse, center, middle
 
 .pull-left[
 
-- .hl[Categorial data] place an individual into one of several possible *categories*
+- .hl[Categorical data] place an individual into one of several possible *categories*
     - e.g. sex, season, political party
     - may be responses to survey questions
     - can be quantitative (e.g. age, zip code)
@@ -939,7 +957,7 @@ $$\mu=\frac{x_1+x_2+...+x_N}{N} = \frac{1}{N} \sum^N_{i=1} x_i$$
 
 - For $N$ values of variable $x$, "mu" is the sum of all individual $x$ values $(x_i)$ from 1 to $N$, divided by the $N$ number of values<sup>.red[1]</sup>
 
-- See today's class notes for more about the summation operator, $\displaystyle\Sigma$, it'll come up again!
+- See today's class notes for more about the .onfire[summation operator, `\\(\displaystyle\Sigma\\)`], it'll come up again!
 
 .footnote[<sup>.red[1]</sup> Note the mean need not be an actual value of the data!]
 
@@ -1164,6 +1182,9 @@ A common set of summary statistics about a distribution is known as the .shout["
 5. Maximum value
 ]
 ]
+
+--
+
 .pull-right[
 
 .font90[
@@ -1199,10 +1220,14 @@ quizzes %>%
 
 - .shout[Boxplots] are a great way to visualize the 5 number summary
 
-- Height of box: $Q_1$ to $Q_3$ (known as .onfire[interquartile range (IQR)], middle 50% of data)
-- Line inside box: median (50<sup>th</sup> percentile)
-- "Whiskers" identify data within $1.5 \times IQR$
-- Points *beyond* whiskers are a common definition of **outliers**
+- **Height of box**: $Q_1$ to $Q_3$ (known as .onfire[interquartile range (IQR)], middle 50% of data)
+
+- **Line inside box**: median (50<sup>th</sup> percentile)
+
+- **"Whiskers"** identify data within $1.5 \times IQR$
+
+- Points *beyond* whiskers are **outliers**
+    - common definition: $Outlier >1.5 \times IQR$
 ]
 .pull-right[
 
@@ -1249,9 +1274,7 @@ quizzes_new <- quizzes %>%
 .pull-left[
 
 ```{r, echo=T}
-quizzes_new %>% summary(quiz_1)
-
-quizzes_new %>% summary(quiz_2)
+quizzes_new %>% summary()
 ```
 ]
 
@@ -1281,15 +1304,15 @@ ggplot(data = quizzes_long)+
 
 - I don't like the options available for printing out summary statistics
 
-- So I wrote my own `R` function that makes nice summary tables that uses `dplyr` and `tidyr`
+- So I wrote my own `R function` that makes nice summary tables that uses `dplyr` and `tidyr`
 
 - One day I will release as a package; until then the `.R` file is [saved here](/files/summaries.R)
 
 ```{r, echo=T}
-# loads .R files to full functions from; make sure it's in working directory/Project!
-source("../files/summaries.R") 
+# loads .R files to full functions from; make sure it's in YOUR working directory/Project!
+source("../files/summaries.R") # MY path (this website's R Project)
 
-# let's summarize "hwy" and "cty" from mpg dataset
+# let's summarize variables "hwy" and "cty" from *mpg* dataset
 mpg %>%
   summary_table(hwy, cty)
 ```
@@ -1312,17 +1335,20 @@ mpg %>%
 
 # Deviations
 
-- Every observation .onfire[deviates] from the mean of the data: 
+- Every observation $i$ .onfire[deviates] from the mean of the data: 
 $$deviation_i = x_i-\mu	$$
 
 - There are as many deviations as there are data points $(n)$
+
 - We can measure the *average* or .shout[standard deviation] of a variable from its mean
+
+- Before we get there...
 
 ---
 
 # Variance (Population)
 
-- The .shout[population variance `\\((\sigma^2)\\)`] of a *population* distribution measures the average of the *squared* deviations from the *population* mean
+- The .shout[population variance `\\((\sigma^2)\\)`] of a *population* distribution measures the average of the *squared* deviations from the *population* mean $(\mu)$
 
 $$\sigma^2 = \frac{1}{N}\displaystyle\sum^N_{i=1} (x_i-\mu)^2$$
 
@@ -1342,9 +1368,9 @@ $$\sigma=\sqrt{\sigma^2}=\sqrt{\frac{1}{N}\displaystyle\sum^N_{i=1} (x_i-\mu)^2	
 
 # Variance (Sample)
 
-- The .shout[sample variance `\\((s^2)\\)`] of a *sample* distribution measures the average of the *squared* deviations from the *sample* mean
+- The .shout[sample variance `\\((s^2)\\)`] of a *sample* distribution measures the average of the *squared* deviations from the *sample* mean $(\bar{x})$
 
-$$\sigma^2 = \frac{1}{n-1}\displaystyle\sum^n_{i=1} (x_i-\mu)^2$$
+$$\sigma^2 = \frac{1}{n-1}\displaystyle\sum^n_{i=1} (x_i-\bar{x})^2$$
 
 - Why do we divide by $n-1$?
 
@@ -1354,7 +1380,7 @@ $$\sigma^2 = \frac{1}{n-1}\displaystyle\sum^n_{i=1} (x_i-\mu)^2$$
 
 - Square root the sample variance to get the .shout[sample standard deviation `\\((s)\\)`], the average deviation from the *sample* mean (in same units as $x$)
 
-$$s=\sqrt{s^2}=\sqrt{\frac{1}{n-1}\displaystyle\sum^n_{i=1} (x_i-\mu)^2	}$$
+$$s=\sqrt{s^2}=\sqrt{\frac{1}{n-1}\displaystyle\sum^n_{i=1} (x_i-\bar{x})^2	}$$
 
 ---
 
