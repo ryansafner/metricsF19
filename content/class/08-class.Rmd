@@ -1,0 +1,32 @@
+---
+title: "2.2: Random Variables and Distributions - Class Notes"
+citeproc: false
+bibliography: ../../static/bib/references.bib
+csl: ../../static/bib/chicago-syllabus-no-bib.csl
+output:
+  blogdown::html_page:
+    template: ../../pandoc/toc-title_html.template
+    toc: true
+editor_options: 
+  chunk_output_type: console
+---
+
+*Thursday, September 19, 2019*
+
+# Overview
+
+Today we finish your crash course/review of basic statistics with random variables and distributions.
+
+# Slides
+
+- [<i class="fas fa-external-link-square-alt"></i> Lecture Slides](/slides/08-slides.html)
+
+# Assignments: Problem Set 1 DUE and Problem Set 2
+
+[Problem Set 1](/assignment/01-problem-set.html) is DUE
+
+Problem set 2 (on classes 2.1-2.2) will be posted shortly, and is due by Thursday September 26.
+
+# Appendix: Graphing Statistical and Mathematical Functions in R
+
+Check back later today! 

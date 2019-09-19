@@ -52,6 +52,8 @@ lessons:
 
   - title: "2.2 Random Variables and Distributions"
     reading: "08-reading"
+    class: "08-class"
+    slides: "08-slides"
     
   - title: '<i class="fas fa-laptop-code"></i> **Problem Set 2**'
 
