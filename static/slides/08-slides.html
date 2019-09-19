@@ -83,7 +83,7 @@ class: inverse, center, middle
 ---
 
 class: inverse, center, middle
-# Random Variables
+# Discrete Random Variables
 
 ---
 
@@ -349,7 +349,7 @@ X %&gt;%
 
 - The .shout[variance] of a random variable `\(X\)`, denoted `\(var(X)\)` or `\(\sigma^2_X\)` is:
 
-`$$\begin{align*}\sigma^2_X &amp;= E[(X-\mu_X)^2]\\
+`$$\begin{align*}\sigma^2_X &amp;= E[(x_i-\mu_X)^2]\\
 &amp;=\sum_{i=1}^n(x_i-\mu_X)^2p_i\\ \end{align*}$$`
 
 - This is the .onfire[expected value of the squared deviations from the mean]
@@ -504,6 +504,10 @@ class: inverse, center, middle
 
 - Since `\(P(a)=0\)` and `\(P(b)=0\)`, `\(P(a&lt;X&lt;b)=P(a \leq X \leq b)\)`
 
+.content-box-green[
+.green[**Example**]: P(0 \leq X \leq 2)
+]
+
 - See [today's class notes](/class/08-class) for how to graph math/stats functions in `ggplot`!
 ]
 
@@ -511,9 +515,6 @@ class: inverse, center, middle
 
 &lt;img src="08-slides_files/figure-html/unnamed-chunk-10-1.png" width="504" /&gt;
 
-.center[
-`\(P(0 \leq X \leq 2)=\)` area under the curve between 0 and 2
-]
 ]
 
 ---
@@ -534,9 +535,6 @@ $$P(a \leq X \leq b) = \int_a^b f(x) dx $$
 
 &lt;img src="08-slides_files/figure-html/unnamed-chunk-11-1.png" width="504" /&gt;
 
-.center[
-`\(P(0 \leq X \leq 2)=\)` area under the curve between 0 and 2
-]
 ]
 
 ---
@@ -549,15 +547,15 @@ $$P(a \leq X \leq b) = \int_a^b f(x) dx $$
 
 `$$P(X \leq k)$$` 
 
+.content-box-green[
+.green[**Example**]: P(X \leq 2)
+]
 ]
 
 .pull-right[
 
 &lt;img src="08-slides_files/figure-html/unnamed-chunk-12-1.png" width="504" /&gt;
 
-.center[
-`\(P(X \leq 2)=\)` area under the curve to the left of 2
-]
 ]
 
 ---
@@ -570,8 +568,9 @@ $$P(a \leq X \leq b) = \int_a^b f(x) dx $$
 
 `$$P(X \geq k)=1-P(X \leq k)$$`
 
-`$$P(X \leq k)$$` 
-
+.content-box-green[
+.green[**Example**]: P(X \geq 2) = 1 - P(X \leq 2)
+]
 ]
 
 .pull-right[
@@ -651,7 +650,7 @@ $$ X \sim N(\mu,\sigma)$$
 
 - .shout[68-95-99.7% empirical rule]: for a normal distribution:
 
-- `\(P(\mu-1\sigma \leq X \leq \mu+1\sigma) \approx\)` 68\%
+- `\(P(\mu-1\sigma \leq X \leq \mu+1\sigma) \approx\)` 68%
 
 ]
 
@@ -668,9 +667,9 @@ $$ X \sim N(\mu,\sigma)$$
 
 - .shout[68-95-99.7% empirical rule]: for a normal distribution:
 
-- `\(P(\mu-1\sigma \leq X \leq \mu+1\sigma) \approx\)` 68\%
+- `\(P(\mu-1\sigma \leq X \leq \mu+1\sigma) \approx\)` 68%
 
-- `\(P(\mu-2\sigma \leq X \leq \mu+2\sigma) \approx\)` 95\%
+- `\(P(\mu-2\sigma \leq X \leq \mu+2\sigma) \approx\)` 95%
 
 ]
 
@@ -686,11 +685,13 @@ $$ X \sim N(\mu,\sigma)$$
 
 - .shout[68-95-99.7% empirical rule]: for a normal distribution:
 
-- `\(P(\mu-1\sigma \leq X \leq \mu+1\sigma) \approx\)` 68\%
+- `\(P(\mu-1\sigma \leq X \leq \mu+1\sigma) \approx\)` 68%
 
-- `\(P(\mu-2\sigma \leq X \leq \mu+2\sigma) \approx\)` 95\%
+- `\(P(\mu-2\sigma \leq X \leq \mu+2\sigma) \approx\)` 95%
 
-- `\(P(\mu-3\sigma \leq X \leq \mu+3\sigma) \approx\)` 99.7\%
+- `\(P(\mu-3\sigma \leq X \leq \mu+3\sigma) \approx\)` 99.7%
+
+- **68/95/99.7%** of observations fall within **1/2/3 standard deviations** of the mean
 ]
 
 .pull-right[
@@ -704,7 +705,7 @@ $$ X \sim N(\mu,\sigma)$$
 
 .pull-left[
 
-- The .onfire[standard] normal distribution has mean 0 and standard deviation 1
+- The .onfire[standard] normal distribution (often referred to as **Z**) has mean 0 and standard deviation 1
 
 `$$Z \sim N(0,1)$$`
 
@@ -735,7 +736,24 @@ $$ X \sim N(\mu,\sigma)$$
 
 ---
 
-# Standardizing Variables: Example I
+# Standardizing Variables: 
+
+.pull-left[
+
+- We can take any normal distribution (for any `\(\mu, \sigma)\)` and **standardize** it to the standard normal distribution by taking the .shout[Z-score] of any value, `\(x_i\)`:
+
+`$$Z=\frac{x_i-\mu}{\sigma}$$`
+
+- Subtract any value by the distribution's mean and divide by standard deviation
+
+- `\(Z\)`: number of standard deviations `\(x_i\)` value is away from the mean
+]
+
+.pull-right[
+&lt;img src="08-slides_files/figure-html/unnamed-chunk-23-1.png" width="504" /&gt;
+]
+
+# Standardizing Variables: Example II
 
 .content-box-green[
 .green[**Example**]: On August 8, 2011, the Dow dropped 634.8 points, sending shock waves through the financial community. Assume that during mid-2011 to mid-2012 the daily change for the Dow is normally distributed, with the mean daily change of 1.87 points and a standard deviation of 155.28 points. What is the `\(Z\)`-score?
@@ -790,9 +808,9 @@ Convert to standard normal to find `\(Z\)`-scores for 8 and `\(-3.2.\)`
 
 # Standardizing Variables: From X to Z II
 
-&lt;img src="08-slides_files/figure-html/unnamed-chunk-23-1.png" width="504" style="display: block; margin: auto;" /&gt;
-
 &lt;img src="08-slides_files/figure-html/unnamed-chunk-24-1.png" width="504" style="display: block; margin: auto;" /&gt;
+
+&lt;img src="08-slides_files/figure-html/unnamed-chunk-25-1.png" width="504" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -834,7 +852,7 @@ Probability to the **left** of `\(z_i\)`
 `$$P(Z \leq z_i)= \underbrace{\Phi(z_i)}_{\text{cdf of }z_i}$$`
 
 
-&lt;img src="08-slides_files/figure-html/unnamed-chunk-25-1.png" width="504" style="display: block; margin: auto;" /&gt;
+&lt;img src="08-slides_files/figure-html/unnamed-chunk-26-1.png" width="504" style="display: block; margin: auto;" /&gt;
 
 ]
 .pull-right[
@@ -845,7 +863,7 @@ Probability to the **right** of `\(z_i\)`
 
 
 
-&lt;img src="08-slides_files/figure-html/unnamed-chunk-26-1.png" width="504" style="display: block; margin: auto;" /&gt;
+&lt;img src="08-slides_files/figure-html/unnamed-chunk-27-1.png" width="504" style="display: block; margin: auto;" /&gt;
 
 
 ]
@@ -860,7 +878,7 @@ Probability **between** `\(z_1\)` and `\(z_2\)`
 `$$P(z_1 \geq Z \geq z_2)= \underbrace{\Phi(z_2)}_{\text{cdf of }z_2} - \underbrace{\Phi(z_1)}_{\text{cdf of }z_1}$$`
 
 
-&lt;img src="08-slides_files/figure-html/unnamed-chunk-27-1.png" width="504" style="display: block; margin: auto;" /&gt;
+&lt;img src="08-slides_files/figure-html/unnamed-chunk-28-1.png" width="504" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -878,7 +896,7 @@ Probability **between** `\(z_1\)` and `\(z_2\)`
 ]
 
 .pull-right[
-&lt;img src="08-slides_files/figure-html/unnamed-chunk-28-1.png" width="504" style="display: block; margin: auto;" /&gt;
+&lt;img src="08-slides_files/figure-html/unnamed-chunk-29-1.png" width="504" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -909,7 +927,7 @@ pnorm(80,
 ]
 
 .pull-right[
-&lt;img src="08-slides_files/figure-html/unnamed-chunk-30-1.png" width="504" style="display: block; margin: auto;" /&gt;
+&lt;img src="08-slides_files/figure-html/unnamed-chunk-31-1.png" width="504" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -940,7 +958,7 @@ pnorm(80,
 ]
 
 .pull-right[
-&lt;img src="08-slides_files/figure-html/unnamed-chunk-32-1.png" width="504" style="display: block; margin: auto;" /&gt;
+&lt;img src="08-slides_files/figure-html/unnamed-chunk-33-1.png" width="504" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -963,7 +981,7 @@ pnorm(80,
 pnorm(85, # larger number first!
       mean = 75,
       sd = 10,
-      lower.tail = TRUE)- # looking to left
+      lower.tail = TRUE) - # looking to left, &amp; SUBTRACT
   pnorm(65, # smaller number second!
         mean = 75,
         sd = 10,
@@ -976,11 +994,9 @@ pnorm(85, # larger number first!
 ]
 
 .pull-right[
-&lt;img src="08-slides_files/figure-html/unnamed-chunk-34-1.png" width="504" style="display: block; margin: auto;" /&gt;
+&lt;img src="08-slides_files/figure-html/unnamed-chunk-35-1.png" width="504" style="display: block; margin: auto;" /&gt;
 
 ]
-
----
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
