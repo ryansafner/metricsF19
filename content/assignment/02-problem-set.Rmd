@@ -54,19 +54,19 @@ Suppose you have a very small class of four students that all take a quiz. Their
 $$\{83, 92, 72, 81\}$$
 
 
-## Part A 
+### Part A 
 Calculate the median.
 
-## Part B
+### Part B
 Calculate the sample mean, $\bar{x}$.
 
-## Part C
+### Part C
 Calculate the sample standard deviation, $s$.
 
-## Part D
+### Part D
 Make or sketch a rough histogram of this data, with the size of each bin being 10 (i.e. 70's, 80's, 90's, 100's). You can draw this by hand or use `R`.^[If you are using `ggplot`, you want to use `+geom_histogram(breaks=seq(start,end,by))` and add `+scale_x_continuous(breaks=seq(start,end,by))`. For each, it creates bins in the histogram, and ticks on the x axis by creating a `seq`uence starting at `start` (a number), ending at `end` (number), `by` a certain interval (i.e. by `10`s.).] Is this distribution roughly symmetric or skewed? What would we expect about the mean and the median?
 
-## Part E
+### Part E
 Suppose instead the person who got the 72 did not show up that day to class, and got a 0 instead. Recalculate the mean and median. What happened and why? 
 
 
