@@ -25,7 +25,7 @@ Today we finish your crash course/review of basic statistics with random variabl
 
 [Problem Set 1](/assignment/01-problem-set.html) is DUE
 
-Problem set 2 (on classes 2.1-2.2) will be posted shortly, and is due by Thursday September 26.
+[Problem Set 2](/assignment/01-problem-set.html) (on classes 2.1-2.2) is due by Thursday September 26.
 
 # Appendix: Graphing Statistical and Mathematical Functions in R
 

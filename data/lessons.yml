@@ -55,7 +55,8 @@ lessons:
     class: "08-class"
     slides: "08-slides"
     
-  - title: '<i class="fas fa-laptop-code"></i> **Problem Set 2**'
+  - title: '<i class="fas fa-laptop-code"></i> **Problem Set 2** due Sept 26'
+    assignment: "02-problem-set"
 
   - title: "2.3 OLS Linear Regression"
 
