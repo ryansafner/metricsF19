@@ -31,10 +31,12 @@ Today we finish your crash course/review of basic statistics with random variabl
 
 The `mosaic` package is useful for making and using mathematical functions in `R`.
 
-```{r}
+```{r, message = F, warning = F}
 # install.packages("mosaic") install for first use
 library(mosaic) # load 
 ```
+
+## Creating Mathematical Functions
 
 You can create custom mathematical functions using mosaic by defining an R `function()` with multiple arguments. As a simple example, make the function `f(x) = 2x+x^2` as follows:
 
@@ -68,7 +70,7 @@ x<-c(2,4)
 my_function(x)
 ```
 
-## To Graph
+## Graphing Mathematical Functions
 
 In `ggplot` there is a dedicated `stat_function()` (equivalent to a `geom_` layer) to graph mathematical and statistical functions. All that is needed is a `data.frame` of a range of `x` values to act as the source for `data`, and set `x` equal to those values for `aes`thetics. 
 
@@ -93,6 +95,8 @@ ggplot(data = data.frame(x = 1:10))+
   aes(x = x)+
   stat_function(fun = my_function, color = "blue", size = 2, linetype = "dashed") #<<
 ```
+
+## Bultin Statistical Functions
 
 There are some standard statistical distributions built into R:
 
@@ -121,7 +125,7 @@ There are some standard statistical distributions built into R:
 
 Thus, what you want is a combination of the prefix and the distribution.
 
-### Some common examples:
+## Some common examples:
 
 1. Take random draws from a normal distribution: 
 
@@ -149,6 +153,8 @@ qnorm(p = 0.38, # 38th percentile from a distribution where:
       mean = 200, # mean is 200
       sd = 100) # sd is 100
 ```
+
+## Graphing Statistical Functions
 
 You can also graph these commonly used statistical functions by setting `fun = ` the named functions in your `stat_function()` layer. If you want to specify the mean and standard deviation, use `args = list()` to include the required arguments from the named function above (e.g. `dnorm` needs `mean` and `sd`). 
 
