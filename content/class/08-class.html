@@ -12,6 +12,74 @@ editor_options:
 ---
 
 <!-- BLOGDOWN-HEAD -->
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    background-color: #ffffff;
+    color: #a0a0a0;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #a0a0a0;  padding-left: 4px; }
+div.sourceCode
+  { color: #1f1c1b; background-color: #ffffff; }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span. { color: #1f1c1b; } /* Normal */
+code span.al { color: #bf0303; background-color: #f7e6e6; font-weight: bold; } /* Alert */
+code span.an { color: #ca60ca; } /* Annotation */
+code span.at { color: #0057ae; } /* Attribute */
+code span.bn { color: #b08000; } /* BaseN */
+code span.bu { color: #644a9b; font-weight: bold; } /* BuiltIn */
+code span.cf { color: #1f1c1b; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #924c9d; } /* Char */
+code span.cn { color: #aa5500; } /* Constant */
+code span.co { color: #898887; } /* Comment */
+code span.cv { color: #0095ff; } /* CommentVar */
+code span.do { color: #607880; } /* Documentation */
+code span.dt { color: #0057ae; } /* DataType */
+code span.dv { color: #b08000; } /* DecVal */
+code span.er { color: #bf0303; text-decoration: underline; } /* Error */
+code span.ex { color: #0095ff; font-weight: bold; } /* Extension */
+code span.fl { color: #b08000; } /* Float */
+code span.fu { color: #644a9b; } /* Function */
+code span.im { color: #ff5500; } /* Import */
+code span.in { color: #b08000; } /* Information */
+code span.kw { color: #1f1c1b; font-weight: bold; } /* Keyword */
+code span.op { color: #1f1c1b; } /* Operator */
+code span.ot { color: #006e28; } /* Other */
+code span.pp { color: #006e28; } /* Preprocessor */
+code span.re { color: #0057ae; background-color: #e0e9f8; } /* RegionMarker */
+code span.sc { color: #3daee9; } /* SpecialChar */
+code span.ss { color: #ff5500; } /* SpecialString */
+code span.st { color: #bf0303; } /* String */
+code span.va { color: #0057ae; } /* Variable */
+code span.vs { color: #bf0303; } /* VerbatimString */
+code span.wa { color: #bf0303; } /* Warning */
+</style>
 <!-- /BLOGDOWN-HEAD -->
 
 <h2>Contents</h2>
@@ -20,7 +88,9 @@ editor_options:
 <li><a href="#overview">Overview</a></li>
 <li><a href="#slides">Slides</a></li>
 <li><a href="#assignments-problem-set-1-due-and-problem-set-2">Assignments: Problem Set 1 DUE and Problem Set 2</a></li>
-<li><a href="#appendix-graphing-statistical-and-mathematical-functions-in-r">Appendix: Graphing Statistical and Mathematical Functions in R</a></li>
+<li><a href="#appendix-graphing-statistical-and-mathematical-functions-in-r">Appendix: Graphing Statistical and Mathematical Functions in R</a><ul>
+<li><a href="#to-graph">To Graph</a></li>
+</ul></li>
 </ul>
 </div>
 
@@ -35,4 +105,226 @@ editor_options:
 <p><a href="/assignment/01-problem-set.html">Problem Set 1</a> is DUE</p>
 <p><a href="/assignment/01-problem-set.html">Problem Set 2</a> (on classes 2.1-2.2) is due by Thursday September 26.</p>
 <h2 id="appendix-graphing-statistical-and-mathematical-functions-in-r">Appendix: Graphing Statistical and Mathematical Functions in R</h2>
-<p>Check back later today!</p>
+<p>The <code>mosaic</code> package is useful for making and using mathematical functions in <code>R</code>.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="co"># install.packages(&quot;mosaic&quot;) install for first use</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">library</span>(mosaic) <span class="co"># load </span></span></code></pre></div>
+<pre><code>## Loading required package: dplyr</code></pre>
+<pre><code>## 
+## Attaching package: &#39;dplyr&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     filter, lag</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     intersect, setdiff, setequal, union</code></pre>
+<pre><code>## Loading required package: lattice</code></pre>
+<pre><code>## Loading required package: ggformula</code></pre>
+<pre><code>## Loading required package: ggplot2</code></pre>
+<pre><code>## Loading required package: ggstance</code></pre>
+<pre><code>## 
+## Attaching package: &#39;ggstance&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:ggplot2&#39;:
+## 
+##     geom_errorbarh, GeomErrorbarh</code></pre>
+<pre><code>## 
+## New to ggformula?  Try the tutorials: 
+##  learnr::run_tutorial(&quot;introduction&quot;, package = &quot;ggformula&quot;)
+##  learnr::run_tutorial(&quot;refining&quot;, package = &quot;ggformula&quot;)</code></pre>
+<pre><code>## Loading required package: mosaicData</code></pre>
+<pre><code>## Loading required package: Matrix</code></pre>
+<pre><code>## Registered S3 method overwritten by &#39;mosaic&#39;:
+##   method                           from   
+##   fortify.SpatialPolygonsDataFrame ggplot2</code></pre>
+<pre><code>## 
+## The &#39;mosaic&#39; package masks several functions from core packages in order to add 
+## additional features.  The original behavior of these functions should not be affected by this.
+## 
+## Note: If you use the Matrix package, be sure to load it BEFORE loading mosaic.</code></pre>
+<pre><code>## 
+## Attaching package: &#39;mosaic&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:Matrix&#39;:
+## 
+##     mean</code></pre>
+<pre><code>## The following object is masked from &#39;package:ggplot2&#39;:
+## 
+##     stat</code></pre>
+<pre><code>## The following objects are masked from &#39;package:dplyr&#39;:
+## 
+##     count, do, tally</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     binom.test, cor, cor.test, cov, fivenum, IQR, median,
+##     prop.test, quantile, sd, t.test, var</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     max, mean, min, prod, range, sample, sum</code></pre>
+<p>You can create custom mathematical functions using mosaic by defining an R <code>function()</code> with multiple arguments. As a simple example, make the function <code>f(x) = 2x+x^2</code> as follows:</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a><span class="co"># store as a named function, I&#39;ll call it &quot;my_function&quot;</span></span>
+<span id="cb23-2"><a href="#cb23-2"></a>my_function&lt;-<span class="cf">function</span>(x){<span class="dv">10</span><span class="op">*</span>x<span class="op">-</span>x<span class="op">^</span><span class="dv">2</span>}</span>
+<span id="cb23-3"><a href="#cb23-3"></a></span>
+<span id="cb23-4"><a href="#cb23-4"></a><span class="co"># look at it</span></span>
+<span id="cb23-5"><a href="#cb23-5"></a>my_function</span></code></pre></div>
+<pre><code>## function(x){10*x-x^2}</code></pre>
+<p>There are some notational requirements from <code>R</code> for making functions. Any coefficient in front of a variable (such as the 2 in <code>2x</code> must be explicitly multiplied by the variable, as in <code>10*x</code>.)</p>
+<p>To use the function, simply define what the input <code>(x)</code> is and run your named function on it:</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a><span class="co"># f of 2 </span></span>
+<span id="cb25-2"><a href="#cb25-2"></a><span class="kw">my_function</span>(<span class="dv">2</span>)</span></code></pre></div>
+<pre><code>## [1] 16</code></pre>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a><span class="co"># f of 2 and 4</span></span>
+<span id="cb27-2"><a href="#cb27-2"></a><span class="kw">my_function</span>(<span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">4</span>))</span></code></pre></div>
+<pre><code>## [1] 16 24</code></pre>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a><span class="co"># f of 2 through 7</span></span>
+<span id="cb29-2"><a href="#cb29-2"></a><span class="kw">my_function</span>(<span class="dv">2</span><span class="op">:</span><span class="dv">7</span>)</span></code></pre></div>
+<pre><code>## [1] 16 21 24 25 24 21</code></pre>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a><span class="co"># ALTERNATIVELY</span></span>
+<span id="cb31-2"><a href="#cb31-2"></a><span class="co"># define x first and then run function on it</span></span>
+<span id="cb31-3"><a href="#cb31-3"></a></span>
+<span id="cb31-4"><a href="#cb31-4"></a>x&lt;-<span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">4</span>)</span>
+<span id="cb31-5"><a href="#cb31-5"></a><span class="kw">my_function</span>(x)</span></code></pre></div>
+<pre><code>## [1] 16 24</code></pre>
+<h3 id="to-graph">To Graph</h3>
+<p>In <code>ggplot</code> there is a dedicated <code>stat_function()</code> (equivalent to a <code>geom_</code> layer) to graph mathematical and statistical functions. All that is needed is a <code>data.frame</code> of a range of <code>x</code> values to act as the source for <code>data</code>, and set <code>x</code> equal to those values for <code>aes</code>thetics.</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1"></a><span class="co"># x values are integers 1 through 10</span></span>
+<span id="cb33-2"><a href="#cb33-2"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> <span class="kw">data.frame</span>(<span class="dt">x =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10</span>))<span class="op">+</span></span>
+<span id="cb33-3"><a href="#cb33-3"></a><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> x)</span></code></pre></div>
+<p><img src="/class/08-class_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>Then we add the <code>stat_function</code>, where <code>fun =</code> is the most important argument where you define the to function to graph as your function created above, for example, our <code>my_function</code>.</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> <span class="kw">data.frame</span>(<span class="dt">x =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10</span>))<span class="op">+</span></span>
+<span id="cb34-2"><a href="#cb34-2"></a><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> x)<span class="op">+</span></span>
+<span id="cb34-3"><a href="#cb34-3"></a><span class="st">  </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> my_function) <span class="co">#&lt;&lt;</span></span></code></pre></div>
+<p><img src="/class/08-class_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>You can also adjust things like size, color, and line type.</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> <span class="kw">data.frame</span>(<span class="dt">x =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">10</span>))<span class="op">+</span></span>
+<span id="cb35-2"><a href="#cb35-2"></a><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> x)<span class="op">+</span></span>
+<span id="cb35-3"><a href="#cb35-3"></a><span class="st">  </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> my_function, <span class="dt">color =</span> <span class="st">&quot;blue&quot;</span>, <span class="dt">size =</span> <span class="dv">2</span>, <span class="dt">linetype =</span> <span class="st">&quot;dashed&quot;</span>) <span class="co">#&lt;&lt;</span></span></code></pre></div>
+<p><img src="/class/08-class_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>There are some standard statistical distributions built into R:</p>
+<p><strong>Prefixes</strong>:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Action/Type</th>
+<th>Prefix</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>random draw</td>
+<td><code>r</code></td>
+</tr>
+<tr class="even">
+<td>density (pdf)</td>
+<td><code>d</code></td>
+</tr>
+<tr class="odd">
+<td>cdf</td>
+<td><code>p</code></td>
+</tr>
+<tr class="even">
+<td>quantile (inverse cdf)</td>
+<td><code>q</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Distributions</strong>:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Distribution</th>
+<th>Name</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>normal</td>
+<td><code>norm</code></td>
+</tr>
+<tr class="even">
+<td>uniform</td>
+<td><code>unif</code></td>
+</tr>
+<tr class="odd">
+<td>t</td>
+<td><code>t</code></td>
+</tr>
+<tr class="even">
+<td>binomial</td>
+<td><code>binom</code></td>
+</tr>
+<tr class="odd">
+<td>negative binomial</td>
+<td><code>nbinom</code></td>
+</tr>
+<tr class="even">
+<td>hyper</td>
+<td><code>hypergeometric</code></td>
+</tr>
+<tr class="odd">
+<td>weibull</td>
+<td><code>weibull</code></td>
+</tr>
+<tr class="even">
+<td>beta</td>
+<td><code>beta</code></td>
+</tr>
+<tr class="odd">
+<td>gamma</td>
+<td><code>gamma</code></td>
+</tr>
+</tbody>
+</table>
+<p>Thus, what you want is a combination of the prefix and the distribution.</p>
+<h4 id="some-common-examples">Some common examples:</h4>
+<ol style="list-style-type: decimal">
+<li>Take random draws from a normal distribution:</li>
+</ol>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1"></a><span class="kw">rnorm</span>(<span class="dt">n =</span> <span class="dv">10</span>, <span class="co"># take 10 draws from a normal distribution with:</span></span>
+<span id="cb36-2"><a href="#cb36-2"></a>      <span class="dt">mean =</span> <span class="dv">2</span>, <span class="co"># mean of 2</span></span>
+<span id="cb36-3"><a href="#cb36-3"></a>      <span class="dt">sd =</span> <span class="dv">1</span>) <span class="co"># sd of 1</span></span></code></pre></div>
+<pre><code>##  [1] 2.282361 1.641902 3.530844 1.263842 1.354708 3.308937 1.042801
+##  [8] 2.374954 2.596015 1.718074</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li>Get probability of a random variable being less than or equal to a value (cdf) from a normal distribution:</li>
+</ol>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1"></a><span class="co"># find probability of area to the LEFT of a number on pdf (note this = cdf of that number!)</span></span>
+<span id="cb38-2"><a href="#cb38-2"></a><span class="kw">pnorm</span>(<span class="dt">q =</span> <span class="dv">80</span>, <span class="co"># number is 80 from a distribution where: </span></span>
+<span id="cb38-3"><a href="#cb38-3"></a>      <span class="dt">mean =</span> <span class="dv">200</span>, <span class="co"># mean is 100</span></span>
+<span id="cb38-4"><a href="#cb38-4"></a>      <span class="dt">sd =</span> <span class="dv">100</span>, <span class="co"># sd is 100</span></span>
+<span id="cb38-5"><a href="#cb38-5"></a>      <span class="dt">lower.tail =</span> <span class="ot">TRUE</span>) <span class="co"># looking to the LEFT in lower tail</span></span></code></pre></div>
+<pre><code>## [1] 0.1150697</code></pre>
+<ol start="3" style="list-style-type: decimal">
+<li>Find the value of a distribution that is a specified percentile.</li>
+</ol>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1"></a><span class="co"># find the 38th percentile value</span></span>
+<span id="cb40-2"><a href="#cb40-2"></a><span class="kw">qnorm</span>(<span class="dt">p =</span> <span class="fl">0.38</span>, <span class="co"># 38th percentile from a distribution where:</span></span>
+<span id="cb40-3"><a href="#cb40-3"></a>      <span class="dt">mean =</span> <span class="dv">200</span>, <span class="co"># mean is 200</span></span>
+<span id="cb40-4"><a href="#cb40-4"></a>      <span class="dt">sd =</span> <span class="dv">100</span>) <span class="co"># sd is 100</span></span></code></pre></div>
+<pre><code>## [1] 169.4519</code></pre>
+<p>You can also graph these commonly used statistical functions by setting <code>fun =</code> the named functions in your <code>stat_function()</code> layer. If you want to specify the mean and standard deviation, use <code>args = list()</code> to include the required arguments from the named function above (e.g. <code>dnorm</code> needs <code>mean</code> and <code>sd</code>).</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> <span class="kw">data.frame</span>(<span class="dt">x =</span> <span class="dv">-400</span><span class="op">:</span><span class="dv">600</span>))<span class="op">+</span></span>
+<span id="cb42-2"><a href="#cb42-2"></a><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> x)<span class="op">+</span></span>
+<span id="cb42-3"><a href="#cb42-3"></a><span class="st">  </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> dnorm, <span class="dt">args =</span> <span class="kw">list</span>(<span class="dt">mean =</span> <span class="dv">200</span>, <span class="dt">sd =</span> <span class="dv">200</span>), <span class="dt">color =</span> <span class="st">&quot;blue&quot;</span>, <span class="dt">size =</span> <span class="dv">2</span>, <span class="dt">linetype =</span> <span class="st">&quot;dashed&quot;</span>) <span class="co">#&lt;&lt;</span></span></code></pre></div>
+<p><img src="/class/08-class_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p>If you don’t include this, it will graph the standard distribution:</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> <span class="kw">data.frame</span>(<span class="dt">x =</span> <span class="dv">-4</span><span class="op">:</span><span class="dv">4</span>))<span class="op">+</span></span>
+<span id="cb43-2"><a href="#cb43-2"></a><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> x)<span class="op">+</span></span>
+<span id="cb43-3"><a href="#cb43-3"></a><span class="st">  </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> dnorm, <span class="dt">color =</span> <span class="st">&quot;blue&quot;</span>, <span class="dt">size =</span> <span class="dv">2</span>, <span class="dt">linetype =</span> <span class="st">&quot;dashed&quot;</span>) <span class="co">#&lt;&lt;</span></span></code></pre></div>
+<p><img src="/class/08-class_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p>To add shading under a distribution, simply add a duplicate of the <code>stat_function()</code> layer, but add <code>geom="area"</code> to indicate the area beneath the function should be filled, and you can limit the domain of the <code>fill</code> with <code>xlim=c(start,end)</code>, where <code>start</code> and <code>end</code> are the x-values for the endpoints of the <code>fill.</code></p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1"></a><span class="co"># graph normal distribution and shade area between -2 and 2</span></span>
+<span id="cb44-2"><a href="#cb44-2"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> <span class="kw">data.frame</span>(<span class="dt">x =</span> <span class="dv">-4</span><span class="op">:</span><span class="dv">4</span>))<span class="op">+</span></span>
+<span id="cb44-3"><a href="#cb44-3"></a><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> x)<span class="op">+</span></span>
+<span id="cb44-4"><a href="#cb44-4"></a><span class="st">  </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> dnorm, <span class="dt">color =</span> <span class="st">&quot;blue&quot;</span>, <span class="dt">size =</span> <span class="dv">2</span>, <span class="dt">linetype =</span> <span class="st">&quot;dashed&quot;</span>)<span class="op">+</span></span>
+<span id="cb44-5"><a href="#cb44-5"></a><span class="st">  </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> dnorm, <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">2</span>,<span class="dv">2</span>), <span class="dt">geom =</span> <span class="st">&quot;area&quot;</span>, <span class="dt">fill =</span> <span class="st">&quot;green&quot;</span>, <span class="dt">alpha=</span><span class="fl">0.5</span>)<span class="co">#&lt;&lt;</span></span></code></pre></div>
+<p><img src="/class/08-class_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p>Hence, here is one graph from my slides:</p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1"></a><span class="kw">ggplot</span>(<span class="dt">data =</span> <span class="kw">tibble</span>(<span class="dt">x=</span><span class="dv">35</span><span class="op">:</span><span class="dv">115</span>))<span class="op">+</span></span>
+<span id="cb45-2"><a href="#cb45-2"></a><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> x)<span class="op">+</span></span>
+<span id="cb45-3"><a href="#cb45-3"></a><span class="st">  </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> dnorm, <span class="dt">args =</span> <span class="kw">list</span>(<span class="dt">mean =</span> <span class="dv">75</span>, <span class="dt">sd =</span> <span class="dv">10</span>), <span class="dt">size =</span> <span class="dv">2</span>, <span class="dt">color=</span><span class="st">&quot;blue&quot;</span>)<span class="op">+</span></span>
+<span id="cb45-4"><a href="#cb45-4"></a><span class="st">  </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> dnorm, <span class="dt">args =</span> <span class="kw">list</span>(<span class="dt">mean =</span> <span class="dv">75</span>, <span class="dt">sd =</span> <span class="dv">10</span>), <span class="dt">geom =</span> <span class="st">&quot;area&quot;</span>, <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">65</span>,<span class="dv">85</span>), <span class="dt">fill=</span><span class="st">&quot;blue&quot;</span>, <span class="dt">alpha=</span><span class="fl">0.5</span>)<span class="op">+</span></span>
+<span id="cb45-5"><a href="#cb45-5"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;X&quot;</span>,</span>
+<span id="cb45-6"><a href="#cb45-6"></a>       <span class="dt">y =</span> <span class="st">&quot;Probability&quot;</span>)<span class="op">+</span></span>
+<span id="cb45-7"><a href="#cb45-7"></a><span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="dt">breaks =</span> <span class="kw">seq</span>(<span class="dv">35</span>,<span class="dv">115</span>,<span class="dv">5</span>))<span class="op">+</span></span>
+<span id="cb45-8"><a href="#cb45-8"></a><span class="st">  </span><span class="kw">theme_classic</span>(<span class="dt">base_family =</span> <span class="st">&quot;Fira Sans Condensed&quot;</span>,</span>
+<span id="cb45-9"><a href="#cb45-9"></a>           <span class="dt">base_size=</span><span class="dv">20</span>)</span></code></pre></div>
+<p><img src="/class/08-class_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
