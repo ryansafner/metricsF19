@@ -38,7 +38,7 @@ library(mosaic) # load
 
 ## Creating Mathematical Functions
 
-You can create custom mathematical functions using mosaic by defining an R `function()` with multiple arguments. As a simple example, make the function `f(x) = 2x+x^2` as follows:
+You can create custom mathematical functions using mosaic by defining an R `function()` with multiple arguments. As a simple example, make the function $f(x) = 10x-x^2$ as follows:
 
 ```{r}
 # store as a named function, I'll call it "my_function"
@@ -49,7 +49,7 @@ my_function
 
 ```
 
-There are some notational requirements from `R` for making functions. Any coefficient in front of a variable (such as the 2 in `2x` must be explicitly multiplied by the variable, as in `10*x`.)
+There are some notational requirements from `R` for making functions. Any coefficient in front of a variable (such as the 10 in `10x` must be explicitly multiplied by the variable, as in `10*x`).
 
 To use the function, simply define what the input `(x)` is and run your named function on it: 
 
@@ -85,7 +85,7 @@ Then we add the `stat_function`, where `fun =` is the most important argument wh
 ```{r, fig.retina=3}
 ggplot(data = data.frame(x = 1:10))+
   aes(x = x)+
-  stat_function(fun = my_function) #<<
+  stat_function(fun = my_function) 
 ```
 
 You can also adjust things like size, color, and line type.
@@ -93,12 +93,12 @@ You can also adjust things like size, color, and line type.
 ```{r, fig.retina=3}
 ggplot(data = data.frame(x = 1:10))+
   aes(x = x)+
-  stat_function(fun = my_function, color = "blue", size = 2, linetype = "dashed") #<<
+  stat_function(fun = my_function, color = "blue", size = 2, linetype = "dashed") 
 ```
 
 ## Bultin Statistical Functions
 
-There are some standard statistical distributions built into R:
+There are some standard statistical distributions built into R. They require a combination of a specific prefix and a distribution. 
 
 **Prefixes**:
 
@@ -106,22 +106,22 @@ There are some standard statistical distributions built into R:
 |--------|--------|
 | random draw | `r` |
 | density (pdf) | `d` |  
-| cdf    | `p`    |
+| cumulative density (cdf)    | `p`    |
 | quantile (inverse cdf) | `q` |
 
 **Distributions**:
 
-| Distribution | Name |
+| Distribution | Name in R |
 |--------|--------|
-| normal | `norm` |
-| uniform | `unif` |  
-| t    | `t`    |
-| binomial    | `binom`    |
-| negative binomial    | `nbinom`    |
-| hyper    | `hypergeometric`    |
-| weibull    | `weibull`    |
-| beta    | `beta`    |
-| gamma    | `gamma`    |
+| Normal | `norm` |
+| Uniform | `unif` |  
+| Student's t    | `t`    |
+| Binomial    | `binom`    |
+| Negative binomial    | `nbinom`    |
+| Hypergeometric    | `hyper`    |
+| Weibull    | `weibull`    |
+| Beta    | `beta`    |
+| Gamma    | `gamma`    |
 
 Thus, what you want is a combination of the prefix and the distribution.
 
@@ -161,7 +161,7 @@ You can also graph these commonly used statistical functions by setting `fun = `
 ```{r, fig.retina=3}
 ggplot(data = data.frame(x = -400:600))+
   aes(x = x)+
-  stat_function(fun = dnorm, args = list(mean = 200, sd = 200), color = "blue", size = 2, linetype = "dashed") #<<
+  stat_function(fun = dnorm, args = list(mean = 200, sd = 200), color = "blue", size = 2, linetype = "dashed") 
 ```
 
 If you don't include this, it will graph the standard distribution:
@@ -169,7 +169,7 @@ If you don't include this, it will graph the standard distribution:
 ```{r, fig.retina=3}
 ggplot(data = data.frame(x = -4:4))+
   aes(x = x)+
-  stat_function(fun = dnorm, color = "blue", size = 2, linetype = "dashed") #<<
+  stat_function(fun = dnorm, color = "blue", size = 2, linetype = "dashed") 
 ```
 
 To add shading under a distribution, simply add a duplicate of the `stat_function()` layer, but add `geom="area"` to indicate the area beneath the function should be filled, and you can limit the domain of the `fill` with `xlim=c(start,end)`, where `start` and `end` are the x-values for the endpoints of the `fill.`
@@ -179,7 +179,7 @@ To add shading under a distribution, simply add a duplicate of the `stat_functio
 ggplot(data = data.frame(x = -4:4))+
   aes(x = x)+
   stat_function(fun = dnorm, color = "blue", size = 2, linetype = "dashed")+
-  stat_function(fun = dnorm, xlim = c(-2,2), geom = "area", fill = "green", alpha=0.5)#<<
+  stat_function(fun = dnorm, xlim = c(-2,2), geom = "area", fill = "green", alpha=0.5)
 ```
 
 Hence, here is one graph from my slides:
