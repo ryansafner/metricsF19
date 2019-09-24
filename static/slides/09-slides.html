@@ -289,7 +289,7 @@ r&amp;=\frac{1}{n-1}\sum^n_{i=1}\bigg(\frac{x_i-\bar{X}}{s_X}\bigg)\bigg(\frac{y
 r&amp;=\frac{1}{n-1}\sum^n_{i=1}Z_XZ_Y\\
 \end{align*}$$`
 
-.footnote[&lt;sup&gt;.red[1]&lt;/sup&gt; Over `\\((n-1)\\)`, since this is a *sample* statistic.
+.footnote[&lt;sup&gt;.red[1]&lt;/sup&gt; Over `\\(n-1\\)`, since this is a *sample* statistic.
 
 &lt;sup&gt;.red[2]&lt;/sup&gt; See today's [class notes page](/class/09-class) for an example of the code for how to calculate correlation "by hand" in R using the second method.]
 
@@ -395,12 +395,13 @@ corrplot(gapminder_cor_table, type="upper",
          method = "circle", # number for showing correlation coefficient
          order="alphabet", 
          col=brewer.pal(n=8, name="RdBu"))
+```
 ]
 
 --
   
 .pull-right[
-```
+
 &lt;img src="09-slides_files/figure-html/unnamed-chunk-12-1.png" width="504" /&gt;
 ]
 
@@ -1285,7 +1286,7 @@ summary(school_reg) # get full summary
 
 ---
 
-# Tidy OLS in R: broom
+# Tidy OLS in R: broom I
 
 .left-code[
 
@@ -1316,7 +1317,7 @@ tidy(school_reg)
 
 ---
 
-# OLS in R IV
+# Tidy OLS in R: broom II
 
 .left-code[
 
@@ -1379,6 +1380,7 @@ glance(school_reg)
 
 
 ```r
+# add regression-based values to data
 augment(school_reg)
 ```
 
@@ -1403,8 +1405,8 @@ augment(school_reg)
 .right-plot[
 
 - `augment()` creates useful new variables in the stored `lm` object
-    - `.fitted` are the fitted (predicted) values from the model, i.e. `\(\hat{Y}_i\)`
-    - `.resid` are the residuals (errors) from the model, i.e. `\(\hat{u}_i\)`
+    - `.fitted` are fitted (predicted) values from model, i.e. `\(\hat{Y}_i\)`
+    - `.resid` are residuals (errors) from model, i.e. `\(\hat{u}_i\)`
 ]
 
 ---
@@ -1431,11 +1433,11 @@ Here was my code:
 
 ```r
 # install.packages("equatiomatic") # install for first use
-library(equatiomatic)
-extract_eq(school_reg, 
-           use_coefs = TRUE,
-           coef_digits = 2,
-           fix_signs = TRUE)
+library(equatiomatic) # load it
+extract_eq(school_reg, # regression lm object
+           use_coefs = TRUE, # use names of variables
+           coef_digits = 2, # round to 2 digits
+           fix_signs = TRUE) # fix negatives (instead of + -)
 ```
 
 ```
@@ -1457,7 +1459,7 @@ extract_eq(school_reg,
 ```r
 CASchool %&gt;%
   filter(district=="Richmond Elementary") %&gt;%
-  dplyr::select(district, testscr, str) # another package masks "select"
+  dplyr::select(district, testscr, str)
 ```
 
 ```
