@@ -42,8 +42,8 @@ class: inverse, center, middle
 - carbon dioxide emissions &amp; temperatures
 ]
 
-- We will begin with .whisper[bivariate] data for relationships between `\(X\)` and `\(Y\)`
-- Immediate aim is to explore .onfire[associations] between variables, quantified with .shout[correlation] and .shoutcaps[linear regression]
+- We will begin with **bivariate** data for relationships between `\(X\)` and `\(Y\)`
+- Immediate aim is to explore .onfire[associations] between variables, quantified with .shout[correlation] and .shout[linear regression]
 - Later we want to develop more sophisticated tools to argue for .onfire[causation]
 
 ---
@@ -241,6 +241,7 @@ class: inverse, center, middle
 
 
 ```r
+# base R 
 cov(econfreedom$ef,econfreedom$gdp)
 ```
 
@@ -250,6 +251,8 @@ cov(econfreedom$ef,econfreedom$gdp)
 
 
 ```r
+# dplyr 
+
 econfreedom %&gt;%
   summarize(cov = cov(ef,gdp))
 ```
@@ -277,7 +280,7 @@ econfreedom %&gt;%
 
 --
 
-- Alternatively, take the average&lt;sup&gt;.red[1]&lt;/sup&gt; of the product of standardized ($Z$-scores for) each `\((x_i,y_i)\)` pair:&lt;sup&gt;.red[2]&lt;/sup&gt;
+- Alternatively, take the average&lt;sup&gt;.red[1]&lt;/sup&gt; of the product of standardized `\((Z\)`-scores for) each `\((x_i,y_i)\)` pair:&lt;sup&gt;.red[2]&lt;/sup&gt;
 
 --
 
@@ -286,7 +289,7 @@ r&amp;=\frac{1}{n-1}\sum^n_{i=1}\bigg(\frac{x_i-\bar{X}}{s_X}\bigg)\bigg(\frac{y
 r&amp;=\frac{1}{n-1}\sum^n_{i=1}Z_XZ_Y\\
 \end{align*}$$`
 
-.footnote[&lt;sup&gt;.red[1]&lt;/sup&gt; Over `\\(n-1\\)`, since this is a *sample* statistic.
+.footnote[&lt;sup&gt;.red[1]&lt;/sup&gt; Over `\\((n-1)\\)`, since this is a *sample* statistic.
 
 &lt;sup&gt;.red[2]&lt;/sup&gt; See today's [class notes page](/class/09-class) for an example of the code for how to calculate correlation "by hand" in R using the second method.]
 
@@ -322,14 +325,106 @@ r&amp;=\frac{1}{n-1}\sum^n_{i=1}Z_XZ_Y\\
 
 ---
 
+# Correlation and Covariance in R
+
+
+```r
+# Base r: cov or cor(df$x, df$y)
+
+cov(econfreedom$ef, econfreedom$gdp)
+```
+
+```
+## [1] 8922.933
+```
+
+```r
+cor(econfreedom$ef, econfreedom$gdp)
+```
+
+```
+## [1] 0.5867018
+```
+
+```r
+# dplyr 
+
+econfreedom %&gt;%
+  summarize(covariance = cov(ef, gdp),
+            correlation = cor(ef, gdp))
+```
+
+```
+## # A tibble: 1 x 2
+##   covariance correlation
+##        &lt;dbl&gt;       &lt;dbl&gt;
+## 1      8923.       0.587
+```
+---
+
+# Correlation and Covariance in R I
+
+- `corrplot` is a great package (install and then load) to **visualize** correlations in data
+
+
+```r
+library(corrplot) # see more at https://github.com/taiyun/corrplot
+library(RColorBrewer) # for color scheme used here
+library(gapminder) # for gapminder data
+
+# need to make a corelation matrix with cor(); can only include numeric variables
+gapminder_cor&lt;- gapminder %&gt;%
+  dplyr::select(gdpPercap, pop, lifeExp)
+
+# make a correlation table with cor (base R)
+gapminder_cor_table&lt;-cor(gapminder_cor)
+
+# view it
+gapminder_cor_table
+```
+
+---
+
+# Correlation and Covariance in R II
+
+.pull-left[
+
+
+```r
+corrplot(gapminder_cor_table, type="upper", 
+         method = "circle", # number for showing correlation coefficient
+         order="alphabet", 
+         col=brewer.pal(n=8, name="RdBu"))
+]
+
+--
+  
+.pull-right[
+```
+&lt;img src="09-slides_files/figure-html/unnamed-chunk-12-1.png" width="504" /&gt;
+]
+
+---
+
 # Correlation and Endogeneity
 
-- Your Occasional Reminder: .shoutcaps[Correlation does not imply causation!]
+.pull-left[
+
+- Your Occasional Reminder: .shout[Correlation does not imply causation!]
     - I'll show you the difference in a few weeks (when we can actually talk about causation)
 
 - If `\(X\)` and `\(Y\)` are strongly correlated, `\(X\)` can still be **endogenous**!
 
 - See today's class notes page for more on Covariance and Correlation
+
+]
+
+.pull-right[
+
+.center[
+![](https://www.dropbox.com/s/v5vwsadw5vs448t/causality.jpg?raw=1)
+]
+]
 
 ---
 
@@ -365,7 +460,7 @@ class: inverse, center, middle
 
 .pull-right[
 
-&lt;img src="09-slides_files/figure-html/unnamed-chunk-9-1.png" width="504" /&gt;
+&lt;img src="09-slides_files/figure-html/unnamed-chunk-13-1.png" width="504" /&gt;
 
 ]
 
@@ -391,7 +486,7 @@ class: inverse, center, middle
 
 .pull-right[
 
-&lt;img src="09-slides_files/figure-html/unnamed-chunk-10-1.png" width="504" /&gt;
+&lt;img src="09-slides_files/figure-html/unnamed-chunk-14-1.png" width="504" /&gt;
 
 ]
 
@@ -419,7 +514,7 @@ class: inverse, center, middle
 ]
 
 .pull-right[
-&lt;img src="09-slides_files/figure-html/unnamed-chunk-11-1.png" width="504" /&gt;
+&lt;img src="09-slides_files/figure-html/unnamed-chunk-15-1.png" width="504" /&gt;
 
 ]
 
@@ -430,8 +525,10 @@ class: inverse, center, middle
 - Linear regression lets us estimate the slope of the population regression line between `\(X\)` and `\(Y\)`
 
 - We can make **inferences** about the population slope coefficient
-    - eventually, a causal interpretation
-    - `\(\text{slope}=\frac{\Delta Y}{\Delta X}\)`: for a 1-unit change in `\(X\)`, how many units will this *cause* `\(Y\)` to change?
+
+- eventually, a causal interpretation
+
+- `\(\text{slope}=\frac{\Delta Y}{\Delta X}\)`: for a 1-unit change in `\(X\)`, how many units will this *cause* `\(Y\)` to change?
 
 ---
 
@@ -733,6 +830,7 @@ scatter
 ]
 ]
 
+---
 
 # Class Size Example: Slope II
 
@@ -771,7 +869,7 @@ scatter
 
 - `\(\beta_0\)` is the vertical-intercept, test score where class size is 0
 
-- `\(\beta_{ClassSize}\)` is the .onfire[slope] of the regression line
+- `\(\beta_{1}\)` is the .onfire[slope] of the regression line
 
 - This relationship only holds __on average__ for all districts in the population, *individual* districts are also affected by other factors
 
@@ -855,13 +953,16 @@ scatter
 - We do have data from a *sample* of class sizes and test scores&lt;sup&gt;.red[1]&lt;/sup&gt;
 
 - So the real question is, .onfire[how can we estimate `\\(\beta_0\\)` and `\\(\beta_1\\)`?]
+
+.footnote[&lt;sup&gt;.red[1]&lt;/sup&gt; Data are student-teacher-ratio and average test scores on Stanford 9 Achievement Test for 5th grade students for 420 K-6 and K-8 school districts in California in 1999, (Stock and Watson, 2015: p. 141)]
+
 ]
 
 .pull-right[
-&lt;img src="09-slides_files/figure-html/unnamed-chunk-15-1.png" width="504" /&gt;
+&lt;img src="09-slides_files/figure-html/unnamed-chunk-19-1.png" width="504" /&gt;
 ]
 
-.footnote[&lt;sup&gt;.red[1]&lt;/sup&gt; Data are student-teacher-ratio and average test scores on Stanford 9 Achievement Test for 5th grade students for 420 K-6 and K-8 school districts in California in 1999, (Stock and Watson, 2015: p. 141)]
+
 ---
 
 class: inverse, center, middle
@@ -880,7 +981,7 @@ class: inverse, center, middle
 
 .pull-right[
 
-![](09-slides_files/figure-html/unnamed-chunk-16-1.png)&lt;!-- --&gt;
+![](09-slides_files/figure-html/unnamed-chunk-20-1.png)&lt;!-- --&gt;
 
 ]
 
@@ -897,7 +998,7 @@ class: inverse, center, middle
 
 .pull-right[
 
-![](09-slides_files/figure-html/unnamed-chunk-17-1.png)&lt;!-- --&gt;
+![](09-slides_files/figure-html/unnamed-chunk-21-1.png)&lt;!-- --&gt;
 
 ]
 
@@ -917,7 +1018,7 @@ class: inverse, center, middle
 
 .pull-right[
 
-![](09-slides_files/figure-html/unnamed-chunk-18-1.png)&lt;!-- --&gt;
+![](09-slides_files/figure-html/unnamed-chunk-22-1.png)&lt;!-- --&gt;
 
 ]
 
@@ -938,7 +1039,7 @@ class: inverse, center, middle
 
 .pull-right[
 
-![](09-slides_files/figure-html/unnamed-chunk-19-1.png)&lt;!-- --&gt;
+![](09-slides_files/figure-html/unnamed-chunk-23-1.png)&lt;!-- --&gt;
 
 ]
 
@@ -952,7 +1053,7 @@ class: inverse, center, middle
 - We add a line
 - The .shout[residual], `\(\hat{u}\)` of each data point is the difference between the .onfire[actual] and the .onfire[predicted] value of `\(Y\)` given `\(X\)`: 
 
-`$$u = Y_i - \hat{Y_i}$$`
+`$$u_i = Y_i - \hat{Y_i}$$`
 
 - We square each residual
 - Add all of these up: .shout[Sum of Squared Errors (SSE)]
@@ -963,7 +1064,7 @@ class: inverse, center, middle
 
 .pull-right[
 
-![](09-slides_files/figure-html/unnamed-chunk-20-1.png)&lt;!-- --&gt;
+![](09-slides_files/figure-html/unnamed-chunk-24-1.png)&lt;!-- --&gt;
 
 ]
 
@@ -990,19 +1091,15 @@ class: inverse, center, middle
 
 .pull-right[
 
-![](09-slides_files/figure-html/unnamed-chunk-21-1.png)&lt;!-- --&gt;
+![](09-slides_files/figure-html/unnamed-chunk-25-1.png)&lt;!-- --&gt;
 
 ]
 
----
 
-### Corplots
-
-![](09-slides_files/figure-html/unnamed-chunk-22-1.png)&lt;!-- --&gt;
 
 ---
 
-# *O*rdinary *L*east *S*quares Estimators
+# *O* rdinary *L* east *S* quares Estimators
 
 - The .shout[Ordinary Least Squares (OLS) estimators] of the unknown population parameters `\(\beta_0\)` and `\(\beta_1\)`, solve the calculus problem:
 
@@ -1036,7 +1133,7 @@ class: inverse, center, middle
 
 # The OLS Regression Estimators
 
-- The solution to the SSE minimization problem yields:.footnote[See **Class Info Page** for proofs.]
+- The solution to the SSE minimization problem yields:&lt;sup&gt;.red[1]&lt;/sup&gt;
 
 --
 
@@ -1047,6 +1144,7 @@ class: inverse, center, middle
 `$$\hat{\beta}_1=\frac{\displaystyle\sum^n_{i=1}(X_i-\bar{X})(Y_i-\bar{Y})}{\displaystyle\sum^n_{i=1}(X_i-\bar{X})^2}=\frac{s_{XY}}{s^2_X}= \frac{cov(X,Y)}{var(X)}$$`
 
 
+.footnote[&lt;sup&gt;.red[1]&lt;/sup&gt; See [tomorrow's class notes page](/class/10-class) for proofs.]
 ---
 
 class: inverse, center, middle
@@ -1072,7 +1170,7 @@ scatter
 ]
 
 .pull-right[
-&lt;img src="09-slides_files/figure-html/unnamed-chunk-23-1.png" width="504" /&gt;
+&lt;img src="09-slides_files/figure-html/unnamed-chunk-26-1.png" width="504" /&gt;
 
 ]
 
@@ -1376,7 +1474,7 @@ CASchool %&gt;%
 ]
 
 .pull-right[
-&lt;img src="09-slides_files/figure-html/unnamed-chunk-35-1.png" width="504" /&gt;
+&lt;img src="09-slides_files/figure-html/unnamed-chunk-38-1.png" width="504" /&gt;
 ]
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>

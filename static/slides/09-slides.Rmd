@@ -53,8 +53,8 @@ class: inverse, center, middle
 - carbon dioxide emissions & temperatures
 ]
 
-- We will begin with .whisper[bivariate] data for relationships between $X$ and $Y$
-- Immediate aim is to explore .onfire[associations] between variables, quantified with .shout[correlation] and .shoutcaps[linear regression]
+- We will begin with **bivariate** data for relationships between $X$ and $Y$
+- Immediate aim is to explore .onfire[associations] between variables, quantified with .shout[correlation] and .shout[linear regression]
 - Later we want to develop more sophisticated tools to argue for .onfire[causation]
 
 ---
@@ -196,10 +196,13 @@ $$s_{X,Y}=E\big[(X-\bar{X})(Y-\bar{Y}) \big]$$
 # Covariance, in R
 
 ```{r, echo = T}
+# base R 
 cov(econfreedom$ef,econfreedom$gdp)
 ```
 
 ```{r, echo = T}
+# dplyr 
+
 econfreedom %>%
   summarize(cov = cov(ef,gdp))
 ```
@@ -220,7 +223,7 @@ $$r_{X,Y}=\frac{s_{X,Y}}{s_X s_Y}=\frac{cov(X,Y)}{sd(X)sd(Y)}$$
 
 --
 
-- Alternatively, take the average<sup>.red[1]</sup> of the product of standardized ($Z$-scores for) each $(x_i,y_i)$ pair:<sup>.red[2]</sup>
+- Alternatively, take the average<sup>.red[1]</sup> of the product of standardized $(Z$-scores for) each $(x_i,y_i)$ pair:<sup>.red[2]</sup>
 
 --
 
@@ -229,7 +232,7 @@ r&=\frac{1}{n-1}\sum^n_{i=1}\bigg(\frac{x_i-\bar{X}}{s_X}\bigg)\bigg(\frac{y_i-\
 r&=\frac{1}{n-1}\sum^n_{i=1}Z_XZ_Y\\
 \end{align*}$$
 
-.footnote[<sup>.red[1]</sup> Over `\\(n-1\\)`, since this is a *sample* statistic.
+.footnote[<sup>.red[1]</sup> Over `\\((n-1)\\)`, since this is a *sample* statistic.
 
 <sup>.red[2]</sup> See today's [class notes page](/class/09-class) for an example of the code for how to calculate correlation "by hand" in R using the second method.]
 
@@ -366,14 +369,103 @@ grid.arrange(corrn25, corrn50, corrn75, corr25, corr50, corr75, ncol=3)
 
 ---
 
+# Correlation and Covariance in R
+
+```{r, echo = T}
+# Base r: cov or cor(df$x, df$y)
+
+cov(econfreedom$ef, econfreedom$gdp)
+
+cor(econfreedom$ef, econfreedom$gdp)
+
+# dplyr 
+
+econfreedom %>%
+  summarize(covariance = cov(ef, gdp),
+            correlation = cor(ef, gdp))
+
+```
+---
+
+# Correlation and Covariance in R I
+
+- `corrplot` is a great package (install and then load) to **visualize** correlations in data
+
+```{r, echo=T, eval=F}
+library(corrplot) # see more at https://github.com/taiyun/corrplot
+library(RColorBrewer) # for color scheme used here
+library(gapminder) # for gapminder data
+
+# need to make a corelation matrix with cor(); can only include numeric variables
+gapminder_cor<- gapminder %>%
+  dplyr::select(gdpPercap, pop, lifeExp)
+
+# make a correlation table with cor (base R)
+gapminder_cor_table<-cor(gapminder_cor)
+
+# view it
+gapminder_cor_table
+```
+
+---
+
+# Correlation and Covariance in R II
+
+.pull-left[
+
+```{r, echo=T, eval=F}
+
+corrplot(gapminder_cor_table, type="upper", 
+         method = "circle", # number for showing correlation coefficient
+         order="alphabet", 
+         col=brewer.pal(n=8, name="RdBu"))
+]
+
+--
+  
+.pull-right[
+
+```{r, fig.retina=3}
+library(corrplot) # see more at https://github.com/taiyun/corrplot
+library(RColorBrewer) # for color scheme used here
+library(gapminder) # for gapminder data
+
+# need to make a corelation matrix with cor(); can only include numeric variables
+gapminder_cor<- gapminder %>%
+  dplyr::select(gdpPercap, pop, lifeExp)
+
+# make a correlation table with cor (base R)
+gapminder_cor_table<-cor(gapminder_cor)
+
+corrplot(gapminder_cor_table, type="upper", 
+         method = "circle", # number for showing correlation coefficient
+         order="alphabet", 
+         col=brewer.pal(n=8, name="RdBu"))
+
+```
+]
+
+---
+
 # Correlation and Endogeneity
 
-- Your Occasional Reminder: .shoutcaps[Correlation does not imply causation!]
+.pull-left[
+
+- Your Occasional Reminder: .shout[Correlation does not imply causation!]
     - I'll show you the difference in a few weeks (when we can actually talk about causation)
 
 - If $X$ and $Y$ are strongly correlated, $X$ can still be **endogenous**!
 
 - See today's class notes page for more on Covariance and Correlation
+
+]
+
+.pull-right[
+
+.center[
+![](https://www.dropbox.com/s/v5vwsadw5vs448t/causality.jpg?raw=1)
+]
+]
 
 ---
 
@@ -501,8 +593,10 @@ p+geom_abline(slope=-1, intercept=14, color="red", size=1)+
 - Linear regression lets us estimate the slope of the population regression line between $X$ and $Y$
 
 - We can make **inferences** about the population slope coefficient
-    - eventually, a causal interpretation
-    - $\text{slope}=\frac{\Delta Y}{\Delta X}$: for a 1-unit change in $X$, how many units will this *cause* $Y$ to change?
+
+- eventually, a causal interpretation
+
+- $\text{slope}=\frac{\Delta Y}{\Delta X}$: for a 1-unit change in $X$, how many units will this *cause* $Y$ to change?
 
 ---
 
@@ -615,6 +709,7 @@ $$\Delta \text{test score} = \beta \times \Delta \text{class size}$$
 ]
 ]
 
+---
 
 # Class Size Example: Slope II
 
@@ -653,7 +748,7 @@ $$\text{test score} = \beta_0 + \beta_{1} \times \text{class size}$$
 
 - $\beta_0$ is the vertical-intercept, test score where class size is 0
 
-- $\beta_{ClassSize}$ is the .onfire[slope] of the regression line
+- $\beta_{1}$ is the .onfire[slope] of the regression line
 
 - This relationship only holds __on average__ for all districts in the population, *individual* districts are also affected by other factors
 
@@ -737,6 +832,9 @@ $$Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + u$$
 - We do have data from a *sample* of class sizes and test scores<sup>.red[1]</sup>
 
 - So the real question is, .onfire[how can we estimate `\\(\beta_0\\)` and `\\(\beta_1\\)`?]
+
+.footnote[<sup>.red[1]</sup> Data are student-teacher-ratio and average test scores on Stanford 9 Achievement Test for 5th grade students for 420 K-6 and K-8 school districts in California in 1999, (Stock and Watson, 2015: p. 141)]
+
 ]
 
 .pull-right[
@@ -745,7 +843,7 @@ scatter
 ```
 ]
 
-.footnote[<sup>.red[1]</sup> Data are student-teacher-ratio and average test scores on Stanford 9 Achievement Test for 5th grade students for 420 K-6 and K-8 school districts in California in 1999, (Stock and Watson, 2015: p. 141)]
+
 ---
 
 class: inverse, center, middle
@@ -880,7 +978,7 @@ p2+geom_rect(aes(xmin=x, xmax=x+.resid, ymin=y, ymax=y-.resid),alpha=0.25,color=
 - We add a line
 - The .shout[residual], $\hat{u}$ of each data point is the difference between the .onfire[actual] and the .onfire[predicted] value of $Y$ given $X$: 
 
-$$u = Y_i - \hat{Y_i}$$
+$$u_i = Y_i - \hat{Y_i}$$
 
 - We square each residual
 - Add all of these up: .shout[Sum of Squared Errors (SSE)]
@@ -928,23 +1026,11 @@ p2+geom_rect(aes(xmin=x, xmax=x+.resid, ymin=y, ymax=y-.resid),alpha=0.25,color=
 
 ]
 
----
 
-### Corplots
-
-```{r}
-library(corrplot) # see more at https://github.com/taiyun/corrplot
-library(RColorBrewer) # for color scheme used here
-M <-cor(mtcars) # need to make a correlation matrix with cor(); can only include numeric variables
-corrplot(M, type="upper", 
-         method = "circle", # number for showing correlation coefficient
-         order="alphabet", 
-         col=brewer.pal(n=8, name="RdBu"))
-```
 
 ---
 
-# *O*rdinary *L*east *S*quares Estimators
+# *O* rdinary *L* east *S* quares Estimators
 
 - The .shout[Ordinary Least Squares (OLS) estimators] of the unknown population parameters $\beta_0$ and $\beta_1$, solve the calculus problem:
 
@@ -978,7 +1064,7 @@ $$\hat{Y_i}=\hat{\beta_0}+\hat{\beta_1}X_i$$
 
 # The OLS Regression Estimators
 
-- The solution to the SSE minimization problem yields:.footnote[See **Class Info Page** for proofs.]
+- The solution to the SSE minimization problem yields:<sup>.red[1]</sup>
 
 --
 
@@ -989,6 +1075,7 @@ $$\hat{\beta}_0=\bar{Y}-\hat{\beta_1}\bar{X}$$
 $$\hat{\beta}_1=\frac{\displaystyle\sum^n_{i=1}(X_i-\bar{X})(Y_i-\bar{Y})}{\displaystyle\sum^n_{i=1}(X_i-\bar{X})^2}=\frac{s_{XY}}{s^2_X}= \frac{cov(X,Y)}{var(X)}$$
 
 
+.footnote[<sup>.red[1]</sup> See [tomorrow's class notes page](/class/10-class) for proofs.]
 ---
 
 class: inverse, center, middle
