@@ -18,20 +18,7 @@ library(pander)
 source(file.path(here::here(), "lib", "graphics.R"))
 ```
 
-*Due by Thursday, September 19, 2019*
-
-- [<i class="fas fa-file-pdf"></i> `Download as PDF`](/homeworks/01-problem-set.pdf)
-- [<i class="fab fa-markdown"></i> `04-r-practice-answers.Rmd`](/homeworks/01-r-problem-set.Rmd)
-
-# Instructions
-
-For this problem set, you may type up your answers to each question (save plots as images and include them with your answers) and also turn in a (commented!) *.R* file of commands for each relevant question. You may email or turn in a paper copy. It is not relevant for this particular problem set, but in the future, I will allow handwritten answers for math/theory questions.
-
-Alternatively, you may download the `.Rmd` file, do the homework in markdown, and email to me a single `knit`ted `html` or `pdf` file (and be sure that it shows all of your code). 
-
-To minimize confusion, I suggest creating a new `R Project` (e.g. `hw1`) and storing any data and plots in that folder on your computer. See my [example workflow](https://github.com/ryansafner/workflow).
-
-You may work together (and I highly encourage that) but you must turn in your own answers. I grade homeworks 70% for completion, and for the remaining 30%, pick one question to grade for accuracy - so it is best that you try every problem, even if you are unsure how to complete it accurately.
+Answers may be longer than I would deem sufficient on an exam. Some might vary slightly based on points of interest, examples, or personal experience. These suggested answers are designed to give you both the answer and a short explanation of *why* it is the answer.
 
 # The Popularity of Baby Names
 
@@ -60,7 +47,7 @@ top_5_boys_2017 <- babynames %>% # take data
   filter(sex=="M", # filter by males
          year==2017) %>% # and for 2007
   arrange(desc(n)) %>% # arrange in largest-to-smallest order of n (number)
-  slice(1:5) %>% # optional, look only at first 5 rows
+  slice(1:5) %>% # optional, look only at first 5 rows; head(., n=5) also works
   mutate(percent = round(prop*100, 2)) # also optional, make a percent variable rounded to 2 decimals
 
 # look at our new tibble
@@ -84,7 +71,7 @@ top_5_girls_2017 <- babynames %>% # take data
   filter(sex=="F", # filter by females
          year==2017) %>% # and for 2007
   arrange(desc(n)) %>% # arrange in largest-to-smallest order of n (number)
-  slice(1:5) %>% # optional, look only at first 5 rows
+  slice(1:5) %>% # optional, look only at first 5 rows; head(., n=5) also works
   mutate(percent = round(prop*100, 2)) # also optional, make a percent variable rounded to 2 decimals
 
 # look at our new tibble
@@ -182,7 +169,7 @@ babynames %>%
   filter(sex == "M",
          year>1980) %>%
   arrange(desc(n))%>%
-  slice(1)
+  slice(1) # take first row only
 ```
 
 ### b.
@@ -194,7 +181,7 @@ babynames %>%
   filter(sex == "F",
          year>1980) %>%
   arrange(desc(n))%>%
-  slice(1)
+  slice(1) # take first row only
 ```
 
 ## 6. Now let's graph the evolution of the most common names since 1880.
@@ -209,6 +196,7 @@ babynames %>%
   arrange(desc(total)) %>%
   slice(1:5)
 
+# make a vector of the names (we'll need this for our graph below)
 top_boys_names<-c("James", "John", "Robert", "Michael", "William")
 ```
 
@@ -220,6 +208,7 @@ babynames %>%
   arrange(desc(total)) %>%
   slice(1:5)
 
+# make a vector of the names (we'll need this for our graph below)
 top_girls_names<-c("Mary", "Elizabeth", "Patricia", "Jennifer", "Linda")
 ```
 
@@ -267,6 +256,34 @@ babynames %>%
 ## 7.
 **_Bonus (hard!)_: What are the 10 most common "gender-neutral" names?^[This is hard to define. For our purposes, let's define this as names where between 48 and 52% of the babies with the name are Male.]**
 
+There's a lot to this, so I'll break this up step by step and show you what happens at each major step. 
+
+We want to find the names where 48% to 52% of the babies with the name are male, as I defined in the footnote. First let's `mutate` a variable to figure out how many babies with a particular name are male. 
+
+To do this, we'll need to make a two variables to count the number of `male`s and `female`s of each name each year. We'll use the `ifelse()` function for each:
+
+1. Make a `male` variable where, for each name in each year, if `sex=="M"`, then count the number of males (`n`) that year, otherwise set it equal to `0`.
+2. Make a `female` variable where, for each name in each year, if `sex=="F"`, then count the number of females (`n`) that year, otherwise set it equal to `0`.
+
+```{r}
+babynames %>%
+  mutate(male = ifelse(sex == "M", n, 0),
+         female = ifelse(sex == "F", n, 0))
+```
+
+Now with this variable, we want to count the total number of males and females with each name over the entire dataset. Let's first `group_by(name)` so we'll get one row for every name. We will `summarize()` and take the `sum` of our `male` and of our `female` variables. 
+
+```{r}
+babynames %>%
+  mutate(male = ifelse(sex == "M", n, 0),
+         female = ifelse(sex == "F", n, 0)) %>%
+  group_by(name) %>%
+    summarize(Male = sum(male),
+              Female = sum(female))
+```
+
+Now, we want to figure out what *fraction* of each name is Male or Female. It doesn't matter which we do here, I'll do Male. `mutate()` a new variable I'll call `perc_male` for the percent of the name being for Male babies. It takes the summed variables we made before, and takes the fraction that are Male, multiplying by 100 to get percents (which isn't necessary, but is easy to read).
+
 ```{r}
 babynames %>%
   mutate(male = ifelse(sex == "M", n, 0),
@@ -276,6 +293,33 @@ babynames %>%
               Female = sum(female))%>%
   filter(Male!=0,
          Female!=0) %>%
+  mutate(perc_male = (Male/(Male+Female)*100))
+```
+
+Right now, it's still in alphabetical order. We want to arrange it by `perc_male`, and more importantly, we want `perc_male` to be between 48 and 52, so let's `filter` accordingly: 
+
+```{r}
+babynames %>%
+  mutate(male = ifelse(sex == "M", n, 0),
+         female = ifelse(sex == "F", n, 0)) %>%
+  group_by(name) %>%
+    summarize(Male = sum(male),
+              Female = sum(female))%>%
+  mutate(perc_male = (Male/(Male+Female)*100)) %>%
+  arrange(perc_male) %>%
+  filter(perc_male > 48,
+         perc_male < 52)
+```
+
+This gives us a lot of names, all falling between 48% and 52% male. But we want the most popular names that are in this range. So let's finally `mutate` a new variable called `total` that simply adds the number of `Male` and `Female` babies with a name. Then let's `arrange` our results by `desc(total)` to get the largest first, and then `slice(1:10)` to get the top 10 only. 
+
+```{r}
+babynames %>%
+  mutate(male = ifelse(sex == "M", n, 0),
+         female = ifelse(sex == "F", n, 0)) %>%
+  group_by(name) %>%
+    summarize(Male = sum(male),
+              Female = sum(female))%>%
   mutate(perc_male = (Male/(Male+Female)*100)) %>%
   arrange(perc_male) %>%
   filter(perc_male > 48,
@@ -299,28 +343,35 @@ babynames %>%
 
 **Load them with `df<-read_csv("name_of_the_file.csv")` and save one as `econfreedom` and the other as `polfreedom`. Look at each `tibble` you've created.**
 
+I am creating this document for/from the website, so these are all stored in a folder called `data`, one folder up from my current folder, `homeworks`. To get there, I go up one folder (`..`) and move to `data`, where these `csv` files are stored. 
+
+I suggest you either keep the data in the same folder as your `R` working directory (always check with `getwd()`), or create an R Project and store the data files in that same folder. 
+
 ```{r}
+# import data with read_csv from readr
+
 # note these file paths will be different for you
-polfreedom<-read.csv(here::here("./static/data/freedomhouse2018.csv"))
-econfreedom<-read.csv(here::here("./static/data/econfreedom.csv"))
+polfreedom<-read_csv("../data/freedomhouse2018.csv")
+econfreedom<-read_csv("../data/econfreedom.csv")
 
+# look at each dataframe
 polfreedom
-
 econfreedom
 ```
 
 ## 9. 
-**The `polfreedom` dataset is still a bit messy. Let's overwrite it (or assign to something like `polfreedom2`) and select `Country.Territory` and `Total` (total freedom score) and rename `Country.Territory` to `Country`.**
+**The `polfreedom` dataset is still a bit messy. Let's overwrite it (or assign to something like `polfreedom2`) and select `Country/Territory` and `Total` (total freedom score) and rename `Country.Territory` to `Country`.**
 
 ```{r}
 polfreedom<-polfreedom %>%
-  select(Country.Territory, Total) %>%
-  rename(Country=Country.Territory)
+  select(`Country/Territory`, Total) %>%
+  rename(Country=`Country/Territory`)
 ```
 
 ## 10.
 **Now we can try to merge these two datasets into one. Since they both have `Country` as a variable, we can merge these tibbles using `left_join(econfreedom, polfreedom, by="Country")`^[Note, if you saved as something else in question 9., use that instead of `polfreedom`!] and save this as a new tibble (something like `freedom`).**
 
+This one is a bit advanced to explain (but see the last few slides of 1.5 for more), so just copy what I gave you!
 
 ```{r}
 freedom<-left_join(econfreedom, polfreedom, by="Country")
@@ -340,8 +391,8 @@ ggplot(data=freedom, aes(x=ef,y=Total))+
 **Let's do this again, but highlight some key countries. Pick three countries, and make a new tibble from `freedom` that is only the observations of those countries. Additionally, *install* and *load* a packaged called `ggrepel`^[This automatically adjusts labels so they don't cover points on a plot!] Next, redo your plot from question 11, but now add a layer: `geom_label_repel` and set its `data` to your three-country tibble, use same `aes`thetics as your overall plot, but be sure to add `label = ISO`, to use the ISO country code to label.^[You might also want to set a low `alpha` level to make sure the labels don't obscure other points!]**
 
 ```{r, fig.retina=3}
-# install.packages("ggrepel")
-library(ggrepel)
+# install.packages("ggrepel") install for first use 
+library(ggrepel) # load 
 
 interest<-filter(freedom, ISO %in% c("CHN", "NOR", "USA"))
 

@@ -15,6 +15,12 @@ source(file.path(here::here(), "lib", "graphics.R"))
 - [<i class="fas fa-file-pdf"></i> `Download as PDF`](/homeworks/01-problem-set-pdf.pdf)
 - [<i class="fab fa-markdown"></i> `Download Markdown`](/homeworks/01-problem-set.Rmd)
 
+**ANSWERS:**
+
+- [<i class="fas fa-file-pdf"></i> `html`](/homeworks/01-problem-set-answers.html)
+- [<i class="fab fa-markdown"></i> `Markdown`](/homeworks/01-problem-set-answers.Rmd)
+- [<i class="fas fa-registered"></i> `R Script`](/homeworks/01-problem-set-answers.Rmd)
+
 # Instructions
 
 For this problem set, you may type up your answers to each question (save plots as images and include them with your answers) and also turn in a (commented!) *.R* file of commands for each relevant question. You may email or turn in a paper copy. It is not relevant for this particular problem set, but in the future, I will allow handwritten answers for math/theory questions.

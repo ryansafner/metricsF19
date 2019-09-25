@@ -1288,7 +1288,17 @@ summary(school_reg) # get full summary
 
 # Tidy OLS in R: broom I
 
-.left-code[
+.left-column[
+.center[
+![](https://www.dropbox.com/s/qpe1604cf7s9r0g/rbroom.png?raw=1)
+]
+
+]
+.right-column[
+
+- The `broom` package allows us to *tidy* up regression objects&lt;sup&gt;.red[1]&lt;/sup&gt;
+
+- The `tidy()` function creates a *tidy* `tibble` of regression output
 
 
 ```r
@@ -1306,31 +1316,35 @@ tidy(school_reg)
 ## 1 (Intercept)   699.       9.47      73.8  6.57e-242
 ## 2 str            -2.28     0.480     -4.75 2.78e-  6
 ```
+
 ]
 
-.right-plot[
-
-- The `broom` package allows us to tidy up regression objects
-
-- The `tidy()` function creates a tidy tibble of regression output
-]
-
+.footnote[&lt;sup&gt;.red[1]&lt;/sup&gt; See more at [broom.tidyverse.org](https://broom.tidyverse.org/).]
 ---
 
 # Tidy OLS in R: broom II
 
-.left-code[
+.left-column[
+.center[
+![](https://www.dropbox.com/s/qpe1604cf7s9r0g/rbroom.png?raw=1)
+]
+
+]
+.right-column[
+
+- The `broom` package allows us to *tidy* up regression objects&lt;sup&gt;.red[1]&lt;/sup&gt;
+
+- The `tidy()` function creates a *tidy* `tibble` of regression output
 
 
 ```r
 # load packages
 library(broom)
 
-# tidy regression output
+# tidy regression output (with confidence intervals!)
 tidy(school_reg,
-*    conf.int = TRUE) # add CI's
+*    conf.int = TRUE)
 ```
-
 
 ```
 ## # A tibble: 2 x 7
@@ -1339,16 +1353,10 @@ tidy(school_reg,
 ## 1 (Intercept)   699.       9.47      73.8  6.57e-242   680.      718.  
 ## 2 str            -2.28     0.480     -4.75 2.78e-  6    -3.22     -1.34
 ```
+
 ]
 
-.right-plot[
-
-- The `broom` package allows us to tidy up regression objects
-
-- The `tidy()` function creates a tidy tibble of regression output
-
-- Add `conf.int = TRUE` option to include confidence intervals for each coefficient
-]
+.footnote[&lt;sup&gt;.red[1]&lt;/sup&gt; See more at [broom.tidyverse.org](https://broom.tidyverse.org/).]
 
 ---
 
@@ -1476,7 +1484,7 @@ CASchool %&gt;%
 ]
 
 .pull-right[
-&lt;img src="09-slides_files/figure-html/unnamed-chunk-38-1.png" width="504" /&gt;
+&lt;img src="09-slides_files/figure-html/unnamed-chunk-37-1.png" width="504" /&gt;
 ]
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>

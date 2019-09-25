@@ -1187,7 +1187,17 @@ summary(school_reg) # get full summary
 
 # Tidy OLS in R: broom I
 
-.left-code[
+.left-column[
+.center[
+![](https://www.dropbox.com/s/qpe1604cf7s9r0g/rbroom.png?raw=1)
+]
+
+]
+.right-column[
+
+- The `broom` package allows us to *tidy* up regression objects<sup>.red[1]</sup>
+
+- The `tidy()` function creates a *tidy* `tibble` of regression output
 
 ```{r, echo=T}
 # load packages
@@ -1196,43 +1206,38 @@ library(broom)
 # tidy regression output
 tidy(school_reg)
 ```
+
 ]
 
-.right-plot[
-
-- The `broom` package allows us to tidy up regression objects
-
-- The `tidy()` function creates a tidy tibble of regression output
-]
-
+.footnote[<sup>.red[1]</sup> See more at [broom.tidyverse.org](https://broom.tidyverse.org/).]
 ---
 
 # Tidy OLS in R: broom II
 
-.left-code[
+.left-column[
+.center[
+![](https://www.dropbox.com/s/qpe1604cf7s9r0g/rbroom.png?raw=1)
+]
 
-```{r, echo=T, eval=F}
+]
+.right-column[
+
+- The `broom` package allows us to *tidy* up regression objects<sup>.red[1]</sup>
+
+- The `tidy()` function creates a *tidy* `tibble` of regression output
+
+```{r, echo=T}
 # load packages
 library(broom)
 
-# tidy regression output
+# tidy regression output (with confidence intervals!)
 tidy(school_reg,
-     conf.int = TRUE) # add CI's #<<
+     conf.int = TRUE) #<<
 ```
 
-```{r, echo=F}
-tidy(school_reg, conf.int = TRUE)
-```
 ]
 
-.right-plot[
-
-- The `broom` package allows us to tidy up regression objects
-
-- The `tidy()` function creates a tidy tibble of regression output
-
-- Add `conf.int = TRUE` option to include confidence intervals for each coefficient
-]
+.footnote[<sup>.red[1]</sup> See more at [broom.tidyverse.org](https://broom.tidyverse.org/).]
 
 ---
 
