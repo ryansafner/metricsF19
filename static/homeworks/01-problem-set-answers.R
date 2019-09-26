@@ -82,9 +82,16 @@ babynames %>%
 
 # 4 -----------------
 
+# note here I'm going to wrangle the data and then pipe it directly into ggplot
+# you can wrangle the data and save it as a different tibble, then use THAT tibble
+# for your (data = ...) command in ggplot
+
+# first wrangle data
 babynames %>%
   filter(name == "Ryan") %>%
-  ggplot(data = .)+
+  
+  # now we pipe into ggplot
+  ggplot(data = .)+ # the "." is a placeholder for the stuff above!
   aes(x = year,
       y = n,
       color = sex)+
@@ -131,7 +138,10 @@ babynames %>%
 # make a vector of the names (we'll need this for our graph below)
 top_boys_names<-c("James", "John", "Robert", "Michael", "William")
 
-# you could alternatively add a command, %>% pull(name) to the first chunk of code, and it would do the same thing, but we'd want to save it, for example:
+# you could alternatively add a command, 
+# %>% pull(name) to the first chunk of code, 
+# and it would do the same thing, but we'd want to save it, 
+# for example:
 
 babynames %>%
   group_by(name) %>% # we want one row per name
