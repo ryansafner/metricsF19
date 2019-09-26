@@ -19,7 +19,7 @@ editor_options:
 <ul>
 <li><a href="#overview">Overview</a></li>
 <li><a href="#slides">Slides</a></li>
-<li><a href="#assignments-problem-set-1-due-and-problem-set-2">Assignments: Problem Set 1 DUE and Problem Set 2</a></li>
+<li><a href="#assignments-problem-set-2-due">Assignments: Problem Set 2 DUE</a></li>
 <li><a href="#appendix-ols-estimators">Appendix: OLS Estimators</a><ul>
 <li><a href="#deriving-the-ols-estimators">Deriving the OLS Estimators</a></li>
 <li><a href="#algebraic-properties-of-ols-estimators">Algebraic Properties of OLS Estimators</a></li>
@@ -31,8 +31,9 @@ editor_options:
 
 <p><em>Tuesday, September 24, 2019</em></p>
 <h2 id="overview">Overview</h2>
-<p>Today we start looking at <em>associations</em> between variables, which we will first attempt to quantify with measures like <em>covariance</em> and <em>correlation</em>. Then we turn to fitting a line to data via <em>linear regression</em>. We overview the basic regression model, the parameters and how they are derived, and see how to work with regressions in <code>R</code> with <code>lm</code> and the tidyverse package <a href="https://broom.tidyverse.org/"><code>broom</code></a>.</p>
-<p>We consider an extended example about class sizes and test scores, which comes from a (Stata) dataset from an old textbook that I used to use, <a href="https://www.pearson.com/us/higher-education/product/Stock-Introduction-to-Econometrics-Update-3rd-Edition/9780133486872.html?tab=resources">Stock and Watson, 2007</a>. Download and follow along with the data from today’s example:<span><label for="sn-1" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-1" class="margin-toggle"/><span class="sidenote">Note this is a <code>.dta</code> Stata file. You will need to (install and) load the package <code>haven</code> to <code>read_dta()</code> Stata files into a dataframe.<br />
+<p>Today we continue looking at basic OLS regression. We will cover how to measure if a regression line is a good fit (using <span class="math inline">\(R^2\)</span> and <span class="math inline">\(\sigma_u\)</span> or SER), and whether OLS estimators are <em>biased</em>. These will depend on four critical <em>assumptions about <span class="math inline">\(u\)</span>.</em></p>
+<p>In doing so, we begin an ongoing exploration into inferential statistics, which will finally become clear in another week. The most confusing part is recognizing that there is a <em>sampling distribution of each OLS estimator</em>. We want to measure the center of that sampling distribution, to see if the estimator is <em>biased</em>. Next class we will measure the spread of that distribution.</p>
+<p>We continue the extended example about class sizes and test scores, which comes from a (Stata) dataset from an old textbook that I used to use, <a href="https://www.pearson.com/us/higher-education/product/Stock-Introduction-to-Econometrics-Update-3rd-Edition/9780133486872.html?tab=resources">Stock and Watson, 2007</a>. Download and follow along with the data from today’s example:<span><label for="sn-1" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-1" class="margin-toggle"/><span class="sidenote">Note this is a <code>.dta</code> Stata file. You will need to (install and) load the package <code>haven</code> to <code>read_dta()</code> Stata files into a dataframe.<br />
 <br />
 </span></span></p>
 <ul>
@@ -40,13 +41,10 @@ editor_options:
 </ul>
 <h2 id="slides">Slides</h2>
 <ul>
-<li><a href="/slides/09-slides.html"><i class="fas fa-external-link-square-alt"></i> Lecture Slides</a></li>
+<li><a href="/slides/10-slides.html"><i class="fas fa-external-link-square-alt"></i> Lecture Slides</a></li>
 </ul>
-<h2 id="assignments-problem-set-1-due-and-problem-set-2">Assignments: Problem Set 1 DUE and Problem Set 2</h2>
-<p><a href="/assignment/01-problem-set.html">Problem Set 1</a> answers will be posted shortly, and the graded assignment emailed back to you.<span><label for="sn-2" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-2" class="margin-toggle"/><span class="sidenote">Sorry I’ve been too busy to send emails confirming that I recieved your problem set!<br />
-<br />
-</span></span></p>
-<p><a href="/assignment/01-problem-set.html">Problem Set 2</a> (on classes 2.1-2.2) is due by Thursday September 26.</p>
+<h2 id="assignments-problem-set-2-due">Assignments: Problem Set 2 DUE</h2>
+<p><a href="/assignment/01-problem-set.html">Problem Set 2</a> is DUE. Answers will be posted later today.</p>
 <h2 id="appendix-ols-estimators">Appendix: OLS Estimators</h2>
 <h3 id="deriving-the-ols-estimators">Deriving the OLS Estimators</h3>
 <p>The population linear regression model is:</p>
@@ -67,7 +65,7 @@ editor_options:
 <p><span class="math display">\[\displaystyle\sum^n_{i=1} (Y_i-\hat{\beta_0}-\hat{\beta_1} X_i)=0\]</span></p>
 <p>Then expand the summation across all terms and divide by <span class="math inline">\(n\)</span>:</p>
 <p><span class="math display">\[\underbrace{\frac{1}{n}\sum^n_{i=1} Y_i}_{\bar{Y}}-\underbrace{\frac{1}{n}\sum^n_{i=1}\hat{\beta_0}}_{\hat{\beta_0}}-\underbrace{\frac{1}{n}\sum^n_{i=1} \hat{\beta_1} X_i}_{\hat{\beta_1}\bar{X}}=0\]</span></p>
-<p>Note the first term is <span class="math inline">\(\bar{Y}\)</span>, the second is <span class="math inline">\(\hat{\beta_0}\)</span>, the third is <span class="math inline">\(\hat{\beta_1}\bar{X}\)</span>.<span><label for="sn-3" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-3" class="margin-toggle"/><span class="sidenote">From the <a href="https://metricsf19.classes.ryansafner.com/class/07-class/#the-summation-operator">rules about summation operators</a>, we define the mean of a random variable <span class="math inline">\(X\)</span> as <span class="math inline">\(\bar{X}=\frac{1}{n}\displaystyle\sum_{i=1}^n X_i\)</span>. The mean of a constant, like <span class="math inline">\(\beta_0\)</span> or <span class="math inline">\(\beta_1\)</span> is itself.<br />
+<p>Note the first term is <span class="math inline">\(\bar{Y}\)</span>, the second is <span class="math inline">\(\hat{\beta_0}\)</span>, the third is <span class="math inline">\(\hat{\beta_1}\bar{X}\)</span>.<span><label for="sn-2" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-2" class="margin-toggle"/><span class="sidenote">From the <a href="https://metricsf19.classes.ryansafner.com/class/07-class/#the-summation-operator">rules about summation operators</a>, we define the mean of a random variable <span class="math inline">\(X\)</span> as <span class="math inline">\(\bar{X}=\frac{1}{n}\displaystyle\sum_{i=1}^n X_i\)</span>. The mean of a constant, like <span class="math inline">\(\beta_0\)</span> or <span class="math inline">\(\beta_1\)</span> is itself.<br />
 <br />
 </span></span></p>
 <p>So we can rewrite as:

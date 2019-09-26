@@ -177,7 +177,7 @@ school_reg %>%
 # as ratio of variances
 school_reg %>%
   augment() %>%
-  summarize(r_sq = var(.fitted)/var(testscr)) # variance of *predicted* testscr over variance of *actual* teestscr
+  summarize(r_sq = var(.fitted)/var(testscr)) # var. of *predicted* testscr over var. of *actual* testscr
 ```
 
 ---
@@ -449,7 +449,6 @@ class: inverse, center, middle
 .pull-left[
 
 - The CLT allows us to approximate the sampling distributions of $\hat{\beta_0}$ and $\hat{\beta_1}$ as normal
-    - Generally agreed for $n>100$
 
 - We care about $\hat{\beta_1}$ (slope) since it has economic meaning, rarely about $\hat{\beta_0}$ (intercept)
 

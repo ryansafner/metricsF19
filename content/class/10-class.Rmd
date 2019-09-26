@@ -15,21 +15,21 @@ editor_options:
 
 # Overview
 
-Today we start looking at *associations* between variables, which we will first attempt to quantify with measures like *covariance* and *correlation*. Then we turn to fitting a line to data via *linear regression*. We overview the basic regression model, the parameters and how they are derived, and see how to work with regressions in `R` with `lm` and the tidyverse package [`broom`](https://broom.tidyverse.org/).
+Today we continue looking at basic OLS regression. We will cover how to measure if a regression line is a good fit (using $R^2$ and $\sigma_u$ or SER), and whether OLS estimators are *biased*. These will depend on four critical *assumptions about $u$.* 
 
-We consider an extended example about class sizes and test scores, which comes from a (Stata) dataset from an old textbook that I used to use, [Stock and Watson, 2007](https://www.pearson.com/us/higher-education/product/Stock-Introduction-to-Econometrics-Update-3rd-Edition/9780133486872.html?tab=resources). Download and follow along with the data from today's example:^[Note this is a `.dta` Stata file. You will need to (install and) load the package `haven` to `read_dta()` Stata files into a dataframe.]
+In doing so, we begin an ongoing exploration into inferential statistics, which will finally become clear in another week. The most confusing part is recognizing that there is a *sampling distribution of each OLS estimator*. We want to measure the center of that sampling distribution, to see if the estimator is *biased*. Next class we will measure the spread of that distribution. 
+
+We continue the extended example about class sizes and test scores, which comes from a (Stata) dataset from an old textbook that I used to use, [Stock and Watson, 2007](https://www.pearson.com/us/higher-education/product/Stock-Introduction-to-Econometrics-Update-3rd-Edition/9780133486872.html?tab=resources). Download and follow along with the data from today's example:^[Note this is a `.dta` Stata file. You will need to (install and) load the package `haven` to `read_dta()` Stata files into a dataframe.]
 
 - [<i class="fas fa-table"></i> `caschool.dta`](http://metricsf19.classes.ryansafner.com/data/caschool.dta)
 
 # Slides
 
-- [<i class="fas fa-external-link-square-alt"></i> Lecture Slides](/slides/09-slides.html)
+- [<i class="fas fa-external-link-square-alt"></i> Lecture Slides](/slides/10-slides.html)
 
-# Assignments: Problem Set 1 DUE and Problem Set 2
+# Assignments: Problem Set 2 DUE
 
-[Problem Set 1](/assignment/01-problem-set.html) answers will be posted shortly, and the graded assignment emailed back to you.^[Sorry I've been too busy to send emails confirming that I recieved your problem set!]
-
-[Problem Set 2](/assignment/01-problem-set.html) (on classes 2.1-2.2) is due by Thursday September 26.
+[Problem Set 2](/assignment/01-problem-set.html) is DUE. Answers will be posted later today.
 
 # Appendix: OLS Estimators
 
