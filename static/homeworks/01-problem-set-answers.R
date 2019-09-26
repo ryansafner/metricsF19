@@ -101,19 +101,19 @@ babynames %>%
 # a -----------------
 
 babynames %>%
-  group_by(year) %>%
+  group_by(year) %>% # we want one observation per year
   filter(sex == "M",
-         year>1980) %>%
-  arrange(desc(n))%>%
+         year>1979) %>% # or >==1980
+  arrange(desc(n))%>% # start with largest n first
   slice(1) # take first row only
 
 # b -----------------
 
 babynames %>%
-  group_by(year) %>%
+  group_by(year) %>% # we want one observation per year
   filter(sex == "F",
-         year>1980) %>%
-  arrange(desc(n))%>%
+         year>1979) %>% # or >==1980
+  arrange(desc(n))%>% # start with largest n first
   slice(1) # take first row only
 
 
@@ -121,28 +121,39 @@ babynames %>%
 
 # a -----------------
 
-# for boys 
 babynames %>%
-  group_by(name) %>%
+  group_by(name) %>% # we want one row per name
   filter(sex=="M") %>%
-  summarize(total=sum(n)) %>%
-  arrange(desc(total)) %>%
-  slice(1:5)
+  summarize(total=sum(n)) %>% # add upp all of the n's for all years for each name
+  arrange(desc(total)) %>% # list largest total first
+  slice(1:5) 
 
 # make a vector of the names (we'll need this for our graph below)
 top_boys_names<-c("James", "John", "Robert", "Michael", "William")
 
+# you could alternatively add a command, %>% pull(name) to the first chunk of code, and it would do the same thing, but we'd want to save it, for example:
+
+babynames %>%
+  group_by(name) %>% # we want one row per name
+  filter(sex=="M") %>%
+  summarize(total=sum(n)) %>% # add upp all of the n's for all years for each name
+  arrange(desc(total)) %>% # list largest total first
+  slice(1:5) %>%
+  pull(name)
+
 # for girls
 
 babynames %>%
-  group_by(name) %>%
+  group_by(name) %>% # we want one row per name
   filter(sex=="F") %>%
-  summarize(total=sum(n)) %>%
-  arrange(desc(total)) %>%
+  summarize(total=sum(n)) %>% # add upp all of the n's for all years for each name
+  arrange(desc(total)) %>% # list largest total first
   slice(1:5)
 
 # make a vector of the names (we'll need this for our graph below)
 top_girls_names<-c("Mary", "Elizabeth", "Patricia", "Jennifer", "Linda")
+
+# you could alternatively add a command, %>% pull(name) to the first chunk of code, and it would do the same thing, but we'd want to save it
 
 # b -----------------
 
