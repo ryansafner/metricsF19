@@ -63,10 +63,12 @@ lessons:
     class: "09-class"
     slides: "09-slides"
 
-  - title: "2.4 Goodness of Fit, Bias, and Precision"
+  - title: "2.4 OLS: Goodness of Fit and Bias"
     reading: "10-reading"
+    class: "10-class"
+    slides: "10-slides"
     
-  - title: "2.5 Regression Diagnostics"
+  - title: "2.5 OLS: Precision and Diagnostics"
 
   - title: "2.6 Inferential Statistics"
 
