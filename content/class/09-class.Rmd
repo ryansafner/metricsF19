@@ -27,7 +27,7 @@ We consider an extended example about class sizes and test scores, which comes f
 
 # Assignments: Problem Set 1 DUE and Problem Set 2
 
-[Problem Set 1](/assignment/01-problem-set.html) answers will be posted shortly, and the graded assignment emailed back to you.^[Sorry I've been too busy to send emails confirming that I recieved your problem set!]
+[Problem Set 1](/assignment/01-problem-set.html) answers are posted, and the graded assignment emailed back to you.^[Sorry I've been too busy to send emails confirming that I recieved your problem set!]
 
 [Problem Set 2](/assignment/01-problem-set.html) (on classes 2.1-2.2) is due by Thursday September 26.
 
