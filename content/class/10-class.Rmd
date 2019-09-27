@@ -233,22 +233,22 @@ $$E[\hat{\beta_1}]=\beta_1+\cfrac{cov(X,u)}{var(X)}$$
 From the definition of correlation:
 
 $$\begin{align*}
-	 corX,u)&=\frac{cov(X,u)}{s_X s_u}\\
-	 corX,u)s_Xs_u &=cov(X,u)\\
+	 cor(X,u)&=\frac{cov(X,u)}{s_X s_u}\\
+	 cor(X,u)s_Xs_u &=cov(X,u)\\
 \end{align*}$$
 
 Plugging this in: 
 
 $$\begin{align*}
 E[\hat{\beta_1}]&=\beta_1+\frac{cov(X,u)}{var(X)} \\
-E[\hat{\beta_1}]&=\beta_1+\frac{\big[corX,u)s_xs_u\big]}{s^2_X} \\
-E[\hat{\beta_1}]&=\beta_1+\frac{corX,u)s_u}{s_X} \\
-E[\hat{\beta_1}]&=\beta_1+corX,u)\frac{s_u}{s_X} \\
+E[\hat{\beta_1}]&=\beta_1+\frac{\big[cor(X,u)s_xs_u\big]}{s^2_X} \\
+E[\hat{\beta_1}]&=\beta_1+\frac{cor(X,u)s_u}{s_X} \\
+E[\hat{\beta_1}]&=\beta_1+cor(X,u)\frac{s_u}{s_X} \\
 \end{align*}$$
 
 ## Proof of the Unbiasedness of $\hat{\beta_1}$
 
-Begin with equation:
+Begin with equation:^[Admittedly, this is a simplified version where $\hat{\beta_0}=0$, but there is no loss of generality in the results.]
 
 $$\hat{\beta_1}=\frac{\sum Y_iX_i}{\sum X_i^2}$$
 

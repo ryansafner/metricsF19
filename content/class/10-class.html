@@ -174,18 +174,20 @@ Breaking apart the sums in the numerator:</p>
 <p><span class="math display">\[E[\hat{\beta_1}]=\beta_1+\cfrac{cov(X,u)}{var(X)}\]</span></p>
 <p>From the definition of correlation:</p>
 <p><span class="math display">\[\begin{align*}
-     corX,u)&amp;=\frac{cov(X,u)}{s_X s_u}\\
-     corX,u)s_Xs_u &amp;=cov(X,u)\\
+     cor(X,u)&amp;=\frac{cov(X,u)}{s_X s_u}\\
+     cor(X,u)s_Xs_u &amp;=cov(X,u)\\
 \end{align*}\]</span></p>
 <p>Plugging this in:</p>
 <p><span class="math display">\[\begin{align*}
 E[\hat{\beta_1}]&amp;=\beta_1+\frac{cov(X,u)}{var(X)} \\
-E[\hat{\beta_1}]&amp;=\beta_1+\frac{\big[corX,u)s_xs_u\big]}{s^2_X} \\
-E[\hat{\beta_1}]&amp;=\beta_1+\frac{corX,u)s_u}{s_X} \\
-E[\hat{\beta_1}]&amp;=\beta_1+corX,u)\frac{s_u}{s_X} \\
+E[\hat{\beta_1}]&amp;=\beta_1+\frac{\big[cor(X,u)s_xs_u\big]}{s^2_X} \\
+E[\hat{\beta_1}]&amp;=\beta_1+\frac{cor(X,u)s_u}{s_X} \\
+E[\hat{\beta_1}]&amp;=\beta_1+cor(X,u)\frac{s_u}{s_X} \\
 \end{align*}\]</span></p>
 <h3 id="proof-of-the-unbiasedness-of-hatbeta_1">Proof of the Unbiasedness of <span class="math inline">\(\hat{\beta_1}\)</span></h3>
-<p>Begin with equation:</p>
+<p>Begin with equation:<span><label for="sn-3" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-3" class="margin-toggle"/><span class="sidenote">Admittedly, this is a simplified version where <span class="math inline">\(\hat{\beta_0}=0\)</span>, but there is no loss of generality in the results.<br />
+<br />
+</span></span></p>
 <p><span class="math display">\[\hat{\beta_1}=\frac{\sum Y_iX_i}{\sum X_i^2}\]</span></p>
 <p>Substitute for <span class="math inline">\(Y_i\)</span>:</p>
 <p><span class="math display">\[\hat{\beta_1}=\frac{\sum (\beta_1 X_i+u_i)X_i}{\sum X_i^2}\]</span></p>

@@ -19,7 +19,7 @@ source(file.path(here::here(), "lib", "graphics.R"))
 
 - [<i class="fas fa-file-pdf"></i> `html`](/homeworks/01-problem-set-answers.html)
 - [<i class="fab fa-markdown"></i> `Markdown`](/homeworks/01-problem-set-answers.Rmd)
-- [<i class="fas fa-registered"></i> `R Script`](/homeworks/01-problem-set-answers.Rmd)
+- [<i class="fas fa-registered"></i> `R Script`](/homeworks/01-problem-set-answers.R)
 
 # Instructions
 

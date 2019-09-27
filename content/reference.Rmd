@@ -26,6 +26,30 @@ Look here over the course of the semester for resources, links, and tips on how 
 4. **Work on assignments together and study together**. Recognize that you are not in this alone, and other students are just as anxious or uncertain as you are. More surprisingly, other students probably have some answers you are looking for, and you may have answers for some of their problems! You will learn better when you collaborate with others similar to you. More importantly, you don't truly understand something unless you can explain it to others.^[Yes, that means I am doing a *ton* of learning every time I teach!] As a wise woman once told me "whomever is doing the talking is doing the learning."
 5. **Learn how to learn**. The most important skill you learn in college is *how to learn*. Taking a course on a subject will *not* make you an expert on that subject. It a) helps you recognize that you do not know everything on that subject, and this prevents you from [actively saying stupid things](http://www.smbc-comics.com/?id=2475); and b) gives you enough context and skills to figure out how to *actually* fill those gaps. This is the actual skill that's relevant in the real world.^[Yes, Google is your best friend. But you do not yet know how to ask the right questions, or understand what constitutes good answers.]
 
+# List of Math and R Appendices
+
+The following list contains links to all appendices spread across the Class Notes pages:
+
+- **R**: [Installing R and R Studio](https://metricsf19.classes.ryansafner.com/class/03-class/#installing-r-and-r-studio) (Class 1.3)
+- **R**: [R Packages](https://metricsf19.classes.ryansafner.com/class/03-class/#r-packages) (Class 1.3)
+- **R**: [Getting Help for R](https://metricsf19.classes.ryansafner.com/class/03-class/#getting-help-for-r) (Class 1.3)
+- **R**: [Other Useful Commands to Know](https://metricsf19.classes.ryansafner.com/class/03-class/#other-useful-commands-to-know) (Class 1.3)
+- **R**: [Style Guide for Coding](https://metricsf19.classes.ryansafner.com/class/03-class/#style-guide-for-coding) (Class 1.3)
+- **Math**: [The Summation Operator](https://metricsf19.classes.ryansafner.com/class/07-class/#the-summation-operator) (Class 2.1)
+- **R**: [Creating Mathematical Functions](https://metricsf19.classes.ryansafner.com/class/08-class/#creating-mathematical-functions) (Class 2.2)
+- **R**: [Graphing Mathematical Functions](https://metricsf19.classes.ryansafner.com/class/08-class/#graphing-mathematical-functions) (Class 2.2)
+- **R**: [Bultin Statistical Functions](https://metricsf19.classes.ryansafner.com/class/08-class/#bultin-statistical-functions) (Class 2.2)
+- **R**: [Graphing Statistical Functions](https://metricsf19.classes.ryansafner.com/class/08-class/#graphing-statistical-functions) (Class 2.2)
+- **Math**: [Variance](https://metricsf19.classes.ryansafner.com/class/09-class/#variance) (Class 2.3)
+- **Math**: [Covariance](https://metricsf19.classes.ryansafner.com/class/09-class/#covariance) (Class 2.3)
+- **Math**: [Correlation](https://metricsf19.classes.ryansafner.com/class/09-class/#correlation) (Class 2.3)
+- **R**: [Calculating Correlation Example](https://metricsf19.classes.ryansafner.com/class/09-class/#calculating-correlation-example) (Class 2.3)
+- **Math**: [Deriving the OLS Estimators](https://metricsf19.classes.ryansafner.com/class/10-class/#deriving-the-ols-estimators) (Class 2.4)
+- **Math**: [Algebraic Properties of OLS Estimators](https://metricsf19.classes.ryansafner.com/class/10-class/#algebraic-properties-of-ols-estimators) (Class 2.4)
+- **Math**: [Bias in $\hat{\beta_1}$](https://metricsf19.classes.ryansafner.com/class/10-class/#bias-in-hatbeta_1) (Class 2.4)
+- **Math**: [Proof of the Unbiasedness of  $\hat{\beta_1}$](https://metricsf19.classes.ryansafner.com/class/10-class/#proof-of-the-unbiasedness-of-hatbeta_1) (Class 2.4)
+
+
 # Installing R and R Studio
 
 1. [Install R](http://www.r-project.org/) from CRAN^[The Comprehensive R Archive Network] by clicking "Download R" (or the CRAN link under Downloads on the left menu). This will take you to a mirrors page, where you can select a location in the U.S. and download a copy of R
