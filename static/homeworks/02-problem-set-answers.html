@@ -2966,8 +2966,8 @@ div.tocify {
 <li>Find the mean of <span class="math inline">\(X\)</span>, <span class="math inline">\((\bar{X})\)</span></li>
 <li>Subtract the mean from each value of <span class="math inline">\(X\)</span> in the data, to get deviations, <span class="math inline">\((x_i-\bar{X})\)</span></li>
 <li>Square the deviations to ensure they are all positive, <span class="math inline">\((x_i-\bar{X})^2\)</span></li>
-<li>Take the average of the squared deviations: add them all up and divide by <span class="math inline">\(n-1\)</span>, <span class="math inline">\(\frac{1}{n}\displaystyle \sum^n_{i=1} (x_i-\bar{X})^2\)</span></li>
-<li>What you have in step 4 is variance (measured in units of <span class="math inline">\(X^2)\)</span>, square root to get standard deviation (measured in original units of <span class="math inline">\(X\)</span>): <span class="math inline">\(\sqrt{\frac{1}{n}\displaystyle \sum^n_{i=1} (x_i-\bar{X})^2}\)</span></li>
+<li>Take the average of the squared deviations: add them all up and divide by <span class="math inline">\(n-1\)</span>, <span class="math inline">\(\frac{1}{n-1}\displaystyle \sum^n_{i=1} (x_i-\bar{X})^2\)</span></li>
+<li>What you have in step 4 is variance (measured in units of <span class="math inline">\(X^2)\)</span>, square root to get standard deviation (measured in original units of <span class="math inline">\(X\)</span>): <span class="math inline">\(\sqrt{\frac{1}{n-1}\displaystyle \sum^n_{i=1} (x_i-\bar{X})^2}\)</span></li>
 </ol>
 <p>Note on Step 4: because this is a <em>sample</em>, we have do deal with <strong>degrees of freedom (df)</strong> loss. We use up one df to calculate the mean, <span class="math inline">\(\bar{x}\)</span>, which is needed before calculating variance or standard deviation. Hence, instead of averaging like normal: <span class="math inline">\(\frac{1}{n} \sum x_i\)</span>, we need to divide by <span class="math inline">\(n-1\)</span>.</p>
 </div>

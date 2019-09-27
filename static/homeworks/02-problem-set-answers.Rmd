@@ -61,8 +61,8 @@ It helps to consider the calculation as a series of steps:
 1. Find the mean of $X$, $(\bar{X})$
 2. Subtract the mean from each value of $X$ in the data, to get deviations, $(x_i-\bar{X})$
 3. Square the deviations to ensure they are all positive, $(x_i-\bar{X})^2$
-4. Take the average of the squared deviations: add them all up and divide by $n-1$, $\frac{1}{n}\displaystyle \sum^n_{i=1} (x_i-\bar{X})^2$
-5. What you have in step 4 is variance (measured in units of $X^2)$, square root to get standard deviation (measured in original units of $X$): $\sqrt{\frac{1}{n}\displaystyle \sum^n_{i=1} (x_i-\bar{X})^2}$
+4. Take the average of the squared deviations: add them all up and divide by $n-1$, $\frac{1}{n-1}\displaystyle \sum^n_{i=1} (x_i-\bar{X})^2$
+5. What you have in step 4 is variance (measured in units of $X^2)$, square root to get standard deviation (measured in original units of $X$): $\sqrt{\frac{1}{n-1}\displaystyle \sum^n_{i=1} (x_i-\bar{X})^2}$
 
 Note on Step 4: because this is a *sample*, we have do deal with **degrees of freedom (df)** loss. We use up one df to calculate the mean, $\bar{x}$, which is needed before calculating variance or standard deviation. Hence, instead of averaging like normal: $\frac{1}{n} \sum x_i$, we need to divide by $n-1$.
 
