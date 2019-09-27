@@ -246,7 +246,7 @@ I suggest using the table method, again. Working from the inside out of the form
 | 1     | 0.40       | $-0.20$    | $0.04$         | $0.016$           |
 | 2     | 0.40       | $0.80$     | $0.64$         | $0.256$           |
 | $\sum$ |  |  |  | $0.560$ |
-| $sqrt{\sum}$| | | | $0.748$ | 
+| $\mathbf{\sqrt{\sum}}$| | | | $\mathbf{0.748}$ | 
 
 
 ### Part C
@@ -419,7 +419,7 @@ Look back to the graphs of the pdfs in Question 5 to visualize what we are looki
 
 `pnorm` converts $X$ to $Z$ and takes the **standard normal cdf**, $\Phi$ of a variable, i.e.
 
-$$\Phi(k)=P(Z \geq k)$$
+$$\Phi(k)=P(Z \leq k)$$
 
 That means, it calculates the probability of everything up to (to the *left* of) that value on the **pdf.** So, if you want to calculate the area between values $j$ and $k$, you need to take the cdf of the larger number and subtract the cdf of the smaller number:
 
