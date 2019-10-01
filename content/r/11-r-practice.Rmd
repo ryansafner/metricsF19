@@ -14,8 +14,11 @@ Our [data](https://github.com/fivethirtyeight/data/tree/master/congress-trump-sc
 
 - [View Project on R Studio Cloud](https://rstudio.cloud/project/575252)
 
+
 ## Question 1
 Download and read in (`read_csv`) the data.
+
+- [<i class="fas fa-table"></i> `econfreedom.csv`](/data/congress-trump-score.csv)
 
 ## Question 2
 Look at the data with `glimpse()`. 
