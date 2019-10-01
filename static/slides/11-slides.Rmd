@@ -1207,7 +1207,7 @@ ggplot(data = aug_wage_reg)+
            base_size=20)
 
 ```
-
+]
 ---
 
 # Detecting Heteroskedasticity I
