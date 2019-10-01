@@ -69,7 +69,11 @@ lessons:
     slides: "10-slides"
     
   - title: "2.5 OLS: Precision and Diagnostics"
-
+    reading: "11-reading"
+    class: "11-class"
+    slides: "11-slides"
+    r: "11-r-practice"
+    
   - title: "2.6 Inferential Statistics"
 
   - title: "2.7 Inference for Regression with infer"

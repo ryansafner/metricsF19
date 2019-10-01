@@ -574,8 +574,8 @@ $$E[u]=0$$
 1. The expected value of the residuals is 0
 $$E[u]=0$$
 
-2. The variance of the residuals is constant, written:
-$$var(u)=\sigma^2_{u}$$
+2. The variance of the residuals over $X$ is constant, written:
+$$var(u|X)=\sigma^2_{u}$$
 
 
 ]
@@ -598,8 +598,8 @@ $$var(u)=\sigma^2_{u}$$
 1. The expected value of the residuals is 0
 $$E[u]=0$$
 
-2. The variance of the residuals is constant, written:
-$$var(u)=\sigma^2_{u}$$
+2. The variance of the residuals over $X$ is constant, written:
+$$var(u|X)=\sigma^2_{u}$$
 
 3. Errors are not correlated across observations: 
 $$cor(u_i,u_j)=0 \quad \forall i \neq j$$
@@ -624,8 +624,8 @@ $$cor(u_i,u_j)=0 \quad \forall i \neq j$$
 1. The expected value of the residuals is 0
 $$E[u]=0$$
 
-2. The variance of the residuals is constant, written:
-$$var(u)=\sigma^2_{u}$$
+2. The variance of the residuals over $X$ is constant, written:
+$$var(u|X)=\sigma^2_{u}$$
 
 3. Errors are not correlated across observations: 
 $$cor(u_i,u_j)=0 \quad \forall i \neq j$$
@@ -651,8 +651,8 @@ $$cor(X, u)=0 \text{ or } E[u|X]=0$$
 1. The expected value of the residuals is 0
 $$E[u]=0$$
 
-2. The variance of the residuals is constant, written:
-$$var(u)=\sigma^2_{u}$$
+2. The variance of the residuals over $X$ is constant, written:
+$$var(u|X)=\sigma^2_{u}$$
 
 - The first two assumptions $\implies$ errors are **i.i.d.**, drawn from the same distribution with mean 0 and variance $\sigma^2_{u}$
 
@@ -667,17 +667,17 @@ $$var(u)=\sigma^2_{u}$$
 
 ---
 
-# Assumption 2: Heteroskedasticity
+# Assumption 2: Homoskedasticity
 
 .pull-left[
 
-- The variance of the residuals is constant, written:
-$$var(u)=\sigma^2_{u}$$
+- The variance of the residuals over $X$ is constant, written:
+$$var(u|X)=\sigma^2_{u}$$
 
-- Assumption 2 implies that errors are ".shout[homoskedastic]:
+- Assumption 2 implies that errors are ".shout[homoskedastic]:"
  they have the same variance across $X$
 
-- Often this assumption is violated: errors may be ".shout[heteroskedastic]:
+- Often this assumption is violated: errors may be ".shout[heteroskedastic]:"
  they do not have the same variance across $X$
 
 - This *is* a problem for **inference**, but we have a simple fix for this (coming shortly)
