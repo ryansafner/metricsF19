@@ -37,9 +37,9 @@ Today you will be finishing up [R practice problems](/r/11-r-practice.html) from
 
 - `infer`: for simulation for statistical inference
 
-# Assignments: Problem Set 2 Answers
+# Assignments: Problem Set 3 Due Thursday October 10
 
-[Problem Set 2](/assignment/01-problem-set.html) answers are posted.
+Problem Set 3 will be posted later and is due Thursday September 19. 
 
 # Appendix: Inferential Statistics
 
