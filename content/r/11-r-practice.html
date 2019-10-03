@@ -1,19 +1,22 @@
 ---
-title: "2.4 OLS: Precision and Diagnostics - R Practice (Answers)"
+title: "2.4 OLS: Precision and Diagnostics - R Practice"
 editor_options: 
   chunk_output_type: console
 ---
 
 
 
-<p>Our <a href="https://github.com/fivethirtyeight/data/tree/master/congress-trump-score">data</a> comes from fivethirtyeight’s <a href="https://projects.fivethirtyeight.com/congress-trump-score/">Trump Congress tracker</a>.</p>
+<h2 id="set-up">Set Up</h2>
+<p>To minimize confusion, I suggest creating a new <code>R Project</code> (e.g. <code>regression_practice</code>) and storing any data in that folder on your computer.</p>
+<p>Alternatively, I have made a project in R Studio Cloud that you can use (and not worry about trading room computer limitations), with the data already inside (you will still need to assign it to an object).</p>
 <ul>
-<li><a href="https://rstudio.cloud/project/575252">View Project on R Studio Cloud</a></li>
+<li><a href="https://rstudio.cloud/project/575252"><i class="fas fa-cloud"></i> View Project on R Studio Cloud</a></li>
+<li><a href="/r/11-r-practice-rmd.Rmd"><i class="fab fa-markdown"></i> <code>Download Markdown</code></a></li>
 </ul>
 <h3 id="question-1">Question 1</h3>
-<p>Download and read in (<code>read_csv</code>) the data.</p>
+<p>Our <a href="https://github.com/fivethirtyeight/data/tree/master/congress-trump-score">data</a> comes from fivethirtyeight’s <a href="https://projects.fivethirtyeight.com/congress-trump-score/">Trump Congress tracker</a>. Download and read in (<code>read_csv</code>) the data.</p>
 <ul>
-<li><a href="/data/congress-trump-score.csv"><i class="fas fa-table"></i> <code>econfreedom.csv</code></a></li>
+<li><a href="/data/congress-trump-score.csv"><i class="fas fa-table"></i> <code>congress-trump-score.csv</code></a></li>
 </ul>
 <h3 id="question-2">Question 2</h3>
 <p>Look at the data with <code>glimpse()</code>.</p>
@@ -68,6 +71,20 @@ editor_options:
 <h4 id="part-b-4">Part B</h4>
 <p>Install and load the <code>car</code> package. Run the <code>outlierTest</code> command on your regression object. Does it detect any outliers?</p>
 <h4 id="part-c-3">Part C</h4>
-<p>Look in your original data to match this outlier with an observation. Hint: use the <code>slice()</code> command, as the outlier test gave you an observation number!</p>
+<p>Look in your original data to match this outlier with an observation. Hint: use the <code>slice()</code> command, as the outlier test gave you an observation (row) number!</p>
 <h3 id="question-11-optional">Question 11 (Optional)</h3>
-<p>This data is still a bit messy. We’d also probably like to plot our scatterplots with colors for Republican and Democratic party. Or sort by the House and the Senate.</p>
+<p>This data is still a bit messy. Let’s check in on your <code>tidyverse</code> skills again! For example, we’d probably like to plot our scatterplots with colors for Republican and Democratic party. Or plot by the House and the Senate.</p>
+<h4 id="part-a-5">Part A</h4>
+<p>First, the variable <code>congress</code> (session of Congress) seems a bit off. Get a <code>count()</code> of <code>congress</code>.</p>
+<h4 id="part-b-5">Part B</h4>
+<p>Let’s get rid of the <code>0</code> values for <code>congress</code> (someone made a mistake coding this, probably). Also, while we’re at it, let’s take <code>agree_pct</code> and <code>mutate</code> a variable that is a proper percentage (i.e. <code>*100</code>).</p>
+<h4 id="part-c-4">Part C</h4>
+<p>The variable <code>party</code> is also quite a mess. <code>count()</code> by <code>party</code> to see. Then let’s <code>mutate</code> a variable to make a better measure of political party - just <code>"Republican"</code>, <code>"Democrat"</code>, and <code>"Independent"</code>. Try doing this with the <code>case_when()</code> command (as your <code>mutate</code> formula).<span><label for="sn-1" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-1" class="margin-toggle"/><span class="sidenote">The syntax for <code>case_when()</code> is to have a series of <code>condition ~ "Outcome"</code>, separated by commas. For example, one condition is to assign both <code>"Democrat"</code> and <code>"D"</code> to <code>"Democrat"</code>, as in <code>party %in% c("Democrat", "D") ~ "Democrat"</code>. You could also do this with a few <code>ifelse()</code> commands, but that’s a bit more awkward.<br />
+<br />
+</span></span> When you’re done <code>count()</code> by your new party variable to make sure it worked.</p>
+<h4 id="part-d-3">Part D</h4>
+<p>Now plot a scatterplot (same as Question 3) and set <code>color</code> to your party variable. Notice <code>R</code> uses its own default colors, which don’t match to the actual colors these political parties use! Make a vector where you define the party colors as follows: <code>party_colors &lt;- c("Democrat" = "blue", "Republican" = "red", "Independent" = "gray")</code>. Then, run your plot again, adding the following line to customize the colors <code>+scale_colour_manual("Parties", values = party_colors)</code>.<span><label for="sn-2" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-2" class="margin-toggle"/><span class="sidenote"><code>"Parties"</code> is the title that will show up on the legend, feel free to edit it, or remove the legend with another layer <code>+guides(color = F)</code>.<br />
+<br />
+</span></span></p>
+<h4 id="part-e">Part E</h4>
+<p>Now facet your scatterplot by <code>chamber</code>.</p>

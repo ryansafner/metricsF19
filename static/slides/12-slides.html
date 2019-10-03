@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>2.6: Inferential Statistics I</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Ryan Safner  Assistant Professor of Economics    safner@hood.edu    ryansafner/metricsf19    metricsF19.classes.ryansafner.com" />
+    <link href="libs/remark-css/hygge.css" rel="stylesheet" />
+    <link href="libs/pagedtable/css/pagedtable.css" rel="stylesheet" />
+    <script src="libs/pagedtable/js/pagedtable.js"></script>
+    <script src="libs/kePrint/kePrint.js"></script>
+    <script src="https://use.fontawesome.com/5235085b15.js"></script>
+    <link rel="stylesheet" href="custom.css" type="text/css" />
+    <link rel="stylesheet" href="custom-fonts.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# 2.6: Inferential Statistics I
+## ECON 480 · Econometrics · Fall 2019
+### Ryan Safner<br> Assistant Professor of Economics <br> <a href="mailto:safner@hood.edu"><i class="fa fa-paper-plane fa-fw"></i> safner@hood.edu</a> <br> <a href="https://github.com/ryansafner/metricsf19"><i class="fa fa-github fa-fw"></i> ryansafner/metricsf19</a><br> <a href="https://metricsF19.classes.ryansafner.com"> <i class="fa fa-globe fa-fw"></i> metricsF19.classes.ryansafner.com</a><br>
+
+---
+
+
+
+
+
+
+
+# The Sampling Distribution of `\(\hat{\beta_1}\)`
+
+.pull-left[
+
+`$$\hat{\beta_1} \sim N(E[\hat{\beta_1}], \sigma_{\hat{\beta_1}})$$`
+
+1. `\(E[\hat{\beta_1}]\)`; the **center** of the distribution (2 classes ago)
+    - `\(E[\hat{\beta_1}]=\beta_1\)`&lt;sup&gt;&lt;span class="red"&gt;1&lt;/span&gt;&lt;/sup&gt;
+
+2. `\(\sigma_{\hat{\beta_1}}\)`; how **precise** is our estimate? (last class)
+    - Variance `\(\sigma^2_{\hat{\beta_1}}\)` or standard error `\(\sigma_{\hat{\beta_1}}\)`
+
+
+]
+
+.pull-right[
+
+&lt;img src="12-slides_files/figure-html/unnamed-chunk-1-1.png" width="504" /&gt;
+
+]
+.footnote[&lt;sup&gt;.red[1]&lt;/sup&gt; Under the 4 assumptions about `\(u\)` (particularly, `\(cor(X,u)=0)\)`.
+]
+
+---
+
+# Recall: The Two Big Problems with Data
+
+.pull-left[
+
+- We use econometrics to .onfire[identify] causal relationships and make .onfire[inferences] about them
+
+1. Problem for .onfire[identification]: .shout[endogeneity]
+    - `\(X\)` is **exogenous** if its variation is *unrelated* to other factors `\((u)\)` that affect `\(Y\)`
+    - `\(X\)` is **endogenous** if its variation is *related* to other factors `\((u)\)` that affect `\(Y\)`
+
+2. Problem for .onfire[inference]: .shout[randomness]
+    - Data is random due to **natural sampling variation**
+    - Taking one sample of a population will yield slightly different information than another sample of the same population
+
+]
+
+.pull-right[
+.center[
+![:scale 55%](https://www.dropbox.com/s/v5vwsadw5vs448t/causality.jpg?raw=1)
+
+![:scale 55%](https://www.dropbox.com/s/phhet82tcnuegxp/randomimage.jpg?raw=1)]
+]
+
+---
+
+# Distributions of the OLS Estimators
+
+- OLS estimators `\((\hat{\beta_0}\)` and `\(\hat{\beta_1})\)` are computed from a finite (specific) sample of data
+
+- Our OLS model contains **2 sources of randomness**:
+
+--
+
+- .onfire[*Modeled* randomness]: `\(u\)` includes all factors affecting `\(Y\)` *other* than `\(X\)`
+    - different samples will have different values of those other factors `\((u_i)\)`
+
+--
+
+- .onfire[*Sampling* randomness]: different samples will generate different OLS estimators
+    - Thus, `\(\hat{\beta_0}, \hat{\beta_1}\)` are *also* **random variables**, with their own &lt;span class=shout&gt;sampling distribution&lt;/span&gt;
+
+---
+
+# Inferential Statistics and Sampling Distributions
+
+.pull-left[
+
+- **Inferential statistics** analyzes a **sample** to make inferences about a much larger (unobservable) **population**
+
+- .shout[Population]: all possible individuals that match some well-defined criterion of interest (people, firms, cities, etc)
+  - Characteristics about (relationships between variables in) populations are called **parameters** 
+
+- .shout[Sample]: some portion of the population of interest to *represent the whole*
+  - Samples generate **statistics** used to *estimate* population parameters
+  
+- We almost never can directly study the population, so we *model* it with our samples 
+]
+
+.pull-right[
+.center[
+![](https://www.dropbox.com/s/17cb7ceqipgi8fs/citymodel.jpg?raw=1)
+]
+]
+
+---
+
+# Inference in Econometrics: The Big Picture
+
+`$$\text{Sample} \underbrace{\rightarrow}_{\text{statistical inference}} \text{Population} \underbrace{\rightarrow}_{\text{causal indentification}} \text{Unobserved Parameters}$$`
+
+- We want to .whisper[identify] causal relationships between **population** variables
+    - Logically first thing to consider
+    - **Endogeneity problem**
+
+- We'll use **sample** *statistics* to .whisper[infer] something about population *parameters*
+    - In practice, we'll only ever have a finite *sample distribution* of data
+    - We *don't* know the *population distribution* of data
+    - **Randomness problem**
+
+---
+
+# Two Methods of Statistical Inference
+
+1. .shout[Estimation]: use our sample data to construct a point estimate of a population parameter and subject it to a .shout[hypothesis test] 
+
+--
+
+2. .shout[Confidence interval]: use our sample data to construct a *range* for the population parameter
+
+--
+
+- First method is more common, but second is still widely acknowledged
+
+- Both will give you similar results
+    - Tradeoff of accuracy vs. precision
+
+- Note *statistical* inference is different than *causal* inference!
+
+---
+
+class: inverse, center, middle
+
+# Hypothesis Testing
+
+---
+
+# Estimation and Hypothesis Testing I
+
+- We have already used statistics to **estimate** a relationship between `\(X\)` and `\(Y\)`
+    - OLS estimators `\(\hat{\beta_0}\)` and `\(\hat{\beta_1}\)` of the true population `\(\beta_0\)` and `\(\beta_1\)`
+
+- We want to **test** if these estimates are **statistically significant** and they describe the population
+    - This is the "bread and butter" of inferential statistics and the purpose of regression
+
+--
+
+.content-box-green[
+.green[**Examples**]:
+- Does reducing class size actually improve test scores?
+- Do more years of education increase your wages? 
+- Is the gender wage gap between men and women really $0.77? 
+]
+
+--
+
+- .whisper[All modern science is built upon statistical hypothesis testing, so understand it well!]
+
+---
+
+# Estimation and Hypothesis Testing II
+
+- Note, we can test a lot of hypotheses about a lot of population parameters, e.g.
+    - A population mean `\(\mu\)` 
+      - &lt;span class="green"&gt;**Example**: average height of adults&lt;/span&gt;
+    - A population proportion `\(p\)`
+      - &lt;span class="green"&gt;**Example**: percent of voters who voted for Trump&lt;/span&gt;
+    - A difference in population means `\(\mu_A-\mu_B\)`
+      - &lt;span class="green"&gt;**Example**: difference in average wages of men vs. women&lt;/span&gt;
+    - A difference in population proportions `\(p_A-p_B\)`
+      - &lt;span class="green"&gt;**Example**: difference in percent of patients reporting symptoms of drug A vs B&lt;/span&gt;
+    - See all the possibilities in glorious detail in today's Class Notes
+
+- We will focus only on hypotheses about the .onfire[population regression slope] `\((\hat{\beta}_1)\)`, i.e. the .onfire[causal effect]&lt;sup&gt;.red[1]&lt;/sup&gt; of `\(X\)` on `\(Y\)`
+
+.footnote[&lt;sup&gt;1&lt;/sup&gt; With a model this simple, it's almost certainly **not** causal, but this is the ultimate direction we are heading...]
+
+---
+
+# Null and Alternative Hypotheses I
+
+- All scientific inquiries begin with a .shout[null hypothesis] `\((H_0)\)` that proposes a specific value of a population parameter
+    - Notation: add a subscript 0: `\(\beta_{1,0}\)` (or `\(\mu_0\)`, `\(p_0\)`, etc)
+
+--
+
+- We suggest an .shout[alternative hypothesis] `\((H_a)\)`, often the one we hope to verify
+    - Note, can be multiple alternative hypotheses: `\(H_1, H_2, \ldots , H_n\)`
+
+--
+
+- Ask: .onfire["Does our data (sample) give us sufficient evidence to reject `\\(H_0\\)` in favor of `\\(H_a\\)`?"]
+    - Note: **the test is *always* about** `\(\mathbf{H_0}\)`! 
+    - See if we have sufficient evidence to reject the status quo
+
+---
+
+# Null and Alternative Hypotheses II
+
+- Null hypothesis assigns a value (or a range) to a population parameter
+    - e.g. `\(\beta_1=2\)` or `\(\beta_1 \leq 20\)`
+    - **Most common null hypothesis is `\(\beta_1=0\)`** `\(\implies\)` `\(X\)` has no effect on `\(Y\)` (no slope for a line)
+    - Note: always an equality!
+
+--
+
+- Alternative hypothesis must mathematically *contradict* the null hypothesis
+    - e.g. `\(\beta_1 \neq 2\)` or `\(\beta_1 &gt; 20\)` or `\(\beta_1 \neq 0\)`
+    - Note: always an inequality!
+
+--
+
+- Alternative hypotheses come in two forms:
+    1. **One-sided alternative**: `\(\beta_1 &gt;H_0\)` or `\(\beta_1&lt; H_0\)`
+    2. **Two-sided alternative**: `\(\beta_1 \neq H_0\)`
+        - Note this means either `\(\beta_1 &lt; H_0\)` or `\(\beta_1 &gt; H_0\)`
+
+---
+
+# Components of a Valid Hypothesis Test
+
+- All statistical hypothesis tests have the following components:
+
+1. A .onfire[null hypothesis], `\(H_0\)`**
+
+2. An .onfire[alternative hypothesis], `\(H_a\)`**
+
+3. A .onfire[test statistic] to determine if we reject `\(H_0\)` when the statistic reaches a "critical value"
+    - Beyond the critical value is the "rejection region", sufficient evidence to reject `\(H_0\)`
+    
+4. A .onfire[conclusion] whether or not to reject `\(H_0\)` in favor of `\(H_a\)`
+
+---
+
+# Type I and Type II Errors I
+
+.pull-left[
+
+- Any sample statistic (e.g. `\(\hat{\beta_1}\)`) will rarely be exactly equal to the hypothesized population parameter (e.g. `\(\beta_1\)`)
+
+- Difference between observed statistic and true paremeter could be because:
+
+1. Parameter is *not* the hypothesized value `\((H_0\)` is *false*)
+    
+2. Parameter is truly the hypothesized value `\((H_0\)` is *true*) but *sampling variability* gave us a different estimate 
+    
+- .onfire[We cannot distinguish between these two possibilities with any certainty]
+
+]
+
+.pull-right[
+.center[
+![](https://www.dropbox.com/s/95rh9ow982y5htb/error.png?raw=1)
+]
+]
+---
+
+# Type I and Type II Errors II
+
+.pull-left[
+
+- We can interpret our estimates probabilistically as commiting one of two types of error:
+
+1. .shout[Type I error (false positive)]: rejecting `\(H_0\)` when it is in fact true
+    - Believing we found an important result when there is truly no relationship
+    
+2. .shoutcaps[Type II error (false negative)]: failing to reject `\(H_0\)` when it is in fact false
+    - Believing we found nothing when there was truly a relationship to find
+]
+
+.pull-right[
+.center[
+![](https://www.dropbox.com/s/95rh9ow982y5htb/error.png?raw=1)
+]
+]
+
+---
+
+# Type I and Type II Errors III
+
+
+
+.regtable[
+&lt;table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+&lt;tr&gt;
+&lt;th style="border-bottom:hidden" colspan="2"&gt;&lt;/th&gt;
+&lt;th style="border-bottom:hidden; padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; " colspan="2"&gt;&lt;div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; "&gt;Truth&lt;/div&gt;&lt;/th&gt;
+&lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt;  &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt;  &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Null is True &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Null is False &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;font-weight: bold;vertical-align: middle !important;" rowspan="4"&gt; Judgment &lt;/td&gt;
+   &lt;td style="text-align:left;font-weight: bold;vertical-align: middle !important;" rowspan="2"&gt; Reject Null &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; TYPE I ERROR &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; CORRECT &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   
+   
+   &lt;td style="text-align:left;"&gt; (False +) &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; (True +) &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   
+   &lt;td style="text-align:left;font-weight: bold;vertical-align: middle !important;" rowspan="2"&gt; Don't Reject Null &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; CORRECT &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; TYPE II ERROR &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   
+   
+   &lt;td style="text-align:left;"&gt; (True -) &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; (False -) &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
+- Depending on context, committing one type of error may be more serious than the other
+
+---
+
+# Type I and Type II Errors IV
+
+.regtable[
+&lt;table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+&lt;tr&gt;
+&lt;th style="border-bottom:hidden" colspan="2"&gt;&lt;/th&gt;
+&lt;th style="border-bottom:hidden; padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; " colspan="2"&gt;&lt;div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; "&gt;Truth&lt;/div&gt;&lt;/th&gt;
+&lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt;  &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt;  &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Defendant is Innocent &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Defendant is Guilty &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;font-weight: bold;vertical-align: middle !important;" rowspan="4"&gt; Judgment &lt;/td&gt;
+   &lt;td style="text-align:left;font-weight: bold;vertical-align: middle !important;" rowspan="2"&gt; Convict &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; TYPE I ERROR &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; CORRECT &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   
+   
+   &lt;td style="text-align:left;"&gt; (False +) &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; (True +) &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   
+   &lt;td style="text-align:left;font-weight: bold;vertical-align: middle !important;" rowspan="2"&gt; Acquit &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; CORRECT &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; TYPE II ERROR &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   
+   
+   &lt;td style="text-align:left;"&gt; (True -) &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; (False -) &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
+- Anglo-American common law *presumes* defendant is innocent: `\(H_0\)`
+
+--
+
+- Jury judges whether the evidence presented against the defendant is plausible *assuming the defendant were in fact innocent*
+
+--
+
+- If highly improbable: sufficient evidence to reject `\(H_0\)` and convict
+    - Beyond a "reasonable doubt" that the defendant is innocent
+
+---
+
+# Type I and Type II Errors V
+
+.left-column[
+
+.center[
+![:scale 80%](https://www.dropbox.com/s/bufqsl9ub03iru3/blackstone.png?raw=1)
+
+William Blackstone
+
+(1723-1780)
+
+]
+]
+
+.right-column[
+
+&gt; "It is better that ten guilty persons escape than that one innocent suffer."
+
+- Type I error is worse than a Type II error in law!
+
+]
+
+.source[Blackstone, William, 1765-1770, *Commentaries on the Laws of England*]
+
+---
+
+# Type I and Type II Errors VI
+
+.content-box-blue[
+.blue[**Let's Check**:]
+For each of the following scenarios, identify the Type I error, Type II error, and which error is of greater consequence:
+]
+
+--
+1. `\(H_0:\)` the victim of an automobile accident is alive when he arrives at the Emergency Room
+
+--
+
+2. `\(H_0\)`: a rock climber's equipment is safe
+
+--
+
+3. `\(H_0\)`: a woman is not pregnant
+
+--
+
+4. `\(H_0\)`: a highway project will cost no more than $10 million
+
+--
+
+5. `\(H_0\)`: an experimental cancer drug has a cure rate of at least 75% 
+
+
+---
+
+# Significance Level, `\(\alpha\)`, and Confidence Level `\(1-\alpha\)`
+
+- The .shout[significance level, `\\(\alpha\\)`], is the probability of a **Type I error** 
+
+`$$\alpha=P(\text{Reject } H_0 | H_0 \text{ is true})$$`
+
+--
+
+- The .shout[confidence level] is defined as .shout[`\\((1-\alpha)\\)`]
+
+- We often specify in advance an `\(\alpha\)`-level (0.10, 0.05, 0.01) with associated confidence level (90%, 95%, 99%)
+
+--
+
+- The probability of a **Type II error** is defined as `\(\beta\)`:
+
+`$$\beta=P(\text{Don't reject } H_0 | H_0 \text{ is false})$$`
+
+---
+
+# `\(\alpha\)` and `\(\beta\)`
+
+.regtable[
+&lt;table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+&lt;tr&gt;
+&lt;th style="border-bottom:hidden" colspan="2"&gt;&lt;/th&gt;
+&lt;th style="border-bottom:hidden; padding-bottom:0; padding-left:3px;padding-right:3px;text-align: center; " colspan="2"&gt;&lt;div style="border-bottom: 1px solid #ddd; padding-bottom: 5px; "&gt;Truth&lt;/div&gt;&lt;/th&gt;
+&lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt;  &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt;  &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Null is True &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Null is False &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;font-weight: bold;vertical-align: middle !important;" rowspan="4"&gt; Judgment &lt;/td&gt;
+   &lt;td style="text-align:left;font-weight: bold;vertical-align: middle !important;" rowspan="2"&gt; Reject Null &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Type I Error &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Correct &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   
+   
+   &lt;td style="text-align:left;"&gt; alpha &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1-beta &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   
+   &lt;td style="text-align:left;font-weight: bold;vertical-align: middle !important;" rowspan="2"&gt; Don't Reject Null &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Correct &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Type II Error &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   
+   
+   &lt;td style="text-align:left;"&gt; 1-alpha &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; beta &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
+---
+
+# Power and p-values
+
+- The statistical .shout[power of the test] is `\(1-\beta\)`, the probability of correctly rejecting `\(H_0\)` when `\(H_0\)` is in fact false (e.g. not convicting an innocent person)
+
+`$$\text{Power} = 1- \beta = P(\text{Reject }H_0|H_0 \text{ is false})$$`
+
+--
+
+- The .shout[`\\(p\\)`-value] or .shout[significance probability] is the probability that, given the null hypothesis is true, the test statistic from a random sample will be at least as extreme as the test statistic of our sample
+
+`$$p(|H_0)$$`
+
+- If `\(p&lt;\alpha\)`, the results are "**statistically significant**"
+
+---
+
+# p-Values and Statistical Significance 
+ 
+- After running our test, we need to make a *decision* between the competing hypotheses
+- Compare `\(p\)`-value with *pre-determined* `\(\alpha\)` (commonly, `\(\alpha=0.05\)`, 95% confidence level)
+    - If `\(p&lt;\alpha\)`: **statistically significant** evidence sufficient to *reject* `\(H_0\)` in favor of `\(H_a\)`
+    - If `\(p \geq \alpha\)`: *insufficient* evidence to reject `\(H_0\)`
+        - Note this does **not** mean `\(H_0\)` is true! We merely have *failed* to *reject* `\(H_0\)`
+
+---
+
+class: inverse, center, middle
+
+# Digression: p-Values and the Philosophy of Science
+
+---
+
+# Hypothesis Testing and the Philosophy of Science I
+
+.left-column[
+.center[
+![:scale 75%](https://www.dropbox.com/s/kssn3fwxgu8k457/rafisher.jpg?raw=1)
+
+Sir Ronald A. Fisher
+
+(1890&amp;mdash;1962)
+]
+]
+
+.right-column[
+
+&gt; "The null hypothesis is never proved or established, but is possibly disproved, in the course of experimentation. Every experiment may be said to exist only in order to give the facts a chance of disproving the null hypothesis."
+
+1931, *The Design of Experiments*
+]
+
+---
+
+# Hypothesis Testing and the Philosophy of Science I
+
+.pull-left[
+
+- Modern philosophy of science is largely based off of hypothesis testing and .whisper[falsifiability], which form the "Scientific Method"&lt;sup&gt;1&lt;/sup&gt;
+- For something to be "scientific", it must be .whisper[falsifiable], or at least .whisper[testable]
+- Hypotheses can be *corroborated* with evidence, but always *tentative* until falsified by data in suggesting an alternative hypothesis
+- .onfire["All swans are white"] is a hypothesis rejected upon discovery of a single black swan
+]
+
+.pull-right[
+
+.center[
+.polaroid[![](https://www.dropbox.com/s/d7i7m77iui5sdb8/blackswan.jpg?raw=1)]
+]
+]
+.footnote[&lt;sup&gt;1&lt;/sup&gt; Note: economics is a very different kind of "science" with a different methodology!]
+
+---
+
+# Hypothesis Testing I
+
+- Hypothesis testing, confidence intervals, and p-values are probably the hardest thing to understand in statistics
+
+.center[
+
+&lt;iframe src="https://fivethirtyeight.abcnews.go.com/video/embed/56150342" width="640" height="360" scrolling="no" style="border:none;" allowfullscreen&gt;&lt;/iframe&gt;
+
+[Fivethirtyeight: Not Even Scientists Can Easily Explain P-values](https://fivethirtyeight.com/features/not-even-scientists-can-easily-explain-p-values/)]
+
+---
+
+# Hypothesis Testing II 
+
+- Rigorous course on statistics (**ECMG 212** or **MATH 112**) will spend weeks going through different types of tests:
+    - Sample mean; difference of means
+    - Proportion; difference of proportions
+    - Z-test vs t-test
+    - 1 sample vs. 2 samples
+    - `\(\chi^2\)` test
+
+- Fortunately, some statisticians realized ["**there is only one test**"](https://allendowney.blogspot.com/2011/05/there-is-only-one-test.html) and coded it that way
+
+---
+
+# Elements of a Hypothesis Test
+
+1. Calculate a statistic, `\(\delta\)`&lt;sup&gt;1&lt;/sup&gt;, from a sample of data
+2. Simulate a world where `\(\delta\)` is null
+3. Examine `\(\delta\)` in the null world
+4. Calculate the probability that `\(\delta\)` could exist in the null world
+5. Decide if `\(\delta\)` is statistically significant
+
+.footnote[&lt;sup&gt;1&lt;/sup&gt; `\(\delta\)` can stand in for any test-statistic in any hypothesis test! For our purposes, `\(\delta\)` is the slope of our regression sample, `\(\hat{\beta}_1\)`.]
+
+---
+
+# Elements of a Hypothesis Test
+
+.center[
+![:scale 80%](https://www.dropbox.com/s/jenilao59zrbswq/onetest.png?raw=1)
+
+[Alan Downey: "There is still only one test"](https://allendowney.blogspot.com/2016/06/there-is-still-only-one-test.html)
+]
+
+---
+
+# Hypothesis Testing with the infer Package I
+
+- R naturally runs the following hypothesis test on any regression as part of `lm()`:
+
+`$$\begin{align*}
+H_0: \; &amp; \beta_1=0\\
+H_1: \; &amp; \beta_1 \neq 0
+\end{align*}$$`
+
+- `infer` allows you to run through these steps manually to understand the process
+
+---
+
+# Hypothesis Testing with the infer Package II
+
+1. `specify()` a model
+
+--
+
+2. `hypothesize()` the null 
+
+--
+
+3. `generate()` simulations of the null world 
+
+--
+
+4. `calculate()` 
+
+--
+
+5. `visualize()`
+
+---
+
+# Hypothesis Testing with the infer Package III
+
+.center[
+![:scale 65%](https://www.dropbox.com/s/zz3h7wq1tr08dus/infer0jpeg.jpeg?raw=1)
+]
+
+---
+
+# Hypothesis Testing with the infer Package III
+
+.center[
+![:scale 65%](https://www.dropbox.com/s/25axifo95oz5zs7/infer1jpeg.jpeg?raw=1)
+]
+
+---
+
+# Hypothesis Testing with the infer Package III
+
+.center[
+![:scale 65%](https://www.dropbox.com/s/d9bnryxznfwe4fc/infer2jpeg.jpeg?raw=1)
+]
+
+---
+
+# Hypothesis Testing with the infer Package III
+
+.center[
+![:scale 65%](https://www.dropbox.com/s/pc8733aurnouvsr/infer3jpeg.jpeg?raw=1)
+]
+
+---
+
+# Hypothesis Testing with the infer Package III
+
+.center[
+![:scale 65%](https://www.dropbox.com/s/4wojnmworf406ku/infer4jpeg.jpeg?raw=1)
+]
+
+---
+
+# Hypothesis Testing with the infer Package III
+
+.center[
+![:scale 65%](https://www.dropbox.com/s/6328hg5t03jbd0w/infer5jpeg.jpeg?raw=1)
+]
+
+---
+
+# Test Statistic
+
+- .whisper[Test statistic]: measure of how far what we observed in our sample is from what we would expect if the null hypothesis was true
+    - Calculate from a distribution
+- .whisper[Rejection region]: if the test statistic reaches a .onfire["critical value"], then we reject the null hypothesis
+
+---
+
+# Statistical Significance and Economic Significance
+
+## Is a finding *significant* ?
+
+## Is a finding *meaningful* ? 
+
+---
+
+# How Big is "Big"?
+
+.center[
+![:scale 40%](https://www.dropbox.com/s/qtd2uwvr52jvkcu/drwhocontext.jpg?raw=1)
+]
+
+---
+
+# Imagine a Null World
+
+.center[
+![:scale 70%](https://www.dropbox.com/s/x7b5azt5algjodg/parallelworld.jpeg?raw=1)
+]
+
+---
+
+# Imagine a Null World
+
+.pull-left[
+
+# Our Sample
+
+&lt;div data-pagedtable="false"&gt;
+  &lt;script data-pagedtable-source type="application/json"&gt;
+{"columns":[{"label":["term"],"name":[1],"type":["chr"],"align":["left"]},{"label":["estimate"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["std.error"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["statistic"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["p.value"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"(Intercept)","2":"698.932952","3":"9.4674914","4":"73.824514","5":"6.569925e-242"},{"1":"str","2":"-2.279808","3":"0.4798256","4":"-4.751327","5":"2.783307e-06"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  &lt;/script&gt;
+&lt;/div&gt;
+]
+
+.pull-right[
+
+# Another Sample
+
+&lt;div data-pagedtable="false"&gt;
+  &lt;script data-pagedtable-source type="application/json"&gt;
+{"columns":[{"label":["term"],"name":[1],"type":["chr"],"align":["left"]},{"label":["estimate"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["std.error"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["statistic"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["p.value"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"(Intercept)","2":"647.8027952","3":"9.7147718","4":"66.6822452","5":"6.997699e-225"},{"1":"str","2":"0.3235038","3":"0.4923581","4":"0.6570499","5":"5.115104e-01"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  &lt;/script&gt;
+&lt;/div&gt;
+]
+
+---
+
+# 1000 Parallel Universes
+
+.left-code[
+
+
+```r
+library(infer)
+simulations &lt;- CASchool %&gt;%
+  specify(testscr ~ str) %&gt;%
+  hypothesize(null = "independence") %&gt;%
+  generate(reps = 1000, type = "permute") %&gt;%
+  calculate(stat = "slope")
+
+simulations %&gt;%
+  rename(sample = replicate,
+         slope = stat)
+```
+]
+
+.right-plot[
+&lt;div data-pagedtable="false"&gt;
+  &lt;script data-pagedtable-source type="application/json"&gt;
+{"columns":[{"label":["sample"],"name":[1],"type":["int"],"align":["right"]},{"label":["slope"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"1","2":"-0.3027333296"},{"1":"2","2":"-0.3624481355"},{"1":"3","2":"0.6448518690"},{"1":"4","2":"-0.0745971847"},{"1":"5","2":"0.5969444290"},{"1":"6","2":"0.5505335318"},{"1":"7","2":"0.5927466147"},{"1":"8","2":"0.0572148658"},{"1":"9","2":"-0.0989989073"},{"1":"10","2":"0.8043957511"},{"1":"11","2":"-0.2438170364"},{"1":"12","2":"-0.6982879943"},{"1":"13","2":"0.9830641411"},{"1":"14","2":"0.3799867860"},{"1":"15","2":"-0.5600627540"},{"1":"16","2":"-0.8889196263"},{"1":"17","2":"1.0043191256"},{"1":"18","2":"-1.0952995001"},{"1":"19","2":"-0.3504492414"},{"1":"20","2":"-0.2644372417"},{"1":"21","2":"0.6735202365"},{"1":"22","2":"0.4258348785"},{"1":"23","2":"0.4257561509"},{"1":"24","2":"0.5485410213"},{"1":"25","2":"-0.0687439325"},{"1":"26","2":"0.2811513023"},{"1":"27","2":"-0.0385227840"},{"1":"28","2":"0.1491024436"},{"1":"29","2":"-0.1708824013"},{"1":"30","2":"0.3645308264"},{"1":"31","2":"0.1487846906"},{"1":"32","2":"-0.4704167216"},{"1":"33","2":"0.2000187396"},{"1":"34","2":"-0.7431958248"},{"1":"35","2":"-0.7524093345"},{"1":"36","2":"0.5922846484"},{"1":"37","2":"0.5364921247"},{"1":"38","2":"-0.2865572069"},{"1":"39","2":"1.0791355870"},{"1":"40","2":"0.0944318106"},{"1":"41","2":"-0.7922212533"},{"1":"42","2":"-0.3037078900"},{"1":"43","2":"0.1137069602"},{"1":"44","2":"0.0413982484"},{"1":"45","2":"0.2312012465"},{"1":"46","2":"0.1886313805"},{"1":"47","2":"0.1085040590"},{"1":"48","2":"-0.1074460833"},{"1":"49","2":"0.1366258816"},{"1":"50","2":"0.4829654509"},{"1":"51","2":"-0.0579507213"},{"1":"52","2":"0.1524977707"},{"1":"53","2":"-0.5264828719"},{"1":"54","2":"-0.5274925981"},{"1":"55","2":"1.0603685685"},{"1":"56","2":"-0.2190550697"},{"1":"57","2":"-0.1332383673"},{"1":"58","2":"-0.7412044394"},{"1":"59","2":"0.0658030770"},{"1":"60","2":"-0.1906063232"},{"1":"61","2":"-0.4053914941"},{"1":"62","2":"0.4320062259"},{"1":"63","2":"-0.3331640888"},{"1":"64","2":"0.5856592323"},{"1":"65","2":"0.1782529945"},{"1":"66","2":"0.1285081496"},{"1":"67","2":"-0.8226654100"},{"1":"68","2":"-0.7163772466"},{"1":"69","2":"-0.4969688217"},{"1":"70","2":"-0.1020706897"},{"1":"71","2":"-0.1633113938"},{"1":"72","2":"0.1609282359"},{"1":"73","2":"0.0180383888"},{"1":"74","2":"0.4506401663"},{"1":"75","2":"-0.6868421097"},{"1":"76","2":"-0.6809684741"},{"1":"77","2":"0.0816358684"},{"1":"78","2":"-0.1282760521"},{"1":"79","2":"0.1381140570"},{"1":"80","2":"-0.3547485496"},{"1":"81","2":"0.3584359218"},{"1":"82","2":"0.5336725817"},{"1":"83","2":"0.9146378308"},{"1":"84","2":"-0.2621153329"},{"1":"85","2":"0.2721682102"},{"1":"86","2":"-0.6159636093"},{"1":"87","2":"0.2529403107"},{"1":"88","2":"-0.0556586038"},{"1":"89","2":"-0.2212322538"},{"1":"90","2":"-0.4652816510"},{"1":"91","2":"-0.2937945686"},{"1":"92","2":"0.5985966733"},{"1":"93","2":"0.3344954834"},{"1":"94","2":"-0.5160325363"},{"1":"95","2":"0.3276724468"},{"1":"96","2":"-0.0564833668"},{"1":"97","2":"-0.0421615806"},{"1":"98","2":"-0.5811619827"},{"1":"99","2":"0.2193463838"},{"1":"100","2":"-0.5333419241"},{"1":"101","2":"-0.8431380688"},{"1":"102","2":"0.1506860439"},{"1":"103","2":"0.1637072816"},{"1":"104","2":"-0.1487773287"},{"1":"105","2":"-0.4373486251"},{"1":"106","2":"-0.0842235898"},{"1":"107","2":"0.0943201190"},{"1":"108","2":"-1.2236190643"},{"1":"109","2":"0.3436632069"},{"1":"110","2":"-0.3547939336"},{"1":"111","2":"0.3930861442"},{"1":"112","2":"0.2941607396"},{"1":"113","2":"-0.2595312818"},{"1":"114","2":"-0.4815194944"},{"1":"115","2":"-0.7165579781"},{"1":"116","2":"0.0167572690"},{"1":"117","2":"-0.5354641069"},{"1":"118","2":"-0.1267083518"},{"1":"119","2":"-0.1513303882"},{"1":"120","2":"0.1086866417"},{"1":"121","2":"0.6709136395"},{"1":"122","2":"-0.4377728570"},{"1":"123","2":"0.3809331235"},{"1":"124","2":"-0.1157013965"},{"1":"125","2":"-0.2418237400"},{"1":"126","2":"0.7078070024"},{"1":"127","2":"-0.1164991487"},{"1":"128","2":"0.4317451534"},{"1":"129","2":"-0.0458990595"},{"1":"130","2":"0.1116328590"},{"1":"131","2":"-0.1999808200"},{"1":"132","2":"-0.6065754780"},{"1":"133","2":"-0.4195832606"},{"1":"134","2":"-0.5828723048"},{"1":"135","2":"-0.6709104090"},{"1":"136","2":"-0.4285878659"},{"1":"137","2":"-0.4002455953"},{"1":"138","2":"0.0492101890"},{"1":"139","2":"0.4051208853"},{"1":"140","2":"0.6914279272"},{"1":"141","2":"-0.2190922702"},{"1":"142","2":"-0.2070134294"},{"1":"143","2":"0.3380788023"},{"1":"144","2":"-1.0639289107"},{"1":"145","2":"0.4194562518"},{"1":"146","2":"0.4857529052"},{"1":"147","2":"0.4096885468"},{"1":"148","2":"-0.0571035720"},{"1":"149","2":"0.0762046846"},{"1":"150","2":"-0.4321140263"},{"1":"151","2":"-0.6598680971"},{"1":"152","2":"0.4725596961"},{"1":"153","2":"-0.1974981090"},{"1":"154","2":"-0.8583200841"},{"1":"155","2":"-0.7183021394"},{"1":"156","2":"-0.0710560758"},{"1":"157","2":"0.6322994721"},{"1":"158","2":"0.0465411605"},{"1":"159","2":"0.0247907462"},{"1":"160","2":"-0.4736649946"},{"1":"161","2":"1.0651750483"},{"1":"162","2":"0.9381308507"},{"1":"163","2":"-0.1469675461"},{"1":"164","2":"0.7449440193"},{"1":"165","2":"0.6979671516"},{"1":"166","2":"1.6187923046"},{"1":"167","2":"-0.0046971701"},{"1":"168","2":"-0.1649930409"},{"1":"169","2":"-1.2552583181"},{"1":"170","2":"0.1771354334"},{"1":"171","2":"0.4989736964"},{"1":"172","2":"0.7383312051"},{"1":"173","2":"0.1637881407"},{"1":"174","2":"-0.2158255381"},{"1":"175","2":"-0.2763201693"},{"1":"176","2":"-0.1703996981"},{"1":"177","2":"0.0077105885"},{"1":"178","2":"0.6724211774"},{"1":"179","2":"0.2744105119"},{"1":"180","2":"-0.2881725867"},{"1":"181","2":"0.8074358831"},{"1":"182","2":"-0.7135852963"},{"1":"183","2":"-0.2468922495"},{"1":"184","2":"-0.5405710818"},{"1":"185","2":"-0.4998377738"},{"1":"186","2":"0.3793388292"},{"1":"187","2":"-0.0149121583"},{"1":"188","2":"-0.5635348827"},{"1":"189","2":"0.2562168257"},{"1":"190","2":"0.2447952369"},{"1":"191","2":"0.8683702113"},{"1":"192","2":"-0.9042100694"},{"1":"193","2":"-0.2832883497"},{"1":"194","2":"0.0056469255"},{"1":"195","2":"0.5793692441"},{"1":"196","2":"-0.3416621676"},{"1":"197","2":"0.2980236795"},{"1":"198","2":"0.2296454228"},{"1":"199","2":"0.3430989246"},{"1":"200","2":"0.9317725905"},{"1":"201","2":"0.0149048861"},{"1":"202","2":"1.1089261112"},{"1":"203","2":"-0.7922462995"},{"1":"204","2":"1.2110017589"},{"1":"205","2":"-0.4321451036"},{"1":"206","2":"-0.0286398795"},{"1":"207","2":"0.0445971887"},{"1":"208","2":"-0.4380067947"},{"1":"209","2":"0.4953999077"},{"1":"210","2":"-0.4436713420"},{"1":"211","2":"-0.6588995821"},{"1":"212","2":"0.4120906573"},{"1":"213","2":"0.4319351385"},{"1":"214","2":"-0.0755990991"},{"1":"215","2":"-0.6421513674"},{"1":"216","2":"0.0006774872"},{"1":"217","2":"-0.3274745847"},{"1":"218","2":"-0.3850812148"},{"1":"219","2":"-0.0395342413"},{"1":"220","2":"0.3780242481"},{"1":"221","2":"0.9133237564"},{"1":"222","2":"0.0715788966"},{"1":"223","2":"0.1788601015"},{"1":"224","2":"0.8488749702"},{"1":"225","2":"-1.1269719338"},{"1":"226","2":"-0.0676708921"},{"1":"227","2":"-0.1082583943"},{"1":"228","2":"-0.1695696717"},{"1":"229","2":"0.3494798868"},{"1":"230","2":"-0.2413092290"},{"1":"231","2":"-0.1844788349"},{"1":"232","2":"-0.2286293964"},{"1":"233","2":"0.3837137381"},{"1":"234","2":"-0.8109756146"},{"1":"235","2":"0.1548992826"},{"1":"236","2":"-0.8742979765"},{"1":"237","2":"0.7252951983"},{"1":"238","2":"0.7280670205"},{"1":"239","2":"-0.5596334603"},{"1":"240","2":"0.0959082591"},{"1":"241","2":"0.6035880457"},{"1":"242","2":"-1.2914046961"},{"1":"243","2":"-1.1390259251"},{"1":"244","2":"-0.3629237080"},{"1":"245","2":"0.7025054234"},{"1":"246","2":"-0.1722162786"},{"1":"247","2":"-1.2461677691"},{"1":"248","2":"-0.0792155746"},{"1":"249","2":"-0.3183164278"},{"1":"250","2":"0.5325205043"},{"1":"251","2":"-0.4677313243"},{"1":"252","2":"-0.6547476875"},{"1":"253","2":"0.9941310234"},{"1":"254","2":"0.4376542498"},{"1":"255","2":"-0.2977593164"},{"1":"256","2":"-0.2612792656"},{"1":"257","2":"-0.2790817845"},{"1":"258","2":"1.1010107390"},{"1":"259","2":"-0.5201719621"},{"1":"260","2":"0.7195326065"},{"1":"261","2":"0.1901959636"},{"1":"262","2":"-1.4045825990"},{"1":"263","2":"0.4412290796"},{"1":"264","2":"-0.3164639912"},{"1":"265","2":"-1.0789785047"},{"1":"266","2":"-1.0402595469"},{"1":"267","2":"-0.4845019509"},{"1":"268","2":"-1.1979573118"},{"1":"269","2":"0.1583899937"},{"1":"270","2":"-0.5700130593"},{"1":"271","2":"1.1281297386"},{"1":"272","2":"-0.5902223495"},{"1":"273","2":"0.1812005139"},{"1":"274","2":"-0.3072893490"},{"1":"275","2":"0.2716968062"},{"1":"276","2":"0.0102006470"},{"1":"277","2":"-0.0492102141"},{"1":"278","2":"-0.7896264717"},{"1":"279","2":"-0.0576766897"},{"1":"280","2":"-0.4360669545"},{"1":"281","2":"-0.6229681677"},{"1":"282","2":"0.2989971852"},{"1":"283","2":"-0.7533242740"},{"1":"284","2":"0.1356750930"},{"1":"285","2":"0.3657509752"},{"1":"286","2":"-0.0384944823"},{"1":"287","2":"-0.5377758326"},{"1":"288","2":"0.7557053194"},{"1":"289","2":"1.0111331607"},{"1":"290","2":"1.2276047813"},{"1":"291","2":"-0.3023652943"},{"1":"292","2":"-0.3835871756"},{"1":"293","2":"-0.3316231176"},{"1":"294","2":"0.3933882147"},{"1":"295","2":"-0.2363547293"},{"1":"296","2":"-0.0278210880"},{"1":"297","2":"0.1960812004"},{"1":"298","2":"-0.0672208329"},{"1":"299","2":"-0.3124411487"},{"1":"300","2":"-0.1320277023"},{"1":"301","2":"-0.0645041233"},{"1":"302","2":"-0.3035195887"},{"1":"303","2":"0.4128969089"},{"1":"304","2":"-0.1908608998"},{"1":"305","2":"-0.3528339182"},{"1":"306","2":"-0.3075531503"},{"1":"307","2":"-0.2236941643"},{"1":"308","2":"0.1897503066"},{"1":"309","2":"0.1725995717"},{"1":"310","2":"0.0661234288"},{"1":"311","2":"-0.5043405181"},{"1":"312","2":"0.1146217031"},{"1":"313","2":"0.3712050130"},{"1":"314","2":"-0.3902320748"},{"1":"315","2":"-0.6990006381"},{"1":"316","2":"0.3119577301"},{"1":"317","2":"-0.5031561987"},{"1":"318","2":"-0.2414996847"},{"1":"319","2":"0.2082278812"},{"1":"320","2":"0.6118164146"},{"1":"321","2":"-0.0029678223"},{"1":"322","2":"1.2134758553"},{"1":"323","2":"-0.3761444387"},{"1":"324","2":"0.3657926984"},{"1":"325","2":"0.4357372227"},{"1":"326","2":"-0.1062249183"},{"1":"327","2":"-0.1604572625"},{"1":"328","2":"-0.1748775875"},{"1":"329","2":"0.0844831925"},{"1":"330","2":"0.4827772235"},{"1":"331","2":"0.0175062456"},{"1":"332","2":"-0.2963983311"},{"1":"333","2":"0.5072565874"},{"1":"334","2":"-0.1015553567"},{"1":"335","2":"-0.7852142646"},{"1":"336","2":"0.1426630694"},{"1":"337","2":"-0.0095408760"},{"1":"338","2":"0.0256217487"},{"1":"339","2":"0.0163295631"},{"1":"340","2":"-0.4543958813"},{"1":"341","2":"-0.5283615843"},{"1":"342","2":"-0.0356401536"},{"1":"343","2":"0.5269037298"},{"1":"344","2":"0.0001523661"},{"1":"345","2":"0.0093125265"},{"1":"346","2":"0.1745565547"},{"1":"347","2":"-0.4415714193"},{"1":"348","2":"0.1002289472"},{"1":"349","2":"0.3705850215"},{"1":"350","2":"-0.5696994098"},{"1":"351","2":"0.4271106247"},{"1":"352","2":"0.2941078599"},{"1":"353","2":"0.1202864466"},{"1":"354","2":"0.7176024797"},{"1":"355","2":"0.5197124659"},{"1":"356","2":"-0.8967168402"},{"1":"357","2":"-0.7446170061"},{"1":"358","2":"-0.7609270813"},{"1":"359","2":"0.2643493885"},{"1":"360","2":"-0.6964666708"},{"1":"361","2":"-0.6471088575"},{"1":"362","2":"-0.1837290259"},{"1":"363","2":"1.1325575373"},{"1":"364","2":"0.2087691406"},{"1":"365","2":"0.1293827450"},{"1":"366","2":"0.3834041959"},{"1":"367","2":"0.4015490486"},{"1":"368","2":"0.1024085504"},{"1":"369","2":"0.0367956013"},{"1":"370","2":"-0.6959544040"},{"1":"371","2":"-0.2391991592"},{"1":"372","2":"-0.3294021408"},{"1":"373","2":"-0.2446487134"},{"1":"374","2":"-0.3108560644"},{"1":"375","2":"-0.1755633209"},{"1":"376","2":"0.1671181825"},{"1":"377","2":"0.0614592886"},{"1":"378","2":"0.8926627571"},{"1":"379","2":"-0.4032905210"},{"1":"380","2":"-0.2141471165"},{"1":"381","2":"0.0830308861"},{"1":"382","2":"0.6276670651"},{"1":"383","2":"-0.1848489143"},{"1":"384","2":"-0.2668088485"},{"1":"385","2":"1.1735869645"},{"1":"386","2":"-0.0166500067"},{"1":"387","2":"0.2283216982"},{"1":"388","2":"-0.5535911745"},{"1":"389","2":"-0.2866882792"},{"1":"390","2":"-0.3472958420"},{"1":"391","2":"0.0671247922"},{"1":"392","2":"0.6524367846"},{"1":"393","2":"-0.1238640100"},{"1":"394","2":"0.0426556871"},{"1":"395","2":"-0.2588256285"},{"1":"396","2":"-0.5535244439"},{"1":"397","2":"-0.3264337787"},{"1":"398","2":"0.5820149450"},{"1":"399","2":"-0.0205543342"},{"1":"400","2":"0.8563864635"},{"1":"401","2":"0.8365150891"},{"1":"402","2":"0.3322880371"},{"1":"403","2":"0.7426486264"},{"1":"404","2":"0.1079562420"},{"1":"405","2":"-0.6698144690"},{"1":"406","2":"-0.0247110486"},{"1":"407","2":"-0.3055947010"},{"1":"408","2":"0.1375954350"},{"1":"409","2":"0.3150780028"},{"1":"410","2":"-0.8905436779"},{"1":"411","2":"-0.9846236326"},{"1":"412","2":"-0.8903042720"},{"1":"413","2":"0.5484089806"},{"1":"414","2":"0.0750954345"},{"1":"415","2":"-0.5473397239"},{"1":"416","2":"0.2422685949"},{"1":"417","2":"-0.1971176114"},{"1":"418","2":"0.1208374534"},{"1":"419","2":"-0.8530589591"},{"1":"420","2":"0.2081873462"},{"1":"421","2":"-0.8215310834"},{"1":"422","2":"-0.6996630188"},{"1":"423","2":"-0.0728618752"},{"1":"424","2":"-0.4016514603"},{"1":"425","2":"0.0980436711"},{"1":"426","2":"0.0926039056"},{"1":"427","2":"-0.1627142331"},{"1":"428","2":"0.7041111535"},{"1":"429","2":"0.0211100541"},{"1":"430","2":"0.8289079292"},{"1":"431","2":"-0.0013622388"},{"1":"432","2":"0.5666425862"},{"1":"433","2":"0.3837323292"},{"1":"434","2":"0.4205816313"},{"1":"435","2":"-0.4015715511"},{"1":"436","2":"-0.4258884701"},{"1":"437","2":"-0.2873327854"},{"1":"438","2":"0.0152526314"},{"1":"439","2":"0.2150452311"},{"1":"440","2":"0.3764134467"},{"1":"441","2":"0.0308683799"},{"1":"442","2":"0.0164040095"},{"1":"443","2":"-0.3363879120"},{"1":"444","2":"-0.6554810195"},{"1":"445","2":"-0.3598477050"},{"1":"446","2":"-0.1038435831"},{"1":"447","2":"-0.8069886021"},{"1":"448","2":"0.0604618240"},{"1":"449","2":"0.5412274044"},{"1":"450","2":"-1.0612558257"},{"1":"451","2":"-0.4606285533"},{"1":"452","2":"0.8659856844"},{"1":"453","2":"0.9306864032"},{"1":"454","2":"-0.4547526058"},{"1":"455","2":"-0.2482355503"},{"1":"456","2":"0.1281455874"},{"1":"457","2":"0.4891567493"},{"1":"458","2":"0.6760389871"},{"1":"459","2":"0.1586468118"},{"1":"460","2":"0.5924346213"},{"1":"461","2":"0.1913659240"},{"1":"462","2":"0.0741025396"},{"1":"463","2":"0.1869577441"},{"1":"464","2":"0.2252605458"},{"1":"465","2":"-0.0623005162"},{"1":"466","2":"-0.1690578206"},{"1":"467","2":"0.9206248066"},{"1":"468","2":"0.7039994060"},{"1":"469","2":"-0.2823377387"},{"1":"470","2":"0.0528382323"},{"1":"471","2":"0.3347181426"},{"1":"472","2":"0.4415201486"},{"1":"473","2":"0.3817980908"},{"1":"474","2":"0.6338175022"},{"1":"475","2":"-0.4798090650"},{"1":"476","2":"0.8578781756"},{"1":"477","2":"-0.9646208974"},{"1":"478","2":"0.3503125078"},{"1":"479","2":"0.0495019676"},{"1":"480","2":"0.5035510557"},{"1":"481","2":"0.0042848109"},{"1":"482","2":"0.0052195850"},{"1":"483","2":"0.2730317876"},{"1":"484","2":"0.2801357602"},{"1":"485","2":"0.2988705657"},{"1":"486","2":"0.1153331980"},{"1":"487","2":"-1.0455004316"},{"1":"488","2":"0.8140055488"},{"1":"489","2":"-0.3532152486"},{"1":"490","2":"-0.3854903021"},{"1":"491","2":"0.1854140429"},{"1":"492","2":"0.0920787110"},{"1":"493","2":"0.2034564013"},{"1":"494","2":"-0.2400770869"},{"1":"495","2":"-0.8046583500"},{"1":"496","2":"-0.8607343262"},{"1":"497","2":"-0.4690288034"},{"1":"498","2":"-0.0034336450"},{"1":"499","2":"0.3928824135"},{"1":"500","2":"0.3140414314"},{"1":"501","2":"0.0242355194"},{"1":"502","2":"0.8982589392"},{"1":"503","2":"-0.0341252970"},{"1":"504","2":"-1.1996274543"},{"1":"505","2":"-0.1012627820"},{"1":"506","2":"0.1183849227"},{"1":"507","2":"-0.2727816981"},{"1":"508","2":"-0.2431202213"},{"1":"509","2":"0.6721913639"},{"1":"510","2":"-0.0383532926"},{"1":"511","2":"-0.2580846554"},{"1":"512","2":"0.1282465791"},{"1":"513","2":"-0.0718737707"},{"1":"514","2":"0.6194540072"},{"1":"515","2":"-0.1071835537"},{"1":"516","2":"0.0776329211"},{"1":"517","2":"0.7147754536"},{"1":"518","2":"-0.6845261217"},{"1":"519","2":"0.2402110287"},{"1":"520","2":"0.3422635014"},{"1":"521","2":"0.2672436459"},{"1":"522","2":"0.4621576945"},{"1":"523","2":"-0.1215657832"},{"1":"524","2":"0.3881504962"},{"1":"525","2":"-1.3996330859"},{"1":"526","2":"1.1006869475"},{"1":"527","2":"0.4314128841"},{"1":"528","2":"0.0440118659"},{"1":"529","2":"1.2218961290"},{"1":"530","2":"0.1751104631"},{"1":"531","2":"0.5989093797"},{"1":"532","2":"-0.5939368021"},{"1":"533","2":"0.4955615542"},{"1":"534","2":"0.0050548774"},{"1":"535","2":"-0.5221685728"},{"1":"536","2":"0.5550444119"},{"1":"537","2":"0.2126119757"},{"1":"538","2":"-0.3570058302"},{"1":"539","2":"-0.0379035553"},{"1":"540","2":"-0.5126292511"},{"1":"541","2":"-0.1919204571"},{"1":"542","2":"-0.7946401807"},{"1":"543","2":"-0.5674808730"},{"1":"544","2":"-0.0341769426"},{"1":"545","2":"-0.0869004667"},{"1":"546","2":"-0.2761832808"},{"1":"547","2":"0.1988987846"},{"1":"548","2":"-0.6126855001"},{"1":"549","2":"0.0700661031"},{"1":"550","2":"0.0344243095"},{"1":"551","2":"0.0601953352"},{"1":"552","2":"-0.1171982459"},{"1":"553","2":"0.5031346231"},{"1":"554","2":"-0.5092509202"},{"1":"555","2":"-0.6781676225"},{"1":"556","2":"-0.6974475969"},{"1":"557","2":"0.3006477154"},{"1":"558","2":"-0.2751240981"},{"1":"559","2":"0.1646550618"},{"1":"560","2":"-0.5146856217"},{"1":"561","2":"0.7664662660"},{"1":"562","2":"-0.1448586535"},{"1":"563","2":"-0.4260054281"},{"1":"564","2":"0.3401686503"},{"1":"565","2":"-0.3166383875"},{"1":"566","2":"0.0657232804"},{"1":"567","2":"0.3364540188"},{"1":"568","2":"0.3006580043"},{"1":"569","2":"0.1220658408"},{"1":"570","2":"0.2460132523"},{"1":"571","2":"0.2201073490"},{"1":"572","2":"1.3059297762"},{"1":"573","2":"-0.0460034741"},{"1":"574","2":"0.2332501528"},{"1":"575","2":"-0.2173059668"},{"1":"576","2":"0.0854683415"},{"1":"577","2":"-0.3990143570"},{"1":"578","2":"-0.4176239996"},{"1":"579","2":"-0.6515036938"},{"1":"580","2":"0.0767976460"},{"1":"581","2":"-0.0245793098"},{"1":"582","2":"-0.2841717431"},{"1":"583","2":"0.3527097886"},{"1":"584","2":"-0.1731758005"},{"1":"585","2":"1.1299261349"},{"1":"586","2":"-0.4183629169"},{"1":"587","2":"0.2500025686"},{"1":"588","2":"-0.5676051544"},{"1":"589","2":"1.5944497404"},{"1":"590","2":"0.2778887481"},{"1":"591","2":"0.0750093653"},{"1":"592","2":"-0.7970635500"},{"1":"593","2":"0.8687966191"},{"1":"594","2":"0.0713410254"},{"1":"595","2":"-0.6509660831"},{"1":"596","2":"0.4577346272"},{"1":"597","2":"0.6710046264"},{"1":"598","2":"0.2568451119"},{"1":"599","2":"-0.2979288013"},{"1":"600","2":"-0.3416704786"},{"1":"601","2":"0.5667511327"},{"1":"602","2":"0.1318638919"},{"1":"603","2":"-0.1688509325"},{"1":"604","2":"-0.4261687037"},{"1":"605","2":"0.4060822671"},{"1":"606","2":"-0.0138347145"},{"1":"607","2":"-0.5182375123"},{"1":"608","2":"0.0280836623"},{"1":"609","2":"0.3659595828"},{"1":"610","2":"-0.0920343106"},{"1":"611","2":"0.3654017824"},{"1":"612","2":"0.7761748561"},{"1":"613","2":"0.0512957026"},{"1":"614","2":"0.6126084089"},{"1":"615","2":"-1.2349005002"},{"1":"616","2":"0.0297989376"},{"1":"617","2":"0.5083440984"},{"1":"618","2":"0.2025761267"},{"1":"619","2":"0.3827669717"},{"1":"620","2":"0.1272168971"},{"1":"621","2":"0.1313859250"},{"1":"622","2":"-0.5462070682"},{"1":"623","2":"0.3551290675"},{"1":"624","2":"0.0310019573"},{"1":"625","2":"-0.4000376030"},{"1":"626","2":"-0.7916928170"},{"1":"627","2":"0.1128313866"},{"1":"628","2":"-1.1943355629"},{"1":"629","2":"0.4926341529"},{"1":"630","2":"-0.4223178548"},{"1":"631","2":"0.2402159467"},{"1":"632","2":"-0.2582461573"},{"1":"633","2":"-0.0840773642"},{"1":"634","2":"-0.4520462818"},{"1":"635","2":"-0.7034624515"},{"1":"636","2":"0.2537118060"},{"1":"637","2":"-0.5205715723"},{"1":"638","2":"-0.2918059576"},{"1":"639","2":"0.4865903160"},{"1":"640","2":"-0.7637468102"},{"1":"641","2":"0.7512910699"},{"1":"642","2":"-0.6965622481"},{"1":"643","2":"1.1630438364"},{"1":"644","2":"-0.1868705842"},{"1":"645","2":"0.9249851702"},{"1":"646","2":"-0.4648851764"},{"1":"647","2":"-1.0751035440"},{"1":"648","2":"0.4720155715"},{"1":"649","2":"0.4210588496"},{"1":"650","2":"0.7160714742"},{"1":"651","2":"-0.1958769016"},{"1":"652","2":"-0.7922958497"},{"1":"653","2":"-1.0641429838"},{"1":"654","2":"-0.3237658176"},{"1":"655","2":"0.9671506459"},{"1":"656","2":"0.0192937730"},{"1":"657","2":"0.1697004502"},{"1":"658","2":"0.8245136406"},{"1":"659","2":"0.2766495267"},{"1":"660","2":"-0.5702460408"},{"1":"661","2":"-0.0267371460"},{"1":"662","2":"0.3455103522"},{"1":"663","2":"0.0144956313"},{"1":"664","2":"-0.2256465103"},{"1":"665","2":"-0.3281169662"},{"1":"666","2":"0.5054256200"},{"1":"667","2":"-0.0695949511"},{"1":"668","2":"-0.9957726034"},{"1":"669","2":"-0.4974408574"},{"1":"670","2":"-0.4618787012"},{"1":"671","2":"-0.6424231339"},{"1":"672","2":"0.4841429352"},{"1":"673","2":"-0.1056009211"},{"1":"674","2":"0.0541637287"},{"1":"675","2":"0.4218038650"},{"1":"676","2":"0.7206450566"},{"1":"677","2":"-0.0714379610"},{"1":"678","2":"0.1418419761"},{"1":"679","2":"-0.9175881307"},{"1":"680","2":"0.4308382017"},{"1":"681","2":"-0.8826282710"},{"1":"682","2":"0.9499745194"},{"1":"683","2":"0.2156786231"},{"1":"684","2":"-1.0239948642"},{"1":"685","2":"0.0575217062"},{"1":"686","2":"-0.0670434581"},{"1":"687","2":"-1.2346383735"},{"1":"688","2":"0.2034602811"},{"1":"689","2":"0.4332059762"},{"1":"690","2":"-0.2084998855"},{"1":"691","2":"0.0192336248"},{"1":"692","2":"-0.3539581900"},{"1":"693","2":"-0.7048950555"},{"1":"694","2":"-0.0738256365"},{"1":"695","2":"-0.2340310906"},{"1":"696","2":"-0.4964976231"},{"1":"697","2":"0.3304338024"},{"1":"698","2":"-0.8476630442"},{"1":"699","2":"0.4055395086"},{"1":"700","2":"1.0646477438"},{"1":"701","2":"-0.1385415409"},{"1":"702","2":"0.2049458596"},{"1":"703","2":"-0.0136518386"},{"1":"704","2":"-0.9074165020"},{"1":"705","2":"0.1203822669"},{"1":"706","2":"-0.9068243257"},{"1":"707","2":"-0.1489956212"},{"1":"708","2":"1.2570572384"},{"1":"709","2":"0.3314187533"},{"1":"710","2":"-0.8679690665"},{"1":"711","2":"0.5473746950"},{"1":"712","2":"-0.6345918324"},{"1":"713","2":"0.5783902173"},{"1":"714","2":"-0.0006793636"},{"1":"715","2":"0.1765230028"},{"1":"716","2":"-0.0595782460"},{"1":"717","2":"0.2247211054"},{"1":"718","2":"-0.1581540610"},{"1":"719","2":"-0.1168624551"},{"1":"720","2":"0.2151934118"},{"1":"721","2":"0.2221649537"},{"1":"722","2":"0.8174355613"},{"1":"723","2":"-0.1738309846"},{"1":"724","2":"0.0492942366"},{"1":"725","2":"0.7362931040"},{"1":"726","2":"-0.3451720461"},{"1":"727","2":"0.7807247871"},{"1":"728","2":"0.7408486399"},{"1":"729","2":"-0.6186830869"},{"1":"730","2":"-0.2118967048"},{"1":"731","2":"0.6602445343"},{"1":"732","2":"-0.0500527589"},{"1":"733","2":"0.2731457630"},{"1":"734","2":"-0.9231768347"},{"1":"735","2":"0.3020594252"},{"1":"736","2":"0.1981622155"},{"1":"737","2":"-0.4613845839"},{"1":"738","2":"0.2013702449"},{"1":"739","2":"0.2405442306"},{"1":"740","2":"-0.3216353962"},{"1":"741","2":"0.0210136702"},{"1":"742","2":"-0.1445064228"},{"1":"743","2":"-0.1372819065"},{"1":"744","2":"-0.2239354293"},{"1":"745","2":"0.0249432226"},{"1":"746","2":"0.5717049208"},{"1":"747","2":"-0.8698616525"},{"1":"748","2":"0.7088744635"},{"1":"749","2":"0.0321248243"},{"1":"750","2":"0.1360448942"},{"1":"751","2":"-0.0357990838"},{"1":"752","2":"0.5217825786"},{"1":"753","2":"-0.1953273764"},{"1":"754","2":"-0.3952181669"},{"1":"755","2":"-0.2052035973"},{"1":"756","2":"-0.8213166351"},{"1":"757","2":"-0.5294360749"},{"1":"758","2":"0.2859349801"},{"1":"759","2":"0.4414938791"},{"1":"760","2":"-0.2169188794"},{"1":"761","2":"-0.2936558620"},{"1":"762","2":"0.1983003701"},{"1":"763","2":"1.3062267644"},{"1":"764","2":"-0.2952942375"},{"1":"765","2":"-0.1855339739"},{"1":"766","2":"-0.0152169624"},{"1":"767","2":"-0.7335753154"},{"1":"768","2":"0.2227222794"},{"1":"769","2":"0.0815052219"},{"1":"770","2":"0.0497252990"},{"1":"771","2":"-0.7700054946"},{"1":"772","2":"-0.2725907470"},{"1":"773","2":"0.4053100837"},{"1":"774","2":"0.5233098675"},{"1":"775","2":"-0.6441687271"},{"1":"776","2":"-0.5588199356"},{"1":"777","2":"0.1763386438"},{"1":"778","2":"0.0457982438"},{"1":"779","2":"-0.2227222657"},{"1":"780","2":"0.2159808002"},{"1":"781","2":"0.0679599234"},{"1":"782","2":"0.6595912864"},{"1":"783","2":"-0.2561579385"},{"1":"784","2":"0.2518207609"},{"1":"785","2":"0.0938271028"},{"1":"786","2":"0.0790120818"},{"1":"787","2":"-0.0943584991"},{"1":"788","2":"0.4177476573"},{"1":"789","2":"0.2506480720"},{"1":"790","2":"-0.9246268162"},{"1":"791","2":"-0.3494049582"},{"1":"792","2":"-0.4054020859"},{"1":"793","2":"0.1900198752"},{"1":"794","2":"-0.4642222295"},{"1":"795","2":"-0.5502730017"},{"1":"796","2":"0.7646672863"},{"1":"797","2":"-0.6382167570"},{"1":"798","2":"0.0646982912"},{"1":"799","2":"0.1824116409"},{"1":"800","2":"-0.3847068920"},{"1":"801","2":"-0.2657597654"},{"1":"802","2":"-0.0578743374"},{"1":"803","2":"-0.3845676528"},{"1":"804","2":"-0.4464640014"},{"1":"805","2":"0.3566687440"},{"1":"806","2":"0.6359177293"},{"1":"807","2":"0.4166519176"},{"1":"808","2":"-0.0064140954"},{"1":"809","2":"0.2091652449"},{"1":"810","2":"0.1126447540"},{"1":"811","2":"0.0590965601"},{"1":"812","2":"-0.1454431204"},{"1":"813","2":"0.7148743801"},{"1":"814","2":"-1.1578956851"},{"1":"815","2":"0.0031760109"},{"1":"816","2":"0.0117546849"},{"1":"817","2":"-0.1468220534"},{"1":"818","2":"-0.3737010548"},{"1":"819","2":"-0.2678264772"},{"1":"820","2":"0.0359171329"},{"1":"821","2":"-0.0661784250"},{"1":"822","2":"0.4133180998"},{"1":"823","2":"-0.1196136111"},{"1":"824","2":"-0.4500890218"},{"1":"825","2":"-0.6832816496"},{"1":"826","2":"-0.0697738433"},{"1":"827","2":"0.2784089210"},{"1":"828","2":"-0.1156418170"},{"1":"829","2":"-0.3863117351"},{"1":"830","2":"0.7426794750"},{"1":"831","2":"-0.0744001199"},{"1":"832","2":"1.2701395784"},{"1":"833","2":"1.6481463600"},{"1":"834","2":"-0.1907364977"},{"1":"835","2":"-0.6765805115"},{"1":"836","2":"-0.5206072042"},{"1":"837","2":"0.1604431028"},{"1":"838","2":"-0.2721937512"},{"1":"839","2":"-0.0944107398"},{"1":"840","2":"0.5394680923"},{"1":"841","2":"-0.3559739405"},{"1":"842","2":"0.8404265282"},{"1":"843","2":"0.2423855833"},{"1":"844","2":"-0.4864638312"},{"1":"845","2":"-0.1007063716"},{"1":"846","2":"0.0796126033"},{"1":"847","2":"0.9922827207"},{"1":"848","2":"-0.8372199480"},{"1":"849","2":"0.9025143497"},{"1":"850","2":"-0.3840596974"},{"1":"851","2":"0.3330052732"},{"1":"852","2":"-0.2404929683"},{"1":"853","2":"0.0228017880"},{"1":"854","2":"0.6717280815"},{"1":"855","2":"-0.6894324179"},{"1":"856","2":"0.3790731388"},{"1":"857","2":"0.3612092859"},{"1":"858","2":"-0.0209141688"},{"1":"859","2":"-0.4436371540"},{"1":"860","2":"-0.3102431724"},{"1":"861","2":"-0.5860342872"},{"1":"862","2":"-0.3923710612"},{"1":"863","2":"-0.7387534993"},{"1":"864","2":"-0.6345683336"},{"1":"865","2":"-0.0390253467"},{"1":"866","2":"-0.1056642717"},{"1":"867","2":"-0.9996349048"},{"1":"868","2":"-0.3828183848"},{"1":"869","2":"-0.4478331294"},{"1":"870","2":"0.2222957363"},{"1":"871","2":"-0.9226174633"},{"1":"872","2":"0.7350496039"},{"1":"873","2":"0.0050029917"},{"1":"874","2":"-0.3577701061"},{"1":"875","2":"-0.0810706153"},{"1":"876","2":"-0.4894124623"},{"1":"877","2":"0.3532883778"},{"1":"878","2":"-0.6309114036"},{"1":"879","2":"0.0980338566"},{"1":"880","2":"-0.3341343918"},{"1":"881","2":"0.1230539575"},{"1":"882","2":"-0.2374226497"},{"1":"883","2":"0.4006303265"},{"1":"884","2":"0.7271720142"},{"1":"885","2":"-0.6226563719"},{"1":"886","2":"0.0704490770"},{"1":"887","2":"0.6689417563"},{"1":"888","2":"0.0884434435"},{"1":"889","2":"-0.5725138847"},{"1":"890","2":"-0.6323066737"},{"1":"891","2":"0.0614792393"},{"1":"892","2":"-0.0448705501"},{"1":"893","2":"-0.4452185690"},{"1":"894","2":"0.6728085316"},{"1":"895","2":"0.1845959233"},{"1":"896","2":"0.6094503625"},{"1":"897","2":"0.1405095580"},{"1":"898","2":"0.0286810943"},{"1":"899","2":"-0.5083879737"},{"1":"900","2":"0.2917080282"},{"1":"901","2":"0.7741975330"},{"1":"902","2":"-0.0589374164"},{"1":"903","2":"-0.7713520238"},{"1":"904","2":"-0.0659111660"},{"1":"905","2":"-0.8291358437"},{"1":"906","2":"-0.1068516336"},{"1":"907","2":"-0.0008544647"},{"1":"908","2":"-0.7798745742"},{"1":"909","2":"-0.1567817187"},{"1":"910","2":"-0.0458421055"},{"1":"911","2":"0.9613481252"},{"1":"912","2":"-0.0295746229"},{"1":"913","2":"0.2556826223"},{"1":"914","2":"0.0827633631"},{"1":"915","2":"0.1312654249"},{"1":"916","2":"0.6287809097"},{"1":"917","2":"0.1017895537"},{"1":"918","2":"-1.4299704818"},{"1":"919","2":"0.2686193577"},{"1":"920","2":"-0.1870281605"},{"1":"921","2":"-0.8048225766"},{"1":"922","2":"0.0927608079"},{"1":"923","2":"1.0367911765"},{"1":"924","2":"-0.0489760505"},{"1":"925","2":"0.4896128015"},{"1":"926","2":"0.0011489860"},{"1":"927","2":"0.1624780393"},{"1":"928","2":"0.4247493294"},{"1":"929","2":"-0.4783373922"},{"1":"930","2":"-0.4311071583"},{"1":"931","2":"0.6427574432"},{"1":"932","2":"-0.0741338981"},{"1":"933","2":"0.3428752700"},{"1":"934","2":"0.0534182873"},{"1":"935","2":"0.4152940594"},{"1":"936","2":"-0.9274865930"},{"1":"937","2":"0.0185090540"},{"1":"938","2":"0.5300132525"},{"1":"939","2":"0.5265690910"},{"1":"940","2":"0.3756997518"},{"1":"941","2":"0.1197970845"},{"1":"942","2":"-0.1589345558"},{"1":"943","2":"-0.4475552837"},{"1":"944","2":"0.1719228517"},{"1":"945","2":"0.0115143022"},{"1":"946","2":"0.1110573493"},{"1":"947","2":"-0.7696167347"},{"1":"948","2":"0.7564665113"},{"1":"949","2":"0.1115921515"},{"1":"950","2":"0.1992756517"},{"1":"951","2":"0.4296724886"},{"1":"952","2":"-0.1308737702"},{"1":"953","2":"0.5038520409"},{"1":"954","2":"-0.3996217492"},{"1":"955","2":"0.0755067515"},{"1":"956","2":"-0.6193805940"},{"1":"957","2":"0.5458997510"},{"1":"958","2":"0.0832619243"},{"1":"959","2":"-1.2026275134"},{"1":"960","2":"-0.2082382890"},{"1":"961","2":"0.2423658532"},{"1":"962","2":"-0.3534150484"},{"1":"963","2":"0.9980140276"},{"1":"964","2":"-1.4711066528"},{"1":"965","2":"0.2197053598"},{"1":"966","2":"0.0867052695"},{"1":"967","2":"0.4027259598"},{"1":"968","2":"0.3373016540"},{"1":"969","2":"0.5474074562"},{"1":"970","2":"-0.3621867893"},{"1":"971","2":"0.8151176947"},{"1":"972","2":"0.2203761203"},{"1":"973","2":"0.2452045878"},{"1":"974","2":"-0.0599658925"},{"1":"975","2":"0.4067243173"},{"1":"976","2":"-0.5981470896"},{"1":"977","2":"-0.9640306120"},{"1":"978","2":"0.9242517381"},{"1":"979","2":"0.2533093835"},{"1":"980","2":"-0.6419364302"},{"1":"981","2":"-0.6463949041"},{"1":"982","2":"-1.0108162246"},{"1":"983","2":"-0.1477698500"},{"1":"984","2":"0.0080129743"},{"1":"985","2":"-0.1897083601"},{"1":"986","2":"0.5536491359"},{"1":"987","2":"0.4073544884"},{"1":"988","2":"0.0926848213"},{"1":"989","2":"-0.0977259830"},{"1":"990","2":"0.0813297835"},{"1":"991","2":"0.1883796870"},{"1":"992","2":"-0.5639697056"},{"1":"993","2":"-0.5684833077"},{"1":"994","2":"-0.0845116951"},{"1":"995","2":"-0.2367769410"},{"1":"996","2":"-0.5609299846"},{"1":"997","2":"-0.7309392958"},{"1":"998","2":"0.4356661800"},{"1":"999","2":"-0.6263488769"},{"1":"1000","2":"-0.2483740477"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  &lt;/script&gt;
+&lt;/div&gt;
+
+]
+
+---
+
+# 1000 Parallel Universes
+
+![](12-slides_files/figure-html/unnamed-chunk-9-1.png)&lt;!-- --&gt;
+
+---
+
+# 1000 Parallel Universes
+
+![](12-slides_files/figure-html/unnamed-chunk-10-1.png)&lt;!-- --&gt;
+
+---
+
+# 1000 Parallel Universes
+
+
+
+![](12-slides_files/figure-html/unnamed-chunk-12-1.png)&lt;!-- --&gt;
+
+---
+
+# p-Value
+
+&lt;div data-pagedtable="false"&gt;
+  &lt;script data-pagedtable-source type="application/json"&gt;
+{"columns":[{"label":["p_value"],"name":[1],"type":["dbl"],"align":["right"]}],"data":[{"1":"0"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  &lt;/script&gt;
+&lt;/div&gt;
+
+&gt; There's a 0% chance of seeing a slope at least as large as `\(-2.28\)` in the null world where there is no relationship. 
+
+---
+
+# What R Does
+
+&lt;div data-pagedtable="false"&gt;
+  &lt;script data-pagedtable-source type="application/json"&gt;
+{"columns":[{"label":["term"],"name":[1],"type":["chr"],"align":["left"]},{"label":["estimate"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["std.error"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["statistic"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["p.value"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"(Intercept)","2":"698.932952","3":"9.4674914","4":"73.824514","5":"6.569925e-242"},{"1":"str","2":"-2.279808","3":"0.4798256","4":"-4.751327","5":"2.783307e-06"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  &lt;/script&gt;
+&lt;/div&gt;
+
+- R calculates the `\(p\)`-value the "old-fashioned way", using a theoretical distribution instead of simulation
+    - Generates a test statistic (`statistic`) and compares it to a critical value of the test statistic&lt;sup&gt;1&lt;/sup&gt;
+`$$\text{test statistic} = \frac{\text{estimate} - \text{null hypothesis}}{\text{standard error of estimate}}$$`
+
+.footnote[&lt;sup&gt;1&lt;/sup&gt; Rule of thumb: test statistic of 2 or larger is generally significant at the 95% level. This comes directly from the empirical rule that 95% of observations occur within 2 standard deviations of the mean! See the **class info** page for more.]
+
+---
+
+# What R Does II 
+
+&lt;div data-pagedtable="false"&gt;
+  &lt;script data-pagedtable-source type="application/json"&gt;
+{"columns":[{"label":["term"],"name":[1],"type":["chr"],"align":["left"]},{"label":["estimate"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["std.error"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["statistic"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["p.value"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"(Intercept)","2":"698.932952","3":"9.4674914","4":"73.824514","5":"6.569925e-242"},{"1":"str","2":"-2.279808","3":"0.4798256","4":"-4.751327","5":"2.783307e-06"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  &lt;/script&gt;
+&lt;/div&gt;
+
+`$$t = \frac{-2.28-0}{0.48} = -4.75$$`
+- Intepretation like `\(Z\)`-scores: number of standard deviations away from the center&lt;sup&gt;1&lt;/sup&gt;
+- `\(p\)`-value is the probability of getting a test statistic at least as large (in magnitude) as this one if the null hypothesis were true&lt;sup&gt;2&lt;/sup&gt;
+
+.footnote[&lt;sup&gt;1&lt;/sup&gt; The "center" here is the null hypothesis value i.e. a slope of 0.
+&lt;sup&gt;2&lt;/sup&gt; Think of our simulated null world(s), the center of the sampling distribution was a slope of 0.]
+
+---
+
+# Confidence Intervals
+
+&lt;div data-pagedtable="false"&gt;
+  &lt;script data-pagedtable-source type="application/json"&gt;
+{"columns":[{"label":["term"],"name":[1],"type":["chr"],"align":["left"]},{"label":["estimate"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["std.error"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["statistic"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["p.value"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["conf.low"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["conf.high"],"name":[7],"type":["dbl"],"align":["right"]}],"data":[{"1":"(Intercept)","2":"698.932952","3":"9.4674914","4":"73.824514","5":"6.569925e-242","6":"680.32313","7":"717.542779"},{"1":"str","2":"-2.279808","3":"0.4798256","4":"-4.751327","5":"2.783307e-06","6":"-3.22298","7":"-1.336637"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  &lt;/script&gt;
+&lt;/div&gt;
+
+- We can also generate a .shout[confidence interval] for `\(\hat{\beta}_1\)` that contain the true population slope ($\beta_1$) with a specified probability
+    - Note confidence level `\(=1-\alpha\)`; commonly 95% ($\alpha=0.05$)
+- .whisper[We are 95% confident that the true slope is between `\(-3.22\)` and `\(-1.34\)`.]
+    - Note if the confidence interval contains 0, *cannot* reject the null hypothesis of `\(\beta_1=0\)`! 
+- See **class info** page for more on confidence intervals and how they are constructed
+
+---
+
+$$
+\text{testscr} = 698.93 - 2.28(\text{str}) + \epsilon
+$$
+
+---
+
+# Testing Reg Output: huxtable
+
+.font80[
+.regtable[
+<table class="huxtable" style="border-collapse: collapse; margin-bottom: 2em; margin-top: 2em; width: 50%; margin-left: auto; margin-right: auto;  ">
+<col><col><tr>
+<td style="vertical-align: top; text-align: center; white-space: nowrap; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0pt 0pt; padding: 4pt 4pt 4pt 4pt;"></td>
+<td style="vertical-align: top; text-align: center; white-space: nowrap; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0.4pt 0pt; padding: 4pt 4pt 4pt 4pt;">Model 1</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;">Intercept</td>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; padding: 4pt 4pt 4pt 4pt; font-weight: bold;">698.93 ***</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;"></td>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; padding: 4pt 4pt 4pt 4pt; font-weight: bold;">(9.47)&nbsp;&nbsp;&nbsp;</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;">STR</td>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; padding: 4pt 4pt 4pt 4pt; font-weight: bold;">-2.28 ***</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;"></td>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt; padding: 4pt 4pt 4pt 4pt; font-weight: bold;">(0.48)&nbsp;&nbsp;&nbsp;</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;">N</td>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;">420&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;">R Squared</td>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;">0.05&nbsp;&nbsp;&nbsp;&nbsp;</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;">Adj. R Squared</td>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;">0.05&nbsp;&nbsp;&nbsp;&nbsp;</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;">SER</td>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;">18.58&nbsp;&nbsp;&nbsp;&nbsp;</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; border-style: solid solid solid solid; border-width: 0pt 0pt 0.8pt 0pt; padding: 4pt 4pt 4pt 4pt;">F</td>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; border-style: solid solid solid solid; border-width: 0pt 0pt 0.8pt 0pt; padding: 4pt 4pt 4pt 4pt;">22.58&nbsp;&nbsp;&nbsp;&nbsp;</td>
+</tr>
+<tr>
+<td colspan="2" style="vertical-align: top; text-align: left; white-space: normal; padding: 4pt 4pt 4pt 4pt;"> *** p &lt; 0.001;  ** p &lt; 0.01;  * p &lt; 0.05.</td>
+</tr>
+</table>
+
+]
+]
+
+---
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="macros.js"></script>
+<script src="https://platform.twitter.com/widgets.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"slideNumberFormat": "<div class=\"progress-bar-container\">   <div class=\"progress-bar\" style=\"width: calc(%current% / %total% * 100%);\">   </div> </div> "
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

@@ -1,0 +1,182 @@
+---
+title: "2.4 OLS: Precision and Diagnostics - R Practice (Answers)"
+author: "Ryan Safner"
+date: "ECON 480 - Fall 2019"
+output:
+  html_document:
+    df_print: paged
+    theme: simplex
+    toc: true 
+    toc_depth: 3
+    toc_float: true
+    code_folding: show
+    highlight: tango
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# Getting Set Up 
+
+Before we begin, start a new file with `File` $\rightarrow$ `New File` $\rightarrow$ `R Script`. As you work through this sheet in the console in `R`, also add (copy/paste) your commands that work into this new file. At the end, save it, and run to execute all of your commands at once.
+
+First things first, load `tidyverse`.
+
+```{r}
+library("tidyverse")
+```
+
+```{r}
+congress<-read_csv("../data/congress-trump-score.csv")
+```
+
+```{r}
+congress %>%
+  count(party)
+```
+
+```{r}
+glimpse(congress)
+```
+
+```{r}
+congress %>%
+  count(congress)
+```
+
+```{r}
+congress_tidy <- congress %>%
+  filter(congress!=0) %>%
+  mutate(agree_pct = agree_pct * 100)
+```
+
+```{r}
+congress_tidy %>%
+  mutate(pol_party = case_when(
+    party %in% c("Democrat", "D") ~ "Democrat",
+    party %in% c("Republican", "R") ~ "Republican",
+    party %in% c("Independent", "I") ~ "Independent"
+  )) %>%
+  count(pol_party)
+
+congress_tidy <- congress_tidy %>%
+  mutate(pol_party = case_when(
+    party %in% c("Democrat", "D") ~ "Democrat",
+    party %in% c("Republican", "R") ~ "Republican",
+    party %in% c("Independent", "I") ~ "Independent"
+  ))
+
+```
+
+# Warm Up to `dplyr` With `gapminder`
+
+## 
+#### 1. Load `gapminder`. `select()` the variables `year`, `lifeExp`, `country`.
+
+```{r}
+
+party_colors <- c("Democrat" = "blue", "Republican" = "red", "Independent" = "gray")
+
+ggplot(data = congress_tidy)+
+  aes(x = net_trump_vote, y=agree_pct)+
+  geom_point(aes(color = pol_party))+
+  geom_smooth(method="lm", color = "black")+
+  scale_colour_manual("Parties", values = party_colors)+
+  theme_classic()
+```
+
+```{r}
+congress_tidy %>%
+  summarize(cor = cor(net_trump_vote, agree_pct))
+
+congress_cor<-congress_tidy %>%
+  select(agree_pct, net_trump_vote)
+```
+
+```{r}
+reg<-lm(agree_pct ~ net_trump_vote, data = congress_tidy)
+summary(reg)
+```
+
+```{r}
+library(broom)
+reg %>%
+  tidy()
+```
+
+```{r, results="asis"}
+library(equatiomatic)
+extract_eq(reg, use_coefs = TRUE,coef_digits = 2,fix_signs = TRUE)
+```
+
+
+```{r}
+reg %>%
+  glance()
+```
+
+```{r}
+reg_aug<-reg %>%
+  augment()
+```
+
+```{r}
+reg_aug %>%
+  head()
+```
+
+```{r}
+ggplot(data = reg_aug)+
+  aes(x = net_trump_vote, y=.resid)+
+  geom_point()+
+  geom_hline(yintercept = 0, color = "red")+
+  theme_classic()
+```
+
+```{r}
+ggplot(data = reg_aug)+
+  aes(x = .resid)+
+  geom_histogram(color="white")+
+  theme_classic()
+```
+
+```{r}
+congress %>%
+  count(chamber)
+```
+
+```{r}
+ggplot(data = reg_aug)+
+  aes(x = .resid)+
+  geom_density()
+```
+
+```{r}
+library(car)
+outlierTest(reg)
+```
+
+```{r}
+congress_tidy %>%
+  slice(1070)
+```
+
+```{r}
+reg_dfbetas<-as.tibble(dfbetas(reg))#
+
+reg_dfbetas
+```
+
+```{r}
+reg_dfbetas %>%
+  arrange(desc(net_trump_vote))
+```
+ 
+# Check for Heteroskedasticity
+
+```{r}
+library(lmtest)
+bptest(reg)
+```

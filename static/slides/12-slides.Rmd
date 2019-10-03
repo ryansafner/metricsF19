@@ -1,0 +1,941 @@
+---
+title: "2.6: Inferential Statistics I"
+subtitle: "ECON 480 · Econometrics · Fall 2019"
+author: 'Ryan Safner<br> Assistant Professor of Economics <br> <a href="mailto:safner@hood.edu"><i class="fa fa-paper-plane fa-fw"></i> safner@hood.edu</a> <br> <a href="https://github.com/ryansafner/metricsf19"><i class="fa fa-github fa-fw"></i> ryansafner/metricsf19</a><br> <a href="https://metricsF19.classes.ryansafner.com"> <i class="fa fa-globe fa-fw"></i> metricsF19.classes.ryansafner.com</a><br>'
+#date:
+output:
+  xaringan::moon_reader:
+    mathjax: "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML" # rescales math with css changes https://github.com/yihui/xaringan/issues/143
+    lib_dir: libs
+    df_print: paged
+    #seal: false
+    css: [custom.css, custom-fonts.css, "hygge"] #, metropolis, metropolis-fonts
+    nature:
+      beforeInit: ["macros.js", "https://platform.twitter.com/widgets.js"] # first is for rescaling images , second is for embedding tweets, https://github.com/yihui/xaringan/issues/100
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: "16:9"
+      slideNumberFormat: |
+        <div class="progress-bar-container">
+          <div class="progress-bar" style="width: calc(%current% / %total% * 100%);">
+          </div>
+        </div>
+    includes:
+      in_header: header.html # for font awesome, used in title  
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(echo=F,
+                      message=F,
+                      warning=F)
+library(tidyverse)
+set.seed(256)
+update_geom_defaults("label", list(family = "Fira Sans Condensed"))
+```
+
+```{r regression-setup, echo=F, results="hide"}
+
+library(haven)
+CASchool<-read_dta("../data/caschool.dta")
+
+# run regression of testscr on str
+school_reg <- lm(testscr ~ str, 
+                 data = CASchool)
+
+library(broom)
+school_reg_tidy <- tidy(school_reg,
+     conf.int = TRUE) # add confidence intervals
+CASchool_aug <- augment(school_reg)
+
+library(equatiomatic)
+extract_eq(school_reg, use_coefs = TRUE,coef_digits = 2,fix_signs = TRUE)
+
+```
+
+
+# The Sampling Distribution of $\hat{\beta_1}$
+
+.pull-left[
+
+$$\hat{\beta_1} \sim N(E[\hat{\beta_1}], \sigma_{\hat{\beta_1}})$$
+
+1. $E[\hat{\beta_1}]$; the **center** of the distribution (2 classes ago)
+    - $E[\hat{\beta_1}]=\beta_1$<sup><span class="red">1</span></sup>
+
+2. $\sigma_{\hat{\beta_1}}$; how **precise** is our estimate? (last class)
+    - Variance $\sigma^2_{\hat{\beta_1}}$ or standard error $\sigma_{\hat{\beta_1}}$
+
+
+]
+
+.pull-right[
+
+```{r, fig.retina=3}
+ggplot(data = tibble(x=-4:4))+
+  aes(x = x)+
+  stat_function(fun = dnorm, size=2, color="blue")+
+  geom_label(x=1, y=dnorm(1), label=expression(sigma[hat(beta[1])]==1), color="blue")+
+  geom_segment(aes(x=0,xend=0, y=0, yend=0.4), linetype="dashed")+
+  scale_x_continuous(breaks = 0,
+                     labels = expression(E(hat(beta[1]))))+
+  labs(x = expression(hat(beta[1])),
+       y = "Probability")+
+  theme_classic(base_family = "Fira Sans Condensed",
+           base_size=20)+
+  stat_function(fun = dnorm, args=list(mean = 0, sd = 2), size=2, color="red")+
+  geom_label(x=2, y=dnorm(2,0,2), label=expression(sigma[hat(beta[1])]==2), color="red")
+
+```
+
+]
+.footnote[<sup>.red[1]</sup> Under the 4 assumptions about $u$ (particularly, $cor(X,u)=0)$.
+]
+
+---
+
+# Recall: The Two Big Problems with Data
+
+.pull-left[
+
+- We use econometrics to .onfire[identify] causal relationships and make .onfire[inferences] about them
+
+1. Problem for .onfire[identification]: .shout[endogeneity]
+    - $X$ is **exogenous** if its variation is *unrelated* to other factors $(u)$ that affect $Y$
+    - $X$ is **endogenous** if its variation is *related* to other factors $(u)$ that affect $Y$
+
+2. Problem for .onfire[inference]: .shout[randomness]
+    - Data is random due to **natural sampling variation**
+    - Taking one sample of a population will yield slightly different information than another sample of the same population
+
+]
+
+.pull-right[
+.center[
+![:scale 55%](https://www.dropbox.com/s/v5vwsadw5vs448t/causality.jpg?raw=1)
+
+![:scale 55%](https://www.dropbox.com/s/phhet82tcnuegxp/randomimage.jpg?raw=1)]
+]
+
+---
+
+# Distributions of the OLS Estimators
+
+- OLS estimators $(\hat{\beta_0}$ and $\hat{\beta_1})$ are computed from a finite (specific) sample of data
+
+- Our OLS model contains **2 sources of randomness**:
+
+--
+
+- .onfire[*Modeled* randomness]: $u$ includes all factors affecting $Y$ *other* than $X$
+    - different samples will have different values of those other factors $(u_i)$
+
+--
+
+- .onfire[*Sampling* randomness]: different samples will generate different OLS estimators
+    - Thus, $\hat{\beta_0}, \hat{\beta_1}$ are *also* **random variables**, with their own <span class=shout>sampling distribution</span>
+
+---
+
+# Inferential Statistics and Sampling Distributions
+
+.pull-left[
+
+- **Inferential statistics** analyzes a **sample** to make inferences about a much larger (unobservable) **population**
+
+- .shout[Population]: all possible individuals that match some well-defined criterion of interest (people, firms, cities, etc)
+  - Characteristics about (relationships between variables in) populations are called **parameters** 
+
+- .shout[Sample]: some portion of the population of interest to *represent the whole*
+  - Samples generate **statistics** used to *estimate* population parameters
+  
+- We almost never can directly study the population, so we *model* it with our samples 
+]
+
+.pull-right[
+.center[
+![](https://www.dropbox.com/s/17cb7ceqipgi8fs/citymodel.jpg?raw=1)
+]
+]
+
+---
+
+# Inference in Econometrics: The Big Picture
+
+$$\text{Sample} \underbrace{\rightarrow}_{\text{statistical inference}} \text{Population} \underbrace{\rightarrow}_{\text{causal indentification}} \text{Unobserved Parameters}$$
+
+- We want to .whisper[identify] causal relationships between **population** variables
+    - Logically first thing to consider
+    - **Endogeneity problem**
+
+- We'll use **sample** *statistics* to .whisper[infer] something about population *parameters*
+    - In practice, we'll only ever have a finite *sample distribution* of data
+    - We *don't* know the *population distribution* of data
+    - **Randomness problem**
+
+---
+
+# Two Methods of Statistical Inference
+
+1. .shout[Estimation]: use our sample data to construct a point estimate of a population parameter and subject it to a .shout[hypothesis test] 
+
+--
+
+2. .shout[Confidence interval]: use our sample data to construct a *range* for the population parameter
+
+--
+
+- First method is more common, but second is still widely acknowledged
+
+- Both will give you similar results
+    - Tradeoff of accuracy vs. precision
+
+- Note *statistical* inference is different than *causal* inference!
+
+---
+
+class: inverse, center, middle
+
+# Hypothesis Testing
+
+---
+
+# Estimation and Hypothesis Testing I
+
+- We have already used statistics to **estimate** a relationship between $X$ and $Y$
+    - OLS estimators $\hat{\beta_0}$ and $\hat{\beta_1}$ of the true population $\beta_0$ and $\beta_1$
+
+- We want to **test** if these estimates are **statistically significant** and they describe the population
+    - This is the "bread and butter" of inferential statistics and the purpose of regression
+
+--
+
+.content-box-green[
+.green[**Examples**]:
+- Does reducing class size actually improve test scores?
+- Do more years of education increase your wages? 
+- Is the gender wage gap between men and women really $0.77? 
+]
+
+--
+
+- .whisper[All modern science is built upon statistical hypothesis testing, so understand it well!]
+
+---
+
+# Estimation and Hypothesis Testing II
+
+- Note, we can test a lot of hypotheses about a lot of population parameters, e.g.
+    - A population mean $\mu$ 
+      - <span class="green">**Example**: average height of adults</span>
+    - A population proportion $p$
+      - <span class="green">**Example**: percent of voters who voted for Trump</span>
+    - A difference in population means $\mu_A-\mu_B$
+      - <span class="green">**Example**: difference in average wages of men vs. women</span>
+    - A difference in population proportions $p_A-p_B$
+      - <span class="green">**Example**: difference in percent of patients reporting symptoms of drug A vs B</span>
+    - See all the possibilities in glorious detail in today's Class Notes
+
+- We will focus only on hypotheses about the .onfire[population regression slope] $(\hat{\beta}_1)$, i.e. the .onfire[causal effect]<sup>.red[1]</sup> of $X$ on $Y$
+
+.footnote[<sup>1</sup> With a model this simple, it's almost certainly **not** causal, but this is the ultimate direction we are heading...]
+
+---
+
+# Null and Alternative Hypotheses I
+
+- All scientific inquiries begin with a .shout[null hypothesis] $(H_0)$ that proposes a specific value of a population parameter
+    - Notation: add a subscript 0: $\beta_{1,0}$ (or $\mu_0$, $p_0$, etc)
+
+--
+
+- We suggest an .shout[alternative hypothesis] $(H_a)$, often the one we hope to verify
+    - Note, can be multiple alternative hypotheses: $H_1, H_2, \ldots , H_n$
+
+--
+
+- Ask: .onfire["Does our data (sample) give us sufficient evidence to reject `\\(H_0\\)` in favor of `\\(H_a\\)`?"]
+    - Note: **the test is *always* about** $\mathbf{H_0}$! 
+    - See if we have sufficient evidence to reject the status quo
+
+---
+
+# Null and Alternative Hypotheses II
+
+- Null hypothesis assigns a value (or a range) to a population parameter
+    - e.g. $\beta_1=2$ or $\beta_1 \leq 20$
+    - **Most common null hypothesis is $\beta_1=0$** $\implies$ $X$ has no effect on $Y$ (no slope for a line)
+    - Note: always an equality!
+
+--
+
+- Alternative hypothesis must mathematically *contradict* the null hypothesis
+    - e.g. $\beta_1 \neq 2$ or $\beta_1 > 20$ or $\beta_1 \neq 0$
+    - Note: always an inequality!
+
+--
+
+- Alternative hypotheses come in two forms:
+    1. **One-sided alternative**: $\beta_1 >H_0$ or $\beta_1< H_0$
+    2. **Two-sided alternative**: $\beta_1 \neq H_0$
+        - Note this means either $\beta_1 < H_0$ or $\beta_1 > H_0$
+
+---
+
+# Components of a Valid Hypothesis Test
+
+- All statistical hypothesis tests have the following components:
+
+1. A .onfire[null hypothesis], $H_0$**
+
+2. An .onfire[alternative hypothesis], $H_a$**
+
+3. A .onfire[test statistic] to determine if we reject $H_0$ when the statistic reaches a "critical value"
+    - Beyond the critical value is the "rejection region", sufficient evidence to reject $H_0$
+    
+4. A .onfire[conclusion] whether or not to reject $H_0$ in favor of $H_a$
+
+---
+
+# Type I and Type II Errors I
+
+.pull-left[
+
+- Any sample statistic (e.g. $\hat{\beta_1}$) will rarely be exactly equal to the hypothesized population parameter (e.g. $\beta_1$)
+
+- Difference between observed statistic and true paremeter could be because:
+
+1. Parameter is *not* the hypothesized value $(H_0$ is *false*)
+    
+2. Parameter is truly the hypothesized value $(H_0$ is *true*) but *sampling variability* gave us a different estimate 
+    
+- .onfire[We cannot distinguish between these two possibilities with any certainty]
+
+]
+
+.pull-right[
+.center[
+![](https://www.dropbox.com/s/95rh9ow982y5htb/error.png?raw=1)
+]
+]
+---
+
+# Type I and Type II Errors II
+
+.pull-left[
+
+- We can interpret our estimates probabilistically as commiting one of two types of error:
+
+1. .shout[Type I error (false positive)]: rejecting $H_0$ when it is in fact true
+    - Believing we found an important result when there is truly no relationship
+    
+2. .shoutcaps[Type II error (false negative)]: failing to reject $H_0$ when it is in fact false
+    - Believing we found nothing when there was truly a relationship to find
+]
+
+.pull-right[
+.center[
+![](https://www.dropbox.com/s/95rh9ow982y5htb/error.png?raw=1)
+]
+]
+
+---
+
+# Type I and Type II Errors III
+
+```{r, echo=FALSE, results="asis", eval=F}
+library(kableExtra)
+tribble(
+  ~"", ~"", ~"Null is True", ~"Null is False",
+  "Judgment", "Reject Null", "Type I Error", "Correct",
+  "Judgment", "Don't Reject Null", "Correct", "Type II Error"
+  ) %>%
+  knitr::kable(.,format="html") %>%
+  kable_styling(full_width = F) %>%
+  add_header_above(c(" " = 2, "Truth" = 2)) %>%
+  column_spec(c(1,2), bold=T) %>%
+  collapse_rows(columns = 1, latex_hline = "major", valign = "middle")
+```
+
+.regtable[
+```{r, echo=FALSE, results="asis"}
+library(kableExtra)
+tribble(
+  ~"", ~"", ~"Null is True", ~"Null is False",
+  "Judgment", "Reject Null", "TYPE I ERROR", "CORRECT",
+  "Judgment", "Reject Null", "(False +)", "(True +)",
+  "Judgment", "Don't Reject Null", "CORRECT", "TYPE II ERROR",
+  "Judgment", "Don't Reject Null", "(True -)", "(False -)"
+  ) %>%
+  knitr::kable(.,format="html") %>%
+  kable_styling(full_width = F) %>%
+  add_header_above(c(" " = 2, "Truth" = 2)) %>%
+  column_spec(c(1,2), bold=T) %>%
+  collapse_rows(columns = c(1,2), latex_hline = "major", valign = "middle")
+
+```
+]
+
+- Depending on context, committing one type of error may be more serious than the other
+
+---
+
+# Type I and Type II Errors IV
+
+.regtable[
+```{r, echo=FALSE, results="asis"}
+library(kableExtra)
+tribble(
+  ~"", ~"", ~"Defendant is Innocent", ~"Defendant is Guilty",
+  "Judgment", "Convict", "TYPE I ERROR", "CORRECT",
+  "Judgment", "Convict", "(False +)", "(True +)",
+  "Judgment", "Acquit", "CORRECT", "TYPE II ERROR",
+  "Judgment", "Acquit", "(True -)", "(False -)"
+  ) %>%
+  knitr::kable(.,format="html") %>%
+  kable_styling(full_width = F) %>%
+  add_header_above(c(" " = 2, "Truth" = 2)) %>%
+  column_spec(c(1,2), bold=T) %>%
+  collapse_rows(columns = c(1,2), latex_hline = "major", valign = "middle")
+
+```
+]
+
+- Anglo-American common law *presumes* defendant is innocent: $H_0$
+
+--
+
+- Jury judges whether the evidence presented against the defendant is plausible *assuming the defendant were in fact innocent*
+
+--
+
+- If highly improbable: sufficient evidence to reject $H_0$ and convict
+    - Beyond a "reasonable doubt" that the defendant is innocent
+
+---
+
+# Type I and Type II Errors V
+
+.left-column[
+
+.center[
+![:scale 80%](https://www.dropbox.com/s/bufqsl9ub03iru3/blackstone.png?raw=1)
+
+William Blackstone
+
+(1723-1780)
+
+]
+]
+
+.right-column[
+
+> "It is better that ten guilty persons escape than that one innocent suffer."
+
+- Type I error is worse than a Type II error in law!
+
+]
+
+.source[Blackstone, William, 1765-1770, *Commentaries on the Laws of England*]
+
+---
+
+# Type I and Type II Errors VI
+
+.content-box-blue[
+.blue[**Let's Check**:]
+For each of the following scenarios, identify the Type I error, Type II error, and which error is of greater consequence:
+]
+
+--
+1. $H_0:$ the victim of an automobile accident is alive when he arrives at the Emergency Room
+
+--
+
+2. $H_0$: a rock climber's equipment is safe
+
+--
+
+3. $H_0$: a woman is not pregnant
+
+--
+
+4. $H_0$: a highway project will cost no more than $10 million
+
+--
+
+5. $H_0$: an experimental cancer drug has a cure rate of at least 75% 
+
+
+---
+
+# Significance Level, $\alpha$, and Confidence Level $1-\alpha$
+
+- The .shout[significance level, `\\(\alpha\\)`], is the probability of a **Type I error** 
+
+$$\alpha=P(\text{Reject } H_0 | H_0 \text{ is true})$$
+
+--
+
+- The .shout[confidence level] is defined as .shout[`\\((1-\alpha)\\)`]
+
+- We often specify in advance an $\alpha$-level (0.10, 0.05, 0.01) with associated confidence level (90%, 95%, 99%)
+
+--
+
+- The probability of a **Type II error** is defined as $\beta$:
+
+$$\beta=P(\text{Don't reject } H_0 | H_0 \text{ is false})$$
+
+---
+
+# $\alpha$ and $\beta$
+
+.regtable[
+```{r, echo=FALSE, results="asis"}
+tribble(
+  ~"", ~"", ~"Null is True", ~"Null is False",
+  "Judgment", "Reject Null", "Type I Error", "Correct",
+  "Judgment", "Reject Null", "alpha", "1-beta",
+  "Judgment", "Don't Reject Null", "Correct", "Type II Error",
+  "Judgment", "Don't Reject Null", "1-alpha", "beta"
+  ) %>%
+  knitr::kable(.,format="html") %>%
+  kable_styling(full_width = F) %>%
+  add_header_above(c(" " = 2, "Truth" = 2)) %>%
+  column_spec(c(1,2), bold=T) %>%
+  collapse_rows(columns = c(1,2), latex_hline = "major", valign = "middle")
+```
+]
+
+---
+
+# Power and p-values
+
+- The statistical .shout[power of the test] is $1-\beta$, the probability of correctly rejecting $H_0$ when $H_0$ is in fact false (e.g. not convicting an innocent person)
+
+$$\text{Power} = 1- \beta = P(\text{Reject }H_0|H_0 \text{ is false})$$
+
+--
+
+- The .shout[`\\(p\\)`-value] or .shout[significance probability] is the probability that, given the null hypothesis is true, the test statistic from a random sample will be at least as extreme as the test statistic of our sample
+
+$$p(|H_0)$$
+
+- If $p<\alpha$, the results are "**statistically significant**"
+
+---
+
+# p-Values and Statistical Significance 
+ 
+- After running our test, we need to make a *decision* between the competing hypotheses
+- Compare $p$-value with *pre-determined* $\alpha$ (commonly, $\alpha=0.05$, 95% confidence level)
+    - If $p<\alpha$: **statistically significant** evidence sufficient to *reject* $H_0$ in favor of $H_a$
+    - If $p \geq \alpha$: *insufficient* evidence to reject $H_0$
+        - Note this does **not** mean $H_0$ is true! We merely have *failed* to *reject* $H_0$
+
+---
+
+class: inverse, center, middle
+
+# Digression: p-Values and the Philosophy of Science
+
+---
+
+# Hypothesis Testing and the Philosophy of Science I
+
+.left-column[
+.center[
+![:scale 75%](https://www.dropbox.com/s/kssn3fwxgu8k457/rafisher.jpg?raw=1)
+
+Sir Ronald A. Fisher
+
+(1890&mdash;1962)
+]
+]
+
+.right-column[
+
+> "The null hypothesis is never proved or established, but is possibly disproved, in the course of experimentation. Every experiment may be said to exist only in order to give the facts a chance of disproving the null hypothesis."
+
+1931, *The Design of Experiments*
+]
+
+---
+
+# Hypothesis Testing and the Philosophy of Science I
+
+.pull-left[
+
+- Modern philosophy of science is largely based off of hypothesis testing and .whisper[falsifiability], which form the "Scientific Method"<sup>1</sup>
+- For something to be "scientific", it must be .whisper[falsifiable], or at least .whisper[testable]
+- Hypotheses can be *corroborated* with evidence, but always *tentative* until falsified by data in suggesting an alternative hypothesis
+- .onfire["All swans are white"] is a hypothesis rejected upon discovery of a single black swan
+]
+
+.pull-right[
+
+.center[
+.polaroid[![](https://www.dropbox.com/s/d7i7m77iui5sdb8/blackswan.jpg?raw=1)]
+]
+]
+.footnote[<sup>1</sup> Note: economics is a very different kind of "science" with a different methodology!]
+
+---
+
+# Hypothesis Testing I
+
+- Hypothesis testing, confidence intervals, and p-values are probably the hardest thing to understand in statistics
+
+.center[
+
+<iframe src="https://fivethirtyeight.abcnews.go.com/video/embed/56150342" width="640" height="360" scrolling="no" style="border:none;" allowfullscreen></iframe>
+
+[Fivethirtyeight: Not Even Scientists Can Easily Explain P-values](https://fivethirtyeight.com/features/not-even-scientists-can-easily-explain-p-values/)]
+
+---
+
+# Hypothesis Testing II 
+
+- Rigorous course on statistics (**ECMG 212** or **MATH 112**) will spend weeks going through different types of tests:
+    - Sample mean; difference of means
+    - Proportion; difference of proportions
+    - Z-test vs t-test
+    - 1 sample vs. 2 samples
+    - $\chi^2$ test
+
+- Fortunately, some statisticians realized ["**there is only one test**"](https://allendowney.blogspot.com/2011/05/there-is-only-one-test.html) and coded it that way
+
+---
+
+# Elements of a Hypothesis Test
+
+1. Calculate a statistic, $\delta$<sup>1</sup>, from a sample of data
+2. Simulate a world where $\delta$ is null
+3. Examine $\delta$ in the null world
+4. Calculate the probability that $\delta$ could exist in the null world
+5. Decide if $\delta$ is statistically significant
+
+.footnote[<sup>1</sup> $\delta$ can stand in for any test-statistic in any hypothesis test! For our purposes, $\delta$ is the slope of our regression sample, $\hat{\beta}_1$.]
+
+---
+
+# Elements of a Hypothesis Test
+
+.center[
+![:scale 80%](https://www.dropbox.com/s/jenilao59zrbswq/onetest.png?raw=1)
+
+[Alan Downey: "There is still only one test"](https://allendowney.blogspot.com/2016/06/there-is-still-only-one-test.html)
+]
+
+---
+
+# Hypothesis Testing with the infer Package I
+
+- R naturally runs the following hypothesis test on any regression as part of `lm()`:
+
+$$\begin{align*}
+H_0: \; & \beta_1=0\\
+H_1: \; & \beta_1 \neq 0
+\end{align*}$$
+
+- `infer` allows you to run through these steps manually to understand the process
+
+---
+
+# Hypothesis Testing with the infer Package II
+
+1. `specify()` a model
+
+--
+
+2. `hypothesize()` the null 
+
+--
+
+3. `generate()` simulations of the null world 
+
+--
+
+4. `calculate()` 
+
+--
+
+5. `visualize()`
+
+---
+
+# Hypothesis Testing with the infer Package III
+
+.center[
+![:scale 65%](https://www.dropbox.com/s/zz3h7wq1tr08dus/infer0jpeg.jpeg?raw=1)
+]
+
+---
+
+# Hypothesis Testing with the infer Package III
+
+.center[
+![:scale 65%](https://www.dropbox.com/s/25axifo95oz5zs7/infer1jpeg.jpeg?raw=1)
+]
+
+---
+
+# Hypothesis Testing with the infer Package III
+
+.center[
+![:scale 65%](https://www.dropbox.com/s/d9bnryxznfwe4fc/infer2jpeg.jpeg?raw=1)
+]
+
+---
+
+# Hypothesis Testing with the infer Package III
+
+.center[
+![:scale 65%](https://www.dropbox.com/s/pc8733aurnouvsr/infer3jpeg.jpeg?raw=1)
+]
+
+---
+
+# Hypothesis Testing with the infer Package III
+
+.center[
+![:scale 65%](https://www.dropbox.com/s/4wojnmworf406ku/infer4jpeg.jpeg?raw=1)
+]
+
+---
+
+# Hypothesis Testing with the infer Package III
+
+.center[
+![:scale 65%](https://www.dropbox.com/s/6328hg5t03jbd0w/infer5jpeg.jpeg?raw=1)
+]
+
+---
+
+# Test Statistic
+
+- .whisper[Test statistic]: measure of how far what we observed in our sample is from what we would expect if the null hypothesis was true
+    - Calculate from a distribution
+- .whisper[Rejection region]: if the test statistic reaches a .onfire["critical value"], then we reject the null hypothesis
+
+---
+
+# Statistical Significance and Economic Significance
+
+## Is a finding *significant* ?
+
+## Is a finding *meaningful* ? 
+
+---
+
+# How Big is "Big"?
+
+.center[
+![:scale 40%](https://www.dropbox.com/s/qtd2uwvr52jvkcu/drwhocontext.jpg?raw=1)
+]
+
+---
+
+# Imagine a Null World
+
+.center[
+![:scale 70%](https://www.dropbox.com/s/x7b5azt5algjodg/parallelworld.jpeg?raw=1)
+]
+
+---
+
+# Imagine a Null World
+
+.pull-left[
+
+# Our Sample
+
+```{r, echo=F}
+tidy(school_reg)
+```
+]
+
+.pull-right[
+
+# Another Sample
+
+```{r, echo = F}
+library(infer)
+CASchool %>%
+  specify(testscr ~ str) %>%
+  hypothesize(null = "independence") %>%
+  generate(reps = 1, type = "permute") %>%
+  lm(testscr ~ str, data = .) %>%
+  tidy()
+```
+]
+
+---
+
+# 1000 Parallel Universes
+
+.left-code[
+
+```{r infer-example, echo = T, eval = F}
+library(infer)
+simulations <- CASchool %>%
+  specify(testscr ~ str) %>%
+  hypothesize(null = "independence") %>%
+  generate(reps = 1000, type = "permute") %>%
+  calculate(stat = "slope")
+
+simulations %>%
+  rename(sample = replicate,
+         slope = stat)
+```
+]
+
+.right-plot[
+```{r ref.label="infer-example", echo = F}
+```
+
+]
+
+---
+
+# 1000 Parallel Universes
+
+```{r echo = F}
+plot <- simulations %>%
+  visualize()+
+  theme_minimal()+
+  labs(x = "Slope",
+       y = "Samples")
+
+plot
+```
+
+---
+
+# 1000 Parallel Universes
+
+```{r}
+obs_slope <- school_reg_tidy %>% 
+  filter(term=="str") %>%
+  pull(estimate) # from dplyr
+
+plot2 <- simulations %>%
+  visualize(obs_stat = obs_slope)
+
+plot2+
+  shade_p_value(obs_stat = obs_slope, 
+                direction = "two_sided")+
+  theme_minimal()+
+  labs(x = "Slope",
+       y = "Samples")
+```
+
+---
+
+# 1000 Parallel Universes
+
+```{r}
+# get confidence interval values
+
+school_reg_CI<- school_reg %>%
+  tidy(., conf.int=T) %>%
+  filter(term=="str") %>%
+  select(conf.low, conf.high)
+```
+
+```{r}
+plot2+
+  shade_confidence_interval(endpoints = school_reg_CI)+
+  theme_minimal()+
+  labs(x = "Slope",
+       y = "Samples")
+```
+
+---
+
+# p-Value
+
+```{r}
+simulations %>%
+  get_p_value(obs_stat = obs_slope, direction = "both")
+```
+
+> There's a 0% chance of seeing a slope at least as large as $-2.28$ in the null world where there is no relationship. 
+
+---
+
+# What R Does
+
+```{r}
+tidy(school_reg)
+```
+
+- R calculates the $p$-value the "old-fashioned way", using a theoretical distribution instead of simulation
+    - Generates a test statistic (`statistic`) and compares it to a critical value of the test statistic<sup>1</sup>
+$$\text{test statistic} = \frac{\text{estimate} - \text{null hypothesis}}{\text{standard error of estimate}}$$
+
+.footnote[<sup>1</sup> Rule of thumb: test statistic of 2 or larger is generally significant at the 95% level. This comes directly from the empirical rule that 95% of observations occur within 2 standard deviations of the mean! See the **class info** page for more.]
+
+---
+
+# What R Does II 
+
+```{r}
+tidy(school_reg)
+```
+
+$$t = \frac{-2.28-0}{0.48} = -4.75$$
+- Intepretation like $Z$-scores: number of standard deviations away from the center<sup>1</sup>
+- $p$-value is the probability of getting a test statistic at least as large (in magnitude) as this one if the null hypothesis were true<sup>2</sup>
+
+.footnote[<sup>1</sup> The "center" here is the null hypothesis value i.e. a slope of 0.
+<sup>2</sup> Think of our simulated null world(s), the center of the sampling distribution was a slope of 0.]
+
+---
+
+# Confidence Intervals
+
+```{r}
+tidy(school_reg, conf.int=TRUE)
+```
+
+- We can also generate a .shout[confidence interval] for $\hat{\beta}_1$ that contain the true population slope ($\beta_1$) with a specified probability
+    - Note confidence level $=1-\alpha$; commonly 95% ($\alpha=0.05$)
+- .whisper[We are 95% confident that the true slope is between $-3.22$ and $-1.34$.]
+    - Note if the confidence interval contains 0, *cannot* reject the null hypothesis of $\beta_1=0$! 
+- See **class info** page for more on confidence intervals and how they are constructed
+
+---
+
+```{r, results="asis"}
+equatiomatic::extract_eq(school_reg, use_coefs = TRUE,coef_digits = 2,fix_signs = TRUE)
+```
+
+---
+
+# Testing Reg Output: huxtable
+
+.font80[
+.regtable[
+```{r, echo=F}
+library(huxtable)
+
+hr <- huxreg("Model 1" = school_reg, # can name the columns in quotes
+       coefs = c("Intercept" = "(Intercept)", # can rename the coefficients
+                 "STR" = "str"),
+       statistics = c("N" = "nobs", # statistics to show for regression, taken from glance()
+                      "R Squared" = "r.squared",
+                      "Adj. R Squared" = "adj.r.squared",
+                      "SER" = "sigma",
+                      "F" = "statistic"),
+       number_format = 2, # number of decimals to round to
+       bold_signif = 0.05) # can bold coeffs by significance level
+
+hr
+```
+]
+]
+
+---
