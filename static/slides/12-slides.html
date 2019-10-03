@@ -519,10 +519,10 @@ William Blackstone
 - The .shout[`\\(p\\)`-value] or .shout[significance probability] is the probability that, given the null hypothesis is true, the test statistic from a random sample will be at least as extreme as the test statistic of our sample
 
 `$$p(\delta_i \geq \delta^*|H_0 \text{ is true})$$`
-    - where `\(\delta\)` represents some test statistic
-    - `\(\delta_i\)` is the test statistic we observe in our sample
-    - `\(\delta^*\)` is some **critical value** of the test statistic
-    - More on this in a bit
+  - where `\(\delta\)` represents some test statistic
+  - `\(\delta_i\)` is the test statistic we observe in our sample
+  - `\(\delta^*\)` is some **critical value** of the test statistic
+  - More on this in a bit
 
 ---
 
@@ -601,12 +601,14 @@ Sir Ronald A. Fisher
 
 # Hypothesis Testing: Which Test? I
 
-- Rigorous course on statistics (**ECMG 212** or **MATH 112**) will spend weeks going through different types of tests:
+- Rigorous course on statistics ([**ECMG 212**](http://ryansafner.com/courses/ecmg212) or **MATH 112**) will spend weeks going through different types of tests:
     - Sample mean; difference of means
     - Proportion; difference of proportions
     - Z-test vs t-test
     - 1 sample vs. 2 samples
     - `\(\chi^2\)` test
+
+- See today's [class notes](/class/12-class) page for more
 
 ---
 
@@ -620,17 +622,17 @@ Sir Ronald A. Fisher
 
 # There is Only One Test
 
-- Fortunately, some statisticians realized ["**there is only one test**"](https://allendowney.blogspot.com/2011/05/there-is-only-one-test.html) and some clever folks built a nice `R` package called `infer`
+- Fortunately, some clever statisticians realized ["**there is only one test**"](https://allendowney.blogspot.com/2011/05/there-is-only-one-test.html) and built a nice `R` package called `infer`
 
-1. Calculate a statistic, `\(\delta\)`&lt;sup&gt;1&lt;/sup&gt;, from a sample of data
+1. **Calculate** a statistic, `\(\delta_i\)`&lt;sup&gt;1&lt;/sup&gt;, from a sample of data
 
-2. Simulate a world where `\(\delta\)` is null
+2. **Simulate** a world where `\(\delta\)` is null `\((H_0)\)`
 
-3. Examine `\(\delta\)` in the null world
+3. **Examine** the distribution of `\(\delta\)` across the null world
 
-4. Calculate the probability that `\(\delta\)` could exist in the null world
+4. **Calculate** the probability that `\(\delta_i\)` could exist in the null world
 
-5. Decide if `\(\delta\)` is statistically significant
+5. **Decide** if `\(\delta_i\)` is statistically significant
 
 .footnote[&lt;sup&gt;1&lt;/sup&gt; `\\(\delta\\)` can stand in for any test-statistic in any hypothesis test! For our purposes, `\\(\delta\\)` is the slope of our regression sample, `\\(\hat{\beta}_1\\)`.]
 
@@ -655,11 +657,9 @@ H_0: \; &amp; \beta_1=0\\
 H_1: \; &amp; \beta_1 \neq 0
 \end{align*}$$`
 
-- `infer` allows you to run through these steps manually to understand the process
+- `infer` allows you to run through these steps manually to understand the process:
 
----
-
-# Hypothesis Testing with the infer Package II
+--
 
 1. `specify()` a model
 
@@ -673,15 +673,15 @@ H_1: \; &amp; \beta_1 \neq 0
 
 --
 
-4. `calculate()` 
+4. `calculate()` the `\(p\)`-value
 
 --
 
-5. `visualize()`
+5. `visualize()` with a histogram (optional)
 
 ---
 
-# Hypothesis Testing with the infer Package III
+# Hypothesis Testing with the infer Package II
 
 .center[
 ![:scale 65%](https://www.dropbox.com/s/zz3h7wq1tr08dus/infer0jpeg.jpeg?raw=1)
@@ -689,7 +689,7 @@ H_1: \; &amp; \beta_1 \neq 0
 
 ---
 
-# Hypothesis Testing with the infer Package III
+# Hypothesis Testing with the infer Package II
 
 .center[
 ![:scale 65%](https://www.dropbox.com/s/25axifo95oz5zs7/infer1jpeg.jpeg?raw=1)
@@ -697,7 +697,7 @@ H_1: \; &amp; \beta_1 \neq 0
 
 ---
 
-# Hypothesis Testing with the infer Package III
+# Hypothesis Testing with the infer Package II
 
 .center[
 ![:scale 65%](https://www.dropbox.com/s/d9bnryxznfwe4fc/infer2jpeg.jpeg?raw=1)
@@ -705,7 +705,7 @@ H_1: \; &amp; \beta_1 \neq 0
 
 ---
 
-# Hypothesis Testing with the infer Package III
+# Hypothesis Testing with the infer Package II
 
 .center[
 ![:scale 65%](https://www.dropbox.com/s/pc8733aurnouvsr/infer3jpeg.jpeg?raw=1)
@@ -713,7 +713,7 @@ H_1: \; &amp; \beta_1 \neq 0
 
 ---
 
-# Hypothesis Testing with the infer Package III
+# Hypothesis Testing with the infer Package II
 
 .center[
 ![:scale 65%](https://www.dropbox.com/s/4wojnmworf406ku/infer4jpeg.jpeg?raw=1)
@@ -721,7 +721,7 @@ H_1: \; &amp; \beta_1 \neq 0
 
 ---
 
-# Hypothesis Testing with the infer Package III
+# Hypothesis Testing with the infer Package II
 
 .center[
 ![:scale 65%](https://www.dropbox.com/s/6328hg5t03jbd0w/infer5jpeg.jpeg?raw=1)
