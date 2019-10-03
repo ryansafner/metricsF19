@@ -78,7 +78,6 @@ lessons:
     reading: "12-reading"
     class: "12-class"
     slides: "12-slides"
-    r: "11-r-practice"
 
   - title: "2.7 Inference for Regression with infer"
 

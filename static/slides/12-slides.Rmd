@@ -120,7 +120,7 @@ ggplot(data = tibble(x=-4:4))+
 
 ---
 
-# Distributions of the OLS Estimators
+# Recall: Distributions of the OLS Estimators
 
 - OLS estimators $(\hat{\beta_0}$ and $\hat{\beta_1})$ are computed from a finite (specific) sample of data
 
@@ -138,7 +138,7 @@ ggplot(data = tibble(x=-4:4))+
 
 ---
 
-# Inferential Statistics and Sampling Distributions
+# Recall: Inferential Statistics and Sampling Distributions
 
 .pull-left[
 
@@ -150,7 +150,6 @@ ggplot(data = tibble(x=-4:4))+
 - .shout[Sample]: some portion of the population of interest to *represent the whole*
   - Samples generate **statistics** used to *estimate* population parameters
   
-- We almost never can directly study the population, so we *model* it with our samples 
 ]
 
 .pull-right[
@@ -161,7 +160,7 @@ ggplot(data = tibble(x=-4:4))+
 
 ---
 
-# Inference in Econometrics: The Big Picture
+# Recall: Inference in Econometrics: The Big Picture
 
 $$\text{Sample} \underbrace{\rightarrow}_{\text{statistical inference}} \text{Population} \underbrace{\rightarrow}_{\text{causal indentification}} \text{Unobserved Parameters}$$
 
@@ -287,9 +286,9 @@ class: inverse, center, middle
 
 - All statistical hypothesis tests have the following components:
 
-1. A .onfire[null hypothesis], $H_0$**
+1. A .onfire[null hypothesis, `\\(H_0\\)`]
 
-2. An .onfire[alternative hypothesis], $H_a$**
+2. An .onfire[alternative hypothesis, `\\(H_a\\)`]
 
 3. A .onfire[test statistic] to determine if we reject $H_0$ when the statistic reaches a "critical value"
     - Beyond the critical value is the "rejection region", sufficient evidence to reject $H_0$
@@ -330,7 +329,7 @@ class: inverse, center, middle
 1. .shout[Type I error (false positive)]: rejecting $H_0$ when it is in fact true
     - Believing we found an important result when there is truly no relationship
     
-2. .shoutcaps[Type II error (false negative)]: failing to reject $H_0$ when it is in fact false
+2. .shout[Type II error (false negative)]: failing to reject $H_0$ when it is in fact false
     - Believing we found nothing when there was truly a relationship to find
 ]
 
@@ -443,30 +442,9 @@ William Blackstone
 
 # Type I and Type II Errors VI
 
-.content-box-blue[
-.blue[**Let's Check**:]
-For each of the following scenarios, identify the Type I error, Type II error, and which error is of greater consequence:
+.center[
+![](https://www.dropbox.com/s/wf6i1462dadmvrw/errorspregnant.png?raw=1)
 ]
-
---
-1. $H_0:$ the victim of an automobile accident is alive when he arrives at the Emergency Room
-
---
-
-2. $H_0$: a rock climber's equipment is safe
-
---
-
-3. $H_0$: a woman is not pregnant
-
---
-
-4. $H_0$: a highway project will cost no more than $10 million
-
---
-
-5. $H_0$: an experimental cancer drug has a cure rate of at least 75% 
-
 
 ---
 
@@ -479,8 +457,7 @@ $$\alpha=P(\text{Reject } H_0 | H_0 \text{ is true})$$
 --
 
 - The .shout[confidence level] is defined as .shout[`\\((1-\alpha)\\)`]
-
-- We often specify in advance an $\alpha$-level (0.10, 0.05, 0.01) with associated confidence level (90%, 95%, 99%)
+  - Specify *in advance* an $\alpha$-level (0.10, 0.05, 0.01) with associated confidence level (90%, 95%, 99%)
 
 --
 
@@ -496,10 +473,10 @@ $$\beta=P(\text{Don't reject } H_0 | H_0 \text{ is false})$$
 ```{r, echo=FALSE, results="asis"}
 tribble(
   ~"", ~"", ~"Null is True", ~"Null is False",
-  "Judgment", "Reject Null", "Type I Error", "Correct",
-  "Judgment", "Reject Null", "alpha", "1-beta",
-  "Judgment", "Don't Reject Null", "Correct", "Type II Error",
-  "Judgment", "Don't Reject Null", "1-alpha", "beta"
+  "Judgment", "Reject Null", "TYPE I ERROR", "CORRECT",
+  "Judgment", "Reject Null", "(alpha)", "(1-beta)",
+  "Judgment", "Don't Reject Null", "CORRECT", "TYPE II ERROR",
+  "Judgment", "Don't Reject Null", "(1-alpha)", "(beta)"
   ) %>%
   knitr::kable(.,format="html") %>%
   kable_styling(full_width = F) %>%
@@ -513,7 +490,7 @@ tribble(
 
 # Power and p-values
 
-- The statistical .shout[power of the test] is $1-\beta$, the probability of correctly rejecting $H_0$ when $H_0$ is in fact false (e.g. not convicting an innocent person)
+- The statistical .shout[power of the test] is $(1-\beta)$: the probability of correctly rejecting $H_0$ when $H_0$ is in fact false (e.g. not convicting an innocent person)
 
 $$\text{Power} = 1- \beta = P(\text{Reject }H_0|H_0 \text{ is false})$$
 
@@ -521,15 +498,18 @@ $$\text{Power} = 1- \beta = P(\text{Reject }H_0|H_0 \text{ is false})$$
 
 - The .shout[`\\(p\\)`-value] or .shout[significance probability] is the probability that, given the null hypothesis is true, the test statistic from a random sample will be at least as extreme as the test statistic of our sample
 
-$$p(|H_0)$$
-
-- If $p<\alpha$, the results are "**statistically significant**"
+$$p(\delta_i \geq \delta^*|H_0 \text{ is true})$$
+    - where $\delta$ represents some test statistic
+    - $\delta_i$ is the test statistic we observe in our sample
+    - $\delta^*$ is some **critical value** of the test statistic
+    - More on this in a bit
 
 ---
 
 # p-Values and Statistical Significance 
  
 - After running our test, we need to make a *decision* between the competing hypotheses
+
 - Compare $p$-value with *pre-determined* $\alpha$ (commonly, $\alpha=0.05$, 95% confidence level)
     - If $p<\alpha$: **statistically significant** evidence sufficient to *reject* $H_0$ in favor of $H_a$
     - If $p \geq \alpha$: *insufficient* evidence to reject $H_0$
@@ -568,10 +548,13 @@ Sir Ronald A. Fisher
 
 .pull-left[
 
-- Modern philosophy of science is largely based off of hypothesis testing and .whisper[falsifiability], which form the "Scientific Method"<sup>1</sup>
-- For something to be "scientific", it must be .whisper[falsifiable], or at least .whisper[testable]
+- Modern philosophy of science is largely based off of hypothesis testing and .onfire[falsifiability], which form the "Scientific Method"<sup>1</sup>
+
+- For something to be "scientific", it must be .whisper[falsifiable], or at least .onfire[testable]
+
 - Hypotheses can be *corroborated* with evidence, but always *tentative* until falsified by data in suggesting an alternative hypothesis
-- .onfire["All swans are white"] is a hypothesis rejected upon discovery of a single black swan
+
+> **"All swans are white"** is a hypothesis rejected upon discovery of a single black swan 
 ]
 
 .pull-right[
@@ -584,7 +567,7 @@ Sir Ronald A. Fisher
 
 ---
 
-# Hypothesis Testing I
+# Hypothesis Testing and p-Values
 
 - Hypothesis testing, confidence intervals, and p-values are probably the hardest thing to understand in statistics
 
@@ -596,28 +579,42 @@ Sir Ronald A. Fisher
 
 ---
 
-# Hypothesis Testing II 
+# Hypothesis Testing: Which Test? I
 
-- Rigorous course on statistics (**ECMG 212** or **MATH 112**) will spend weeks going through different types of tests:
+- Rigorous course on statistics ([**ECMG 212**](http://ryansafner.com/courses/ecmg212) or **MATH 112**) will spend weeks going through different types of tests:
     - Sample mean; difference of means
     - Proportion; difference of proportions
     - Z-test vs t-test
     - 1 sample vs. 2 samples
     - $\chi^2$ test
 
-- Fortunately, some statisticians realized ["**there is only one test**"](https://allendowney.blogspot.com/2011/05/there-is-only-one-test.html) and coded it that way
+- See today's [class notes](/class/12-class) page for more
 
 ---
 
-# Elements of a Hypothesis Test
+# Hypothesis Testing: Which Test? II
+
+.center[
+![:scale 80%](https://www.dropbox.com/s/3f33cnn595x2nsj/hypothesistestflowchart.png?raw=1)
+]
+
+---
+
+# There is Only One Test
+
+- Fortunately, some statisticians realized ["**there is only one test**"](https://allendowney.blogspot.com/2011/05/there-is-only-one-test.html) and some clever folks built a nice `R` package called `infer`
 
 1. Calculate a statistic, $\delta$<sup>1</sup>, from a sample of data
+
 2. Simulate a world where $\delta$ is null
+
 3. Examine $\delta$ in the null world
+
 4. Calculate the probability that $\delta$ could exist in the null world
+
 5. Decide if $\delta$ is statistically significant
 
-.footnote[<sup>1</sup> $\delta$ can stand in for any test-statistic in any hypothesis test! For our purposes, $\delta$ is the slope of our regression sample, $\hat{\beta}_1$.]
+.footnote[<sup>1</sup> `\\(\delta\\)` can stand in for any test-statistic in any hypothesis test! For our purposes, `\\(\delta\\)` is the slope of our regression sample, `\\(\hat{\beta}_1\\)`.]
 
 ---
 
@@ -711,231 +708,3 @@ H_1: \; & \beta_1 \neq 0
 .center[
 ![:scale 65%](https://www.dropbox.com/s/6328hg5t03jbd0w/infer5jpeg.jpeg?raw=1)
 ]
-
----
-
-# Test Statistic
-
-- .whisper[Test statistic]: measure of how far what we observed in our sample is from what we would expect if the null hypothesis was true
-    - Calculate from a distribution
-- .whisper[Rejection region]: if the test statistic reaches a .onfire["critical value"], then we reject the null hypothesis
-
----
-
-# Statistical Significance and Economic Significance
-
-## Is a finding *significant* ?
-
-## Is a finding *meaningful* ? 
-
----
-
-# How Big is "Big"?
-
-.center[
-![:scale 40%](https://www.dropbox.com/s/qtd2uwvr52jvkcu/drwhocontext.jpg?raw=1)
-]
-
----
-
-# Imagine a Null World
-
-.center[
-![:scale 70%](https://www.dropbox.com/s/x7b5azt5algjodg/parallelworld.jpeg?raw=1)
-]
-
----
-
-# Imagine a Null World
-
-.pull-left[
-
-# Our Sample
-
-```{r, echo=F}
-tidy(school_reg)
-```
-]
-
-.pull-right[
-
-# Another Sample
-
-```{r, echo = F}
-library(infer)
-CASchool %>%
-  specify(testscr ~ str) %>%
-  hypothesize(null = "independence") %>%
-  generate(reps = 1, type = "permute") %>%
-  lm(testscr ~ str, data = .) %>%
-  tidy()
-```
-]
-
----
-
-# 1000 Parallel Universes
-
-.left-code[
-
-```{r infer-example, echo = T, eval = F}
-library(infer)
-simulations <- CASchool %>%
-  specify(testscr ~ str) %>%
-  hypothesize(null = "independence") %>%
-  generate(reps = 1000, type = "permute") %>%
-  calculate(stat = "slope")
-
-simulations %>%
-  rename(sample = replicate,
-         slope = stat)
-```
-]
-
-.right-plot[
-```{r ref.label="infer-example", echo = F}
-```
-
-]
-
----
-
-# 1000 Parallel Universes
-
-```{r echo = F}
-plot <- simulations %>%
-  visualize()+
-  theme_minimal()+
-  labs(x = "Slope",
-       y = "Samples")
-
-plot
-```
-
----
-
-# 1000 Parallel Universes
-
-```{r}
-obs_slope <- school_reg_tidy %>% 
-  filter(term=="str") %>%
-  pull(estimate) # from dplyr
-
-plot2 <- simulations %>%
-  visualize(obs_stat = obs_slope)
-
-plot2+
-  shade_p_value(obs_stat = obs_slope, 
-                direction = "two_sided")+
-  theme_minimal()+
-  labs(x = "Slope",
-       y = "Samples")
-```
-
----
-
-# 1000 Parallel Universes
-
-```{r}
-# get confidence interval values
-
-school_reg_CI<- school_reg %>%
-  tidy(., conf.int=T) %>%
-  filter(term=="str") %>%
-  select(conf.low, conf.high)
-```
-
-```{r}
-plot2+
-  shade_confidence_interval(endpoints = school_reg_CI)+
-  theme_minimal()+
-  labs(x = "Slope",
-       y = "Samples")
-```
-
----
-
-# p-Value
-
-```{r}
-simulations %>%
-  get_p_value(obs_stat = obs_slope, direction = "both")
-```
-
-> There's a 0% chance of seeing a slope at least as large as $-2.28$ in the null world where there is no relationship. 
-
----
-
-# What R Does
-
-```{r}
-tidy(school_reg)
-```
-
-- R calculates the $p$-value the "old-fashioned way", using a theoretical distribution instead of simulation
-    - Generates a test statistic (`statistic`) and compares it to a critical value of the test statistic<sup>1</sup>
-$$\text{test statistic} = \frac{\text{estimate} - \text{null hypothesis}}{\text{standard error of estimate}}$$
-
-.footnote[<sup>1</sup> Rule of thumb: test statistic of 2 or larger is generally significant at the 95% level. This comes directly from the empirical rule that 95% of observations occur within 2 standard deviations of the mean! See the **class info** page for more.]
-
----
-
-# What R Does II 
-
-```{r}
-tidy(school_reg)
-```
-
-$$t = \frac{-2.28-0}{0.48} = -4.75$$
-- Intepretation like $Z$-scores: number of standard deviations away from the center<sup>1</sup>
-- $p$-value is the probability of getting a test statistic at least as large (in magnitude) as this one if the null hypothesis were true<sup>2</sup>
-
-.footnote[<sup>1</sup> The "center" here is the null hypothesis value i.e. a slope of 0.
-<sup>2</sup> Think of our simulated null world(s), the center of the sampling distribution was a slope of 0.]
-
----
-
-# Confidence Intervals
-
-```{r}
-tidy(school_reg, conf.int=TRUE)
-```
-
-- We can also generate a .shout[confidence interval] for $\hat{\beta}_1$ that contain the true population slope ($\beta_1$) with a specified probability
-    - Note confidence level $=1-\alpha$; commonly 95% ($\alpha=0.05$)
-- .whisper[We are 95% confident that the true slope is between $-3.22$ and $-1.34$.]
-    - Note if the confidence interval contains 0, *cannot* reject the null hypothesis of $\beta_1=0$! 
-- See **class info** page for more on confidence intervals and how they are constructed
-
----
-
-```{r, results="asis"}
-equatiomatic::extract_eq(school_reg, use_coefs = TRUE,coef_digits = 2,fix_signs = TRUE)
-```
-
----
-
-# Testing Reg Output: huxtable
-
-.font80[
-.regtable[
-```{r, echo=F}
-library(huxtable)
-
-hr <- huxreg("Model 1" = school_reg, # can name the columns in quotes
-       coefs = c("Intercept" = "(Intercept)", # can rename the coefficients
-                 "STR" = "str"),
-       statistics = c("N" = "nobs", # statistics to show for regression, taken from glance()
-                      "R Squared" = "r.squared",
-                      "Adj. R Squared" = "adj.r.squared",
-                      "SER" = "sigma",
-                      "F" = "statistic"),
-       number_format = 2, # number of decimals to round to
-       bold_signif = 0.05) # can bold coeffs by significance level
-
-hr
-```
-]
-]
-
----

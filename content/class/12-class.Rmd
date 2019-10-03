@@ -35,11 +35,7 @@ Today you will be finishing up [R practice problems](/r/11-r-practice.html) from
 
 # New Packages Mentioned
 
-- `broom`: for tidy regression outputs, summary statistics, and adding $\hat{Y_i}$ and $\hat{u_i}$ into the dataframe
-- `huxtable`: to present regression output in a table with `huxreg()`
-- `lmtest`: for testing for heteroskedasticity in errors with `bptest()`
-- `car`: for testing for outliers with `outlierTest()`
-- `estimatr`: for calculating robust standard errors with `lm_robust()`
+- `infer`: for simulation for statistical inference
 
 # Assignments: Problem Set 2 Answers
 
@@ -314,9 +310,6 @@ The confidence interval is simply our estimate plus and minus the margin of erro
 
 $$CI = \left([\bar{x}-Z_{0.5}\sigma_{\bar{x}}], \, [\bar{x}+Z_{0.5}\sigma_{\bar{x}}]\right)$$
 
-5. Intepret the confidence interval in the context of the problem
+5. **Intepret the confidence interval in the context of the problem**
 
 > "We estimate with [1-alpha]% confidence that the true [population parameter] is between [lowerbound] and [upperbound]".
-
-## Hypothesis Testing
-
