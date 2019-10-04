@@ -527,7 +527,7 @@ library(huxtable)
 huxreg("Test Score" = school_reg,
        coefs = c("Intercept" = "(Intercept)",
                  "STR" = "str"),
-       statistics = c("N" = "N",
+       statistics = c("N" = "nobs",
                       "R-Squared" = "r.squared",
                       "SER" = "sigma"),
        number_format = 2)
@@ -596,7 +596,7 @@ coefs = c("Intercept" = "(Intercept)",
 - Decide what statistics to include, and rename them
 
 ```{r, echo=T, eval=F}
-statistics = c("N" = "N",
+statistics = c("N" = "nobs",
                "R-Squared" = "r.squared",
                "SER" = "sigma")
 ```
@@ -620,7 +620,7 @@ number_format = 2
 huxreg("Test Score" = school_reg,
        coefs = c("Intercept" = "(Intercept)",
                  "STR" = "str"),
-       statistics = c("N" = "N",
+       statistics = c("N" = "nobs",
                       "R-Squared" = "r.squared",
                       "SER" = "sigma"),
        number_format = 2)
@@ -637,7 +637,7 @@ huxreg("Test Score" = school_reg,
 huxreg("Test Score" = school_reg,
        coefs = c("Intercept" = "(Intercept)",
                  "STR" = "str"),
-       statistics = c("N" = "N",
+       statistics = c("N" = "nobs",
                       "R-Squared" = "r.squared",
                       "SER" = "sigma"),
        number_format = 2)
@@ -704,7 +704,7 @@ $$var(u|X)=\sigma^2_{u}$$
 3. Errors are not correlated across observations: 
 $$cor(u_i,u_j)=0 \quad \forall i \neq j$$
 
-4. There is no correlation between $X$ and the error term: 
+4. No correlation between $X$ and the error term: 
 $$cor(X, u)=0 \text{ or } E[u|X]=0$$
 
 ]
@@ -772,13 +772,12 @@ ggplot(data = aug_reg)+
 
 ```{r, echo=T}
 aug_reg %>%
-  summarize(e_u = mean(.resid),
+  summarize(E_u = mean(.resid),
             sd_u = sd(.resid))
 ```
 
 ]
 
---
 
 .pull-right[
 
@@ -1097,7 +1096,7 @@ ggplot(data = aug_het_reg)+
   labs(x = "Residuals by Range of X",
        y = "Density")+
   theme_bw(base_family = "Fira Sans Condensed",
-           base_size=20)
+           base_size=16)
 
 ```
 ]
@@ -1116,7 +1115,7 @@ wage_reg<-lm(wage~educ, data=wage1)
 huxreg("Wage" = wage_reg,
        coefs = c("Intercept" = "(Intercept)",
                  "Years of Schooling" = "educ"),
-       statistics = c("N" = "N",
+       statistics = c("N" = "nobs",
                       "R-Squared" = "r.squared",
                       "SER" = "sigma"),
        number_format = 2)
@@ -1156,7 +1155,7 @@ wage_reg<-lm(wage~educ, data=wage1)
 huxreg("Wage" = wage_reg,
        coefs = c("Intercept" = "(Intercept)",
                  "Years of Schooling" = "educ"),
-       statistics = c("N" = "N",
+       statistics = c("N" = "nobs",
                       "R-Squared" = "r.squared",
                       "SER" = "sigma"),
        number_format = 2)
@@ -1172,9 +1171,6 @@ aug_wage_reg<-wage_reg %>%
   augment()
 wage_plot+geom_vline(xintercept=c(0,4,8,12,16,18), linetype="dashed", size=1)
 
-```
-
-```{r, fig.height=3.5, fig.retina=3}
 aug_wage_reg<-aug_wage_reg %>%
   mutate(range = case_when(educ>=0 & educ<4 ~ "0 to 4",
                            educ>=4 & educ<8 ~ "4 to 8",
@@ -1268,7 +1264,7 @@ bptest(wage_reg)
   - `lm_robust()` command (instead of `lm`) to run regression
   - set `se_type="stata"` to calculate robust SEs using the formula above
 
-```{r}
+```{r, echo = T}
 #install.packages("estimatr")
 library(estimatr)
 
@@ -1289,7 +1285,7 @@ huxreg("Normal" = school_reg,
        "Robust" = school_reg_robust,
        coefs = c("Intercept" = "(Intercept)",
                  "STR" = "str"),
-       statistics = c("N" = "N",
+       statistics = c("N" = "nobs",
                       "R-Squared" = "r.squared",
                       "SER" = "sigma"),
        number_format = 2)
@@ -1305,7 +1301,7 @@ huxreg("Normal" = school_reg,
        "Robust" = school_reg_robust,
        coefs = c("Intercept" = "(Intercept)",
                  "STR" = "str"),
-       statistics = c("N" = "N",
+       statistics = c("N" = "nobs",
                       "R-Squared" = "r.squared",
                       "SER" = "sigma"),
        number_format = 2)
@@ -1403,7 +1399,7 @@ huxreg("No Outliers" = school_reg,
        "Outliers" = school_outlier_reg,
        coefs = c("Intercept" = "(Intercept)",
                  "STR" = "str"),
-       statistics = c("N" = "N",
+       statistics = c("N" = "nobs",
                       "R-Squared" = "r.squared",
                       "SER" = "sigma"),
        number_format = 2)

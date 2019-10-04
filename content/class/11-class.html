@@ -22,10 +22,11 @@ editor_options:
 <li><a href="#practice-problems">Practice Problems</a></li>
 <li><a href="#new-packages-mentioned">New Packages Mentioned</a></li>
 <li><a href="#assignments-problem-set-2-answers">Assignments: Problem Set 2 Answers</a></li>
+<li><a href="#appendix-robust-standard-errors-in-r">Appendix: Robust Standard Errors in R</a></li>
 </ul>
 </div>
 
-<p><em>Tuesday, October 2, 2019</em></p>
+<p><em>Tuesday, October 1, 2019</em></p>
 <h2 id="overview">Overview</h2>
 <p>Last class and this class we are looking at the <em>sampling distibution</em> of OLS estimators (particularly <span class="math inline">\(\hat{\beta_1})\)</span>. Last class we looked at what the <em>center</em> of the distribution was - the true <span class="math inline">\(\beta_1\)</span> - so long as the assumptions about <span class="math inline">\(u\)</span> hold:</p>
 <ul>
@@ -63,3 +64,5 @@ editor_options:
 </ul>
 <h2 id="assignments-problem-set-2-answers">Assignments: Problem Set 2 Answers</h2>
 <p><a href="/assignment/01-problem-set.html">Problem Set 2</a> answers are posted.</p>
+<h2 id="appendix-robust-standard-errors-in-r">Appendix: Robust Standard Errors in R</h2>
+<p>This, since I started using <code>huxtable</code> instead of another package (<code>stargazer</code>) to make regression tables, I have gone all in on <code>estimatr</code>’s <code>lm_robust()</code> option to calculate robust standard errors. Before this, there were some other methods that I had to resort to. You can read about that in <a href="http://ryansafner.com/post/replicating-statas-robust-option-for-ols-standard-errors-in-r">this blog post</a>.</p>

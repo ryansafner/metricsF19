@@ -11,18 +11,17 @@ editor_options:
   chunk_output_type: console
 ---
 
-*Thursday, October 3, 2019*
+*Thursday, October 3, 2019* and *Tuesday, October 8, 2019*
 
 # Overview
 
-We begin with some more time for you to work on the [R Practice]() from last class. I will post the answer key after class.
+We begin with some more time for you to work on the [R Practice](/r/11-r-practice) from last class. The answer key is now posted.
 
-This class and the next class are about inferential statistics: using *statistics* calculated from a *sample* of data to **infer** the true (and unmeasurable) *parameters* that describe a *population.* In doing so, we can run *hypothesis tests* on our sample to determine a *point* estimate of a parameter, or construct a *confidence interval* from our sample to cast a range for the true parameter. 
+This class will be spread over 2 days, and is about inferential statistics: using *statistics* calculated from a *sample* of data to **infer** the true (and unmeasurable) *parameters* that describe a *population.* In doing so, we can run *hypothesis tests* on our sample to determine a *point* estimate of a parameter, or construct a *confidence interval* from our sample to cast a range for the true parameter. 
 
 This is standard principles of statistics - you hopefully should have learned it before. If it has been a while (or never) since your last statistics class, this is one of the hardest concepts to understand at first glance. I recommend [Khan Academy](https://www.khanacademy.org/math/statistics-probability)^[From sampling distributions through significance tests, for this. Though the whole class is helpful!] or Google for these concepts, as *every* statistics class will cover them in the standard way.
 
 That being said, this semester I am *not* going to cover them in the standard way (see the appendix today below for an overview of the standard way). I think it will be more intuitive if I *show* you where these concepts come from by *simulation* as opposed to theoretical sampling distributions.
-
 
 
 # Slides
@@ -31,7 +30,7 @@ That being said, this semester I am *not* going to cover them in the standard wa
 
 # Practice Problems
 
-Today you will be finishing up [R practice problems](/r/11-r-practice.html) from last class. Check back later for solutions.
+You will be finishing up [R practice problems](/r/11-r-practice.html) from last class. Answers are posted.
 
 # New Packages Mentioned
 

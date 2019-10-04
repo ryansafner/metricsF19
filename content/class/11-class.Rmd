@@ -11,7 +11,7 @@ editor_options:
   chunk_output_type: console
 ---
 
-*Tuesday, October 2, 2019*
+*Tuesday, October 1, 2019*
 
 # Overview
 
@@ -51,3 +51,7 @@ Today you will be working on [R practice problems](/r/11-r-practice.html). Check
 # Assignments: Problem Set 2 Answers
 
 [Problem Set 2](/assignment/01-problem-set.html) answers are posted.
+
+# Appendix: Robust Standard Errors in R
+
+This, since I started using `huxtable` instead of another package (`stargazer`) to make regression tables, I have gone all in on `estimatr`'s `lm_robust()` option to calculate robust standard errors. Before this, there were some other methods that I had to resort to. You can read about that in [this blog post](http://ryansafner.com/post/replicating-statas-robust-option-for-ols-standard-errors-in-r).
