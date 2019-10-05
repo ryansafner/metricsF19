@@ -94,24 +94,26 @@ In a sample of 48 observations, she generates the following descriptive statisti
 <h4 id="part-a-2">Part A</h4>
 <p>Clean up the data a bit by making a new variable to measure home attendance in millions. This will make it easier to interpret your regression later on.</p>
 <h4 id="part-b-2">Part B</h4>
-<p>Plot a scatterplot of Runs Scored (<code>y</code>) on Home Attendance (<code>x</code>). Add a regression line.</p>
+<p>Get the correlation between Runs Scored and Home Attendance.</p>
 <h4 id="part-c-2">Part C</h4>
-<p>Run a regression of Runs Scored on Home Attendance. What are <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\hat{\beta_1}\)</span>? Interpret them in the context of our question.</p>
+<p>Plot a scatterplot of Runs Scored (<code>y</code>) on Home Attendance (<code>x</code>). Add a regression line.</p>
 <h4 id="part-d-2">Part D</h4>
-<p>Write out the estimated regression equation.</p>
+<p>Run a regression of Runs Scored on Home Attendance. What are <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\hat{\beta_1}\)</span>? Interpret them in the context of our question.</p>
 <h4 id="part-e-2">Part E</h4>
-<p>Make a regression table of the output.</p>
+<p>Write out the estimated regression equation.</p>
 <h4 id="part-f-1">Part F</h4>
-<p>Now let’s start running some diagnostics of the regression. Make a histogram of the residuals. Do they look roughly normal?</p>
+<p>Make a regression table of the output.</p>
 <h4 id="part-g-1">Part G</h4>
-<p>Make a residual plot.</p>
+<p>Now let’s start running some diagnostics of the regression. Make a histogram of the residuals. Do they look roughly normal?</p>
 <h4 id="part-h-1">Part H</h4>
-<p>Test the regression for heteroskedasticity. Are the errors homoskedastic or heteroskedastic? Generate robust standard errors. Make a regression output table, with one column with regular standard errors and another with robust standard errors.</p>
+<p>Make a residual plot.</p>
 <h4 id="part-i">Part I</h4>
-<p>Test the data for outliers. If there are any, identify which team(s) and season(s) are outliers.</p>
+<p>Test the regression for heteroskedasticity. Are the errors homoskedastic or heteroskedastic? Generate robust standard errors. Make a regression output table, with one column with regular standard errors and another with robust standard errors.</p>
 <h4 id="part-j">Part J</h4>
-<p>What is the marginal effect of home attendance on runs scored? Is this statistically significant? Why or why not?</p>
+<p>Test the data for outliers. If there are any, identify which team(s) and season(s) are outliers.</p>
 <h4 id="part-k">Part K</h4>
+<p>What is the marginal effect of home attendance on runs scored? Is this statistically significant? Why or why not?</p>
+<h4 id="part-l">Part L</h4>
 <p>Now we’ll try out the <code>infer</code> package to understand the <span class="math inline">\(p\)</span>-value and confidence interval for our observed slope in our regression model. Save the (value of) our sample <span class="math inline">\(\hat{\beta_1}\)</span> from your regression in Part C as an object. Then, install and load the <code>infer</code> package, and then calculate the slope<span><label for="sn-2" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-2" class="margin-toggle"/><span class="sidenote"><code>calculate(stat = "slope")</code><br />
 <br />
 </span></span> under the null hypothesis that there is no connection between attendance and runs.<span><label for="sn-3" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-3" class="margin-toggle"/><span class="sidenote"><code>hypothesize(null = "independence")</code><br />
@@ -121,11 +123,11 @@ In a sample of 48 observations, she generates the following descriptive statisti
 </span></span>, and save this as an object (it’s a <code>tibble</code>). Then, use this to <code>get_p_value()</code><span><label for="sn-5" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-5" class="margin-toggle"/><span class="sidenote">Set <code>obs_stat</code> equal to your observed slope, and set <code>direction = "two_sided"</code><br />
 <br />
 </span></span>. Compare to the <span class="math inline">\(p\)</span>-value given by <code>lm()</code> and <code>tidy()</code> above.</p>
-<h4 id="part-l">Part L</h4>
+<h4 id="part-m">Part M</h4>
 <p>Make a histogram of the simulated slopes, and plot our sample slope on that histogram, shading the <span class="math inline">\(p\)</span>-value.<span><label for="sn-6" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-6" class="margin-toggle"/><span class="sidenote">You can use <code>ggplot2</code> to plot a histogram in the normal way and add a <code>geom_vline()</code>, setting <code>xintercept</code> equal to your saved object with the sample <span class="math inline">\(\hat{\beta_1}\)</span> value. <em>Alternatively</em>, you can use <code>infer</code> to pipe your <code>tibble</code> of simulations into <code>visualize()</code>, and inside <code>visualize()</code> set <code>obs_stat</code> equal to your saved <span class="math inline">\(\hat{\beta_1}\)</span> object. <em>Regardless</em> of which method you use, add <code>+shade_p_value()</code>. Inside this, set <code>obs_stat</code> equal to your saved slope, and add <code>direction = "two_sided"</code>.<br />
 <br />
 </span></span></p>
-<h4 id="part-m">Part M</h4>
+<h4 id="part-n">Part N</h4>
 <p>Get the 95% confidence interval for your slope estimate,<span><label for="sn-7" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-7" class="margin-toggle"/><span class="sidenote"><code>tidy()</code> your original regression, with <code>conf.int = TRUE</code> inside the command, then <code>select(conf.low, conf.high)</code> and <code>filter</code> by your <code>x</code> variable. Save this as an object.<br />
 <br />
 </span></span> and then make a histogram of the simulated slopes (like part L), but instead, add <code>+shade_confidence_interval()</code>.<span><label for="sn-8" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-8" class="margin-toggle"/><span class="sidenote">Inside of this, set <code>endpoints</code> equal to the object you just made with the low and high confidence interval values.<br />

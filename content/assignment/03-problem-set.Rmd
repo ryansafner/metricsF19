@@ -138,46 +138,52 @@ Clean up the data a bit by making a new variable to measure home attendance in m
 
 ### Part B
 
-Plot a scatterplot of Runs Scored (`y`) on Home Attendance (`x`). Add a regression line.
+Get the correlation between Runs Scored and Home Attendance.
 
 ### Part C
 
-Run a regression of Runs Scored on Home Attendance. What are $\beta_0$ and $\hat{\beta_1}$? Interpret them in the context of our question.
+Plot a scatterplot of Runs Scored (`y`) on Home Attendance (`x`). Add a regression line.
 
 ### Part D
 
-Write out the estimated regression equation.
+Run a regression of Runs Scored on Home Attendance. What are $\beta_0$ and $\hat{\beta_1}$? Interpret them in the context of our question.
 
 ### Part E
 
-Make a regression table of the output.
+Write out the estimated regression equation.
 
 ### Part F
 
-Now let's start running some diagnostics of the regression. Make a histogram of the residuals. Do they look roughly normal?
+Make a regression table of the output.
 
 ### Part G
 
-Make a residual plot.
+Now let's start running some diagnostics of the regression. Make a histogram of the residuals. Do they look roughly normal?
 
 ### Part H
 
-Test the regression for heteroskedasticity. Are the errors homoskedastic or heteroskedastic? Generate robust standard errors. Make a regression output table, with one column with regular standard errors and another with robust standard errors.
+Make a residual plot.
 
 ### Part I
 
-Test the data for outliers. If there are any, identify which team(s) and season(s) are outliers.
+Test the regression for heteroskedasticity. Are the errors homoskedastic or heteroskedastic? Generate robust standard errors. Make a regression output table, with one column with regular standard errors and another with robust standard errors.
 
 ### Part J
 
-What is the marginal effect of home attendance on runs scored? Is this statistically significant? Why or why not?  
+Test the data for outliers. If there are any, identify which team(s) and season(s) are outliers.
 
 ### Part K
 
-Now we'll try out the `infer` package to understand the $p$-value and confidence interval for our observed slope in our regression model. Save the (value of) our sample $\hat{\beta_1}$ from your regression in Part C as an object. Then, install and load the `infer` package, and then calculate the slope^[`calculate(stat = "slope")`] under the null hypothesis that there is no connection between attendance and runs.^[`hypothesize(null = "independence")`] for 1000 additional simulated samples^[`generate(reps = 1000, type = "permute")`], and save this as an object (it's a `tibble`). Then, use this to `get_p_value()`^[Set `obs_stat` equal to your observed slope, and set `direction = "two_sided"`]. Compare to the $p$-value given by `lm()` and `tidy()` above.
+What is the marginal effect of home attendance on runs scored? Is this statistically significant? Why or why not?  
 
 ### Part L
-Make a histogram of the simulated slopes, and plot our sample slope on that histogram, shading the $p$-value.^[You can use `ggplot2` to plot a histogram in the normal way and add a `geom_vline()`, setting `xintercept` equal to your saved object with the sample $\hat{\beta_1}$ value. *Alternatively*, you can use `infer` to pipe your `tibble` of simulations into `visualize()`, and inside `visualize()` set `obs_stat` equal to your saved $\hat{\beta_1}$ object. *Regardless* of which method you use, add `+shade_p_value()`. Inside this, set `obs_stat` equal to your saved slope, and add `direction = "two_sided"`.]
+
+Now we'll try out the `infer` package to understand the $p$-value and confidence interval for our observed slope in our regression model. Save the (value of) our sample $\hat{\beta_1}$ from your regression in Part C as an object. Then, install and load the `infer` package, and then calculate the slope^[`calculate(stat = "slope")`] under the null hypothesis that there is no connection between attendance and runs.^[`hypothesize(null = "independence")`] for 1000 additional simulated samples^[`generate(reps = 1000, type = "permute")`], and save this as an object (it's a `tibble`). Then, use this to `get_p_value()`^[Set `obs_stat` equal to your observed slope, and set `direction = "two_sided"`]. Compare to the $p$-value given by `lm()` and `tidy()` above.
 
 ### Part M
+
+Make a histogram of the simulated slopes, and plot our sample slope on that histogram, shading the $p$-value.^[You can use `ggplot2` to plot a histogram in the normal way and add a `geom_vline()`, setting `xintercept` equal to your saved object with the sample $\hat{\beta_1}$ value. *Alternatively*, you can use `infer` to pipe your `tibble` of simulations into `visualize()`, and inside `visualize()` set `obs_stat` equal to your saved $\hat{\beta_1}$ object. *Regardless* of which method you use, add `+shade_p_value()`. Inside this, set `obs_stat` equal to your saved slope, and add `direction = "two_sided"`.]
+
+### Part N
+
 Get the 95% confidence interval for your slope estimate,^[`tidy()` your original regression, with `conf.int = TRUE` inside the command, then `select(conf.low, conf.high)` and `filter` by your `x` variable. Save this as an object.] and then make a histogram of the simulated slopes (like part L), but instead, add `+shade_confidence_interval()`.^[Inside of this, set `endpoints` equal to the object you just made with the low and high confidence interval values.] Compare this to what you get with `tidy()` above.
