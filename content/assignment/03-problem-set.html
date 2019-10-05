@@ -8,7 +8,7 @@ editor_options:
 
 <p><em>Due by Thursday, October 10, 2019</em></p>
 <ul>
-<li><a href="/homeworks/02-problem-set-pdf.pdf"><i class="fas fa-file-pdf"></i> <code>Download as PDF</code></a></li>
+<li><a href="/homeworks/03-problem-set-pdf.pdf"><i class="fas fa-file-pdf"></i> <code>Download as PDF</code></a></li>
 <li><a href="/homeworks/03-problem-set.Rmd"><i class="fab fa-markdown"></i> <code>Download Markdown</code></a></li>
 </ul>
 <h2 id="instructions">Instructions</h2>
@@ -27,18 +27,20 @@ editor_options:
 <h3 id="question-5">Question 5</h3>
 <p>In your own words, describe what the variation in <span class="math inline">\(\hat{\beta_1}\)</span> (either variance or standard error) means, or is measuring. What three things determine the variation, and in what way?</p>
 <h3 id="question-6">Question 6</h3>
+<p>In your own words, describe what a <span class="math inline">\(p\)</span>-value means, and how it is used to establish statistical significance.</p>
+<h3 id="question-7">Question 7</h3>
 <p>A researcher is interested in examining the impact of illegal music downloads on commercial music sales. The author collects data on commercial sales of the top 500 singles from 2017 (<span class="math inline">\(Y\)</span>) and the number of downloads from a web site that allows `file sharing’ (<span class="math inline">\(X\)</span>). The author estimates the following model</p>
 <p><span class="math display">\[\text{music sales}_i = \beta_0+\beta_1 \text{illegal downloads}_i + u_i\]</span></p>
 <p>The author finds a large, positive, and statistically significant estimate of <span class="math inline">\(\hat{\beta_1}\)</span>. The author concludes these results demonstrate that illegal downloads actually <em>boost</em> music sales. Is this an unbiased estimate of the impact of illegal music on sales? Why or why not? Do you expect the estimate to overstate or understate the true relationship between illegal downloads and sales?</p>
-<h3 id="question-6-1">Question 6</h3>
+<h3 id="question-8">Question 8</h3>
 <p>A pharmaceutical company is interested in estimating the impact of a new drug on cholesterol levels. They enroll 200 people in a clinical trial. People are randomly assigned the treatment group or into the control group. Half of the people are given the new drug and half the people are given a sugar pill with no active ingredient. To examine the impact of dosage on reductions in cholesterol levels, the authors of the study regress the following model:</p>
 <p><span class="math display">\[\text{cholesterol level}_i = \beta_0+\beta_1 \text{dosage level}_i + u_i\]</span></p>
 <p>For people in the control group, dosage level<span class="math inline">\(_i=0\)</span> and for people in the treatment group, dosage level<span class="math inline">\(_i\)</span> measures milligrams of the active ingredient. In this case, the authors find a large, negative, statistically significant estimate of <span class="math inline">\(\hat{\beta_1}\)</span>. Is this an unbiased estimate of the impact of dosage on change in cholesterol level? Why or why not? Do you expect the estimate to overstate or understate the true relationship between dosage and cholesterol level?</p>
 <h2 id="theory-problems">Theory Problems</h2>
 <p>For the following questions, please <em>show all work</em> and explain answers as necessary. You may lose points if you only write the correct answer. You may use <code>R</code> to <em>verify</em> your answers, but you are expected to reach the answers in this section “manually.”</p>
-<h3 id="question-7">Question 7</h3>
+<h3 id="question-9">Question 9</h3>
 <p>A researcher wants to estimate the relationship between average weekly earnings <span class="math inline">\((AWE\)</span>, measured in dollars) and <span class="math inline">\(Age\)</span> (measured in years) using a simple OLS model. Using a random sample of college-educated full-time workers aged 25-65 yields the following:</p>
-<p><span class="math display">\[\widehat{AWE} = 696.70+9.60\ \, Age\]</span></p>
+<p><span class="math display">\[\widehat{AWE} = 696.70+9.60 \, Age\]</span></p>
 <h4 id="part-a">Part A</h4>
 <p>Interpret what <span class="math inline">\(\hat{\beta_0}\)</span> means in this context.</p>
 <h4 id="part-b">Part B</h4>
@@ -57,7 +59,7 @@ editor_options:
 <p>What does the error term, <span class="math inline">\(\hat{u_i}\)</span> represent in this case? What might individuals have different values of <span class="math inline">\(u_i\)</span>?</p>
 <h4 id="part-h">Part H</h4>
 <p>Do you think that <span class="math inline">\(Age\)</span> is exogenous? Why or why not? Would we expect <span class="math inline">\(\hat{\beta_1}\)</span> to be too <em>large</em> or too <em>small</em>?</p>
-<h3 id="question-8">Question 8</h3>
+<h3 id="question-10">Question 10</h3>
 <p>Suppose a researcher is interested in estimating a simple linear regression model:</p>
 <p><span class="math display">\[Y_i=\beta_0+\beta_1X_i+u_i\]</span>
 In a sample of 48 observations, she generates the following descriptive statistics:</p>
@@ -80,8 +82,8 @@ In a sample of 48 observations, she generates the following descriptive statisti
 <h4 id="part-e-1">Part E</h4>
 <p>How large is the average residual?</p>
 <h2 id="r-questions">R Questions</h2>
-<p>For the following problems, please attach/write the answers to each question on the same document as the previous problems, but also include a printed/attached (and commented!) <em>.R</em> script file of your commands to answer the questions.</p>
-<h3 id="question-9">Question 9</h3>
+<p>Answer the following questions using <code>R</code>. When necessary, please write answers in the same document (knitted <code>Rmd</code> to <code>html</code> or <code>pdf</code>, typed <code>.doc(x)</code>, or handwritten) as your answers to the above questions. Be sure to include (email or print an <code>.R</code> file, or show in your knitted <code>markdown</code>) your code and the outputs of your code with the rest of your answers.</p>
+<h3 id="question-11">Question 11</h3>
 <ul>
 <li><a href="http://metricsf19.classes.ryansafner.com/data/mlbattend.csv"><i class="fas fa-table"></i> <code>mlbattend.csv</code></a></li>
 </ul>
@@ -100,30 +102,32 @@ In a sample of 48 observations, she generates the following descriptive statisti
 <h4 id="part-e-2">Part E</h4>
 <p>Make a regression table of the output.</p>
 <h4 id="part-f-1">Part F</h4>
-<p>Make a histogram of the residuals. Do they look roughly normal?</p>
+<p>Now let’s start running some diagnostics of the regression. Make a histogram of the residuals. Do they look roughly normal?</p>
 <h4 id="part-g-1">Part G</h4>
 <p>Make a residual plot.</p>
 <h4 id="part-h-1">Part H</h4>
 <p>Test the regression for heteroskedasticity. Are the errors homoskedastic or heteroskedastic? Generate robust standard errors. Make a regression output table, with one column with regular standard errors and another with robust standard errors.</p>
 <h4 id="part-i">Part I</h4>
-<p>Are any results statistically significant or not?</p>
-<h4 id="part-j">Part J</h4>
 <p>Test the data for outliers. If there are any, identify which team(s) and season(s) are outliers.</p>
+<h4 id="part-j">Part J</h4>
+<p>What is the marginal effect of home attendance on runs scored? Is this statistically significant? Why or why not?</p>
 <h4 id="part-k">Part K</h4>
-<p>Use the <code>infer</code> package to simulate 1000 additional samples<span><label for="sn-2" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-2" class="margin-toggle"/><span class="sidenote"><code>generate(reps = 1000, type = "permute")</code><br />
+<p>Now we’ll try out the <code>infer</code> package to understand the <span class="math inline">\(p\)</span>-value and confidence interval for our observed slope in our regression model. Save the (value of) our sample <span class="math inline">\(\hat{\beta_1}\)</span> from your regression in Part C as an object. Then, install and load the <code>infer</code> package, and then calculate the slope<span><label for="sn-2" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-2" class="margin-toggle"/><span class="sidenote"><code>calculate(stat = "slope")</code><br />
 <br />
-</span></span> to calculate the slope<span><label for="sn-3" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-3" class="margin-toggle"/><span class="sidenote"><code>calculate(stat = "slope")</code><br />
+</span></span> under the null hypothesis that there is no connection between attendance and runs.<span><label for="sn-3" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-3" class="margin-toggle"/><span class="sidenote"><code>hypothesize(null = "independence")</code><br />
 <br />
-</span></span> under the null hypothesis that there is no connection between attendance and runs.<span><label for="sn-4" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-4" class="margin-toggle"/><span class="sidenote"><code>hypothesize(null = "independence")</code><br />
+</span></span> for 1000 additional simulated samples<span><label for="sn-4" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-4" class="margin-toggle"/><span class="sidenote"><code>generate(reps = 1000, type = "permute")</code><br />
 <br />
-</span></span>, and save this as an object (it’s a <code>tibble</code>).</p>
+</span></span>, and save this as an object (it’s a <code>tibble</code>). Then, use this to <code>get_p_value()</code><span><label for="sn-5" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-5" class="margin-toggle"/><span class="sidenote">Set <code>obs_stat</code> equal to your observed slope, and set <code>direction = "two_sided"</code><br />
+<br />
+</span></span>. Compare to the <span class="math inline">\(p\)</span>-value given by <code>lm()</code> and <code>tidy()</code> above.</p>
 <h4 id="part-l">Part L</h4>
-<p>Save the (value of) our sample <span class="math inline">\(\hat{\beta_1}\)</span> from your regression in Part C as an object. Make a histogram of the simulated slopes, and plot our sample slope on that histogram, shading the <span class="math inline">\(p\)</span>-value.<span><label for="sn-5" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-5" class="margin-toggle"/><span class="sidenote">You can use <code>ggplot2</code> to plot a histogram in the normal way and add a <code>geom_vline()</code>, setting <code>xintercept</code> equal to your saved object with the sample <span class="math inline">\(\hat{\beta_1}\)</span> value. <em>Alternatively</em>, you can use <code>infer</code> to pipe your <code>tibble</code> of simulations into <code>visualize()</code>, and inside <code>visualize()</code> set <code>obs_stat</code> equal to your saved <span class="math inline">\(\hat{\beta_1}\)</span> object. Regardless of which method you use, then add <code>+shade_p_value()</code>. Inside this, set <code>obs_stat</code> equal to your saved slope, and add <code>direction = "two_sided"</code>.<br />
+<p>Make a histogram of the simulated slopes, and plot our sample slope on that histogram, shading the <span class="math inline">\(p\)</span>-value.<span><label for="sn-6" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-6" class="margin-toggle"/><span class="sidenote">You can use <code>ggplot2</code> to plot a histogram in the normal way and add a <code>geom_vline()</code>, setting <code>xintercept</code> equal to your saved object with the sample <span class="math inline">\(\hat{\beta_1}\)</span> value. <em>Alternatively</em>, you can use <code>infer</code> to pipe your <code>tibble</code> of simulations into <code>visualize()</code>, and inside <code>visualize()</code> set <code>obs_stat</code> equal to your saved <span class="math inline">\(\hat{\beta_1}\)</span> object. <em>Regardless</em> of which method you use, add <code>+shade_p_value()</code>. Inside this, set <code>obs_stat</code> equal to your saved slope, and add <code>direction = "two_sided"</code>.<br />
 <br />
 </span></span></p>
 <h4 id="part-m">Part M</h4>
-<p>Get the confidence interval for your slope estimate,<span><label for="sn-6" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-6" class="margin-toggle"/><span class="sidenote"><code>tidy()</code> your original regression, with <code>, conf.int = TRUE</code> inside the command, then <code>select(conf.low, conf.high)</code> and <code>filter</code> by your <code>x</code> variable. Save this as an object.<br />
+<p>Get the 95% confidence interval for your slope estimate,<span><label for="sn-7" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-7" class="margin-toggle"/><span class="sidenote"><code>tidy()</code> your original regression, with <code>conf.int = TRUE</code> inside the command, then <code>select(conf.low, conf.high)</code> and <code>filter</code> by your <code>x</code> variable. Save this as an object.<br />
 <br />
-</span></span> and then make a histogram of the simulated slopes (like part L), but instead, add <code>+shade_confidence_interval()</code>.<span><label for="sn-7" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-7" class="margin-toggle"/><span class="sidenote">Inside of this, set <code>endpoints</code> equal to the object you just made with the low and high confidence interval values.<br />
+</span></span> and then make a histogram of the simulated slopes (like part L), but instead, add <code>+shade_confidence_interval()</code>.<span><label for="sn-8" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-8" class="margin-toggle"/><span class="sidenote">Inside of this, set <code>endpoints</code> equal to the object you just made with the low and high confidence interval values.<br />
 <br />
-</span></span></p>
+</span></span> Compare this to what you get with <code>tidy()</code> above.</p>

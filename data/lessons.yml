@@ -74,14 +74,13 @@ lessons:
     slides: "11-slides"
     r: "11-r-practice"
     
-  - title: "2.6 Inferential Statistics"
+  - title: "2.6 Inference for Regression"
     reading: "12-reading"
     class: "12-class"
     slides: "12-slides"
-
-  - title: "2.7 Inference for Regression with infer"
-
-  - title: '<i class="fas fa-laptop-code"></i> **Problem Set 3**'
+    
+  - title: '<i class="fas fa-laptop-code"></i> **Problem Set 2** due Oct 10'
+    assignment: "03-problem-set"
 
   - title: '<i class="fas fa-star"></i> **Midterm Exam**'
 

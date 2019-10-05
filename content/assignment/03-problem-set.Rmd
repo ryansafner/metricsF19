@@ -12,7 +12,7 @@ source(file.path(here::here(), "lib", "graphics.R"))
 
 *Due by Thursday, October 10, 2019*
 
-- [<i class="fas fa-file-pdf"></i> `Download as PDF`](/homeworks/02-problem-set-pdf.pdf)
+- [<i class="fas fa-file-pdf"></i> `Download as PDF`](/homeworks/03-problem-set-pdf.pdf)
 - [<i class="fab fa-markdown"></i> `Download Markdown`](/homeworks/03-problem-set.Rmd)
 
 # Instructions
@@ -41,13 +41,16 @@ In your own words, describe what homoskedasticity and heteroskedasticity mean: b
 In your own words, describe what the variation in $\hat{\beta_1}$ (either variance or standard error) means, or is measuring. What three things determine the variation, and in what way? 
 
 ## Question 6
+In your own words, describe what a $p$-value means, and how it is used to establish statistical significance.
+
+## Question 7
 A researcher is interested in examining the impact of illegal music downloads on commercial music sales. The author collects data on commercial sales of the top 500 singles from 2017 ($Y$) and the number of downloads from a web site that allows `file sharing' ($X$). The author estimates the following model
 
 $$\text{music sales}_i = \beta_0+\beta_1 \text{illegal downloads}_i + u_i$$
 
 The author finds a large, positive, and statistically significant estimate of $\hat{\beta_1}$. The author concludes these results demonstrate that illegal downloads actually *boost* music sales. Is this an unbiased estimate of the impact of illegal music on sales? Why or why not? Do you expect the estimate to overstate or understate the true relationship between illegal downloads and sales?
 
-## Question 6
+## Question 8
 A pharmaceutical company is interested in estimating the impact of a new drug on cholesterol levels. They enroll 200 people in a clinical trial. People are randomly assigned the treatment group or into the control group. Half of the people are given the new drug and half the people are given a sugar pill with no active ingredient. To examine the impact of dosage on reductions in cholesterol levels, the authors of the study regress the following model:
 
 $$\text{cholesterol level}_i = \beta_0+\beta_1 \text{dosage level}_i + u_i$$
@@ -58,11 +61,11 @@ For people in the control group, dosage level$_i=0$ and for people in the treatm
 
 For the following questions, please *show all work* and explain answers as necessary. You may lose points if you only write the correct answer. You may use `R` to *verify* your answers, but you are expected to reach the answers in this section "manually."
 
-## Question 7
+## Question 9
 
 A researcher wants to estimate the relationship between average weekly earnings $(AWE$, measured in dollars) and $Age$ (measured in years) using a simple OLS model. Using a random sample of college-educated full-time workers aged 25-65 yields the following:
 
-$$\widehat{AWE} = 696.70+9.60\ \, Age$$
+$$\widehat{AWE} = 696.70+9.60 \, Age$$
 
 ### Part A
 Interpret what $\hat{\beta_0}$ means in this context.
@@ -88,7 +91,7 @@ What does the error term, $\hat{u_i}$ represent in this case? What might individ
 ### Part H
 Do you think that $Age$ is exogenous? Why or why not? Would we expect $\hat{\beta_1}$ to be too *large* or too *small*?
 
-## Question 8
+## Question 10
 
 Suppose a researcher is interested in estimating a simple linear regression model:
 
@@ -119,9 +122,9 @@ How large is the average residual?
 
 # R Questions
 
-For the following problems, please attach/write the answers to each question on the same document as the previous problems, but also include a printed/attached (and commented!) *.R* script file of your commands to answer the questions. 
+Answer the following questions using `R`. When necessary, please write answers in the same document (knitted `Rmd` to `html` or `pdf`, typed `.doc(x)`, or handwritten) as your answers to the above questions. Be sure to include (email or print an `.R` file, or show in your knitted `markdown`) your code and the outputs of your code with the rest of your answers.
 
-## Question 9
+## Question 11
 
 - [<i class="fas fa-table"></i> `mlbattend.csv`](http://metricsf19.classes.ryansafner.com/data/mlbattend.csv)
 
@@ -151,7 +154,7 @@ Make a regression table of the output.
 
 ### Part F
 
-Make a histogram of the residuals. Do they look roughly normal?
+Now let's start running some diagnostics of the regression. Make a histogram of the residuals. Do they look roughly normal?
 
 ### Part G
 
@@ -163,18 +166,18 @@ Test the regression for heteroskedasticity. Are the errors homoskedastic or hete
 
 ### Part I
 
-Are any results statistically significant or not? 
+Test the data for outliers. If there are any, identify which team(s) and season(s) are outliers.
 
 ### Part J
 
-Test the data for outliers. If there are any, identify which team(s) and season(s) are outliers.
+What is the marginal effect of home attendance on runs scored? Is this statistically significant? Why or why not?  
 
 ### Part K
 
-Use the `infer` package to simulate 1000 additional samples^[`generate(reps = 1000, type = "permute")`] to calculate the slope^[`calculate(stat = "slope")`] under the null hypothesis that there is no connection between attendance and runs.^[`hypothesize(null = "independence")`], and save this as an object (it's a `tibble`). 
+Now we'll try out the `infer` package to understand the $p$-value and confidence interval for our observed slope in our regression model. Save the (value of) our sample $\hat{\beta_1}$ from your regression in Part C as an object. Then, install and load the `infer` package, and then calculate the slope^[`calculate(stat = "slope")`] under the null hypothesis that there is no connection between attendance and runs.^[`hypothesize(null = "independence")`] for 1000 additional simulated samples^[`generate(reps = 1000, type = "permute")`], and save this as an object (it's a `tibble`). Then, use this to `get_p_value()`^[Set `obs_stat` equal to your observed slope, and set `direction = "two_sided"`]. Compare to the $p$-value given by `lm()` and `tidy()` above.
 
 ### Part L
-Save the (value of) our sample $\hat{\beta_1}$ from your regression in Part C as an object. Make a histogram of the simulated slopes, and plot our sample slope on that histogram, shading the $p$-value.^[You can use `ggplot2` to plot a histogram in the normal way and add a `geom_vline()`, setting `xintercept` equal to your saved object with the sample $\hat{\beta_1}$ value. *Alternatively*, you can use `infer` to pipe your `tibble` of simulations into `visualize()`, and inside `visualize()` set `obs_stat` equal to your saved $\hat{\beta_1}$ object. Regardless of which method you use, then add `+shade_p_value()`. Inside this, set `obs_stat` equal to your saved slope, and add `direction = "two_sided"`.]
+Make a histogram of the simulated slopes, and plot our sample slope on that histogram, shading the $p$-value.^[You can use `ggplot2` to plot a histogram in the normal way and add a `geom_vline()`, setting `xintercept` equal to your saved object with the sample $\hat{\beta_1}$ value. *Alternatively*, you can use `infer` to pipe your `tibble` of simulations into `visualize()`, and inside `visualize()` set `obs_stat` equal to your saved $\hat{\beta_1}$ object. *Regardless* of which method you use, add `+shade_p_value()`. Inside this, set `obs_stat` equal to your saved slope, and add `direction = "two_sided"`.]
 
 ### Part M
-Get the confidence interval for your slope estimate,^[`tidy()` your original regression, with `, conf.int = TRUE` inside the command, then `select(conf.low, conf.high)` and `filter` by your `x` variable. Save this as an object.] and then make a histogram of the simulated slopes (like part L), but instead, add `+shade_confidence_interval()`.^[Inside of this, set `endpoints` equal to the object you just made with the low and high confidence interval values.]
+Get the 95% confidence interval for your slope estimate,^[`tidy()` your original regression, with `conf.int = TRUE` inside the command, then `select(conf.low, conf.high)` and `filter` by your `x` variable. Save this as an object.] and then make a histogram of the simulated slopes (like part L), but instead, add `+shade_confidence_interval()`.^[Inside of this, set `endpoints` equal to the object you just made with the low and high confidence interval values.] Compare this to what you get with `tidy()` above.

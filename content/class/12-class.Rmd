@@ -38,7 +38,7 @@ You will be finishing up [R practice problems](/r/11-r-practice.html) from last 
 
 # Assignments: Problem Set 3 Due Thursday October 10
 
-Problem Set 3 will be posted later and is due Thursday September 19. 
+[Problem Set 3](/assignment/03-problem-set) is due Thursday October 10. Note there are a few questions that will not be equipped to answer until after class on Tuesday.
 
 # Appendix: Inferential Statistics
 
