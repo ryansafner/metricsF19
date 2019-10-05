@@ -178,7 +178,7 @@ What is the marginal effect of home attendance on runs scored? Is this statistic
 
 ### Part L
 
-Now we'll try out the `infer` package to understand the $p$-value and confidence interval for our observed slope in our regression model. Save the (value of) our sample $\hat{\beta_1}$ from your regression in Part C as an object. Then, install and load the `infer` package, and then calculate the slope^[`calculate(stat = "slope")`] under the null hypothesis that there is no connection between attendance and runs.^[`hypothesize(null = "independence")`] for 1000 additional simulated samples^[`generate(reps = 1000, type = "permute")`], and save this as an object (it's a `tibble`). Then, use this to `get_p_value()`^[Set `obs_stat` equal to your observed slope, and set `direction = "two_sided"`]. Compare to the $p$-value given by `lm()` and `tidy()` above.
+Now we'll try out the `infer` package to understand the $p$-value and confidence interval for our observed slope in our regression model. Save the (value of) our sample $\hat{\beta_1}$ from your regression in Part D as an object. Then, install and load the `infer` package, and then calculate the slope^[`calculate(stat = "slope")`] under the null hypothesis that there is no connection between attendance and runs.^[`hypothesize(null = "independence")`] for 1000 additional simulated samples^[`generate(reps = 1000, type = "permute")`], and save this as an object (it's a `tibble`). Then, use this to `get_p_value()`^[Set `obs_stat` equal to your observed slope, and set `direction = "two_sided"`]. Compare to the $p$-value given by `lm()` and `tidy()` above.
 
 ### Part M
 
