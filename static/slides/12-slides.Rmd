@@ -1,5 +1,5 @@
 ---
-title: "2.6: Inferential Statistics I"
+title: "2.6: Inference for Regression"
 subtitle: "ECON 480 · Econometrics · Fall 2019"
 author: 'Ryan Safner<br> Assistant Professor of Economics <br> <a href="mailto:safner@hood.edu"><i class="fa fa-paper-plane fa-fw"></i> safner@hood.edu</a> <br> <a href="https://github.com/ryansafner/metricsf19"><i class="fa fa-github fa-fw"></i> ryansafner/metricsf19</a><br> <a href="https://metricsF19.classes.ryansafner.com"> <i class="fa fa-globe fa-fw"></i> metricsF19.classes.ryansafner.com</a><br>'
 #date:
@@ -704,4 +704,786 @@ H_1: \; & \beta_1 \neq 0
 
 .center[
 ![:scale 65%](https://www.dropbox.com/s/6328hg5t03jbd0w/infer5jpeg.jpeg?raw=1)
+]
+
+---
+
+# Classical Statistical Inference: Critical Values of Test Statistic
+
+- .whisper[Test statistic `\\((\delta)\\)`]: measures **how far what we observed in our sample $(\hat{\beta_1})$ is from what we would expect if the null hypothesis were true $(\beta_1=0)$**
+    - Calculated from a sampling distribution of the estimator (i.e. $\hat{\beta_1})$
+    - In econometrics, we use $t$-distributions which have $n-k-1$ degrees of freedom<sup>.red</sup>
+
+- .whisper[Rejection region]: if the test statistic reaches a .onfire["critical value"] of $\delta$, then we **reject** the null hypothesis
+
+.footnote[<sup>.red[1]</sup> Again, see today's [class notes](/class/12-class) for more on the t-distribution. `\\(k\\)` is the number of independent variables our model has, in this case, with just one `\\(X\\)`, `\\(k=1\\)`. We use two degrees of freedom to calculate `\\(\hat{\beta_0}\\)` and `\\(\hat{\beta_1}\\)`, hence we have `\\(n-2\\)` df.]
+
+---
+
+class: inverse, center, middle
+
+# Simulating the Sampling Distribution with *infer*
+
+---
+
+# Imagine a Null World, where $H_0$ is True
+
+.center[
+![:scale 70%](https://www.dropbox.com/s/x7b5azt5algjodg/parallelworld.jpeg?raw=1)
+
+Our world, and a world where $\beta_1=0$ by assumption.
+]
+
+---
+
+# Comparing the Worlds I
+
+- From that null world where $H_0: \, \beta_1=0$ is true, we **simulate** another sample and calculate OLS estimators again
+
+--
+
+.pull-left[
+
+# Our Sample
+
+```{r, echo=F}
+tidy(school_reg)
+```
+]
+
+--
+
+.pull-right[
+
+# Another Sample
+
+```{r, echo = F}
+library(infer)
+CASchool %>%
+  specify(testscr ~ str) %>%
+  hypothesize(null = "independence") %>%
+  generate(reps = 1, type = "permute") %>%
+  lm(testscr ~ str, data = .) %>%
+  tidy()
+```
+]
+
+---
+
+# Comparing the Worlds II
+
+- From that null world where $H_0: \, \beta_1=0$ is true, let's **simulate 1,000** samples and calculate slope $(\hat{\beta_1})$ for each
+
+```{r}
+CASchool %>%
+  specify(testscr ~ str) %>%
+  hypothesize(null = "independence") %>%
+  generate(reps = 1000, type = "permute") %>%
+  calculate(stat = "slope")%>%
+  rename(sample = replicate,
+         slope = stat)
+```
+
+---
+
+# Prepping the *infer*  Pipeline
+
+- Before I show you how to do this, let's first save our estimated slope from our *actual* sample
+    - We'll want this later!
+
+```{r}
+# save as obs_slope
+sample_slope <- school_reg_tidy %>% # this is the regression tidied with broom
+  filter(term=="str") %>%
+  pull(estimate)
+
+# confirm what it is
+sample_slope
+```
+
+---
+# The *infer*  Pipeline: Specify
+
+.center[
+![:scale 65%](https://www.dropbox.com/s/25axifo95oz5zs7/infer1jpeg.jpeg?raw=1)
+]
+
+---
+
+# The *infer*  Pipeline: Specify
+
+.left-code[
+### Specify
+```{r, echo=T, eval=F}
+data %>%
+  specify(y ~ x)
+```
+]
+
+.right-plot[
+- Take our data and pipe it into the `specify()` function, which is essentially a `lm()` function for regression (for our purposes)
+
+```{r, echo=T, eval=F}
+CASchool %>%
+  specify(testscr ~ str)%>%
+  head(.,3)
+```
+
+```{r}
+CASchool %>%
+  specify(testscr ~ str)%>%
+  head(.,3)
+```
+]
+
+- Note nothing happens yet
+
+---
+
+# The *infer*  Pipeline: Hypothesize
+
+.center[
+![:scale 65%](https://www.dropbox.com/s/d9bnryxznfwe4fc/infer2jpeg.jpeg?raw=1)
+]
+
+---
+
+# The *infer*  Pipeline: Hypothesize
+
+.left-code[
+### Specify
+### Hypothesize
+```{r, echo=T, eval=F}
+%>% hypothesize(null = "independence")
+```
+]
+
+.right-plot[
+- Describe what the null hypothesis is here
+- In `infer`'s language, we are hypothesizing that `str` and `testscr` are `independent` $(\beta_1=0)$<sup>.red[1]</sup>
+
+```{r, echo=T, eval=F}
+CASchool %>%
+  specify(testscr ~ str) %>%
+  hypothesize(null = "independence")
+```
+
+
+```{r}
+CASchool %>%
+  specify(testscr ~ str) %>%
+  hypothesize(null = "independence") %>%
+  head(.,3)
+```
+]
+
+- Note nothing happens yet
+
+.footnote[<sup>.red[1]</sup> `type` can be either `point` (for specific point estimates for a single variable, such as a sample mean, `\\((\bar{x})\\)`, or `independence` (for hypotheses about two samples or a relationship between variables). See more [here](https://moderndive.netlify.com/9-hypothesis-testing.html).]
+---
+
+# The *infer*  Pipeline: Generate I
+
+.center[
+![:scale 65%](https://www.dropbox.com/s/pc8733aurnouvsr/infer3jpeg.jpeg?raw=1)
+]
+
+---
+
+# The *infer*  Pipeline: Generate I
+
+.left-code[
+### Specify
+### Hypothesize
+### Generate
+```{r, echo=T, eval=F}
+%>% generate(reps = n, type = "permute")
+```
+]
+
+.right-plot[
+- Now the magic starts, as we run a number of simulated samples<sup>.red[1]</sup>
+- Set the number of `reps` and set the `type` equal to `"permute"`
+
+```{r, echo=T, eval=F}
+i %>%
+  generate(reps = 1000, type = "permute")
+```
+
+]
+
+.footnote[<sup>.red[1]</sup> Note for spacing on the slide, I saved the previous code as `i` and pipe it into the remainder.]
+
+---
+
+# The *infer*  Pipeline: Generate II
+
+.left-code[
+### Specify
+### Hypothesize
+### Generate
+```{r, echo=T, eval=F}
+%>% generate(reps = n, type = "permute")
+```
+]
+
+.right-plot[
+
+```{r}
+i<-CASchool %>%
+  specify(testscr ~ str) %>%
+  hypothesize(null = "independence")
+i %>%
+  generate(reps = 1000, type = "permute")
+```
+]
+
+---
+
+# The *infer*  Pipeline: Generate III
+
+.left-code[
+### Specify
+### Hypothesize
+### Generate
+```{r, echo=T, eval=F}
+%>% generate(reps = n, type = "permute")
+```
+]
+
+.right-plot[
+
+- There are two types of simulations we can run:<sup>.red[1]</sup>
+- `"bootstrap"` takes a random draw of our *existing* sample's observations (of the same number of observations) *with replacement*
+  - this approximates a sampling distribution
+- `"permute"` is a `bootstrap` *without* replacement
+]
+
+.footnote[<sup>.red[1]</sup> You can do either of these in base R with `sample()`, which has 3 arguments: a vector to sample from, `size` (number of obs), and `replace` equal to `TRUE` or `FALSE`. See more for `infer`  [here](https://moderndive.netlify.com/9-hypothesis-testing.html).]
+
+---
+
+# The *infer*  Pipeline: Calculate I
+
+.center[
+![:scale 65%](https://www.dropbox.com/s/4wojnmworf406ku/infer4jpeg.jpeg?raw=1)
+]
+
+---
+
+# The *infer*  Pipeline: Calculate I
+
+.left-code[
+### Specify
+### Hypothesize
+### Generate
+### Calculate
+```{r, echo=T, eval=F}
+%>% calculate(stat = "")
+```
+]
+
+.right-plot[
+- We `calculate` sample statistics for each of the 1,000 `replicate` samples
+
+- In our case, calculate the slope, $(\hat{\beta_1})$ for each `replicate`
+
+```{r, echo=T, eval=F}
+i %>%
+  generate(reps = 1000, type = "permute") %>%
+  calculate(stat = "slope")
+```
+
+- Other `stat`s for calculation: `"mean"`, `"median"`, `"prop"`, `"diff in means"`, `"diff in props"`, etc. (see [package information](https://infer.netlify.com/))
+]
+
+---
+
+# The *infer*  Pipeline: Calculate II
+
+.left-code[
+### Specify
+### Hypothesize
+### Generate
+### Calculate
+```{r, echo=T, eval=F}
+%>% calculate(stat = "")
+```
+]
+
+.right-plot[
+```{r, echo=F}
+i %>%
+  generate(reps = 1000, type = "permute") %>%
+  calculate(stat = "slope")
+```
+]
+
+---
+
+# The *infer*  Pipeline: Get p Value
+
+.left-code[
+### Specify
+### Hypothesize
+### Generate
+### Calculate
+### Get p Value
+```{r, echo=T, eval=F}
+%>% get_p_value(obs stat = "",
+                direction = "both")
+```
+]
+
+.right-plot[
+
+- We can calculate the .shout[`\\(p\\)`-value]
+    - the probability of seeing a value at least as large as our `sample_slope` (`r round(sample_slope, 3)`) in our simulated null distribution
+
+- onfire[Two-sided alternative] $H_a: \beta_1 \neq 0$, we double the raw $p$-value
+
+```{r, echo=F}
+simulations <- i %>%
+  generate(reps = 1000, type = "permute") %>%
+  calculate(stat = "slope")
+```
+
+```{r, echo=T}
+simulations %>%
+  get_p_value(obs_stat = sample_slope,
+              direction = "both")
+```
+]
+
+.footnote[<sup>.red[+]</sup> Note here I saved the results of our previous code as `simulations` for spacing.]
+
+---
+
+# The *infer*  Pipeline: Get Confidence Interval
+
+.left-code[
+### Specify
+### Hypothesize
+### Generate
+### Calculate
+### Get confidence interval
+```{r, echo=T, eval=F}
+%>% get_ci(
+  level = 0.95,
+  type = "se",
+  point_estimate = "")
+```
+]
+
+.right-plot[
+
+- We can calculate the .shout[confidence interval] for $\beta_1$ from our `sample_slope` $\hat{\beta_1}$ of `r round(sample_slope, 3)`
+    - $CI_{0.95}= \hat{\beta_1} \pm 2 \times se(\hat{\beta_1})$
+    - Specify confidence level $(1-\alpha)$, often $0.95$
+    - Supply our original estimate for `point_estimate`
+
+```{r, echo=T}
+simulations %>%
+  get_confidence_interval(level = 0.95,
+                          type = "se",
+                          point_estimate = sample_slope)
+```
+]
+
+---
+
+# The *infer*  Pipeline: Visualize I
+
+.center[
+![:scale 65%](https://www.dropbox.com/s/6328hg5t03jbd0w/infer5jpeg.jpeg?raw=1)
+]
+
+---
+
+# The *infer*  Pipeline: Visualize I
+
+.left-code[
+### Specify
+### Hypothesize
+### Generate
+### Calculate
+### Visualize
+```{r, echo=T, eval=F}
+%>% visualize()
+```
+]
+
+.right-plot[
+
+- Make a histogram of our null distribution of $\beta_1$
+    - Note it is centered at $\beta_1=0$ because that's $H_0$! 
+
+```{r, echo=T, fig.height=4, fig.retina=3, fig.align="center"}
+simulations %>%
+ visualize()
+```
+]
+
+---
+
+# The *infer*  Pipeline: Visualize II
+
+.left-code[
+### Specify
+### Hypothesize
+### Generate
+### Calculate
+### Visualize
+```{r, echo=T, eval=F}
+%>% visualize()
+```
+]
+
+.right-plot[
+
+- Add our `sample_slope` to show our finding on the null distr.
+
+```{r, echo=T, fig.height=4, fig.retina=3, fig.align="center"}
+simulations %>%
+ visualize(obs_stat = sample_slope)
+```
+]
+
+---
+
+# The *infer*  Pipeline: Visualize p-value
+
+.left-code[
+### Specify
+### Hypothesize
+### Generate
+### Calculate
+### Visualize
+```{r, echo=T, eval=F}
+%>% visualize()+
+  shade_p_value()
+```
+]
+
+.right-plot[
+
+- Add `shade_p_value` to see what $p$ is
+
+```{r, echo=T, fig.height=4, fig.retina=3, fig.align="center"}
+simulations %>%
+ visualize(obs_stat = sample_slope)+
+  shade_p_value(obs_stat = sample_slope,
+                direction = "two_sided")
+```
+]
+
+---
+
+# The *infer*  Pipeline: Visualize Confidence Intervals
+
+.left-code[
+### Specify
+### Hypothesize
+### Generate
+### Calculate
+### Visualize
+```{r, echo=T, eval=F}
+%>% visualize()+
+  shade_ci()
+```
+]
+
+.right-plot[
+
+- To shade confidence interval, we first need a vector of what they are
+  - I've saved the outputted `tibble` of them from 4 slides ago as `ci_values`
+
+```{r}
+ci_values<-simulations %>%
+  get_confidence_interval(level = 0.95,
+                          type = "se",
+                          point_estimate = sample_slope)
+```
+
+```{r, echo=T, fig.height=4, fig.retina=3, fig.align="center"}
+simulations %>%
+ visualize(obs_stat = sample_slope)+
+  shade_confidence_interval(ci_values)
+```
+]
+
+---
+
+# The *infer*  Pipeline: Visualize is a Wrapper of ggplot
+
+- `infer`'s `visualize()` function is just a wrapper function for `ggplot()`
+  - you can take your `simulations` `tibble` and just `ggplot` a normal histogram
+
+--
+
+.pull-left[
+```{r visualize-gg, echo=T, eval=F}
+simulations %>%
+  ggplot(data = .)+
+  aes(x = stat)+
+  geom_histogram(color="white", fill="indianred")+
+  geom_vline(xintercept = sample_slope,
+             color = "blue",
+             size = 2,
+             linetype = "dashed")+
+  labs(x = expression(paste("Distribution of ", hat(beta[1]), " under ", H[0], " that ", beta[1]==0)),
+       y = "Samples")+
+    theme_classic(base_family = "Fira Sans Condensed",
+           base_size=20)
+```
+]
+
+--
+
+.pull-right[
+```{r, ref.label="visualize-gg", fig.height=5, fig.retina=3, fig.align="center"}
+
+```
+]
+
+---
+
+# What R Does: Classical Statistical Inference I
+
+.pull-left[
+
+- R does things the old-fashioned way, using a *theoretical* null distribution instead of *simulation*
+
+- A .shout[`\\(t\\)`-distribution] with $n-k-1$ df<sup>1</sup>
+
+- Calculate a $t$-statistic for $\hat{\beta_1}$:
+
+$$\text{test statistic} = \frac{\text{estimate} - \text{null hypothesis}}{\text{standard error of estimate}}$$
+
+]
+
+.pull-right[
+
+```{r, fig.retina=3, fig.align="center"}
+t_ex<-ggplot(data = tibble(x=-5:5))+
+  aes(x = x)+
+  stat_function(fun = dt, args=list(df = 418), size=2, color="blue")+
+  #stat_function(fun=dt, geom="area", fill="blue", xlim=c(-5,4.75), alpha=0.5)+
+  #stat_function(fun=dt, geom="area", fill="blue", xlim=c(4.75,5), alpha=0.5)+
+  geom_vline(xintercept = c(-4.75, 4.75), size = 1, color = "red", linetype = "dashed")+
+  geom_rect(xmin=-5,xmax=-4.75, ymin=0, ymax=0.4, fill="red", alpha=0.3)+
+  geom_rect(xmin=4.75,xmax=5, ymin=0, ymax=0.4, fill="red", alpha=0.3)+
+  labs(x = "t",
+       y = "Probability")+
+  scale_x_continuous(breaks = seq(-5,5,1),
+                     lim = c(-5,5),
+                     expand = c(0,0))+
+  scale_y_continuous(breaks = seq(0,0.4,0.1),
+                     lim = c(0,0.4),
+                     expand = c(0,0))+
+  theme_classic(base_family = "Fira Sans Condensed",
+           base_size=20)
+t_ex
+```
+
+]
+
+.footnote[<sup>1</sup> $k$ is the number of $X$ variables.]
+
+---
+
+# What R Does: Classical Statistical Inference II
+
+.pull-left[
+
+$$\text{test statistic} = \frac{\text{estimate} - \text{null hypothesis}}{\text{standard error of estimate}}$$
+
+- $t$ has the same interpretation as $Z$, number of std. dev. away from the distribution's center<sup>1</sup>
+
+- Compares to a critical value of $t^*$ (determined by $\alpha$ & $n-k-1$)
+    - For 95% confidence, $\alpha=0.05$, $t^* \approx 2$<sup><span class="red">2</span></sup>
+]
+
+.pull-right[
+
+```{r, fig.retina=3, fig.align="center"}
+t_ex
+```
+
+]
+
+.footnote[<sup>1</sup> Think of our simulated distribution, the center was 0.
+
+<sup>2</sup> The 68-95-99.7% empirical rule!]
+
+---
+
+# What R Does: Classical Statistical Inference III
+
+.pull-left[
+
+$$\begin{align*}
+t &= \frac{\hat{\beta_1}-\beta_{1,0}}{se(\hat{\beta_1})}\\
+t &= \frac{-2.28-0}{0.48}\\
+t &= -4.75\\ \end{align*}$$
+
+- Our sample slope is 4.75 standard deviations below the mean under $H_0$
+
+- $p$-value: prob. of a test statistic at least as large (in magnitude) as ours if the null hypothesis were true<sup>1</sup>
+  - $p$-value is **2-sided** for $H_a: \beta_1 \neq 0$
+]
+
+.pull-right[
+
+```{r, fig.retina=3, fig.align="center"}
+t_ex
+```
+
+]
+
+.footnote[<sup>1</sup> Think of our simulated distribution, the center was 0.]
+
+---
+
+# 1-Sided vs. 2-Sided p-values I
+
+.pull-left[
+
+$H_a: \beta_1<0$
+
+$p$-value: $Prob(t < t_i)$
+
+```{r, fig.retina=3, fig.height=5, fig.align="center"}
+ggplot(data = tibble(x=-4:4))+
+  aes(x = x)+
+  stat_function(fun = dnorm, size=2, color="blue")+
+  stat_function(fun=dnorm, xlim=c(-4,-2), geom="area", fill="blue", alpha=0.5)+
+  labs(x = "t",
+       y = "Probability")+
+  scale_x_continuous(breaks=c(-2),
+                      label=c(expression(-t[i])))+
+  theme_classic(base_family = "Fira Sans Condensed",
+           base_size=20)
+
+```
+
+]
+.pull-right[
+
+$H_a: \beta_1>0$
+
+$p$-value: $Prob(t > t_i)$
+
+```{r, fig.retina=3, fig.height=5, fig.align="center"}
+ggplot(data = tibble(x=-4:4))+
+  aes(x = x)+
+  stat_function(fun = dnorm, size=2, color="blue")+
+  stat_function(fun=dnorm, xlim=c(2,4), geom="area", fill="blue", alpha=0.5)+
+  labs(x = "t",
+       y = "Probability")+
+  scale_x_continuous(breaks=c(2),
+                      label=c(expression(t[i])))+
+  theme_classic(base_family = "Fira Sans Condensed",
+           base_size=20)
+```
+
+
+]
+
+---
+
+# 1-Sided vs. 2-Sided p-values I
+
+
+$H_a: \beta_1 \neq 0$
+
+$p$-value: $2 \times Prob(t > |t_i|)$
+
+```{r, fig.retina=3, fig.height=5, fig.align="center"}
+ggplot(data = tibble(x=-4:4))+
+  aes(x = x)+
+  stat_function(fun = dnorm, size=2, color="blue")+
+  stat_function(fun=dnorm, xlim=c(-4,-2), geom="area", fill="blue", alpha=0.5)+
+  stat_function(fun=dnorm, xlim=c(2,4), geom="area", fill="blue", alpha=0.5)+
+  labs(x = "t",
+       y = "Probability")+
+  scale_x_continuous(breaks=c(-2,2),
+                      label=c(expression(-t[i]), expression(t[i])))+
+  theme_classic(base_family = "Fira Sans Condensed",
+           base_size=20)
+```
+
+---
+
+# Hypothesis Tests in Regression Output I
+
+```{r, echo = T}
+summary(school_reg)
+```
+
+---
+
+# Hypothesis Tests in Regression Output II
+
+- In `broom`'s `tidy()` (with confidence intervals)
+
+```{r, echo = T}
+tidy(school_reg, conf.int=TRUE)
+```
+
+---
+
+# Conclusions
+
+- .whisper[We have sufficient evidence to reject `\\(H_0\\)` in favor of our alternative hypothesis, that there *is a relationship* between class size and test scores].
+    - 
+
+--
+
+- .whisper[We are 95% confident that the true relationship is between `\\(-3.22\\)` and `\\(-1.34\\)`.]
+
+---
+
+# Hypothesis Testing and Confidence Intervals: Relationship
+
+- Confidence intervals are all *two-sided* by nature
+$$CI_{0.95}=\left(\left[\hat{\beta_1}-2 \times se(\hat{\beta_1})\right], \, \left[\hat{\beta_1}+2 \times se(\hat{\beta_1}\right]) \right)$$
+
+- Hypothesis test $(t$-test) of $H_0: \, \beta_1=0$ computes a $t$-value of<sup>.red[1]</sup>
+$$t=\frac{\hat{\beta_1}}{se(\hat{\beta_1})}$$
+and $p$<0.05 when $t\geq2$
+
+- .onfire[If a confidence interval contains the $H_0$ value (i.e. $0$, for our test), then *we fail to reject* $H_0$.]
+
+.footnote[<sup>.red[1]</sup> Technically the `\\(t\\)`-value is `\\(\frac{\hat{\beta_1}-\beta_{1,0}}{se(\hat{\beta_1})}\\)`, but our `\\(H_0\\)` is often that `\\(beta_{1,0}=0\\)`, such that the formula reduces to the one above.]
+
+---
+
+# Significance In Regression Tables
+
+.pull-left[
+.font80[
+.regtable[
+```{r}
+library(huxtable)
+huxreg("Test Score" = school_reg,
+       coefs = c("Intercept" = "(Intercept)",
+                 "STR" = "str"),
+       statistics = c("N" = "nobs",
+                      "R-Squared" = "r.squared",
+                      "SER" = "sigma"),
+       number_format = 2)
+```
+]
+]
+]
+
+.pull-right[
+
+- Statistical significance is shown by asterisks, common (but not always!) standard:
+    - 1 asterisk: significant at $\alpha=0.10$
+    - 2 asterisks: significant at $\alpha=0.05$
+    - 3 asterisks: significant at $\alpha=0.01$
+
+- Rare, but sometimes regression tables include $p$-values for estimates
 ]
