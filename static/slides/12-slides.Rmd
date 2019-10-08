@@ -164,11 +164,11 @@ ggplot(data = tibble(x=-4:4))+
 
 $$\text{Sample} \underbrace{\rightarrow}_{\text{statistical inference}} \text{Population} \underbrace{\rightarrow}_{\text{causal indentification}} \text{Unobserved Parameters}$$
 
-- We want to .whisper[identify] causal relationships between **population** variables
+- We want to .onfire[identify] causal relationships between **population** variables
     - Logically first thing to consider
     - **Endogeneity problem**
 
-- We'll use **sample** *statistics* to .whisper[infer] something about population *parameters*
+- We'll use **sample** *statistics* to .onfire[infer] something about population *parameters*
     - In practice, we'll only ever have a finite *sample distribution* of data
     - We *don't* know the *population distribution* of data
     - **Randomness problem**
@@ -219,7 +219,7 @@ class: inverse, center, middle
 
 --
 
-- .whisper[All modern science is built upon statistical hypothesis testing, so understand it well!]
+- .onfire[All modern science is built upon statistical hypothesis testing, so understand it well!]
 
 ---
 
@@ -547,9 +547,9 @@ Sir Ronald A. Fisher
 
 .pull-left[
 
-- Modern philosophy of science is largely based off of hypothesis testing and .onfire[falsifiability], which form the "Scientific Method"<sup>1</sup>
+- Modern philosophy of science is largely based off of hypothesis testing and .onfire[falsifiability], which form the "Scientific Method"<sup>.red[1]</sup>
 
-- For something to be "scientific", it must be .whisper[falsifiable], or at least .onfire[testable]
+- For something to be "scientific", it must be .onfire[falsifiable], or at least .onfire[testable]
 
 - Hypotheses can be *corroborated* with evidence, but always *tentative* until falsified by data in suggesting an alternative hypothesis
 
@@ -710,11 +710,11 @@ H_1: \; & \beta_1 \neq 0
 
 # Classical Statistical Inference: Critical Values of Test Statistic
 
-- .whisper[Test statistic `\\((\delta)\\)`]: measures **how far what we observed in our sample $(\hat{\beta_1})$ is from what we would expect if the null hypothesis were true $(\beta_1=0)$**
+- .onfire[Test statistic `\\((\delta)\\)`]: measures **how far what we observed in our sample $(\hat{\beta_1})$ is from what we would expect if the null hypothesis were true $(\beta_1=0)$**
     - Calculated from a sampling distribution of the estimator (i.e. $\hat{\beta_1})$
-    - In econometrics, we use $t$-distributions which have $n-k-1$ degrees of freedom<sup>.red</sup>
+    - In econometrics, we use $t$-distributions which have $n-k-1$ degrees of freedom<sup>.red[1]</sup>
 
-- .whisper[Rejection region]: if the test statistic reaches a .onfire["critical value"] of $\delta$, then we **reject** the null hypothesis
+- .onfire[Rejection region]: if the test statistic reaches a .onfire["critical value"] of $\delta$, then we **reject** the null hypothesis
 
 .footnote[<sup>.red[1]</sup> Again, see today's [class notes](/class/12-class) for more on the t-distribution. `\\(k\\)` is the number of independent variables our model has, in this case, with just one `\\(X\\)`, `\\(k=1\\)`. We use two degrees of freedom to calculate `\\(\hat{\beta_0}\\)` and `\\(\hat{\beta_1}\\)`, hence we have `\\(n-2\\)` df.]
 
@@ -825,8 +825,7 @@ data %>%
 
 ```{r, echo=T, eval=F}
 CASchool %>%
-  specify(testscr ~ str)%>%
-  head(.,3)
+  specify(testscr ~ str)
 ```
 
 ```{r}
@@ -875,11 +874,11 @@ CASchool %>%
   hypothesize(null = "independence") %>%
   head(.,3)
 ```
+
 ]
 
-- Note nothing happens yet
-
 .footnote[<sup>.red[1]</sup> `type` can be either `point` (for specific point estimates for a single variable, such as a sample mean, `\\((\bar{x})\\)`, or `independence` (for hypotheses about two samples or a relationship between variables). See more [here](https://moderndive.netlify.com/9-hypothesis-testing.html).]
+
 ---
 
 # The *infer*  Pipeline: Generate I
@@ -897,7 +896,8 @@ CASchool %>%
 ### Hypothesize
 ### Generate
 ```{r, echo=T, eval=F}
-%>% generate(reps = n, type = "permute")
+%>% generate(reps = n,
+             type = "permute")
 ```
 ]
 
@@ -907,7 +907,8 @@ CASchool %>%
 
 ```{r, echo=T, eval=F}
 i %>%
-  generate(reps = 1000, type = "permute")
+  generate(reps = 1000,
+           type = "permute")
 ```
 
 ]
@@ -923,7 +924,8 @@ i %>%
 ### Hypothesize
 ### Generate
 ```{r, echo=T, eval=F}
-%>% generate(reps = n, type = "permute")
+%>% generate(reps = n,
+             type = "permute")
 ```
 ]
 
@@ -947,7 +949,8 @@ i %>%
 ### Hypothesize
 ### Generate
 ```{r, echo=T, eval=F}
-%>% generate(reps = n, type = "permute")
+%>% generate(reps = n,
+             type = "permute")
 ```
 ]
 
@@ -1040,7 +1043,7 @@ i %>%
 - We can calculate the .shout[`\\(p\\)`-value]
     - the probability of seeing a value at least as large as our `sample_slope` (`r round(sample_slope, 3)`) in our simulated null distribution
 
-- onfire[Two-sided alternative] $H_a: \beta_1 \neq 0$, we double the raw $p$-value
+- .onfire[Two-sided alternative] $H_a: \beta_1 \neq 0$, we double the raw $p$-value
 
 ```{r, echo=F}
 simulations <- i %>%
@@ -1288,7 +1291,7 @@ t_ex
 
 ]
 
-.footnote[<sup>1</sup> $k$ is the number of $X$ variables.]
+.footnote[<sup>1</sup> `\\(k\\)` is the number of `\\(X\\)` variables.]
 
 ---
 
@@ -1405,7 +1408,7 @@ ggplot(data = tibble(x=-4:4))+
   stat_function(fun = dnorm, size=2, color="blue")+
   stat_function(fun=dnorm, xlim=c(-4,-2), geom="area", fill="blue", alpha=0.5)+
   stat_function(fun=dnorm, xlim=c(2,4), geom="area", fill="blue", alpha=0.5)+
-  labs(x = "t",
+  labs(x = expression(paste("Test Statistic t, (deviation from ", H[0], " if ", H[0], " were True)")),
        y = "Probability")+
   scale_x_continuous(breaks=c(-2,2),
                       label=c(expression(-t[i]), expression(t[i])))+
@@ -1435,12 +1438,20 @@ tidy(school_reg, conf.int=TRUE)
 
 # Conclusions
 
-- .whisper[We have sufficient evidence to reject `\\(H_0\\)` in favor of our alternative hypothesis, that there *is a relationship* between class size and test scores].
-    - 
+$$\begin{align*}
+H_0: \,& \beta_1=0\\
+H_a: \, & \beta_a \neq 0\\
+\end{align*}$$
+
+- Because the hypothesis test's $p$-value $<$ $\alpha$ (0.05)...
+
+- .onfire[We have sufficient evidence to reject `\\(H_0\\)` in favor of our alternative hypothesis. Our sample suggests that there *is a relationship* between class size and test scores].
 
 --
 
-- .whisper[We are 95% confident that the true relationship is between `\\(-3.22\\)` and `\\(-1.34\\)`.]
+- Using the confidence intervals:
+
+- .onfire[We are 95% confident that the true marginal effect of class size on test scores is between `\\(-3.22\\)` and `\\(-1.34\\)`.]
 
 ---
 
@@ -1453,9 +1464,85 @@ $$CI_{0.95}=\left(\left[\hat{\beta_1}-2 \times se(\hat{\beta_1})\right], \, \lef
 $$t=\frac{\hat{\beta_1}}{se(\hat{\beta_1})}$$
 and $p$<0.05 when $t\geq2$
 
-- .onfire[If a confidence interval contains the $H_0$ value (i.e. $0$, for our test), then *we fail to reject* $H_0$.]
+--
 
-.footnote[<sup>.red[1]</sup> Technically the `\\(t\\)`-value is `\\(\frac{\hat{\beta_1}-\beta_{1,0}}{se(\hat{\beta_1})}\\)`, but our `\\(H_0\\)` is often that `\\(beta_{1,0}=0\\)`, such that the formula reduces to the one above.]
+- .whisper[If a confidence interval contains the `\\(H_0\\)` value (i.e. `\\(0\\)`, for our test), then *we fail to reject* `\\(H_0\\)`.]
+
+.footnote[<sup>.red[1]</sup> Since our null hypothesis is that $\beta_{1,0}=0$, the test statistic simplifies to this neat fraction.]
+
+---
+
+# Common Misconceptions about p-values
+
+- All of the following are **FALSE** interpretations of $p$ (and below are reasons why each is wrong)
+
+1. $p$ **is the probability that the alternative hypothesis is false**
+  - We can never *prove* an alternative hypothesis, only tentatively reject a null hypothesis
+
+--
+
+2. $p$ **is the probability that the null hypothesis is true**
+  - We're not *proving* the $H_0$ is false, only saying that it's very unlikely that if $H_0$ were true, we'd obtain a slope as rare as our sample's slope
+
+--
+
+3. $p$ **is the probability that our observed effects were produced purely by random chance**
+  - $p$ is computed under a specific model (think about our null world) that *assumes* $H_0$ is true
+
+--
+
+4. $p$ **tells us how significant our finding is**
+  - $p$ tells us nothing about the *size* or the *real world significance* of any effect deemed "statistically significant"
+  - it only tells us that the slope is statistically significantly different from 0 (if $H_0$ is $\beta_1=0)$ 
+
+---
+
+# Abusing p-Values I
+
+.pull-left[
+.center[
+![:scale 60%](https://www.dropbox.com/s/9nv7ewnkokuek3c/smbc1623-1.png?raw=1)
+]
+]
+
+--
+
+.pull-right[
+.center[
+![:scale 60%](https://www.dropbox.com/s/5xdh79z3uwg5n3b/smbc1623-2.png?raw=1)
+]
+]
+
+.source[Source: [SMBC](http://www.smbc-comics.com/?id=1623)]
+
+---
+
+# Abusing p-Values II
+
+.pull-left[
+
+.center[
+![](https://www.dropbox.com/s/70gxtqm7tmag454/asalogo.jpg?raw=1)
+]
+]
+
+.pull-right[
+
+>"The widespread use of 'statistical significance' (generally interpreted as $(p \leq 0.05)$ as a license for making a claim of a scientific finding (or implied truth) leads to considerable distortion of the scientific process."
+
+]
+
+.source[Wasserstein, Ronald L. and Nicole A. Lazar, (2016), ["The ASA's Statement on p-Values: Context, Process, and Purpose](http://www.tandfonline.com/doi/full/10.1080/00031305.2016.1154108)," *The American Statistician* 30(2): 129-133]
+
+---
+
+# p-value Clarification
+
+- Again, .shout[p-value is the probability that, assuming the null hypothesis is true, we obtain (by pure random chance) a test statistic at least as extreme as the one we estimated for our sample]
+
+- A low p-value means either (and we can't distinguish which):
+    1. $H_0$ is true and a highly improbable event has occurred OR
+    2. $H_0$ is false
 
 ---
 
