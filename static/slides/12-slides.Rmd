@@ -791,7 +791,7 @@ CASchool %>%
 - Before I show you how to do this, let's first save our estimated slope from our *actual* sample
     - We'll want this later!
 
-```{r}
+```{r, echo=T}
 # save as obs_slope
 sample_slope <- school_reg_tidy %>% # this is the regression tidied with broom
   filter(term=="str") %>%

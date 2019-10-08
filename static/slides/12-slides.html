@@ -806,6 +806,16 @@ Our world, and a world where `\(\beta_1=0\)` by assumption.
     - We'll want this later!
 
 
+```r
+# save as obs_slope
+sample_slope &lt;- school_reg_tidy %&gt;% # this is the regression tidied with broom
+  filter(term=="str") %&gt;%
+  pull(estimate)
+
+# confirm what it is
+sample_slope
+```
+
 ```
 ## [1] -2.279808
 ```
