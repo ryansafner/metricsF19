@@ -124,4 +124,5 @@ lessons:
   - title: '<span class="fake-header-table">Final Exam</span>'
     header: True
 
-  - title: "**Project Due**"
+  - title: "**Empirical Research Paper Project Due December 17**" 
+    assignment: "paper=projec"
