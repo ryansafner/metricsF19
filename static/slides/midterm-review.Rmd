@@ -83,8 +83,10 @@ ggplot(data = het_data)+
 
 # Question 6
 
-- What are the four assumptions we make about the error term?
-- Which is most important?
+
+What are the four assumptions we make about the error term?
+
+Which is most important?
 
 ---
 
@@ -92,27 +94,27 @@ ggplot(data = het_data)+
 
 $$Wages_i=\hat{\beta_0}+\hat{\beta_1}Education+u_i$$
 
-- What is in $u_i$?
+What is in $u_i$?
 
-- Is $\hat{\beta_1}$ likely biased?
+Is $\hat{\beta_1}$ likely biased?
 
 ---
 
 # Question 8
 
-- What does $R^2$ measure? What does it mean? How do we calculate it?
+What does $R^2$ measure? What does it mean? How do we calculate it?
 
 ---
 
 # Question 9
 
-- What does $\sigma_u$ (SER) measure? What does it mean?
+What does $\sigma_u$ (SER) measure? What does it mean?
 
 ---
 
 # Question 10
 
-- Interpret all of these numbers (except Adjusted R-squared and the last line): 
+Interpret all of these numbers (except Adjusted R-squared and the last line): 
 
 ```{r}
 summary(lm(y~x, data = het_data))
@@ -122,7 +124,7 @@ summary(lm(y~x, data = het_data))
 
 # Question 11
 
-- Interpret all of these numbers (except Adjusted R-squared and the last line): 
+Interpret all of these numbers: 
 
 ```{r}
 reg<-lm(y~x, data = het_data)
@@ -136,31 +138,31 @@ huxreg(reg,        statistics = c("N" = "nobs",
 
 # Question 12
 
-- Suppose $Y$ is normally distributed with a mean of 10 and a standard error of 5. What is the probability that $Y$ is between 5 and 15?
+Suppose $Y$ is normally distributed with a mean of 10 and a standard error of 5. What is the probability that $Y$ is between 5 and 15?
 
 ---
 
 # Question 13
 
-- Explain what a $Z$-score means.
+Explain what a $Z$-score means.
 
 ---
 
 # Question 14
 
-- Explain what a $p$-value means. :) 
+Explain what a $p$-value means. :) 
 
 ---
 
 # Question 15
 
-- We run the following hypothesis test at $\alpha=0.05$: 
+We run the following hypothesis test at $\alpha=0.05$: 
 
 $$\begin{align*}
 H_0: \, & \beta_1=0\\
 H_1: \, & \beta_1 \neq 0 \\
 \end{align*}$$
 
-- Is this test one-sided or two-sided? 
+Is this test one-sided or two-sided? 
 
-- We find the $p$-value is 0.02. What is our conclusion? Be specific and precise in your wording!
+We find the $p$-value is 0.02. What is our conclusion? Be specific and precise in your wording!
