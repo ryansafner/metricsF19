@@ -82,8 +82,9 @@ lessons:
   - title: '<i class="fas fa-laptop-code"></i> **Problem Set 2** due Oct 10'
     assignment: "03-problem-set"
 
-  - title: '<i class="fas fa-star"></i> **Midterm Exam**'
-
+  - title: '<i class="fas fa-star"></i> **Midterm Exam** Thurs Oct 17'
+    assignment: "01-exam"
+    
   - title: '<span class="fake-header-table">3. Extensions to Regression</span>'
     header: True
 
@@ -125,4 +126,4 @@ lessons:
     header: True
 
   - title: "**Empirical Research Paper Project Due December 17**" 
-    assignment: "paper=projec"
+    assignment: "paper-project"
