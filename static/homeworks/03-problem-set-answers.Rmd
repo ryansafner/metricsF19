@@ -542,6 +542,21 @@ slope_simulations %>%
   aes(x = stat)+ # slope from simulations
   geom_histogram(color = "white", # the histogram
                  fill = "indianred")+
+  # add "shading" for p-value's two sides
+  # right side
+  geom_rect(xmin=68.798,
+            xmax=100,
+            ymin=0,
+            ymax=450,
+            fill = "pink",
+            alpha=0.4)+
+  # left side
+  geom_rect(xmin=-100,
+            xmax=-68.798,
+            ymin=0,
+            ymax=450,
+            fill = "pink",
+            alpha=0.4)+
   # add vertical line for our sample slope
   geom_vline(xintercept = sample_slope,
              color = "red",
@@ -551,22 +566,11 @@ slope_simulations %>%
              y = 200,
              color = "red",
              label = expression(paste("Our ", hat(beta[1]))))+
-  # add "shading" for p-value's two sides
-  # right side
-  geom_rect(xmin=68.798,
-            xmax=100,
-            ymin=0,
-            ymax=300,
-            color = "red",
-            alpha=0.5)+
-  # left side
-  geom_rect(xmin=-100,
-            xmax=-68.798,
-            ymin=0,
-            ymax=300,
-            color = "red",
-            alpha=0.5)+
-  scale_x_continuous(seq(-75,75,25))+
+  scale_x_continuous(breaks=c(-75,-50,-25,0,25,50,75),
+                     limits=c(-75,75),
+                     expand=c(0,0))+
+  scale_y_continuous(limits=c(0,450),
+                       expand=c(0,0))+
   labs(x = expression(paste("Distribution of ", hat(beta[1]), " under ", H[0], " that ", beta[1]==0)),
        y = "Samples")+
     theme_classic(base_family = "Fira Sans Condensed",
