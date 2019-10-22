@@ -1,0 +1,11 @@
+---
+title: "2.6 Inferential Statistics I - Readings"
+citeproc: false
+bibliography: ../../static/bib/references.bib
+csl: ../../static/bib/chicago-fullnote-bibliography-no-bib.csl
+---
+
+# Strongly Recommended
+
+- <i class="fas fa-book"></i> [Ch. 5] in @Bailey
+

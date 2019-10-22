@@ -89,12 +89,15 @@ lessons:
     header: True
 
   - title: "3.1 Omitted Variable Bias"
-  
+    reading: "13-reading"
+    class: "13-class"
+    slides: "13-slides"
+
   - title: "3.2 Multivariate OLS Estimators"
   
-  - title: "3.3 Model Specification Strategies"
+  - title: "3.3 Causality and DAGs"
   
-  - title: "3.4 How to Write an Empirical Paper"
+  - title: "3.4 Model Specification Strategies"
   
   - title: "3.5 Dummy Variables"
   
