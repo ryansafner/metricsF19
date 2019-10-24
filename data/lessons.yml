@@ -93,8 +93,11 @@ lessons:
     class: "13-class"
     slides: "13-slides"
 
-  - title: "3.2 Multivariate OLS Estimators"
-  
+  - title: "3.2 Multivariate OLS Estimators: Bias, Precision, and Fit"
+    reading: "14-reading"
+    class: "14-class"
+    slides: "14-slides"
+    
   - title: "3.3 Causality and DAGs"
   
   - title: "3.4 Model Specification Strategies"
