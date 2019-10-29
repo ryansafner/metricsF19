@@ -365,6 +365,7 @@ Interpret the coefficient on `Age`.
 ---
 
 ### Part E
+
 Look at your regression table in question 10. What happened to the standard error on `Age`? Why (consider the formula for variation in $\hat{\beta_1})$
 ---
 
@@ -377,6 +378,7 @@ Look at your regression table in question 10. What happened to the standard erro
 ---
 
 ### Part F
+
 Calculate the Variance Inflation Factor (VIF) using the `car` package's `vif()` command.^[Run it on your multivariate regression object from Question 7.]
 
 
