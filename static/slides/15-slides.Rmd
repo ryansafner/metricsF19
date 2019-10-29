@@ -1,0 +1,295 @@
+---
+title: "3.3: Model Specification Strategies"
+subtitle: "ECON 480 · Econometrics · Fall 2019"
+author: 'Ryan Safner<br> Assistant Professor of Economics <br> <a href="mailto:safner@hood.edu"><i class="fa fa-paper-plane fa-fw"></i> safner@hood.edu</a> <br> <a href="https://github.com/ryansafner/metricsf19"><i class="fa fa-github fa-fw"></i> ryansafner/metricsf19</a><br> <a href="https://metricsF19.classes.ryansafner.com"> <i class="fa fa-globe fa-fw"></i> metricsF19.classes.ryansafner.com</a><br>'
+#date:
+output:
+  xaringan::moon_reader:
+    mathjax: "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML" # rescales math with css changes https://github.com/yihui/xaringan/issues/143
+    lib_dir: libs
+    df_print: paged
+    #seal: false
+    css: [custom.css, custom-fonts.css, "hygge"] #, metropolis, metropolis-fonts
+    nature:
+      beforeInit: ["macros.js", "https://platform.twitter.com/widgets.js"] # first is for rescaling images , second is for embedding tweets, https://github.com/yihui/xaringan/issues/100
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: "16:9"
+      slideNumberFormat: |
+        <div class="progress-bar-container">
+          <div class="progress-bar" style="width: calc(%current% / %total% * 100%);">
+          </div>
+        </div>
+    includes:
+      in_header: header.html # for font awesome, used in title  
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(echo=F,
+                      message=F,
+                      warning=F)
+library(tidyverse)
+set.seed(256)
+update_geom_defaults("label", list(family = "Fira Sans Condensed"))
+```
+
+```{r regression-setup, echo=F, results="hide"}
+
+library(haven)
+CASchool<-read_dta("../data/caschool.dta")
+
+# run regression of testscr on str
+school_reg <- lm(testscr ~ str, 
+                 data = CASchool)
+
+library(broom)
+school_reg_tidy <- tidy(school_reg,
+     conf.int = TRUE) # add confidence intervals
+CASchool_aug <- augment(school_reg)
+
+library(equatiomatic)
+extract_eq(school_reg, use_coefs = TRUE,coef_digits = 2,fix_signs = TRUE)
+
+```
+
+# Model Specification
+
+- The big challenge in applied econometrics is choosing how to **specify a model** to regress
+
+- Every dataset is different, every study has a different goal
+    - there is no bright line rule, only a set of guidelines and skills that you can only learn by doing! 
+
+- But here are some helpful tips and frequent problems (and solutions)	
+
+---
+
+# Model Specification: Process
+
+**1. Identify your question of interest:** what do you want to know? What marginal effect(s) do you want to estimate?
+
+--
+
+**2. Think about possible sources of endogeneity:** what *other* variables would cause  .shout[omitted variable bias] if we left them out? Can we get data on them too? 
+  - Again: must BOTH (1) affect $Y$ AND (2) be correlated with $X$
+  - This requires much of your economic intuitions: $R^2$ and statistical measures cannot tell you everything!
+
+--
+
+**3. Run multiple models and check the robustness of your results:** does the size (or direction) of your marginal effect(s) of interest change as you change your model (i.e. add more variables)?
+
+--
+
+**4. Interpret your results**
+  - Are they statistically significant? 
+  - Regardless of *statistical* significance, are they **economically meaningful**? 
+      - Why should we care? 
+      - How big is "big"? 
+
+---
+
+# Proxy Variables
+
+- Ideally, we would want a randomized control experiment to assign individuals to treatment
+
+--
+
+- But with observational data, $u_i$ depends on other factors
+    - *If* we can observe and measure these factors, then include them in the regression
+
+--
+
+- If we can't directly measure them, often we can include variables *correlated* with these variables to .shout[proxy] for the effects of them!
+
+---
+
+# Proxy Variables: Example I
+
+.content-box-green[
+.green[**Example**]: Consider test scores and class sizes again. What about learning opportunities outside of school?
+]
+
+--
+
+- Probably a bias-causing omitted variable (affects test score and correlated with class size) but we can't measure it!
+
+--
+
+- Suppose we *can* measure a variable $V$, and significantly, $corr(V,Z)\neq 0$
+  - e.g. we have data on the percent of students who get a free or subsidized lunch (`meal_pct`)
+
+--
+
+- This is a good .shout[proxy] for income-determined learning opportunities outside of school
+  - `meal_pct` is correlated with Income (which is likely correlated with both class size and test score)
+  - A good *indirect* measure of Income
+  
+---
+
+# Proxy Variables: Example II
+
+- We assumed we don't have data on average district income, we would expect `meal_pct` to be strongly negatively correlated with income
+
+--
+
+- Just kidding, we do have data on `avginc`, but we'll only use it to confirm our suspicion: 
+
+--
+
+```{r, echo=T}
+CASchool %>%
+  select(testscr, str, el_pct, avginc,meal_pct) %>%
+  cor()
+```
+
+--
+
+- We can see `meal_pct` is strongly (negatively) correlated with income, as expected
+
+---
+
+# Proxy Variables: Example III
+
+```{r, echo=T}
+proxyreg<-lm(testscr~str+el_pct+meal_pct, data=CASchool)
+summary(proxyreg)
+```
+
+---
+
+# Interpreting Control Variables
+
+$$\widehat{\text{Test Score}}_i=700.15-1.00 \, STR_i-0.122 \, \%EL_i - 0.547 \, meal\%_i$$
+
+--
+
+- Is `meal%` causal? 
+
+--
+
+- Getting rid of programs in districts where a large percentage of students need them would boost test scores A LOT! (So probably not causal...) 
+
+--
+
+- `meal%` likely correlated with other things in $u_i$ (like *outside learning opportunities*!). 
+    - In fact, that's *exactly why* we included it as a variable! 
+
+--
+
+- .whisper[We don't need the OLS estimate on `meal%` to be unbiased!]
+    - **We only care about getting the estimate on `str` to be unbiased!**
+
+---
+
+# Control Variables
+
+- A .shout[control variable] is a regressor variable **note** of interest, but included to hold factors constant that, if omitted, would bias the causal effect of interest
+
+--
+
+- The control variable may still be correlated with omitted causal factors in $u$
+    - Estimators $(\hat{\beta}$'s) on control variables can be biased and that is OK!
+    - So long as we have unbiased estimators $(\hat{\beta}$'s) on the regressors we do care about!
+
+--
+
+- Control variables allow us to proceed *as if* $X$ were randomly assigned 
+
+---
+
+# Coefficient Plots I
+
+
+- Sometimes it is helpful to make a **coefficient plot** to visualize the different marginal effects
+
+--
+
+- Take `broom` and `tidy()` your regression with `conf.int=TRUE` (and save as an object)
+
+```{r, echo=T}
+# run regression
+reg<-lm(testscr~str+el_pct+meal_pct, data=CASchool)
+
+# load broom
+library(broom)
+#  tidy regression with confidence intervals
+# save as "reg_tidy"
+reg_tidy <- tidy(reg, conf.int = TRUE)
+```
+
+---
+
+# Coefficient Plots II
+
+```{r, echo=T}
+# look at it
+reg_tidy
+
+# intercept is too big relative to others! let's leave it out
+reg_tidy_no_int<-reg_tidy %>%
+  filter(term!="(Intercept)")
+```
+
+
+
+---
+
+# Coefficient Plots III
+
+.pull-left[
+
+```{r coef-plot, echo=T, eval=F}
+ggplot(data = reg_tidy_no_int)+
+  aes(x = estimate,
+      y = term,
+      color = term)+
+    geom_point()+ # point for estimate
+    # now make "error bars" using conf. int.
+    geom_segment(aes(x = conf.low,
+                     xend = conf.high,
+                     y=term,
+                     yend=term))+
+  # add line at 0
+  geom_vline(xintercept=0, size=1, color="black", linetype="dashed")+
+  scale_x_continuous(breaks=seq(-1.5,0.5,0.5),
+                     limits=c(-1.5,0.5))+
+  labs(x = expression(paste("Marginal effect, ", hat(beta[j]))),
+       y = "Variable")+
+  guides(color=F)+ # hide legend
+  theme_classic(base_family = "Fira Sans Condensed",
+           base_size=20)
+```
+]
+
+.pull-right[
+
+```{r, ref.label="coef-plot"}
+
+```
+]
+
+---
+
+# Model Specification Warning: $R^2$
+
+.red[Do NOT just try to maximize `\\(R^2\\)` or `\\(\bar{R}^2\\)`]
+
+- A high $R^2$ or $\bar{R}^2$ means that the regressors explain variation in $Y$
+
+- A high $R^2$ or $\bar{R}^2$ does *NOT* mean you have eliminated omitted variable bias
+
+- A high $R^2$ or $\bar{R}^2$ does *NOT* mean you have an unbiased estimate of a causal effect
+
+- A high $R^2$ or $\bar{R}^2$ does *NOT* mean included variables are statistically significant
+
+---
+
+# Model Specification: Goal
+
+- We care mostly about measuring a causal effect
+
+- This involves making the respective $\hat{\beta_j}$'s as unbiased as possible (because $\beta_j$ is the causal effect of $X_j \rightarrow Y$!
+
+- You will not get high $R^2$'s in social science
+  - even if you do, you are only explaining *variation* in $Y$ with the model, not necessarily the *causal effect*! 

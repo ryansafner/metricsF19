@@ -98,9 +98,13 @@ lessons:
     class: "14-class"
     slides: "14-slides"
     
-  - title: "3.3 Causality and DAGs"
-  
-  - title: "3.4 Model Specification Strategies"
+  - title: "3.3 Model Specification Strategies"
+    reading: "15-reading"
+    class: "15-class"
+    slides: "15-slides"
+    r: "15-practice"
+    
+  - title: "3.4 Causality and DAGs"
   
   - title: "3.5 Dummy Variables"
   
