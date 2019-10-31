@@ -13,9 +13,14 @@ editor_options:
 
 *Thursday, October 31, 2019* 
 
+# Happy Halloween
+
+![](https://www.dropbox.com/s/4joon8zr2iep5he/halloweenp05.jpg?raw=1)
+
 # Overview
 
 Today we will continue working on practice problems from last class. Afterwards, we will explore some actual empirical economics papers that use (relatively) simple multivariate regressions. See them in today's [Readings page](/readings/16-reading).
+
 
 # Slides
 
