@@ -1,5 +1,5 @@
 ---
-title: "3.4: Examples"
+title: "3.4: Multivariate Regression Examples"
 subtitle: "ECON 480 · Econometrics · Fall 2019"
 author: 'Ryan Safner<br> Assistant Professor of Economics <br> <a href="mailto:safner@hood.edu"><i class="fa fa-paper-plane fa-fw"></i> safner@hood.edu</a> <br> <a href="https://github.com/ryansafner/metricsf19"><i class="fa fa-github fa-fw"></i> ryansafner/metricsf19</a><br> <a href="https://metricsF19.classes.ryansafner.com"> <i class="fa fa-globe fa-fw"></i> metricsF19.classes.ryansafner.com</a><br>'
 #date:
