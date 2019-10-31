@@ -1,0 +1,13 @@
+---
+title: "3.4 Multivariate Regression Examples - Readings"
+citeproc: false
+bibliography: ../../static/bib/references.bib
+csl: ../../static/bib/chicago-fullnote-bibliography-no-bib.csl
+---
+
+# Primary Sources
+
+- [<i class="fas fa-file-pdf"></i> Sacerdote (2001), "Peer Effects with Random Assignment: Results from Darmouth Roommates"](/readings/Sacerdote-2001.pdf)
+- [<i class="fas fa-file-pdf"></i> Duggan and Levitt (2002), "Winning isn't Everything: Corruption in Sumo Wrestling"](/readings/Duggan-Levitt-2002.pdf)
+- [<i class="fas fa-file-pdf"></i> Fisman and Miguel (2007), "Corruption, Norms, and Legal Enforcement: Evidence from Diplomatic Parking Tickets"](/readings/Fisman-Miguel-2007.pdf)
+

@@ -1,0 +1,28 @@
+---
+title: "3.3: Model Specification Strategies - Class Notes"
+citeproc: false
+bibliography: ../../static/bib/references.bib
+csl: ../../static/bib/chicago-syllabus-no-bib.csl
+output:
+  blogdown::html_page:
+    template: ../../pandoc/toc-title_html.template
+    toc: true
+editor_options: 
+  chunk_output_type: console
+---
+
+*Tuesday, October 29, 2019* 
+
+# Overview
+
+Today we will simply talk about the process of specifying a model: how to pick $X$ variables to add to your regression. Recall, they should fit the two criteria for omitted variable bias. One additional issue we discuss is the use of **proxy** variables: where you know omitting a variable would cause bias, but you don't have data on it, just data on a variable *related* to it; and of **control** variables (including proxies), where the OLS estimator $(\hat{\beta_j})$ for an independent variable is *not causal*, but just helps remove bias on the independent variables you *do* care about being causal.
+
+For the rest of class, we will work on practice problems for multivariate regression. 
+
+# Slides
+
+- [<i class="fas fa-external-link-square-alt"></i> Lecture Slides](/slides/15-slides.html)
+
+# Practice Problems
+
+Today you will be working on [R practice problems](/r/15-r-practice.html). Check back later for solutions. 

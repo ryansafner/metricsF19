@@ -1,0 +1,35 @@
+---
+title: "3.3: Model Specification Strategies - Class Notes"
+citeproc: false
+bibliography: ../../static/bib/references.bib
+csl: ../../static/bib/chicago-syllabus-no-bib.csl
+output:
+  blogdown::html_page:
+    template: ../../pandoc/toc-title_html.template
+    toc: true
+editor_options: 
+  chunk_output_type: console
+---
+
+<!-- BLOGDOWN-HEAD -->
+<!-- /BLOGDOWN-HEAD -->
+
+<h2>Contents</h2>
+<div id="TOC">
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#slides">Slides</a></li>
+<li><a href="#practice-problems">Practice Problems</a></li>
+</ul>
+</div>
+
+<p><em>Tuesday, October 29, 2019</em></p>
+<h2 id="overview">Overview</h2>
+<p>Today we will simply talk about the process of specifying a model: how to pick <span class="math inline">\(X\)</span> variables to add to your regression. Recall, they should fit the two criteria for omitted variable bias. One additional issue we discuss is the use of <strong>proxy</strong> variables: where you know omitting a variable would cause bias, but you don’t have data on it, just data on a variable <em>related</em> to it; and of <strong>control</strong> variables (including proxies), where the OLS estimator <span class="math inline">\((\hat{\beta_j})\)</span> for an independent variable is <em>not causal</em>, but just helps remove bias on the independent variables you <em>do</em> care about being causal.</p>
+<p>For the rest of class, we will work on practice problems for multivariate regression.</p>
+<h2 id="slides">Slides</h2>
+<ul>
+<li><a href="/slides/15-slides.html"><i class="fas fa-external-link-square-alt"></i> Lecture Slides</a></li>
+</ul>
+<h2 id="practice-problems">Practice Problems</h2>
+<p>Today you will be working on <a href="/r/15-r-practice.html">R practice problems</a>. Check back later for solutions.</p>

@@ -104,15 +104,20 @@ lessons:
     slides: "15-slides"
     r: "15-practice"
     
-  - title: "3.4 Causality and DAGs"
+  - title: "3.4 Multivariate Regression Examples"
+    reading: "16-reading"
+    class: "16-class"
+    slides: "16-slides"
+
+  - title: "3.5 Causality and DAGs"
   
-  - title: "3.5 Dummy Variables"
+  - title: "3.6 Dummy Variables"
   
-  - title: "3.6 Categories and Interactions"
+  - title: "3.7 Categories and Interactions"
   
-  - title: "3.7 Polynomial Models"
+  - title: "3.8 Polynomial Models"
   
-  - title: "3.8 Logarithmic Models"
+  - title: "3.9 Logarithmic Models"
   
   - title: '<span class="fake-header-table">4. Panel Data Models</span>'
     header: True

@@ -1,0 +1,602 @@
+---
+title: "3.4: Examples"
+subtitle: "ECON 480 · Econometrics · Fall 2019"
+author: 'Ryan Safner<br> Assistant Professor of Economics <br> <a href="mailto:safner@hood.edu"><i class="fa fa-paper-plane fa-fw"></i> safner@hood.edu</a> <br> <a href="https://github.com/ryansafner/metricsf19"><i class="fa fa-github fa-fw"></i> ryansafner/metricsf19</a><br> <a href="https://metricsF19.classes.ryansafner.com"> <i class="fa fa-globe fa-fw"></i> metricsF19.classes.ryansafner.com</a><br>'
+#date:
+output:
+  xaringan::moon_reader:
+    mathjax: "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML" # rescales math with css changes https://github.com/yihui/xaringan/issues/143
+    lib_dir: libs
+    df_print: paged
+    #seal: false
+    css: [custom.css, custom-fonts.css, "hygge"] #, metropolis, metropolis-fonts
+    nature:
+      beforeInit: ["macros.js", "https://platform.twitter.com/widgets.js"] # first is for rescaling images , second is for embedding tweets, https://github.com/yihui/xaringan/issues/100
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: "16:9"
+      slideNumberFormat: |
+        <div class="progress-bar-container">
+          <div class="progress-bar" style="width: calc(%current% / %total% * 100%);">
+          </div>
+        </div>
+    includes:
+      in_header: header.html # for font awesome, used in title  
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(echo=F,
+                      message=F,
+                      warning=F)
+library(tidyverse)
+set.seed(256)
+update_geom_defaults("label", list(family = "Fira Sans Condensed"))
+```
+
+class: inverse, center, middle
+
+# Sacerdote (2001) on Peer Effects
+
+---
+
+# Paper Motivation I
+
+.pull-left[
+
+- What determines student outcomes in college? (GPAs, fraternity enrollment, alcohol/drug use, etc)
+
+- Effects of peer groups
+
+]
+
+.pull-right[
+.center[
+![](https://www.dropbox.com/s/bdy9gn83dgbc1s3/universitypeers.jpg?raw=1)
+]
+]
+.source[Sacerdote, Bruce, (2001), "Peer Effects with Random Assignment: Results from Dartmouth Roommates" *Quarterly Journal of Economics* 116(2):681-704]
+
+---
+
+# Paper Motivation II
+
+.pull-left[
+
+- "Standard" way to estimate peer effects: regress student $i$'s outcomes/behavior on *other students'* outcomes/behavior
+
+$$GPA_i = \beta_0+\beta_1 OwnBehavior_i + \beta_2 RoommateBehavior_i + u_i$$
+
+]
+
+.pull-right[
+.center[
+![](https://www.dropbox.com/s/bdy9gn83dgbc1s3/universitypeers.jpg?raw=1)
+]
+]
+.source[Sacerdote, Bruce, (2001), "Peer Effects with Random Assignment: Results from Dartmouth Roommates" *Quarterly Journal of Economics* 116(2):681-704]
+
+---
+
+# Paper Motivation II
+
+.pull-left[
+
+- "Standard" way to estimate peer effects: regress student $i$'s outcomes/behavior on *other students'* outcomes/behavior
+
+$$GPA_i = \beta_0+\beta_1 OwnBehavior_i + \beta_2 RoommateBehavior_i + u_i$$
+
+- Problems with this approach: 
+    1. Individuals **self-select** into peer groups
+    2. If two roommates $A$ and $B$ influence each other, how do we disentangle causal effect of $B \rightarrow A$ vs. $A \rightarrow B$?
+    3. Are peer effects actually driven by students' own backgrounds, or by their actual choices? 
+
+]
+
+.pull-right[
+.center[
+![](https://www.dropbox.com/s/bdy9gn83dgbc1s3/universitypeers.jpg?raw=1)
+]
+]
+.source[Sacerdote, Bruce, (2001), "Peer Effects with Random Assignment: Results from Dartmouth Roommates" *Quarterly Journal of Economics* 116(2):681-704]
+
+---
+
+# Paper Motivation II
+
+.pull-left[
+
+$$\begin{align*}
+			corr(OwnBehavior, u) &\neq 0	\\
+			corr(RoomateBehavior, u)& \neq 0 \\
+			E[u|OwnBehavior,RoommateBehavior] & \neq 0 	\\
+\end{align*}$$
+
+]
+
+.pull-right[
+.center[
+![](https://www.dropbox.com/s/bdy9gn83dgbc1s3/universitypeers.jpg?raw=1)
+]
+]
+.source[Sacerdote, Bruce, (2001), "Peer Effects with Random Assignment: Results from Dartmouth Roommates" *Quarterly Journal of Economics* 116(2):681-704]
+
+---
+
+# Sacerdotes' Identification Strategy
+
+.pull-left[
+
+- Freshmen entering Dartmouth College are **randomly** assigned to dorms & roommates
+
+- Removes self-selection of peer groups by shared characteristics
+
+- **Random assignment**: roommate A's background characteristics are uncorrelated with roommate B's background characteristics
+
+]
+
+.pull-right[
+.center[
+![](https://www.dropbox.com/s/bdy9gn83dgbc1s3/universitypeers.jpg?raw=1)
+]
+]
+.source[Sacerdote, Bruce, (2001), "Peer Effects with Random Assignment: Results from Dartmouth Roommates" *Quarterly Journal of Economics* 116(2):681-704]
+
+---
+
+# Relevant Institutions
+
+- Freshmen entering Dartmouth College are randomly assigned to dorms & roommates
+- Each incoming freshman fills out a questionnaire:
+    1. I smoke. (Y/N)
+    2. I like to listen to music while studying. (Y/N)
+    3. I keep late hours. (Y/N)
+    4. I am more neat than messy. (Y/N)
+    5. I am (Male/Female). 	
+- There are $2^5=32$ combinatorial possibilities of answers to the questions
+- Students are assigned to roommates/dorms **at random**, conditional on their combination of answers to the 5 survey answers
+
+---
+
+# The Data
+
+- Data from Dartmouth's database of students: history of dorm assignments & term-by-term academic performance
+
+- Data on pre-treatment characteristics (SAT scores, high school class rank, private/public HS, home state, academic index)
+
+- Outcome variables: GPA, time to graduation, frat membership, major choice, participation in athletics
+
+- Survey of Incoming Freshman: if student drank beer in last year and expectation of graduating with honors
+
+- Sample of 1589 students
+
+- Create dummy variable for each block to control for covariates (we'll talk later about **dummy variables** and **fixed effects** like this)
+
+---
+
+# The Data: Summary Statistics I
+
+.center[
+![](https://www.dropbox.com/s/3fuhj7kbz0ptnnf/sacerdote1.png?raw=1)
+]
+
+---
+
+# The Data: Summary Statistics II
+
+.center[
+![](https://www.dropbox.com/s/uhfupj0mg9p8m0h/sacerdote2.png?raw=1)
+]
+
+---
+
+# The Data: Demonstrating Random Assignment
+
+.center[
+![](https://www.dropbox.com/s/bfw0v2wqnqw3j89/sacerdote3.png?raw=1)
+]
+
+---
+
+# The Data: Demonstrating Random Assignment
+
+.center[
+![](https://www.dropbox.com/s/ull5y5x691hn54r/sacerdote3c.png?raw=1)
+]
+
+---
+
+# Sacerdote's Empirical Model (Basically)
+
+$$GPA_i=\beta_0+\beta_1ACA_i+\beta_2ACA_j+u_i$$
+
+- Student $i$ and roommate $j$
+
+- $ACA$: Index of academic performance (broken down into different metrics)
+
+- Other outcomes of interest (besides $GPA$: graduation, major, fraternity, athlete
+
+---
+
+# Regression Results
+
+.center[
+![](https://www.dropbox.com/s/jwpt4n37qq0fr3h/sacerdote5.png?raw=1)
+]
+
+--
+
+- For every 1 point increase (decrease) in your *roommate*'s GPA, *your* GPA increases (decreases) about 0.12 points
+
+--
+
+- If you would have been a 3.0 student with a 3.0 roommate, but you were assigned to a 2.0 roommate, your GPA would be 2.88
+
+---
+
+# Regression Results: Academic Performance
+
+.center[
+![](https://www.dropbox.com/s/d2dnjjxbivd9e8a/sacerdote6.png?raw=1)
+]
+
+---
+
+# Regression Results: Social Outcomes
+
+.center[
+![](https://www.dropbox.com/s/1p0jdtio7qjxbc1/sacerdote9.png?raw=1)
+]
+
+---
+
+# Conclusions
+
+.pull-left[
+
+- Peer effects are very strong!
+
+- Important influences in Freshman year performance (GPA) and activities (joining a social organization)
+
+- Not important for choosing a major
+
+]
+
+.pull-right[
+.center[
+![](https://www.dropbox.com/s/bdy9gn83dgbc1s3/universitypeers.jpg?raw=1)
+]
+]
+.source[Sacerdote, Bruce, (2001), "Peer Effects with Random Assignment: Results from Dartmouth Roommates" *Quarterly Journal of Economics* 116(2):681-704]
+
+---
+
+.class: inverse, center, middle
+# Duggan and Levitt (2002) on Corruption in Sumo Wrestling
+
+---
+
+# Paper Motivation I
+
+.pull-left[
+
+- 2000 year history, national sport of Japan, extremely ritualistic
+
+- Japan is a country with low corruption (CPI: 75, Rank 18th best)
+
+- Good data available
+
+- Situation is ripe for cheating! So when/why does it happen?
+
+]
+
+.pull-right[
+.center[
+![](https://www.dropbox.com/s/iu3ua5wbh2ulv0d/sumo.jpg?raw=1)
+]
+]
+.source[Duggan, Mark and Steven D. Levitt, (2002), "Winning isn't Everything: Corruption in Sumo Wrestling" *American Economic Review* 92(5):1594-1605]
+
+---
+
+# Relevant Institutions I
+
+.pull-left[
+
+- Tournaments (*basho*), 66 wrestlers (*rikishi*), 15 bouts each
+
+- Wrestlers with 8+ wins (*kachi-koshi*) *move up* in rankings (*banzuke*)
+
+- Those with a losing record ($<$8 wins) (*maki-koshi*) *fall* in rankings 
+
+]
+
+.pull-right[
+.center[
+![](https://www.dropbox.com/s/iu3ua5wbh2ulv0d/sumo.jpg?raw=1)
+]
+]
+.source[Duggan, Mark and Steven D. Levitt, (2002), "Winning isn't Everything: Corruption in Sumo Wrestling" *American Economic Review* 92(5):1594-1605]
+
+---
+
+# Relevant Institutions II
+
+.pull-left[
+
+- A marginal win generates a 2.5 rank increase
+
+- But movement from 7 to 8 wins produces almost an 11 rank increase!
+
+- Rank signals prestige, moving up a single rank is worth about $3,000/year
+
+- Top 5th-10th ranked wrestlers make $250,000/year  
+
+]
+
+.pull-right[
+.center[
+![](https://www.dropbox.com/s/23hzngfz77h7rtb/sumo1.png?raw=1)
+]
+]
+.source[Duggan, Mark and Steven D. Levitt, (2002), "Winning isn't Everything: Corruption in Sumo Wrestling" *American Economic Review* 92(5):1594-1605]
+
+---
+
+# Relevant Institutions III
+
+.pull-left[
+
+- Consider 2 wrestlers: .red[A (8-6)] vs .blue[B (7-7)] going into final (15th) match
+
+- Return to winning for .blue[B (7-7)] is much higher than for .red[A (8-6)]
+
+- .red[A (8-6)] throws the match to .blue[B (7-7)], who must return the favor in later tournaments if .red[A] finds himself in the same 7-7 position
+
+]
+
+.pull-right[
+.center[
+![](https://www.dropbox.com/s/iu3ua5wbh2ulv0d/sumo.jpg?raw=1)
+]
+]
+.source[Duggan, Mark and Steven D. Levitt, (2002), "Winning isn't Everything: Corruption in Sumo Wrestling" *American Economic Review* 92(5):1594-1605]
+
+---
+
+# The Data
+
+- All official top-rank sumo matches from January 1989-January 2000
+
+- Six tournaments per year, nearly 70 wrestlers per tournament
+
+- Tournaments last 15 days with one match per wrestler
+
+- 64,000 wrestler-matches
+
+---
+
+# The Theoretical vs. Actual Probability of Winning
+
+.pull-left[
+- Theoretical (binomial) probability of winning 8 times: 19.6%
+
+- Actual probability (from data): 26%
+
+- Much higher probability for 8 wins than it should be! (& lower for 7)
+  - Could this be from rampant cheating!?
+
+]
+
+.pull-right[
+.center[
+![](https://www.dropbox.com/s/c8tf3yx6thuil89/sumo2.png?raw=1)
+]
+]
+
+---
+
+# The Model (Slightly Modified)
+
+$$\text{Win}_{ijtd}=\beta_1 Bubble_{ijtd}+ \beta_2 Rankdiff_{ijt}+\lambda_{ij}+\delta_{it}+u_{ijtd}$$
+
+- $Win=1$ if wrestler $i$ beats wrestler $j$ in tournament $t$ on day $d$
+
+- $Bubble=1$ if wrestler ($i$) is on margin (7-7), -1 if opponent ($j$) is on margin, $=0$ if neither are on margin
+
+- $Rankdiff$: difference in rank between wrestlers
+
+- Wrestler $\lambda$ and tournament $\delta$ fixed effects
+
+---
+
+# Initial Results
+
+.center[
+![](https://www.dropbox.com/s/bamwd6eq97rugou/sumo4.png?raw=1)
+
+- Frequency of rigging increases as tournament nears end (day 15)
+
+- On day 15, 7-7 wrestlers on margin win 25% more often than they otherwise should
+]
+
+---
+
+# Interpretation of Initial Results
+
+- Two alternative hypotheses to explain results:
+  1. Match rigging (corruption)
+  2. Effort: wrestlers on margin (7-7) just fight harder! Wrestlers with 8 wins are more complacent (already made it) 
+
+- To test, look for evidence of **reciprocity** agreements over time 
+  - If these tacit agreements to rig matches exist, wrestlers from stable A should have very high win rates when on the margin against wrestlers from stable B, and vice versa 
+
+---
+
+# Interaction Effects
+
+.pull-left[
+.center[
+![](https://www.dropbox.com/s/qnh3i0pwogiz1y6/sumo5.png?raw=1)
+]
+]
+
+.pull-right[
+- Last row (before $R^2$): wrestler's success strongly increases with overall success rates of playing wrestlers on the bubble from other stables
+
+- For each 10% increase in success in other bubble matches between these two stables, the wrestler on the bubble is 2.7% more likely to win
+]
+
+---
+
+# Reciprocity?
+
+.center[
+![](https://www.dropbox.com/s/z2l381t0yqaykki/sumo6.png?raw=1)
+]
+
+- Wrestlers who won a bubble match previously tend to do worse when playing same opponent - throw the match to them in reciprocity! 
+
+---
+
+class: inverse, center, middle
+# Fisman and Miguel (2007)
+
+---
+
+# Paper Motivation
+
+.pull-left[
+
+- What determines the level of corruption?
+    1. Legal environment of country
+    2. Culture or social norms
+
+- How to identify the true source(s)?
+
+]
+
+.pull-right[
+.center[
+![](https://www.dropbox.com/s/92fk22dz2zctozu/rentseeking.png?raw=1)
+]
+]
+.source[Fisman, Raymond and Edward Miguel, (2007), "Corruption, Norms, and Legal Enforcement: Evidence from Diplomatic Parking Tickets," *Journal of Political Economy* 115(6): 1020-1048]
+
+---
+
+# Relevant Institutions
+
+.pull-left[
+
+- U.N. Diplomats are given immunity from prosecution or lawsuits in the U.S.
+
+- Reciprocal agreements with other countries, designed to protect diplomats in unfriendly environments
+
+- Diplomatic license plates in NYC are identified, get ticket, but no way to enforce
+
+- "The best free parking pass in town"
+
+]
+
+.pull-right[
+.center[
+![](https://www.dropbox.com/s/qk19adm49gy5plj/parkingticket.jpg?raw=1)
+
+![](https://www.dropbox.com/s/qtgg9hkmpecm4dw/diplomatplates.jpg?raw=1)
+]
+]
+
+.source[Fisman, Raymond and Edward Miguel, (2007), "Corruption, Norms, and Legal Enforcement: Evidence from Diplomatic Parking Tickets," *Journal of Political Economy* 115(6): 1020-1048]
+
+---
+
+# The Data
+
+- Between 11/1987 and 12/2002, 150,000 unpaid parking tickets, fines totaling $18,000,000
+
+- 30 Days to pay a fine, afterwards a 110% penalty. After 70 days, recorded as unpaid violation
+
+- Individual violation-level data: license plate, name, country of origin, date & time of violation, fine, amount paid (if any)
+
+- 43% were violations of "no standing/loading zone"
+
+- 20% of cases, the car was registered to the diplomatic mission (not personal)
+
+- Scale fines by the size of the country's mission
+
+---
+
+# Identification Strategy I
+
+- Becker's (1968) rational crime model says with no punishment$\implies$ rational for all diplomats to never pay parking fines
+
+- But large variation in data! Unpaid fines are strongly correlated with country's score on corruption index!
+
+- Home country corruption norms are an important predictor of diplomats breaking the law
+    - Low corruption countries' diplomats tend to pay the fine even where they are not legally compelled to
+    - High corruption countries' diplomats rack up massive fines
+
+---
+
+# Identification Strategy II
+
+.pull-left[
+- **Natural experiment**: post-9/11, NYC began cracking down on enforcement
+
+- Diplomats with 3+ unpaid parking tickets had diplomat plates revoked
+
+- Led to immediate 98% reduction in unpaid parking tickets
+
+- So enforcement matters as well as corruption norms
+]
+
+.pull-right[
+.center[
+![](https://www.dropbox.com/s/xe59fx3ced0cva9/parking1.png?raw=1)
+]
+]
+---
+
+# Data I
+
+.center[
+![](https://www.dropbox.com/s/5ndr02pwjvv6zr3/parking2.png?raw=1)
+]
+
+---
+
+# Data II
+
+.center[
+![](https://www.dropbox.com/s/izkvkpu2izi78sr/parking3.png?raw=1)
+]
+
+---
+
+# Empirical Model
+
+$$\text{Unpaid Violations}=\beta_0+\beta_1\text{Corruption}+\beta_2\text{Enforcement}+\beta_3\text{Diplomats}+...+\beta_k\text{Controls}$$
+
+---
+
+# Results I
+
+.center[
+![](https://www.dropbox.com/s/rf6r3g66u3aaulr/parking4.png?raw=1)
+]
+
+---
+# Results II
+
+.center[
+![](https://www.dropbox.com/s/2drdlc105j2i15m/parking7.png?raw=1)
+]
+
+---
+# Results III
+
+.center[
+![](https://www.dropbox.com/s/t1s9e3xb3kkn428/parking5.png?raw=1)
+]

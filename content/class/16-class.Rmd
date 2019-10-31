@@ -1,0 +1,26 @@
+---
+title: "3.4: Multivariate Regression Examples - Class Notes"
+citeproc: false
+bibliography: ../../static/bib/references.bib
+csl: ../../static/bib/chicago-syllabus-no-bib.csl
+output:
+  blogdown::html_page:
+    template: ../../pandoc/toc-title_html.template
+    toc: true
+editor_options: 
+  chunk_output_type: console
+---
+
+*Thursday, October 31, 2019* 
+
+# Overview
+
+Today we will continue working on practice problems from last class. Afterwards, we will explore some actual empirical economics papers that use (relatively) simple multivariate regressions. See them in today's [Readings page](/readings/16-reading).
+
+# Slides
+
+- [<i class="fas fa-external-link-square-alt"></i> Lecture Slides](/slides/16-slides.html)
+
+# Practice Problems
+
+Today you will finish working on [R practice problems](/r/15-r-practice.html) from last class. Check back later for solutions. 
