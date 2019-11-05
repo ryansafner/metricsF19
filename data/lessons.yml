@@ -109,8 +109,11 @@ lessons:
     class: "16-class"
     slides: "16-slides"
 
-  - title: "3.5 Causality and DAGs"
-  
+  - title: "3.5 Causal Inference and DAGs"
+    reading: "17-reading"
+    class: "17-class"
+    slides: "17-slides"
+    
   - title: "3.6 Dummy Variables"
   
   - title: "3.7 Categories and Interactions"

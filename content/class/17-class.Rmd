@@ -1,0 +1,28 @@
+---
+title: "3.5: Causal Inference and DAGs - Class Notes"
+citeproc: false
+bibliography: ../../static/bib/references.bib
+csl: ../../static/bib/chicago-syllabus-no-bib.csl
+output:
+  blogdown::html_page:
+    template: ../../pandoc/toc-title_html.template
+    toc: true
+editor_options: 
+  chunk_output_type: console
+---
+
+*Tuesday, November 5, 2019* 
+
+# Overview
+
+Today we return to a more nuanced discussion of causality, given what we now know about multivariate regression. We also introduce a new tool for thinking about simple causal models, the **directed acyclic graph (DAG)*. These are a hip new trend for thinking about causal inference, so new and trendy that they aren't really in any mainstream textbooks yet!
+
+# New Packages Mentioned
+
+- `ggdag`: for drawing DAGs in `ggplot`
+- [`dagitty.net`](http://dagitty.net): not a package in R, but an online tool to help you work with DAGs (see the cheat sheets in today's [readings page](/reading/17-reading))
+
+# Slides
+
+- [<i class="fas fa-external-link-square-alt"></i> Lecture Slides](/slides/17-slides.html)
+
