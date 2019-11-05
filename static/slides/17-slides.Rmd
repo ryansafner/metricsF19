@@ -1426,11 +1426,11 @@ dagify(Hos~Flu+Bus,
 .content-box-green[
 .green[**Example**]: How much of wage disparities are caused by gender-based discrimination?
 
-1. $gender \rightarrow discr \rightarrow wage$ (Causal path)
-2. $gender \rightarrow discr \rightarrow occup \rightarrow wage$ (Causal path)
+1. $discr \rightarrow wage$ (Causal path)
+2. $discr \rightarrow occup \rightarrow wage$ (Causal path)
 3. $discr \leftarrow gender \rightarrow occup \rightarrow wage$ (Open back door)
 4. $discr \leftarrow gender \rightarrow occup \leftarrow abil \rightarrow wage$ (BLOCKED back door!)
-5. $gender \rightarrow discrim \rightarrow occup \leftarrow abil \rightarrow wage$ (BLOCKED back door!)
+5. $discr \rightarrow occup \leftarrow abil \rightarrow wage$ (BLOCKED back door!)
 
 - Should we control for `occup`?
 ] 
@@ -1442,7 +1442,7 @@ dagify(Hos~Flu+Bus,
 ```{r, echo = F}
 dagify(wage~abil+occup+discr,
        discr~gender,
-       occup~gender+discr,
+       occup~gender+discr+abil,
        exposure = "disc",
        outcome = "wage") %>% 
   ggdag_parents("wage", stylized = FALSE)+theme_dag_blank()+theme(legend.position = "none")
@@ -1452,18 +1452,17 @@ dagify(wage~abil+occup+discr,
 
 ---
 
-# Collider Example: Gender Discrimination I
+# Collider Example: Gender Discrimination II
 
 .pull-left[
-
-- If leave occupation uncontrolled for: ignore non-discriminatory reasons different genders choose different occupations
 
 - If we *control* for occupation:
   - opens backdoor paths 4 & 5!
   - creates spurious `cor(abil,discr)` where there wasn't one!
   - also closes causal path 2! (discriminatory reasons genders choose different occupations)
   
-- **Can't identify causal effect** by controlling for `occup`!
+- **Can't identify causal effect** controlling for `occup`!
+  - *Could* if you could control for `occup` *and* `abil` (but perhaps `abil` is unobserved)
 
 - Research on this needs to get clever!
 
@@ -1474,7 +1473,7 @@ dagify(wage~abil+occup+discr,
 ```{r, echo = F}
 dagify(wage~abil+occup+discr,
        discr~gender,
-       occup~gender+discr,
+       occup~gender+discr+abil,
        exposure = "disc",
        outcome = "wage") %>% 
   ggdag_parents("wage", stylized = FALSE)+theme_dag_blank()+theme(legend.position = "none")
