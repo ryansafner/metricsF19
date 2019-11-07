@@ -1,5 +1,5 @@
 ---
-title: "3.3 OLS: Model Specification Strategies - R Practice"
+title: "3.5: Causal Inference and DAGs - R Practice"
 editor_options: 
   chunk_output_type: console
 ---
@@ -102,43 +102,14 @@ code span.wa { color: #bf0303; } /* Warning */
 </ol></li>
 </ul>
 <h3 id="example-a">Example A</h3>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">dagify</span>(Y<span class="op">~</span>X<span class="op">+</span>Z,</span>
-<span id="cb1-2"><a href="#cb1-2"></a>       X<span class="op">~</span>Z,</span>
-<span id="cb1-3"><a href="#cb1-3"></a>       <span class="dt">exposure =</span> <span class="st">&quot;X&quot;</span>,</span>
-<span id="cb1-4"><a href="#cb1-4"></a>       <span class="dt">outcome =</span> <span class="st">&quot;Y&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb1-5"><a href="#cb1-5"></a><span class="st">  </span><span class="kw">ggdag</span>(<span class="dt">stylized =</span> <span class="ot">FALSE</span>, <span class="dt">seed=</span><span class="dv">1</span>)<span class="op">+</span><span class="kw">theme_dag_blank</span>()<span class="op">+</span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
 <p><img src="/r/17-r-practice_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 <h3 id="example-b">Example B</h3>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">dagify</span>(Y<span class="op">~</span>X<span class="op">+</span>M,</span>
-<span id="cb2-2"><a href="#cb2-2"></a>       M<span class="op">~</span>X,</span>
-<span id="cb2-3"><a href="#cb2-3"></a>       <span class="dt">exposure =</span> <span class="st">&quot;X&quot;</span>,</span>
-<span id="cb2-4"><a href="#cb2-4"></a>       <span class="dt">outcome =</span> <span class="st">&quot;Y&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb2-5"><a href="#cb2-5"></a><span class="st">  </span><span class="kw">ggdag</span>(<span class="dt">stylized =</span> <span class="ot">FALSE</span>, <span class="dt">seed=</span><span class="dv">1</span>)<span class="op">+</span><span class="kw">theme_dag_blank</span>()<span class="op">+</span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
 <p><img src="/r/17-r-practice_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 <h3 id="example-c">Example C</h3>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">dagify</span>(Y<span class="op">~</span>X<span class="op">+</span>Z<span class="op">+</span>B,</span>
-<span id="cb3-2"><a href="#cb3-2"></a>       Z<span class="op">~</span>B<span class="op">+</span>A,</span>
-<span id="cb3-3"><a href="#cb3-3"></a>       X<span class="op">~</span>A,</span>
-<span id="cb3-4"><a href="#cb3-4"></a>       <span class="dt">exposure =</span> <span class="st">&quot;X&quot;</span>,</span>
-<span id="cb3-5"><a href="#cb3-5"></a>       <span class="dt">outcome =</span> <span class="st">&quot;Y&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb3-6"><a href="#cb3-6"></a><span class="st">  </span><span class="kw">ggdag</span>(<span class="dt">stylized =</span> <span class="ot">FALSE</span>, <span class="dt">seed=</span><span class="dv">1</span>)<span class="op">+</span><span class="kw">theme_dag_blank</span>()<span class="op">+</span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
 <p><img src="/r/17-r-practice_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <h3 id="example-d">Example D</h3>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">dagify</span>(Y<span class="op">~</span>X<span class="op">+</span>B<span class="op">+</span>C,</span>
-<span id="cb4-2"><a href="#cb4-2"></a>       Z<span class="op">~</span>B<span class="op">+</span>A,</span>
-<span id="cb4-3"><a href="#cb4-3"></a>       X<span class="op">~</span>A,</span>
-<span id="cb4-4"><a href="#cb4-4"></a>       C<span class="op">~</span>X,</span>
-<span id="cb4-5"><a href="#cb4-5"></a>       <span class="dt">exposure =</span> <span class="st">&quot;X&quot;</span>,</span>
-<span id="cb4-6"><a href="#cb4-6"></a>       <span class="dt">outcome =</span> <span class="st">&quot;Y&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb4-7"><a href="#cb4-7"></a><span class="st">  </span><span class="kw">ggdag</span>(<span class="dt">stylized =</span> <span class="ot">FALSE</span>, <span class="dt">seed=</span><span class="dv">2</span>)<span class="op">+</span><span class="kw">theme_dag_blank</span>()<span class="op">+</span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
 <p><img src="/r/17-r-practice_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 <h3 id="example-e">Example E</h3>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">dagify</span>(Y<span class="op">~</span>X<span class="op">+</span>Z<span class="op">+</span>A,</span>
-<span id="cb5-2"><a href="#cb5-2"></a>       Z<span class="op">~</span>X<span class="op">+</span>A<span class="op">+</span>B,</span>
-<span id="cb5-3"><a href="#cb5-3"></a>       B<span class="op">~</span>A,</span>
-<span id="cb5-4"><a href="#cb5-4"></a>       <span class="dt">exposure =</span> <span class="st">&quot;X&quot;</span>,</span>
-<span id="cb5-5"><a href="#cb5-5"></a>       <span class="dt">outcome =</span> <span class="st">&quot;Y&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb5-6"><a href="#cb5-6"></a><span class="st">  </span><span class="kw">ggdag</span>(<span class="dt">stylized =</span> <span class="ot">FALSE</span>, <span class="dt">seed=</span><span class="dv">2</span>)<span class="op">+</span><span class="kw">theme_dag_blank</span>()<span class="op">+</span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
 <p><img src="/r/17-r-practice_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 <h2 id="part-b-empirical-example">Part B Empirical Example</h2>
 <h3 id="question-1">Question 1</h3>
@@ -182,34 +153,23 @@ code span.wa { color: #bf0303; } /* Warning */
 <p>We want to explore how a mother smoking during pregnancy affects the baby’s birthweight (which may have strong effects on outcomes over the child’s life).</p>
 </blockquote>
 <p>Just to be explicit about it, assign this as some dataframe (feel free to change the name), i.e.:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="co"># install.packages(&quot;wooldridge&quot;)</span></span>
-<span id="cb6-2"><a href="#cb6-2"></a><span class="kw">library</span>(wooldridge)</span>
-<span id="cb6-3"><a href="#cb6-3"></a>bwght&lt;-wooldridge<span class="op">::</span>bwght</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="co"># install.packages(&quot;wooldridge&quot;)</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">library</span>(wooldridge)</span>
+<span id="cb1-3"><a href="#cb1-3"></a>bwght&lt;-wooldridge<span class="op">::</span>bwght</span></code></pre></div>
 <h3 id="question-2">Question 2</h3>
 <p>Make a correlation table for our variables listed above.<span><label for="sn-5" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-5" class="margin-toggle"/><span class="sidenote">Hints: <code>select()</code> these variables and then pipe them into <code>cor(., use="pairwise.complete.obs")</code> to use only observations for which there are data on each variable (to avoid <code>NA</code>’s).<br />
 <br />
 </span></span></p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw">library</span>(corrplot)</span></code></pre></div>
-<pre><code>## corrplot 0.84 loaded</code></pre>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>bwght <span class="op">%&gt;%</span></span>
-<span id="cb9-2"><a href="#cb9-2"></a><span class="st">  </span><span class="kw">select</span>(bwght, cigs, faminc, cigprice, motheduc) <span class="op">%&gt;%</span></span>
-<span id="cb9-3"><a href="#cb9-3"></a><span class="st">  </span><span class="kw">cor</span>(., <span class="dt">use=</span><span class="st">&quot;pairwise.complete.obs&quot;</span>)</span></code></pre></div>
-<pre><code>##                bwght        cigs      faminc   cigprice    motheduc
-## bwght     1.00000000 -0.15076180  0.10893684 0.04918790  0.06912704
-## cigs     -0.15076180  1.00000000 -0.17304493 0.00970419 -0.21386510
-## faminc    0.10893684 -0.17304493  1.00000000 0.09545581  0.45592970
-## cigprice  0.04918790  0.00970419  0.09545581 1.00000000  0.07086587
-## motheduc  0.06912704 -0.21386510  0.45592970 0.07086587  1.00000000</code></pre>
 <h3 id="question-3">Question 3</h3>
 <p>Consider the following causal model:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="kw">library</span>(ggdag)</span>
-<span id="cb11-2"><a href="#cb11-2"></a><span class="kw">dagify</span>(bwght<span class="op">~</span>cigs<span class="op">+</span>inc,</span>
-<span id="cb11-3"><a href="#cb11-3"></a>       cigs<span class="op">~</span>price<span class="op">+</span>educ<span class="op">+</span>inc,</span>
-<span id="cb11-4"><a href="#cb11-4"></a>       inc<span class="op">~</span>educ,</span>
-<span id="cb11-5"><a href="#cb11-5"></a>       <span class="dt">exposure =</span> <span class="st">&quot;cigs&quot;</span>,</span>
-<span id="cb11-6"><a href="#cb11-6"></a>       <span class="dt">outcome =</span> <span class="st">&quot;bwght&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb11-7"><a href="#cb11-7"></a><span class="st">  </span><span class="kw">ggdag</span>(<span class="dt">stylized =</span> <span class="ot">FALSE</span>, <span class="dt">seed=</span><span class="dv">1</span>)<span class="op">+</span><span class="kw">theme_dag_blank</span>()<span class="op">+</span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
-<p><img src="/r/17-r-practice_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">library</span>(ggdag)</span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="kw">dagify</span>(bwght<span class="op">~</span>cigs<span class="op">+</span>inc,</span>
+<span id="cb2-3"><a href="#cb2-3"></a>       cigs<span class="op">~</span>price<span class="op">+</span>educ<span class="op">+</span>inc,</span>
+<span id="cb2-4"><a href="#cb2-4"></a>       inc<span class="op">~</span>educ,</span>
+<span id="cb2-5"><a href="#cb2-5"></a>       <span class="dt">exposure =</span> <span class="st">&quot;cigs&quot;</span>,</span>
+<span id="cb2-6"><a href="#cb2-6"></a>       <span class="dt">outcome =</span> <span class="st">&quot;bwght&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb2-7"><a href="#cb2-7"></a><span class="st">  </span><span class="kw">ggdag</span>(<span class="dt">stylized =</span> <span class="ot">FALSE</span>, <span class="dt">seed=</span><span class="dv">1</span>)<span class="op">+</span><span class="kw">theme_dag_blank</span>()<span class="op">+</span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
+<p><img src="/r/17-r-practice_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 <p>Note what we are hypothesizing:
 - <code>bwght</code> is caused by <code>cigs</code> and <code>inc</code>
 - <code>cigs</code> are caused by <code>price</code>, <code>educ</code>, and <code>inc</code>
@@ -222,92 +182,10 @@ See also how this is written into the notation in R to make the DAG.</p>
 <p>Test each implication given to you by <code>dagitty.</code></p>
 <ul>
 <li>For independencies <span class="math inline">\((x \perp y)\)</span>: run a regression of <span class="math inline">\(y\)</span> on <span class="math inline">\(x\)</span>.</li>
-<li>For <em>conditional</em> independencies <span class="math inline">\((x \per y | z, a)\)</span>: run a regression of <span class="math inline">\(y\)</span> on <span class="math inline">\(x, z, a\)</span>.</li>
+<li>For <em>conditional</em> independencies <span class="math inline">\((x \perp y | z, a)\)</span>: run a regression of <span class="math inline">\(y\)</span> on <span class="math inline">\(x, z, a\)</span>.</li>
 </ul>
 <p>For each, test against the null hypothesis that the relevant coefficient <span class="math inline">\((\hat{\beta_1})\)</span> is 0 (i.e. <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> are indeed independent).</p>
 <p>Does this causal model hold up well?</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="kw">lm</span>(bwght<span class="op">~</span>motheduc<span class="op">+</span>cigs<span class="op">+</span>faminc, <span class="dt">data =</span> bwght) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summary</span>()</span></code></pre></div>
-<pre><code>## 
-## Call:
-## lm(formula = bwght ~ motheduc + cigs + faminc, data = bwght)
-## 
-## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -96.064 -11.585   0.668  13.154 150.078 
-## 
-## Coefficients:
-##              Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept) 116.83485    3.13778  37.235  &lt; 2e-16 ***
-## motheduc      0.01426    0.25799   0.055   0.9559    
-## cigs         -0.46335    0.09275  -4.996 6.61e-07 ***
-## faminc        0.09147    0.03246   2.818   0.0049 ** 
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## 
-## Residual standard error: 20.08 on 1383 degrees of freedom
-##   (1 observation deleted due to missingness)
-## Multiple R-squared:  0.02977,    Adjusted R-squared:  0.02767 
-## F-statistic: 14.15 on 3 and 1383 DF,  p-value: 4.385e-09</code></pre>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="kw">lm</span>(bwght<span class="op">~</span>cigprice<span class="op">+</span>cigs<span class="op">+</span>faminc, <span class="dt">data =</span> bwght) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summary</span>()</span></code></pre></div>
-<pre><code>## 
-## Call:
-## lm(formula = bwght ~ cigprice + cigs + faminc, data = bwght)
-## 
-## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -95.746 -11.516   0.784  13.175 149.956 
-## 
-## Coefficients:
-##              Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept) 106.02164    6.88671  15.395  &lt; 2e-16 ***
-## cigprice      0.08499    0.05282   1.609   0.1078    
-## cigs         -0.46735    0.09156  -5.104 3.78e-07 ***
-## faminc        0.08811    0.02931   3.006   0.0027 ** 
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## 
-## Residual standard error: 20.05 on 1384 degrees of freedom
-## Multiple R-squared:  0.03162,    Adjusted R-squared:  0.02952 
-## F-statistic: 15.06 on 3 and 1384 DF,  p-value: 1.193e-09</code></pre>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="kw">lm</span>(motheduc<span class="op">~</span>cigprice, <span class="dt">data =</span> bwght) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summary</span>()</span></code></pre></div>
-<pre><code>## 
-## Call:
-## lm(formula = motheduc ~ cigprice, data = bwght)
-## 
-## Residuals:
-##      Min       1Q   Median       3Q      Max 
-## -10.7869  -1.0416  -0.7705   1.2345   5.4120 
-## 
-## Coefficients:
-##              Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept) 10.789917   0.814123  13.253  &lt; 2e-16 ***
-## cigprice     0.016436   0.006216   2.644  0.00829 ** 
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## 
-## Residual standard error: 2.372 on 1385 degrees of freedom
-##   (1 observation deleted due to missingness)
-## Multiple R-squared:  0.005022,   Adjusted R-squared:  0.004304 
-## F-statistic: 6.991 on 1 and 1385 DF,  p-value: 0.008287</code></pre>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="kw">lm</span>(faminc<span class="op">~</span>cigprice, <span class="dt">data =</span> bwght) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summary</span>()</span></code></pre></div>
-<pre><code>## 
-## Call:
-## lm(formula = faminc ~ cigprice, data = bwght)
-## 
-## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -30.140 -14.085  -3.088  10.323  39.668 
-## 
-## Coefficients:
-##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)  6.22995    6.40519   0.973 0.330902    
-## cigprice     0.17461    0.04891   3.570 0.000369 ***
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## 
-## Residual standard error: 18.66 on 1386 degrees of freedom
-## Multiple R-squared:  0.009112,   Adjusted R-squared:  0.008397 
-## F-statistic: 12.75 on 1 and 1386 DF,  p-value: 0.0003691</code></pre>
 <h3 id="question-6">Question 6</h3>
 <p>List <em>all</em> of the possible pathways from <code>cigs</code> to <code>bwght</code>. Which are “front-doors” and which are “back-doors?” Are any blocked by colliders?</p>
 <h3 id="question-7">Question 7</h3>
@@ -323,51 +201,7 @@ See also how this is written into the notation in R to make the DAG.</p>
 <h3 id="question-10">Question 10</h3>
 <p>Perhaps our model is poorly specified. Maybe <code>motheduc</code> actually has a causal effect on <code>bwght</code>? Tweak your model from Question 9 on <code>dagitty</code> to add this potential relationship. What testable implications does this new model imply?</p>
 <h3 id="question-11">Question 11</h3>
-<p>Test these implications appropriately, like you did in Question 5.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a><span class="kw">lm</span>(bwght<span class="op">~</span>cigprice<span class="op">+</span>cigs<span class="op">+</span>motheduc<span class="op">+</span>faminc, <span class="dt">data =</span> bwght) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summary</span>()</span></code></pre></div>
-<pre><code>## 
-## Call:
-## lm(formula = bwght ~ cigprice + cigs + motheduc + faminc, data = bwght)
-## 
-## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -95.760 -11.519   0.803  13.175 149.954 
-## 
-## Coefficients:
-##               Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept)  1.061e+02  7.407e+00  14.321  &lt; 2e-16 ***
-## cigprice     8.478e-02  5.288e-02   1.603  0.10912    
-## cigs        -4.681e-01  9.274e-02  -5.047 5.08e-07 ***
-## motheduc    -4.448e-04  2.580e-01  -0.002  0.99862    
-## faminc       8.765e-02  3.253e-02   2.694  0.00714 ** 
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## 
-## Residual standard error: 20.06 on 1382 degrees of freedom
-##   (1 observation deleted due to missingness)
-## Multiple R-squared:  0.03158,    Adjusted R-squared:  0.02877 
-## F-statistic: 11.26 on 4 and 1382 DF,  p-value: 5.368e-09</code></pre>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a><span class="kw">lm</span>(motheduc<span class="op">~</span>cigprice, <span class="dt">data =</span> bwght) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summary</span>()</span></code></pre></div>
-<pre><code>## 
-## Call:
-## lm(formula = motheduc ~ cigprice, data = bwght)
-## 
-## Residuals:
-##      Min       1Q   Median       3Q      Max 
-## -10.7869  -1.0416  -0.7705   1.2345   5.4120 
-## 
-## Coefficients:
-##              Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept) 10.789917   0.814123  13.253  &lt; 2e-16 ***
-## cigprice     0.016436   0.006216   2.644  0.00829 ** 
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-## 
-## Residual standard error: 2.372 on 1385 degrees of freedom
-##   (1 observation deleted due to missingness)
-## Multiple R-squared:  0.005022,   Adjusted R-squared:  0.004304 
-## F-statistic: 6.991 on 1 and 1385 DF,  p-value: 0.008287</code></pre>
-<p>Does this model hold up well?</p>
+<p>Test these implications appropriately, like you did in Question 5. Does this model hold up well?</p>
 <h3 id="question-12">Question 12</h3>
 <p>Under this new causal model, list <em>all</em> of the possible pathways from <code>cigs</code> to <code>bwght</code>. Which are “front-doors” and which are “back-doors?” Are any blocked by colliders?</p>
 <h3 id="question-13">Question 13</h3>

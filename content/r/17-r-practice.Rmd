@@ -1,5 +1,5 @@
 ---
-title: "3.3 OLS: Model Specification Strategies - R Practice"
+title: "3.5: Causal Inference and DAGs - R Practice"
 editor_options: 
   chunk_output_type: console
 ---
@@ -35,7 +35,7 @@ library(ggdag)
 
 ## Example A
 
-```{r, fig.retina=3}
+```{r, echo=F, fig.retina=3}
 dagify(Y~X+Z,
        X~Z,
        exposure = "X",
@@ -45,7 +45,7 @@ dagify(Y~X+Z,
 
 ## Example B
 
-```{r, fig.retina=3}
+```{r, echo=F, fig.retina=3}
 dagify(Y~X+M,
        M~X,
        exposure = "X",
@@ -55,7 +55,7 @@ dagify(Y~X+M,
 
 ## Example C
 
-```{r, fig.retina=3}
+```{r, echo=F, fig.retina=3}
 dagify(Y~X+Z+B,
        Z~B+A,
        X~A,
@@ -66,7 +66,7 @@ dagify(Y~X+Z+B,
 
 ## Example D
 
-```{r, fig.retina=3}
+```{r, echo=F, fig.retina=3}
 dagify(Y~X+B+C,
        Z~B+A,
        X~A,
@@ -78,7 +78,7 @@ dagify(Y~X+B+C,
 
 ## Example E
 
-```{r, fig.retina=3}
+```{r, echo=F, fig.retina=3}
 dagify(Y~X+Z+A,
        Z~X+A+B,
        B~A,
@@ -116,17 +116,10 @@ bwght<-wooldridge::bwght
 ## Question 2
 Make a correlation table for our variables listed above.^[Hints: `select()` these variables and then pipe them into `cor(., use="pairwise.complete.obs")` to use only observations for which there are data on each variable (to avoid `NA`'s).]
 
-```{r}
-library(corrplot)
-bwght %>%
-  select(bwght, cigs, faminc, cigprice, motheduc) %>%
-  cor(., use="pairwise.complete.obs")
-```
-
 ## Question 3
 Consider the following causal model:
 
-```{r}
+```{r, echo=T}
 library(ggdag)
 dagify(bwght~cigs+inc,
        cigs~price+educ+inc,
@@ -151,32 +144,14 @@ What does `dagitty` tell us the testable implications of this causal model?
 Test each implication given to you by `dagitty.` 
 
 - For independencies $(x \perp y)$: run a regression of $y$ on $x$.
-- For *conditional* independencies $(x \per y | z, a)$: run a regression of $y$ on $x, z, a$.
+- For *conditional* independencies $(x \perp y | z, a)$: run a regression of $y$ on $x, z, a$.
 
 For each, test against the null hypothesis that the relevant coefficient $(\hat{\beta_1})$ is 0 (i.e. $x$ and $y$ are indeed independent).
 
 Does this causal model hold up well?
 
-```{r}
-lm(bwght~motheduc+cigs+faminc, data = bwght) %>% summary()
-```
-
-```{r}
-lm(bwght~cigprice+cigs+faminc, data = bwght) %>% summary()
-```
-
-```{r}
-lm(motheduc~cigprice, data = bwght) %>% summary()
-```
-
-```{r}
-lm(faminc~cigprice, data = bwght) %>% summary()
-```
-
-
 ## Question 6
 List *all* of the possible pathways from `cigs` to `bwght`. Which are "front-doors" and which are "back-doors?" Are any blocked by colliders?
-
 
 ## Question 7
 What is the minimal sufficient set of variables we need to control in order to causally identify the effect of `cigs` on `bwght`?
@@ -191,17 +166,7 @@ We saw some effect between `faminc` and `cigprice`. Perhaps there are unobserved
 Perhaps our model is poorly specified. Maybe `motheduc` actually has a causal effect on `bwght`? Tweak your model from Question 9 on `dagitty` to add this potential relationship. What testable implications does this new model imply?
 
 ## Question 11
-Test these implications appropriately, like you did in Question 5. 
-
-```{r}
-lm(bwght~cigprice+cigs+motheduc+faminc, data = bwght) %>% summary()
-```
-
-```{r}
-lm(motheduc~cigprice, data = bwght) %>% summary()
-```
-
-Does this model hold up well?
+Test these implications appropriately, like you did in Question 5. Does this model hold up well?
 
 ## Question 12
 Under this new causal model, list *all* of the possible pathways from `cigs` to `bwght`. Which are "front-doors" and which are "back-doors?" Are any blocked by colliders?

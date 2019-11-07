@@ -183,7 +183,7 @@ What does `dagitty` tell us the testable implications of this causal model?
 Test each implication given to you by `dagitty.` 
 
 - For independencies $(x \perp y)$: run a regression of $y$ on $x$.
-- For *conditional* independencies $(x \per y | z, a)$: run a regression of $y$ on $x, z, a$.
+- For *conditional* independencies $(x \perp y | z, a)$: run a regression of $y$ on $x, z, a$.
 
 For each, test against the null hypothesis that the relevant coefficient $(\hat{\beta_1})$ is 0 (i.e. $x$ and $y$ are indeed independent).
 
