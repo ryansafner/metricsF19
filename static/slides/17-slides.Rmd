@@ -586,7 +586,7 @@ h1 <- dagify(profit ~ tech+ip,
              coords=list(
                x=c(tech=1, ip=2, profit=3),
                y=c(tech=1, ip=2, profit=1)
-               )) %>% ggdag(stylized = FALSE)+
+               )) %>% ggdag(stylized = FALSE, seed=256)+
   labs(title = "1")+
   theme_void()+theme(legend.position = "none")
 
@@ -595,7 +595,7 @@ h2 <- dagify(profit ~ tech+ip,
              coords=list(
                x=c(tech=1, ip=2, profit=3),
                y=c(tech=1, ip=2, profit=1)
-               )) %>% ggdag(stylized = FALSE)+
+               )) %>% ggdag(stylized = FALSE, seed=256)+
   labs(title = "2")+
   theme_void()+theme(legend.position = "none")
 
@@ -604,7 +604,7 @@ h3 <- dagify(profit ~ tech,
              coords=list(
                x=c(tech=1, ip=2, profit=3),
                y=c(tech=1, ip=2, profit=1)
-               )) %>% ggdag(stylized = FALSE)+
+               )) %>% ggdag(stylized = FALSE, seed=256)+
   labs(title = "3")+
   theme_void()+theme(legend.position = "none")
 
@@ -613,7 +613,7 @@ h4 <- dagify(profit ~ ip,
              coords=list(
                x=c(tech=1, ip=2, profit=3),
                y=c(tech=1, ip=2, profit=1)
-               )) %>% ggdag(stylized = FALSE)+
+               )) %>% ggdag(stylized = FALSE, seed=256)+
   labs(title = "4")+
   theme_void()+theme(legend.position = "none")
 
@@ -622,7 +622,7 @@ h5 <- dagify(tech ~ ip+profit,
              coords=list(
                x=c(tech=1, ip=2, profit=3),
                y=c(tech=1, ip=2, profit=1)
-               )) %>% ggdag(stylized = FALSE)+
+               )) %>% ggdag(stylized = FALSE, seed=256)+
   labs(title = "5")+
   theme_void()+theme(legend.position = "none")
 
@@ -631,7 +631,7 @@ h6 <- dagify(tech ~ profit,
              coords=list(
                x=c(tech=1, ip=2, profit=3),
                y=c(tech=1, ip=2, profit=1)
-               )) %>% ggdag(stylized = FALSE)+
+               )) %>% ggdag(stylized = FALSE, seed=256)+
   labs(title = "6")+
   theme_void()+theme(legend.position = "none")
 
@@ -704,7 +704,7 @@ grid.arrange(h1, h2, h3, h4, h5, h6, ncol=2)
 
 ```{r, echo = F}
 dagify(wage~educ) %>% 
-  ggdag_parents("wage", stylized = FALSE)+theme_dag_blank()+theme(legend.position = "none")
+  ggdag_parents("wage", stylized = FALSE, seed=256)+theme_dag_blank()+theme(legend.position = "none")
 ```
 
 ]
@@ -730,7 +730,7 @@ dagify(wage~educ) %>%
 
 ```{r, echo = F}
 dagify(wage~educ) %>% 
-  ggdag_parents("wage", stylized = FALSE)+theme_dag_blank()+theme(legend.position = "none")
+  ggdag_parents("wage", stylized = FALSE, seed=256)+theme_dag_blank()+theme(legend.position = "none")
 ```
 
 ]
@@ -752,7 +752,7 @@ dagify(wage~educ) %>%
 
 ```{r, echo = F}
 dagify(wage~educ) %>% 
-  ggdag_parents("wage", stylized = FALSE)+theme_dag_blank()+theme(legend.position = "none")
+  ggdag_parents("wage", stylized = FALSE, seed=256)+theme_dag_blank()+theme(legend.position = "none")
 ```
 
 ]
@@ -773,7 +773,7 @@ dagify(wage~educ) %>%
 ```{r, echo = F}
 dagify(wage~educ+conx+year+bckg+loc,
        educ~bckg+year+loc+laws) %>%
-  ggdag_parents("wage", stylized = FALSE)+theme_dag_blank()+theme(legend.position = "none")
+  ggdag_parents("wage", stylized = FALSE, seed=256)+theme_dag_blank()+theme(legend.position = "none")
 ```
 
 ]
@@ -801,7 +801,7 @@ dagify(wage~educ+conx+year+bckg+loc,
        conx~educ,
        bckg~u1,
        loc~u1) %>% 
-  ggdag_parents("wage", stylized = FALSE)+theme_dag_blank()+theme(legend.position = "none")
+  ggdag_parents("wage", stylized = FALSE, seed=256)+theme_dag_blank()+theme(legend.position = "none")
 ```
 
 ]
@@ -829,7 +829,7 @@ dagify(wage~educ+conx+year+bckg+loc,
        conx~educ,
        bckg~u1,
        loc~u1) %>% 
-  ggdag_parents("wage", stylized = FALSE)+theme_dag_blank()+theme(legend.position = "none")
+  ggdag_parents("wage", stylized = FALSE, seed=256)+theme_dag_blank()+theme(legend.position = "none")
 ```
 
 ]
@@ -969,7 +969,7 @@ dagify(wage~educ+conx+year+bckg+loc,
        conx~educ,
        bckg~u1,
        loc~u1) %>% 
-  ggdag(stylized = FALSE)+
+  ggdag(stylized = FALSE, seed=256)+
   theme_dag_blank()
 ```
 
@@ -1006,7 +1006,7 @@ dagify(Y~X,
                 y=c(X=1,Y=1)
               )) %>% 
   tidy_dagitty() %>%
-  ggdag_parents("Y", stylized = FALSE)+theme_dag_blank()+theme(legend.position = "none")
+  ggdag_parents("Y", stylized = FALSE, seed=256)+theme_dag_blank()+theme(legend.position = "none")
 ```
 ]
 
@@ -1031,7 +1031,7 @@ dagify(Y~X,
                 y=c(X=1,Y=1)
               )) %>% 
   tidy_dagitty() %>%
-  ggdag_parents("Y", stylized = FALSE)+theme_dag_blank()+theme(legend.position = "none")
+  ggdag_parents("Y", stylized = FALSE, seed=256)+theme_dag_blank()+theme(legend.position = "none")
 ```
 
 
@@ -1063,7 +1063,7 @@ dagify(Y~M,
                 y=c(X=1,Y=1, M=1)
               )) %>% 
   tidy_dagitty() %>%
-  ggdag_parents("Y", stylized = FALSE)+theme_dag_blank()+theme(legend.position = "none")
+  ggdag_parents("Y", stylized = FALSE, seed=256)+theme_dag_blank()+theme(legend.position = "none")
 ```
 
 
@@ -1097,7 +1097,7 @@ dagify(Y~M+X,
                 y=c(X=1,Y=1, M=2 )
               )) %>% 
   tidy_dagitty() %>%
-  ggdag_parents("Y", stylized = FALSE)+theme_dag_blank()+theme(legend.position = "none")
+  ggdag_parents("Y", stylized = FALSE, seed=256)+theme_dag_blank()+theme(legend.position = "none")
 ```
 
 
@@ -1129,7 +1129,7 @@ dagify(Y~Z+X,
          y=c(X=1,Y=1, Z=2)
          )) %>% 
   #tidy_dagitty() %>%
-  ggdag_parents("Y", stylized = FALSE)+theme_dag_blank()+theme(legend.position = "none")
+  ggdag_parents("Y", stylized = FALSE, seed=256)+theme_dag_blank()+theme(legend.position = "none")
 ```
 
 ]
@@ -1159,7 +1159,7 @@ dagify(Y~Z+X,
          y=c(X=1,Y=1, Z=2)
          )) %>% 
   #tidy_dagitty() %>%
-  ggdag_parents("Y", stylized = FALSE)+theme_dag_blank()+theme(legend.position = "none")
+  ggdag_parents("Y", stylized = FALSE, seed=256)+theme_dag_blank()+theme(legend.position = "none")
 ```
 
 ]
@@ -1191,7 +1191,7 @@ dagify(Y~Z+X,
          y=c(X=1,Y=1, Z=2)
          )) %>% 
   #tidy_dagitty() %>%
-  ggdag_parents("Y", stylized = FALSE)+theme_dag_blank()+theme(legend.position = "none")
+  ggdag_parents("Y", stylized = FALSE, seed=256)+theme_dag_blank()+theme(legend.position = "none")
 ```
 
 ]
@@ -1220,7 +1220,7 @@ dagify(Y~X,
          y=c(X=1,Y=1)
          )) %>% 
   #tidy_dagitty() %>%
-  ggdag_parents("Y", stylized = FALSE)+theme_dag_blank()+theme(legend.position = "none")
+  ggdag_parents("Y", stylized = FALSE, seed=256)+theme_dag_blank()+theme(legend.position = "none")
 ```
 
 ]
@@ -1250,7 +1250,7 @@ dagify(Y~X,
          y=c(X=1,Y=1)
          )) %>% 
   #tidy_dagitty() %>%
-  ggdag_parents("Y", stylized = FALSE)+theme_dag_blank()+theme(legend.position = "none")
+  ggdag_parents("Y", stylized = FALSE, seed=256)+theme_dag_blank()+theme(legend.position = "none")
 ```
 
 ]
@@ -1281,7 +1281,7 @@ dagify(Y~X+C,
          y=c(X=1,A=1.5,B=1.5,C=1.5,Y=1)
          )) %>% 
   #tidy_dagitty() %>%
-  ggdag_parents("Y", stylized = FALSE)+theme_dag_blank()+theme(legend.position = "none")
+  ggdag_parents("Y", stylized = FALSE, seed=256)+theme_dag_blank()+theme(legend.position = "none")
 ```
 ]
 ---
@@ -1306,7 +1306,7 @@ dagify(Y~Z+X,
          y=c(X=1,Y=1, Z=2)
          )) %>% 
   #tidy_dagitty() %>%
-  ggdag_parents("Y", stylized = FALSE)+theme_dag_blank()+theme(legend.position = "none")
+  ggdag_parents("Y", stylized = FALSE, seed=256)+theme_dag_blank()+theme(legend.position = "none")
 ```
 
 ]
@@ -1340,7 +1340,7 @@ dagify(Y~Z+X,
 dagify(Y~X+B+Z,
        X~A,
        B~A) %>% 
-  ggdag_parents("Y", stylized = FALSE)+theme_dag_blank()+theme(legend.position = "none")
+  ggdag_parents("Y", stylized = FALSE, seed=256)+theme_dag_blank()+theme(legend.position = "none")
 ```
 
 ]
@@ -1377,7 +1377,7 @@ dagify(Y~X+C,
          x=c(X=1, A=1, B=1.5, C=2, Y=2),
          y=c(X=1, A=2, B=1.5, C=2, Y=1)
        )) %>% 
-  ggdag_parents("Y", stylized = FALSE)+theme_dag_blank()+theme(legend.position = "none")
+  ggdag_parents("Y", stylized = FALSE, seed=256)+theme_dag_blank()+theme(legend.position = "none")
 ```
 
 ]
@@ -1412,7 +1412,7 @@ dagify(Hos~Flu+Bus,
          x=c(Flu=1, Hos=1.5, Bus=2),
          y=c(Flu=1, Hos=2, Bus=1)
        )) %>% 
-  ggdag_parents("Hos", stylized = FALSE)+theme_dag_blank()+theme(legend.position = "none")
+  ggdag_parents("Hos", stylized = FALSE, seed=256)+theme_dag_blank()+theme(legend.position = "none")
 ```
 
 ]
@@ -1445,7 +1445,7 @@ dagify(wage~abil+occup+discr,
        occup~gender+discr+abil,
        exposure = "disc",
        outcome = "wage") %>% 
-  ggdag_parents("wage", stylized = FALSE)+theme_dag_blank()+theme(legend.position = "none")
+  ggdag_parents("wage", stylized = FALSE, seed=256)+theme_dag_blank()+theme(legend.position = "none")
 ```
 
 ]
@@ -1476,7 +1476,7 @@ dagify(wage~abil+occup+discr,
        occup~gender+discr+abil,
        exposure = "disc",
        outcome = "wage") %>% 
-  ggdag_parents("wage", stylized = FALSE)+theme_dag_blank()+theme(legend.position = "none")
+  ggdag_parents("wage", stylized = FALSE, seed=256)+theme_dag_blank()+theme(legend.position = "none")
 ```
 
 ]
@@ -1516,7 +1516,38 @@ dagify(Y~A+B+M,
          x=c(X=1, A=1.5, B=1.5, M=1.5, Y=2),
          y=c(X=1, A=2, B=0, M=1, Y=1)
        )) %>% 
-  ggdag_parents("Y", stylized = FALSE)+theme_dag_blank()+theme(legend.position = "none")
+  ggdag_parents("Y", stylized = FALSE, seed=256)+theme_dag_blank()+theme(legend.position = "none")
+```
+
+]
+
+---
+
+# The Front Door Criterion: Mediators
+
+.pull-left[
+
+- Tobacco industry claimed that $cor(smoking, cancer)$ could be spurious due to a confounding `gene` that affects both!
+  - Smoking `gene` is unobservable
+
+- Suppose smoking causes `tar` buildup in lungs, which cause `cancer`
+
+- We should *not* control for `tar`, it's on the **front-door path**
+  - This is how scientific studies can relate smoking to cancer
+
+]
+
+.pull-right[
+
+```{r, echo = F}
+dagify(canc~tar+gene,
+       tar~smok,
+       smok~gene,
+       coords=list(
+         x=c(smok=1, tar=1.5, gene=1.5, canc=2),
+         y=c(smok=1, tar=1, gene=2, canc=1)
+       )) %>% 
+  ggdag(stylized = FALSE, seed=256)+theme_dag_blank()+theme(legend.position = "none")
 ```
 
 ]
@@ -1529,11 +1560,11 @@ dagify(Y~A+B+M,
 
 Thus, to achieve identification, control for the minimal amount of variables such that: 
 
-1. Ensure that no back-door path remains open
-    - Close back-door paths by controlling for a variable along that path
-    - Colliders along a path automatically close that path
+1. Ensure that **no back-door path remains open**
+    - Close back-door paths by *controlling* for any variable along that path
+    - Colliders along a path *automatically* close that path
 
-2. Ensure that no front-door path is closed
+2. Ensure that **no front-door path is closed**
 
 ]
 
@@ -1547,8 +1578,17 @@ dagify(Y~A+B+M,
          x=c(X=1, A=1.5, B=1.5, M=1.5, Y=2),
          y=c(X=1, A=2, B=0, M=1, Y=1)
        )) %>% 
-  ggdag_parents("Y", stylized = FALSE)+theme_dag_blank()+theme(legend.position = "none")
+  ggdag_parents("Y", stylized = FALSE, seed=256)+theme_dag_blank()+theme(legend.position = "none")
 ```
 
 ]
+
+
+---
+
+# What are DAGs Good For?
+
+- Omitted variable bias
+
+- Help visualize how later methods (difference-in-difference, fixed effects, regression discontinuity, instrumental variables) help identify causal effectsp
 

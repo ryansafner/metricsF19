@@ -11,7 +11,7 @@ editor_options:
   chunk_output_type: console
 ---
 
-*Tuesday, November 5, 2019* 
+*Tuesday, November 5, 2019* and *Thursday, November 7, 2019*
 
 # Overview
 
@@ -26,3 +26,6 @@ Today we return to a more nuanced discussion of causality, given what we now kno
 
 - [<i class="fas fa-external-link-square-alt"></i> Lecture Slides](/slides/17-slides.html)
 
+# Practice Problems
+
+On Thursday, we will work on [Practice Problems](/r/17-r-practice). Answers will be posted later.
