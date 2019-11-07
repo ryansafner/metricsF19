@@ -1428,7 +1428,7 @@ dagify(Hos~Flu+Bus,
 
 1. $discr \rightarrow wage$ (Causal path)
 2. $discr \rightarrow occup \rightarrow wage$ (Causal path)
-3. $discr \leftarrow gender \rightarrow occup \rightarrow wage$ (Open back door)
+3. $discr \leftarrow gender \rightarrow occup \rightarrow wage$ (BLOCKED back door!)
 4. $discr \leftarrow gender \rightarrow occup \leftarrow abil \rightarrow wage$ (BLOCKED back door!)
 5. $discr \rightarrow occup \leftarrow abil \rightarrow wage$ (BLOCKED back door!)
 
@@ -1457,14 +1457,12 @@ dagify(wage~abil+occup+discr,
 .pull-left[
 
 - If we *control* for occupation:
-  - opens backdoor paths 4 & 5!
+  - opens backdoor paths 3, 4, 5!
   - creates spurious `cor(abil,discr)` where there wasn't one!
   - also closes causal path 2! (discriminatory reasons genders choose different occupations)
   
-- **Can't identify causal effect** controlling for `occup`!
+- **Can't identify causal effect** controlling for `occup` alone!
   - *Could* if you could control for `occup` *and* `abil` (but perhaps `abil` is unobserved)
-
-- Research on this needs to get clever!
 
 ]
 
@@ -1483,7 +1481,7 @@ dagify(wage~abil+occup+discr,
 
 ---
 
-# The Front Door Criterion: Mediators
+# The Front Door Criterion: Mediators I
 
 .pull-left[
 
@@ -1498,6 +1496,37 @@ dagify(wage~abil+occup+discr,
 
 - Should we control for $M$? 
 - If we did, this would block the front-door! 
+
+]
+]
+
+.pull-right[
+
+```{r, echo = F}
+dagify(Y~A+B+M,
+       M~X,
+       X~A+B,
+       coords=list(
+         x=c(X=1, A=1.5, B=1.5, M=1.5, Y=2),
+         y=c(X=1, A=2, B=0, M=1, Y=1)
+       )) %>% 
+  ggdag_parents("Y", stylized = FALSE, seed=256)+theme_dag_blank()+theme(legend.position = "none")
+```
+
+]
+
+---
+
+# The Front Door Criterion: Mediators II
+
+.pull-left[
+
+- Another case where controlling for a variable actually *adds bias* is if that variable is known as a .shout["mediator"].
+
+.content-box-green[
+.green[**Example**]:
+
+- If we control for $M$, this would block the front-door! 
 
 - If we can estimate $X \rightarrow M$ and $M \rightarrow Y$ (note, no back-doors to either of these!), we can estimate $X \rightarrow Y$
 ] 
@@ -1523,7 +1552,8 @@ dagify(Y~A+B+M,
 
 ---
 
-# The Front Door Criterion: Mediators
+
+# The Front Door Criterion: Mediators III
 
 .pull-left[
 
@@ -1558,7 +1588,7 @@ dagify(canc~tar+gene,
 
 .pull-left[
 
-Thus, to achieve identification, control for the minimal amount of variables such that: 
+Thus, to achieve .onfire[causal identification], control for the minimal amount of variables such that:
 
 1. Ensure that **no back-door path remains open**
     - Close back-door paths by *controlling* for any variable along that path
@@ -1582,13 +1612,3 @@ dagify(Y~A+B+M,
 ```
 
 ]
-
-
----
-
-# What are DAGs Good For?
-
-- Omitted variable bias
-
-- Help visualize how later methods (difference-in-difference, fixed effects, regression discontinuity, instrumental variables) help identify causal effectsp
-

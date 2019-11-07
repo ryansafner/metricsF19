@@ -130,9 +130,11 @@ dagify(bwght~cigs+inc,
 ```
 
 Note what we are hypothesizing:
-  - `bwght` is caused by `cigs` and `inc`
-  - `cigs` are caused by `price`, `educ`, and `inc`
-  - `inc` is caused by `educ`
+
+- `bwght` is caused by `cigs` and `inc`
+- `cigs` are caused by `price`, `educ`, and `inc`
+- `inc` is caused by `educ`
+
 See also how this is written into the notation in R to make the DAG.
 
 Create this model on [dagitty.net](htpp://dagitty.net).

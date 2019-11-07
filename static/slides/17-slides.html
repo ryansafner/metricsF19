@@ -1171,7 +1171,7 @@ class: inverse, center, middle
 
 1. `\(discr \rightarrow wage\)` (Causal path)
 2. `\(discr \rightarrow occup \rightarrow wage\)` (Causal path)
-3. `\(discr \leftarrow gender \rightarrow occup \rightarrow wage\)` (Open back door)
+3. `\(discr \leftarrow gender \rightarrow occup \rightarrow wage\)` (BLOCKED back door!)
 4. `\(discr \leftarrow gender \rightarrow occup \leftarrow abil \rightarrow wage\)` (BLOCKED back door!)
 5. `\(discr \rightarrow occup \leftarrow abil \rightarrow wage\)` (BLOCKED back door!)
 
@@ -1193,14 +1193,12 @@ class: inverse, center, middle
 .pull-left[
 
 - If we *control* for occupation:
-  - opens backdoor paths 4 &amp; 5!
+  - opens backdoor paths 3, 4, 5!
   - creates spurious `cor(abil,discr)` where there wasn't one!
   - also closes causal path 2! (discriminatory reasons genders choose different occupations)
   
-- **Can't identify causal effect** controlling for `occup`!
+- **Can't identify causal effect** controlling for `occup` alone!
   - *Could* if you could control for `occup` *and* `abil` (but perhaps `abil` is unobserved)
-
-- Research on this needs to get clever!
 
 ]
 
@@ -1212,7 +1210,7 @@ class: inverse, center, middle
 
 ---
 
-# The Front Door Criterion: Mediators
+# The Front Door Criterion: Mediators I
 
 .pull-left[
 
@@ -1228,11 +1226,7 @@ class: inverse, center, middle
 - Should we control for `\(M\)`? 
 - If we did, this would block the front-door! 
 
-- If we can estimate `\(X \rightarrow M\)` and `\(M \rightarrow Y\)` (note, no back-doors to either of these!), we can estimate `\(X \rightarrow Y\)`
-] 
-
-- This is the .whisper[front door method]
-
+]
 ]
 
 .pull-right[
@@ -1243,17 +1237,21 @@ class: inverse, center, middle
 
 ---
 
-# Recap
+# The Front Door Criterion: Mediators II
 
 .pull-left[
 
-Thus, to achieve identification, control for the minimal amount of variables such that: 
+- Another case where controlling for a variable actually *adds bias* is if that variable is known as a .shout["mediator"].
 
-1. Ensure that no back-door path remains open
-    - Close back-door paths by controlling for a variable along that path
-    - Colliders along a path automatically close that path
+.content-box-green[
+.green[**Example**]:
 
-2. Ensure that no front-door path is closed
+- If we control for `\(M\)`, this would block the front-door! 
+
+- If we can estimate `\(X \rightarrow M\)` and `\(M \rightarrow Y\)` (note, no back-doors to either of these!), we can estimate `\(X \rightarrow Y\)`
+] 
+
+- This is the .whisper[front door method]
 
 ]
 
@@ -1263,14 +1261,50 @@ Thus, to achieve identification, control for the minimal amount of variables suc
 
 ]
 
+---
+
+
+# The Front Door Criterion: Mediators III
+
+.pull-left[
+
+- Tobacco industry claimed that `\(cor(smoking, cancer)\)` could be spurious due to a confounding `gene` that affects both!
+  - Smoking `gene` is unobservable
+
+- Suppose smoking causes `tar` buildup in lungs, which cause `cancer`
+
+- We should *not* control for `tar`, it's on the **front-door path**
+  - This is how scientific studies can relate smoking to cancer
+
+]
+
+.pull-right[
+
+![](17-slides_files/figure-html/unnamed-chunk-30-1.png)&lt;!-- --&gt;
+
+]
 
 ---
 
-# What are DAGs Good For?
+# Recap
 
-- Omitted variable bias
+.pull-left[
 
-- Help visualize how later methods (difference-in-difference, fixed effects, regression discontinuity, instrumental variables) help identify causal effectsp
+Thus, to achieve .onfire[causal identification], control for the minimal amount of variables such that:
+
+1. Ensure that **no back-door path remains open**
+    - Close back-door paths by *controlling* for any variable along that path
+    - Colliders along a path *automatically* close that path
+
+2. Ensure that **no front-door path is closed**
+
+]
+
+.pull-right[
+
+![](17-slides_files/figure-html/unnamed-chunk-31-1.png)&lt;!-- --&gt;
+
+]
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
