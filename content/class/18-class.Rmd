@@ -15,7 +15,9 @@ editor_options:
 
 # Overview
 
-Today we look at data that is categorical. 
+Today we look at how to use data that is categorical (i.e. variables that indicate an observation's membership in a particular group or category). We introduce them into regression models as **dummy variables** that can equal 0 or 1: where 1 indicates membership in a category, and 0 indicates non-membership.
+
+We also look at what happens when categorical variables have more than two values: for regression, we introduce a dummy variable for each possible category - but be sure to leave out one reference category to avoid the dummy variable trap.
 
 # Slides
 

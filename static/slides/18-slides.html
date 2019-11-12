@@ -562,12 +562,6 @@ class: inverse, center, middle
 
 .pull-left[
 
-- `Female` is our dummy `\(x\)`-variable
-
-- Hard to see relationships because of **overplotting**
-
-- Use `geom_jitter()` instead of `geom_point()` to *randomly* nudge points
-  - *Only* for plotting purposes, does not affect actual data, regression, etc.
 
 ]
 
@@ -780,12 +774,15 @@ class: inverse, center, middle
 .content-box-green[
 .green[**Example**]: How do wages vary by region of the country? 
 
-Code region numerically: $$Region_i=
-\begin{cases}1 &amp; \text{if } i \text{ is in }Northeast \\
+]
+
+Code region numerically: 
+`$$Region_i=
+\begin{cases}1 &amp; \text{if } i \text{ is in }Northeast\\
    			2 &amp; \text{if } i \text{ is in } Midwest\\
     		3 &amp; \text{if } i \text{ is in } South \\
-   			4 &amp; \text{if } i \text{ is in } West\\ \end{cases}$$`
-]
+   			4 &amp; \text{if } i \text{ is in } West\\ 
+\end{cases}$$`
 
 --
 

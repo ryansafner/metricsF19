@@ -78,8 +78,10 @@ code span.wa { color: #bf0303; } /* Warning */
 <p>To minimize confusion, I suggest creating a new <code>R Project</code> (e.g. <code>regression_practice</code>) and storing any data in that folder on your computer.</p>
 <p>Alternatively, I have made a project in R Studio Cloud that you can use (and not worry about trading room computer limitations), with the data already inside (you will still need to assign it to an object).</p>
 <ul>
-<li><a href="https://rstudio.cloud/project/692655"><i class="fas fa-cloud"></i> View Project on R Studio Cloud</a></li>
-<li><a href="/r/17-r-practice-rmd.Rmd"><i class="fab fa-markdown"></i> <code>Download Markdown</code></a></li>
+<li><p><a href="https://rstudio.cloud/project/692655"><i class="fas fa-cloud"></i> View Project on R Studio Cloud</a></p></li>
+<li><p><a href="/r/17-r-practice-rmd.Rmd"><i class="fab fa-markdown"></i> <code>Download Markdown</code></a></p></li>
+<li><p><a href="/r/17-r-practice-answers.html"><i class="fas fa-external-link-square-alt"></i> <code>Answer Key (html)</code></a></p></li>
+<li><p><a href="/r/17-r-practice-answers.Rmd"><i class="fab fa-markdown"></i> <code>Answer Key (markdown)</code></a></p></li>
 </ul>
 <h2 id="part-a-dag-practice">Part A DAG Practice</h2>
 <p>For each of the following DAGs:<span><label for="sn-1" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-1" class="margin-toggle"/><span class="sidenote">You can use <a href="http://dagitty.net"><code>dagitty.net</code></a> to help you, but you should start trying to recognize these on your own!<br />
@@ -90,15 +92,10 @@ code span.wa { color: #bf0303; } /* Warning */
 <li>Write out <em>all</em> of the causal pathways from <code>X</code> (treatment of interest) to <code>Y</code> (outcome of interest).</li>
 </ol></li>
 <li><ol start="2" style="list-style-type: lower-roman">
-<li>Write at least one testable implication of the model.<span><label for="sn-2" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-2" class="margin-toggle"/><span class="sidenote">i.e. what variable(s) should be independent of another? or what should be independent of another <em>once</em> controlling for other variables?<br />
-<br />
-</span></span></li>
-</ol></li>
-<li><ol start="3" style="list-style-type: lower-roman">
 <li>Identify which variable(s) need to be controlled for to estimate the causal effect of <code>X</code> on <code>Y</code>.</li>
 </ol></li>
-<li><ol start="4" style="list-style-type: lower-roman">
-<li>Write out the regression equation (abstractly) for properly identifying the causal effect, based on part iii.</li>
+<li><ol start="3" style="list-style-type: lower-roman">
+<li>Write out the regression equation (abstractly) for properly identifying the causal effect, based on part ii.</li>
 </ol></li>
 </ul>
 <h3 id="example-a">Example A</h3>
@@ -113,9 +110,9 @@ code span.wa { color: #bf0303; } /* Warning */
 <p><img src="/r/17-r-practice_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 <h2 id="part-b-empirical-example">Part B Empirical Example</h2>
 <h3 id="question-1">Question 1</h3>
-<p>Install the <code>wooldridge</code> package if you do not already have it installed.<span><label for="sn-3" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-3" class="margin-toggle"/><span class="sidenote">This package contains datasets used in Jeffrey Wooldrige’s <em>Introductory Econometrics: A Modern Approach</em> (the textbook that I used in <em>my</em> econometrics classes years ago!)<br />
+<p>Install the <code>wooldridge</code> package if you do not already have it installed.<span><label for="sn-2" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-2" class="margin-toggle"/><span class="sidenote">This package contains datasets used in Jeffrey Wooldrige’s <em>Introductory Econometrics: A Modern Approach</em> (the textbook that I used in <em>my</em> econometrics classes years ago!)<br />
 <br />
-</span></span> We will use the <code>bwght</code> data from <code>wooldridge</code><span><label for="sn-4" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-4" class="margin-toggle"/><span class="sidenote">Which comes from The 1988 National Health Interview Survey., used in J. Mullahy (1997), “Instrumental-Variable Estimation of Count Data Models: Applications to Models of Cigarette Smoking Behavior,” <em>Review of Economics and Statistics</em> 79: 596-593.<br />
+</span></span> We will use the <code>bwght</code> data from <code>wooldridge</code><span><label for="sn-3" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-3" class="margin-toggle"/><span class="sidenote">Which comes from The 1988 National Health Interview Survey., used in J. Mullahy (1997), “Instrumental-Variable Estimation of Count Data Models: Applications to Models of Cigarette Smoking Behavior,” <em>Review of Economics and Statistics</em> 79: 596-593.<br />
 <br />
 </span></span></p>
 <p>Let’s just look at the following variables:</p>
@@ -157,7 +154,7 @@ code span.wa { color: #bf0303; } /* Warning */
 <span id="cb1-2"><a href="#cb1-2"></a><span class="kw">library</span>(wooldridge)</span>
 <span id="cb1-3"><a href="#cb1-3"></a>bwght&lt;-wooldridge<span class="op">::</span>bwght</span></code></pre></div>
 <h3 id="question-2">Question 2</h3>
-<p>Make a correlation table for our variables listed above.<span><label for="sn-5" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-5" class="margin-toggle"/><span class="sidenote">Hints: <code>select()</code> these variables and then pipe them into <code>cor(., use="pairwise.complete.obs")</code> to use only observations for which there are data on each variable (to avoid <code>NA</code>’s).<br />
+<p>Make a correlation table for our variables listed above.<span><label for="sn-4" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-4" class="margin-toggle"/><span class="sidenote">Hints: <code>select()</code> these variables and then pipe them into <code>cor(., use="pairwise.complete.obs")</code> to use only observations for which there are data on each variable (to avoid <code>NA</code>’s).<br />
 <br />
 </span></span></p>
 <h3 id="question-3">Question 3</h3>
@@ -193,11 +190,11 @@ code span.wa { color: #bf0303; } /* Warning */
 <h3 id="question-7">Question 7</h3>
 <p>What is the minimal sufficient set of variables we need to control in order to causally identify the effect of <code>cigs</code> on <code>bwght</code>?</p>
 <h3 id="question-8">Question 8</h3>
-<p>Estimate the causal effect by running the appropriate regression.<span><label for="sn-6" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-6" class="margin-toggle"/><span class="sidenote">Note, on <code>dagitty</code>, you can change a variable on the diagram to be “<em>adjusted</em>” (controlled for) by double-clicking it and then hitting the <code>A</code> key.<br />
+<p>Estimate the causal effect by running the appropriate regression.<span><label for="sn-5" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-5" class="margin-toggle"/><span class="sidenote">Note, on <code>dagitty</code>, you can change a variable on the diagram to be “<em>adjusted</em>” (controlled for) by double-clicking it and then hitting the <code>A</code> key.<br />
 <br />
 </span></span></p>
 <h3 id="question-9">Question 9</h3>
-<p>We saw some effect between <code>faminc</code> and <code>cigprice</code>. Perhaps there are unobserved factors (such as the economy’s performance) that affect both. Add an unobserved factor <code>u1</code> to your <code>dagitty</code> model.<span><label for="sn-7" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-7" class="margin-toggle"/><span class="sidenote">Note, on <code>dagitty</code>, you can make a variable be “<em>unobserved</em>” by double-clicking it and then hitting the <code>U</code> key.<br />
+<p>We saw some effect between <code>faminc</code> and <code>cigprice</code>. Perhaps there are unobserved factors (such as the economy’s performance) that affect both. Add an unobserved factor <code>u1</code> to your <code>dagitty</code> model.<span><label for="sn-6" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-6" class="margin-toggle"/><span class="sidenote">Note, on <code>dagitty</code>, you can make a variable be “<em>unobserved</em>” by double-clicking it and then hitting the <code>U</code> key.<br />
 <br />
 </span></span></p>
 <h3 id="question-10">Question 10</h3>

@@ -28,4 +28,4 @@ Today we return to a more nuanced discussion of causality, given what we now kno
 
 # Practice Problems
 
-On Thursday, we will work on [Practice Problems](/r/17-r-practice). Answers will be posted later.
+On Thursday, we will work on [Practice Problems](/r/17-r-practice). Answers are posted there.

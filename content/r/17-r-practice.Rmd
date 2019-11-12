@@ -18,14 +18,16 @@ Alternatively, I have made a project in R Studio Cloud that you can use (and not
 - [<i class="fas fa-cloud"></i> View Project on R Studio Cloud](https://rstudio.cloud/project/692655)
 - [<i class="fab fa-markdown"></i> `Download Markdown`](/r/17-r-practice-rmd.Rmd)
 
+- [<i class="fas fa-external-link-square-alt"></i> `Answer Key (html)`](/r/17-r-practice-answers.html)
+- [<i class="fab fa-markdown"></i> `Answer Key (markdown)`](/r/17-r-practice-answers.Rmd)
+
 # Part A DAG Practice
 
 For each of the following DAGs:^[You can use [`dagitty.net`](http://dagitty.net) to help you, but you should start trying to recognize these on your own!]
 
 - i. Write out *all* of the causal pathways from `X` (treatment of interest) to `Y` (outcome of interest).
-- ii. Write at least one testable implication of the model.^[i.e. what variable(s) should be independent of another? or what should be independent of another *once* controlling for other variables?]
-- iii. Identify which variable(s) need to be controlled for to estimate the causal effect of `X` on `Y`.
-- iv. Write out the regression equation (abstractly) for properly identifying the causal effect, based on part iii.
+- ii. Identify which variable(s) need to be controlled for to estimate the causal effect of `X` on `Y`.
+- iii. Write out the regression equation (abstractly) for properly identifying the causal effect, based on part ii.
 
 ```{r, echo=F, message=F, warning=F}
 # load to draw DAGs! 

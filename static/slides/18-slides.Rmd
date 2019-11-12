@@ -629,12 +629,6 @@ wages %>%
 
 .pull-left[
 
-- `Female` is our dummy $x$-variable
-
-- Hard to see relationships because of **overplotting**
-
-- Use `geom_jitter()` instead of `geom_point()` to *randomly* nudge points
-  - *Only* for plotting purposes, does not affect actual data, regression, etc.
 
 ]
 
@@ -818,12 +812,15 @@ $$\widehat{Wages_i}=\hat{\beta_0}+\hat{\beta_1}Region_i$$
 .content-box-green[
 .green[**Example**]: How do wages vary by region of the country? 
 
-Code region numerically: $$Region_i=
-\begin{cases}1 & \text{if } i \text{ is in }Northeast \\
+]
+
+Code region numerically: 
+$$Region_i=
+\begin{cases}1 & \text{if } i \text{ is in }Northeast\\
    			2 & \text{if } i \text{ is in } Midwest\\
     		3 & \text{if } i \text{ is in } South \\
-   			4 & \text{if } i \text{ is in } West\\ \end{cases}$$
-]
+   			4 & \text{if } i \text{ is in } West\\ 
+\end{cases}$$
 
 --
 

@@ -1,0 +1,490 @@
+---
+title: "3.5: Causal Inference and DAGs - R Practice (Answers)"
+author: "Ryan Safner"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    df_print: paged
+    #theme: 
+    toc: true 
+    toc_depth: 3
+    toc_float: true
+    code_folding: show
+    highlight: tango
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Set Up
+To minimize confusion, I suggest creating a new `R Project` (e.g. `regression_practice`) and storing any data in that folder on your computer.
+
+Alternatively, I have made a project in R Studio Cloud that you can use (and not worry about trading room computer limitations), with the data already inside (you will still need to assign it to an object).
+
+- [<i class="fas fa-cloud"></i> View Project on R Studio Cloud](https://rstudio.cloud/project/692655)
+- [<i class="fab fa-markdown"></i> `Download Markdown`](/r/17-r-practice-rmd.Rmd)
+
+# Part A DAG Practice
+
+For each of the following DAGs:^[You can use [`dagitty.net`](http://dagitty.net) to help you, but you should start trying to recognize these on your own!]
+
+- i. Write out *all* of the causal pathways from `X` (treatment of interest) to `Y` (outcome of interest).
+- ii. Identify which variable(s) need to be controlled for to estimate the causal effect of `X` on `Y`.
+- iii. Write out the regression equation (abstractly) for properly identifying the causal effect, based on part ii.
+
+
+```{r, echo=F, message=F, warning=F}
+# load to draw DAGs! 
+library(tidyverse)
+library(ggdag)
+```
+
+## Example A
+
+```{r, echo=F, fig.retina=3}
+dagify(Y~X+Z,
+       X~Z,
+       exposure = "X",
+       outcome = "Y") %>% 
+  ggdag(stylized = FALSE, seed=1)+theme_dag_blank()+theme(legend.position = "none")
+```
+
+---
+
+i. Pathways:
+  1. $X \rightarrow Y$ (causal, front door)
+  2. $X \leftarrow Z \rightarrow Y$ (not causal, back door)
+
+ii. $Z$ needs to be controlled for, since it is opening a backdoor path.
+
+iii. $Y=\beta_0+\beta_1X+\beta_2 Z$
+
+![](images/Adagitty.png)
+
+---
+
+## Example B
+
+```{r, echo=F, fig.retina=3}
+dagify(Y~X+M,
+       M~X,
+       exposure = "X",
+       outcome = "Y") %>% 
+  ggdag(stylized = FALSE, seed=1)+theme_dag_blank()+theme(legend.position = "none")
+```
+
+---
+
+i. Pathways:
+  1. $X \rightarrow Y$ (causal, front door)
+  2. $X \rightarrow M \rightarrow Y$ (causal, front door)
+
+ii. Nothing should be controlled for, since $M$ is a mediator, and part of the effect of $X$ on $Y$
+
+iii. $Y=\beta_0+\beta_1X$
+
+![](images/Bdagitty.png)
+
+---
+
+## Example C
+
+```{r, echo=F, fig.retina=3}
+dagify(Y~X+Z+B,
+       Z~B+A,
+       X~A,
+       exposure = "X",
+       outcome = "Y") %>% 
+  ggdag(stylized = FALSE, seed=1)+theme_dag_blank()+theme(legend.position = "none")
+```
+
+---
+
+i. Pathways:
+  1. $X \rightarrow Y$ (causal, front door)
+  2. $X \leftarrow A \rightarrow Z \rightarrow Y$ (not causal, back door)
+  3. $X \leftarrow A \rightarrow Z \leftarrow B \rightarrow Y$ (not causal, back door)
+  
+ii. Backdoor path 3 is closed by the collider at $Z$. Backdoor path 2 remains open, so we need to control for $A$. (If we blocked $Z$ to close path 2, that would open up backdoor path 3!) Only $A$ should be controlled for. 
+
+iii. $Y=\beta_0+\beta_1X+\beta_2A$
+
+![](images/Cdagitty.png)
+
+---
+
+## Example D
+
+```{r, echo=F, fig.retina=3}
+dagify(Y~X+B+C,
+       Z~B+A,
+       X~A,
+       C~X,
+       exposure = "X",
+       outcome = "Y") %>% 
+  ggdag(stylized = FALSE, seed=2)+theme_dag_blank()+theme(legend.position = "none")
+```
+
+---
+
+i. Pathways:
+  1. $X \rightarrow Y$ (causal, front door)
+  2. $X \rightarrow C \rightarrow Y$ (causal, front door)
+  3. $X \leftarrow A \rightarrow Z \rightarrow B \rightarrow Y$ (not causal, back door)
+
+ii. Path 2 is a front door path we want to leave open. Backdoor path 3 is closed by the collider at $Z$. Nothing needs to be controlled for!
+
+iii. $Y=\beta_0+\beta_1X$
+
+![](images/Ddagitty.png)
+
+---
+
+## Example E
+
+```{r, echo=F, fig.retina=3}
+dagify(Y~X+Z+A,
+       Z~X+A+B,
+       B~A,
+       exposure = "X",
+       outcome = "Y") %>% 
+  ggdag(stylized = FALSE, seed=2)+theme_dag_blank()+theme(legend.position = "none")
+```
+
+---
+
+i. Pathways:
+  1. $X \rightarrow Y$ (causal, front door)
+  2. $X \rightarrow Z \rightarrow Y$ (causal, front door)
+  3. $X \rightarrow Z \leftarrow A \rightarrow Y$ (not causal, back door)
+  4. $X \rightarrow Z \leftarrow B \rightarrow A \rightarrow Y$ (not causal, back door)
+  
+ii. Path 2 is a front door path we want to leave open. Backdoor path 3 is closed by the collider at $Z$. Backdoor path 4 is closed by the collider at $Z$. We don't want to control for anything!
+
+iii. $Y=\beta_0+\beta_1X$
+
+![](images/Edagitty.png)
+
+---
+
+# Part B Empirical Example
+
+## Question 1
+
+Install the `wooldridge` package if you do not already have it installed.^[This package contains datasets used in Jeffrey Wooldrige's *Introductory Econometrics: A Modern Approach* (the textbook that I used in *my* econometrics classes years ago!)] We will use the `bwght` data from `wooldridge`^[Which comes from The 1988 National Health Interview Survey., used in J. Mullahy (1997), “Instrumental-Variable Estimation of Count Data Models: Applications to Models of Cigarette Smoking Behavior,” *Review of Economics and Statistics* 79: 596-593.]
+
+Let's just look at the following variables:
+
+| Variable | Description |
+|----------|-------------|
+| `bwght` | Birth Weight (ounces) |
+| `cigs` | Cigarettes smoked per day while pregnant (1988) |
+| `motheduc` | Mother's education (number of years) |
+| `cigprice` | Price of cigarette pack (1988) |
+| `faminc` | Family's income in $1,000s (1988) |
+
+> We want to explore how a mother smoking during pregnancy affects the baby's birthweight (which may have strong effects on outcomes over the child's life).
+
+Just to be explicit about it, assign this as some dataframe (feel free to change the name), i.e.: 
+
+```{r}
+# install.packages("wooldridge")
+library(wooldridge)
+bwght<-wooldridge::bwght
+```
+
+---
+
+## Question 2
+Make a correlation table for our variables listed above.^[Hints: `select()` these variables and then pipe them into `cor(., use="pairwise.complete.obs")` to use only observations for which there are data on each variable (to avoid `NA`'s).]
+
+---
+
+<!--ANSWER BELOW HERE-->
+
+```{r}
+bwght %>%
+  select(bwght, cigs, motheduc, cigprice, faminc) %>%
+  cor(use = "pairwise.complete.obs")
+```
+
+---
+
+## Question 3
+Consider the following causal model:
+
+```{r, echo=T}
+library(ggdag)
+dagify(bwght~cigs+inc,
+       cigs~price+educ+inc,
+       inc~educ,
+       exposure = "cigs",
+       outcome = "bwght") %>% 
+  ggdag(stylized = FALSE, seed=1)+theme_dag_blank()+theme(legend.position = "none")
+```
+
+Note what we are hypothesizing:
+
+- `bwght` is caused by `cigs` and `inc`
+- `cigs` are caused by `price`, `educ`, and `inc`
+- `inc` is caused by `educ`
+
+See also how this is written into the notation in R to make the DAG.
+
+Create this model on [dagitty.net](htpp://dagitty.net).
+
+---
+
+<!--ANSWER BELOW HERE-->
+
+```{r}
+
+```
+
+---
+
+## Question 4
+What does `dagitty` tell us the testable implications of this causal model?
+
+---
+
+![](images/4dagitty.png)
+
+
+See the middle box on the right on dagitty:
+
+1. $bwght \perp price \, | \, cigs, inc$: birthweight is independent of price, controlling for cigarettes and income
+
+2. $bwght \perp educ \, | \, cigs, inc$: birthweight is independent of education, controlling for cigarettes and income
+
+3. $inc \perp price$: income is independent of price
+
+4. $price \perp educ$: cigarette price is independent of education
+
+---
+
+## Question 5
+
+Test each implication given to you by `dagitty.` 
+
+- For independencies $(x \perp y)$: run a regression of $y$ on $x$.
+- For *conditional* independencies $(x \perp y | z, a)$: run a regression of $y$ on $x, z, a$.
+
+For each, test against the null hypothesis that the relevant coefficient $(\hat{\beta_1})$ is 0 (i.e. $x$ and $y$ are indeed independent).
+
+Does this causal model hold up well?
+
+---
+
+### Implication 1:
+
+If we run a regression of `bwght` on `cigprice`, including `cigs` and `faminc` as controls, there should not not be a statistically significant coefficient on `cigprice` (i.e. there is no relationship between `cigprice` and `bwght` holding `cigs` and` faminc` constant):
+
+```{r}
+lm(bwght~cigprice+cigs+faminc, data = bwght) %>% summary()
+```
+
+The coefficient on `cigprice` is small and not statistically significant. This implication holds up well.
+
+### Implication 2:
+
+If we run a regression of `bwght` on `motheduc`, including `cigs` and `faminc` as controls, there should not not be a statistically significant coefficient on `cigprice` (i.e. there is no relationship between `motheduc` and `bwght` holding `cigs` and` faminc` constant):
+
+```{r}
+lm(bwght~motheduc+cigs+faminc, data = bwght) %>% summary()
+```
+
+### Implication 3:
+
+The model implies simply that there is no significant correlation between `faminc` and `cigprice`
+
+```{r}
+bwght %>%
+  select(faminc, cigprice) %>%
+  cor()
+```
+
+There is a fairly weak correlation. This implication mostly holds up.
+
+### Implication 4:
+
+The model implies simply that there is no significant correlation between `cigprice` and `motheduc`
+
+```{r}
+bwght %>%
+  select(cigprice, motheduc) %>%
+  cor(use="pairwise.complete.obs")
+```
+
+This is an even weaker correlation. This implication seems to holds up.
+
+---
+
+## Question 6
+List *all* of the possible pathways from `cigs` to `bwght`. Which are "front-doors" and which are "back-doors?" Are any blocked by colliders?
+
+---
+
+<!--ANSWER BELOW HERE-->
+
+1. $cigs \rightarrow bwght$ (causal, front door)
+2. $cigs \leftarrow faminc \rightarrow bwght$ (non-causal, back door)
+3. $cibs \leftarrow motheduc \rightarrow faminc \rightarrow bwght$ (non-causal, back door)
+
+There are no colliders on any path. 
+
+---
+
+## Question 7
+What is the minimal sufficient set of variables we need to control in order to causally identify the effect of `cigs` on `bwght`?
+
+---
+
+![](images/7dagitty.png)
+
+We simply need to control for `faminc`. This blocks the back door for both path 2 and path 3.
+
+---
+
+## Question 8
+Estimate the causal effect by running the appropriate regression.^[Note, on `dagitty`, you can change a variable on the diagram to be "*adjusted*" (controlled for) by double-clicking it and then hitting the `A` key.]
+
+---
+
+We need to control only for `faminc`, so we put it into the regression to estimate:
+
+$$bwght_i=\beta_0+\beta_1 \, cigs_i+\beta_2 \,faminc_i$$
+<!--ANSWER BELOW HERE-->
+
+```{r}
+lm(bwght~cigs+faminc, data = bwght) %>% summary()
+```
+
+Controlling for income, each cigarette smoked while pregant will cause the birthweight to decrease by 0.46 ounces.
+
+---
+
+## Question 9
+We saw some effect between `faminc` and `cigprice`. Perhaps there are unobserved factors (such as the economy's performance) that affect both. Add an unobserved factor `u1` to your `dagitty` model.^[Note, on `dagitty`, you can make a variable be "*unobserved*" by double-clicking it and then hitting the `U` key.]
+
+---
+
+<!--ANSWER BELOW HERE-->
+
+![](images/9dagitty.png)
+
+---
+
+## Question 10
+Perhaps our model is poorly specified. Maybe `motheduc` actually has a causal effect on `bwght`? Tweak your model from Question 9 on `dagitty` to add this potential relationship. What testable implications does this new model imply?
+
+---
+
+<!--ANSWER BELOW HERE-->
+
+See the middle box on the right on dagitty:
+
+1. $bwght \perp price \, | \, cigs, inc, educ$: birthweight is independent of price, controlling for cigarettes, income, and education
+
+2. $price \perp educ$: cigarette price is independent of education
+
+![](images/10dagitty.png)
+
+---
+
+## Question 11
+Test these implications appropriately, like you did in Question 5. Does this model hold up well?
+
+---
+
+<!--ANSWER BELOW HERE-->
+
+### Implication 1:
+
+If we run a regression of `bwght` on `cigprice`, including `cigs`, `faminc`, and `motheduc` as controls, there should not not be a statistically significant coefficient on `cigprice` (i.e. there is no relationship between `cigprice` and `bwght` holding `cigs`,` faminc`, and `motheduc` constant):
+
+```{r}
+lm(bwght~cigprice+cigs+faminc+motheduc, data = bwght) %>% summary()
+```
+
+The coefficient on `cigprice` is small and not statistically significant. This implication holds up well.
+
+### Implication 2:
+
+This is the same as implication 4 from question 5. Again, this holds up reasonably well.
+
+---
+
+## Question 12
+
+Under this new causal model, list *all* of the possible pathways from `cigs` to `bwght`. Which are "front-doors" and which are "back-doors?" Are any blocked by colliders?
+
+---
+
+<!--ANSWER BELOW HERE-->
+
+1. $cigs \rightarrow bwght$ (causal, front door)
+2. $cigs \leftarrow faminc \rightarrow bwght$ (non-causal, back door)
+3. $cigs \leftarrow cigprice \leftarrow u1 \rightarrow faminc \rightarrow bwght$ (non-causal, back door)
+4. $cigs \leftarrow motheduc \rightarrow bwght$ (non-causal, back door)
+5. $cigs \leftarrow motheduc \rightarrow faminc \rightarrow bwght$ (non-causal, back door)
+
+There are no colliders on any path. 
+
+---
+
+## Question 13
+
+Under this new causal model, what is the minimal sufficient set of variables we need to control in order to causally identify the effect of `cigs` on `bwght`?
+
+---
+
+<!--ANSWER BELOW HERE-->
+
+We need to control for `faminc` and `motheduc`. This blocks the back door for paths 2, 3, 4, and 5.
+
+---
+
+## Question 14
+
+Estimate the causal effect in this new model by running the appropriate regression. Compare your answers to those in question 8.
+
+---
+
+<!--ANSWER BELOW HERE-->
+
+![](images/14dagitty.png)
+
+We need to control for `faminc` and `motheduc`, so we put them into the regression to estimate:
+
+$$bwght_i=\beta_0+\beta_1 \, cigs_i+\beta_2 \,faminc_i+ \beta_3 \, motheduc_i$$
+<!--ANSWER BELOW HERE-->
+
+```{r}
+lm(bwght~cigs+faminc+motheduc, data = bwght) %>% summary()
+```
+
+Controlling for income and education, each cigarette smoked while pregant will cause the birthweight to decrease by 0.46 ounces. It turns out there was no noticeable difference when we included education!
+
+---
+
+## Question 15
+
+Try out drawing this model using the  `ggdag` package in R. See my DAG in question 3 for an example.
+
+---
+
+<!--ANSWER BELOW HERE-->
+
+```{r, echo=T}
+library(ggdag)
+dagify(bwght~cigs+inc+educ,
+       cigs~price+educ+inc,
+       inc~educ+u1,
+       price~u1,
+       exposure = "cigs",
+       outcome = "bwght") %>% 
+  ggdag(stylized = FALSE, seed=1)+theme_dag_blank()+theme(legend.position = "none")
+```
+```

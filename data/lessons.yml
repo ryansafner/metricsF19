@@ -114,6 +114,8 @@ lessons:
     class: "17-class"
     slides: "17-slides"
     r: "17-r-practice"
+    
+  - title: '<i class="fas fa-laptop-code"></i> **Problem Set 4** due Nov 19'
     assignment: "04-problem-set"
     
   - title: "3.6 Regression with Categorical Data"
@@ -128,6 +130,9 @@ lessons:
   
   - title: "3.9 Logarithmic Models"
   
+  - title: '<i class="fas fa-laptop-code"></i> **Problem Set 5**'
+    assignment: "05-problem-set"
+
   - title: '<span class="fake-header-table">4. Panel Data Models</span>'
     header: True
 
