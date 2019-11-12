@@ -114,11 +114,16 @@ lessons:
     class: "17-class"
     slides: "17-slides"
     r: "17-r-practice"
+    assignment: "04-problem-set"
     
-  - title: "3.6 Dummy Variables"
-  
-  - title: "3.7 Categories and Interactions"
-  
+  - title: "3.6 Regression with Categorical Data"
+    reading: "18-reading"
+    class: "18-class"
+    slides: "18-slides"
+    
+  - title: "3.7 Interactions"
+    reading: "19-reading"
+    
   - title: "3.8 Polynomial Models"
   
   - title: "3.9 Logarithmic Models"

@@ -1,0 +1,1080 @@
+---
+title: "3.6: Regression with Categorical Data"
+subtitle: "ECON 480 · Econometrics · Fall 2019"
+author: 'Ryan Safner<br> Assistant Professor of Economics <br> <a href="mailto:safner@hood.edu"><i class="fa fa-paper-plane fa-fw"></i> safner@hood.edu</a> <br> <a href="https://github.com/ryansafner/metricsf19"><i class="fa fa-github fa-fw"></i> ryansafner/metricsf19</a><br> <a href="https://metricsF19.classes.ryansafner.com"> <i class="fa fa-globe fa-fw"></i> metricsF19.classes.ryansafner.com</a><br>'
+#date:
+output:
+  xaringan::moon_reader:
+    mathjax: "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML" # rescales math with css changes https://github.com/yihui/xaringan/issues/143
+    lib_dir: libs
+    df_print: paged
+    #seal: false
+    css: [custom.css, custom-fonts.css, "hygge"] #, metropolis, metropolis-fonts
+    nature:
+      beforeInit: ["macros.js", "https://platform.twitter.com/widgets.js"] # first is for rescaling images , second is for embedding tweets, https://github.com/yihui/xaringan/issues/100
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: "16:9"
+      slideNumberFormat: |
+        <div class="progress-bar-container">
+          <div class="progress-bar" style="width: calc(%current% / %total% * 100%);">
+          </div>
+        </div>
+    includes:
+      in_header: header.html # for font awesome, used in title  
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(echo=F,
+                      message=F,
+                      warning=F)
+library(tidyverse)
+set.seed(256)
+update_geom_defaults("label", list(family = "Fira Sans Condensed"))
+
+library(wooldridge)
+wages<-wooldridge::wage1
+wages<-wages %>%
+  mutate(Gender = factor(ifelse(female==0,
+                         "Male",
+                         "Female")))
+```
+
+# Categorical Data
+
+.pull-left[
+
+- .hl[Categorical data] place an individual into one of several possible *categories*
+    - e.g. sex, season, political party
+    - may be responses to survey questions
+    - can be quantitative (e.g. age, zip code)
+
+- `R` calls these `factors` (we'll deal with them much later in the course)
+]
+
+.pull-right[
+
+![](https://www.dropbox.com/s/pgdswagr7b348vu/categoricaldata.png?raw=1)
+
+]
+
+---
+
+# Example Research Question
+
+.pull-left[
+
+.content-box-green[
+.green[**Example**]: do men earn higher wages, on average, than women? If so, how much?
+]
+
+]
+
+.pull-right[
+.center[
+![:scale 100%](https://www.dropbox.com/s/481uod9g3n1w7kr/genderpaygap.jpg?raw=1)
+]
+]
+
+---
+
+# The Pure Statistics of Comparing Group Means
+
+.pull-left[
+
+- Using basic statistics, we can test for a statistically significant difference in group means with a **t-test**<sup>.red[1]</sup>
+
+- Define:
+
+- .blue[`\\(Y_M\\)`]: average earnings of a sample of .blue[`\\(n_M\\)`] men
+
+- .magenta[`\\(Y_W\\)`]: average earnings of a sample of .magenta[`\\(n_W\\)`] women
+
+- **Difference** in group averages: $d=$ .blue[`\\(\bar{Y}_M\\)`] $-$ .magenta[`\\(\bar{Y}_W\\)`]
+
+- The hypothesis test is:
+  - $H_0: d=0$
+  - $H_1: d \neq 0$
+
+]
+
+.pull-right[
+.center[
+![:scale 100%](https://www.dropbox.com/s/481uod9g3n1w7kr/genderpaygap.jpg?raw=1)
+]
+]
+
+.footnote[ <sup>.red[1]</sup> See today's class notes page for this example]
+
+---
+
+# Comparing Groups with Regression
+
+- In a regression, we can easily compare across groups via a .shout[dummy variable]<sup>.red[1]</sup>
+
+- Dummy variable *only* $=0$ or $=1$, depending on if a condition is met
+
+- Signifies whether an observation belongs to a category or not
+
+.footnote[<sup>.red[1]</sup> Also called a .shout[binary variable] or .shout[dichotomous variable]]
+
+--
+
+.content-box-green[
+.green[**Example**]: 
+
+$$\widehat{Wage_i}=\hat{\beta_0}+\hat{\beta_1}Female_i \quad \quad \text{ where } Female_i =
+ 		 \begin{cases}
+    		1 & \text{if person } i \text{ is } Female \\
+   			0 & \text{if person } i \text{ is } Male\\
+  		\end{cases}$$
+
+]
+
+--
+
+- Again, $\hat{\beta_1}$ makes less sense as the "slope" of a line in this context
+
+---
+
+# Comparing Groups in Regression: Scatterplot
+
+.pull-left[
+
+- `Female` is our dummy $x$-variable
+
+- Hard to see relationships because of **overplotting**
+
+]
+
+.pull-right[
+```{r, fig.retina=3}
+colors<-c(Female = "pink", Male = "blue")
+
+ggplot(data = wages)+
+  aes(x = female,
+      y = wage)+
+  geom_point(aes(color = Gender))+
+  geom_smooth(method = "lm", color = "black")+
+  scale_x_continuous(breaks=c(0,1),
+                   labels=c(0,1))+
+  scale_y_continuous(labels=scales::dollar)+
+  labs(x = "Female",
+       y = "Wage")+
+  guides(color=F)+ # hide legend
+  theme_classic(base_family = "Fira Sans Condensed",
+           base_size=20)
+```
+]
+
+---
+
+# Comparing Groups in Regression: Scatterplot
+
+.pull-left[
+
+- `Female` is our dummy $x$-variable
+
+- Hard to see relationships because of **overplotting**
+
+- Use `geom_jitter()` instead of `geom_point()` to *randomly* nudge points
+  - *Only* for plotting purposes, does not affect actual data, regression, etc.
+
+]
+
+.pull-right[
+```{r, fig.retina=3}
+colors<-c(Female = "pink", Male = "blue")
+
+ggplot(data = wages)+
+  aes(x = female,
+      y = wage)+
+  geom_jitter(aes(color = Gender),
+              width=0.05)+
+  geom_smooth(method = "lm", color = "black")+
+  scale_x_continuous(breaks=c(0,1),
+                   labels=c(0,1))+
+  scale_y_continuous(labels=scales::dollar)+
+  labs(x = "Female",
+       y = "Wage")+
+  guides(color=F)+ # hide legend
+  theme_classic(base_family = "Fira Sans Condensed",
+           base_size=20)
+```
+]
+
+---
+
+# Comparing Groups in Regression: Scatterplot
+
+.pull-left[
+
+- `Female` is our dummy $x$-variable
+
+- Hard to see relationships because of **overplotting**
+
+- Use `geom_jitter()` instead of `geom_point()` to *randomly* nudge points
+  - *Only* for plotting purposes, does not affect actual data, regression, etc.
+
+]
+
+.pull-right[
+```{r, fig.retina=3}
+male_avg<-wages %>%
+  filter(female==0) %>%
+  summarize(mean(wage)) %>%
+  pull() # get just a number (not a dataframe)
+
+female_avg<-wages %>%
+  filter(female==1) %>%
+  summarize(mean(wage)) %>%
+  pull() # get just a number (not a dataframe)
+
+ggplot(data = wages)+
+  aes(x = female,
+      y = wage)+
+  geom_jitter(aes(color = Gender),
+              width=0.05)+
+  geom_smooth(method = "lm", color = "black")+
+  geom_hline(yintercept=male_avg,linetype="dashed",color="blue")+
+  geom_label(x = 0.5, y=male_avg, label="Average for Men", color="blue")+
+  geom_hline(yintercept=female_avg,linetype="dashed",color="red")+
+  geom_label(x = 0.5, y=female_avg, label="Average for Women", color="red")+
+  scale_x_continuous(breaks=c(0,1),
+                   labels=c(0,1))+
+  scale_y_continuous(labels=scales::dollar)+
+  labs(x = "Female",
+       y = "Wage")+
+  guides(color=F)+ # hide legend
+  theme_classic(base_family = "Fira Sans Condensed",
+           base_size=20)
+```
+]
+
+---
+
+# Dummy Variables as Group Means
+
+$$\hat{Y_i}=\hat{\beta_0}+\hat{\beta_1} D_i \quad \text{ where }D_i=\{0,1\}$$
+
+--
+
+- .red[When `\\(D_i=0\\)` (Control group):]
+    - $\hat{Y_i}=\hat{\beta_0}$
+    - $E[Y|D_i=0]=\hat{\beta_0}$ $\iff$ the mean of $Y$ when $D_i=0$
+--
+
+- .blue[When `\\(D_i=1\\)` (Treatment group):]
+    - $\hat{Y_i}=\hat{\beta_0}+\hat{\beta_1} D_i$
+    - $E[Y|D_i=1]=\hat{\beta_0}+\hat{\beta_1}$ $\iff$ the mean of $Y$ when $D_i=1$
+
+--
+
+- So the **difference** in group means:
+
+$$\begin{align*}
+		&=E[Y_i|D_i=1]-E[Y_i|D_i=0]\\
+		&=(\hat{\beta_0}+\hat{\beta_1})-(\hat{\beta_0})\\
+		&=\hat{\beta_1}\\
+\end{align*}$$
+
+---
+
+# Dummy Variables as Group Means: Our Example
+
+.pull-left[
+.content-box-green[
+.green[**Example**]:
+
+$$\widehat{Wage_i}=\hat{\beta_0}+\hat{\beta_1}Female_i$$
+
+$$\text{where } Female_i =
+ 		 \begin{cases}
+    		1 & \text{if } i \text{ is }Female \\
+   			0 & \text{if } i \text{ is } Male\\
+  		\end{cases}$$
+]
+]
+
+.pull-right[
+
+- Mean wage for men: 
+]
+
+---
+
+# Dummy Variables as Group Means: Our Example
+
+.pull-left[
+.content-box-green[
+.green[**Example**]:
+
+$$\widehat{Wage_i}=\hat{\beta_0}+\hat{\beta_1}Female_i$$
+
+$$\text{where } Female_i =
+ 		 \begin{cases}
+    		1 & \text{if } i \text{ is }Female \\
+   			0 & \text{if } i \text{ is } Male\\
+  		\end{cases}$$
+]
+]
+
+.pull-right[
+
+- Mean wage for men:
+$$E[Wage|Female=0]=\hat{\beta_0}$$
+]
+
+---
+
+# Dummy Variables as Group Means: Our Example
+
+.pull-left[
+.content-box-green[
+.green[**Example**]:
+
+$$\widehat{Wage_i}=\hat{\beta_0}+\hat{\beta_1}Female_i$$
+
+$$\text{where } Female_i =
+ 		 \begin{cases}
+    		1 & \text{if } i \text{ is }Female \\
+   			0 & \text{if } i \text{ is } Male\\
+  		\end{cases}$$
+]
+]
+
+.pull-right[
+
+- Mean wage for men: 
+$$E[Wage|Female=0]=\hat{\beta_0}$$
+
+- Mean wage for women: 
+]
+
+---
+
+# Dummy Variables as Group Means: Our Example
+
+.pull-left[
+.content-box-green[
+.green[**Example**]:
+
+$$\widehat{Wage_i}=\hat{\beta_0}+\hat{\beta_1}Female_i$$
+
+$$\text{where } Female_i =
+ 		 \begin{cases}
+    		1 & \text{if } i \text{ is }Female \\
+   			0 & \text{if } i \text{ is } Male\\
+  		\end{cases}$$
+]
+]
+
+.pull-right[
+
+- Mean wage for men:
+$$E[Wage|Female=0]=\hat{\beta_0}$$
+
+- Mean wage for women:
+$$E[Wage|Female=1]=\hat{\beta_0}+\hat{\beta_1}$$
+]
+
+---
+
+# Dummy Variables as Group Means: Our Example
+
+.pull-left[
+.content-box-green[
+.green[**Example**]:
+
+$$\widehat{Wage_i}=\hat{\beta_0}+\hat{\beta_1}Female_i$$
+
+$$\text{where } Female_i =
+ 		 \begin{cases}
+    		1 & \text{if } i \text{ is }Female \\
+   			0 & \text{if } i \text{ is } Male\\
+  		\end{cases}$$
+]
+]
+
+.pull-right[
+
+- Mean wage for men:
+$$E[Wage|Female=0]=\hat{\beta_0}$$
+
+- Mean wage for women:
+$$E[Wage|Female=1]=\hat{\beta_0}+\hat{\beta_1}$$
+
+- Difference in wage between men & women:
+]
+
+---
+
+# Dummy Variables as Group Means: Our Example
+
+.pull-left[
+.content-box-green[
+.green[**Example**]:
+
+$$\widehat{Wage_i}=\hat{\beta_0}+\hat{\beta_1}Female_i$$
+
+$$\text{where } Female_i =
+ 		 \begin{cases}
+    		1 & \text{if } i \text{ is }Female \\
+   			0 & \text{if } i \text{ is } Male\\
+  		\end{cases}$$
+]
+]
+
+.pull-right[
+
+- Mean wage for men: 
+$$E[Wage|Female=0]=\hat{\beta_0}$$
+
+- Mean wage for women: 
+$$E[Wage|Female=1]=\hat{\beta_0}+\hat{\beta_1}$$
+
+- Difference in wage between men & women: 
+$$d = \hat{\beta_1}$$
+]
+
+---
+
+# Comparing Groups in Regression: Scatterplot
+
+.pull-left[
+
+- `Female` is our dummy $x$-variable
+
+- Hard to see relationships because of **overplotting**
+
+- Use `geom_jitter()` instead of `geom_point()` to *randomly* nudge points
+  - *Only* for plotting purposes, does not affect actual data, regression, etc.
+
+]
+
+.pull-right[
+```{r, fig.retina=3}
+ggplot(data = wages)+
+  aes(x = female,
+      y = wage)+
+  geom_jitter(aes(color = Gender),
+              width=0.05)+
+  geom_smooth(method = "lm", color="black")+
+  geom_hline(yintercept=male_avg,linetype="dashed",color="blue")+
+  geom_label(x = 0.5, y=male_avg, label=expression(hat(beta[0])), color="blue")+
+  geom_hline(yintercept=female_avg,linetype="dashed",color="red")+
+  geom_label(x = 0.5, y=female_avg, label=expression(hat(beta[0])+hat(beta[1])), color="red")+
+  geom_label(x = 0.75, y=5.5, label=expression(paste(hat(beta[1]),"= difference")), color="black")+
+  scale_x_continuous(breaks=c(0,1),
+                   labels=c(0,1))+
+  scale_y_continuous(labels=scales::dollar)+
+  labs(x = "Female",
+       y = "Wage")+
+  guides(color=F)+ # hide legend
+  theme_classic(base_family = "Fira Sans Condensed",
+           base_size=20)
+```
+]
+
+---
+
+# The Data
+
+```{r, echo=T}
+# from wooldridge package
+library(wooldridge)
+
+# save as a dataframe
+wages<-wooldridge::wage1
+
+head(wages)
+```
+
+---
+
+# Get Group Averages & Std. Devs. 
+
+.pull-left[
+
+```{r, echo=T}
+# Summarize for Men
+
+wages %>%
+  filter(female==0) %>%
+  summarize(mean = mean(wage),
+            sd = sd(wage))
+```
+
+]
+
+.pull-right[
+
+```{r, echo=T}
+# Summarize for Women
+
+wages %>%
+  filter(female==1) %>%
+  summarize(mean = mean(wage),
+            sd = sd(wage))
+```
+
+]
+
+---
+
+# Visualize Differences
+
+```{r, fig.retina=3}
+fill_colors<-c("0" = "blue", "1" = "red")
+
+ggplot(data = wages)+
+  aes(x = wage,
+      fill = factor(female))+
+  geom_density(alpha=0.5)+
+  scale_x_continuous(labels=scales::dollar)+
+  labs(x = "wage",
+       y = "Density")+
+  scale_fill_manual("Gender", labels=c("Men","Women"), values = fill_colors)+
+    theme_classic(base_family = "Fira Sans Condensed",
+           base_size=20)
+```
+
+---
+
+# The Regression I
+
+```{r, echo=T}
+femalereg<-lm(wage~female, data=wages)
+summary(femalereg)
+```
+
+---
+
+# The Regression II
+
+```{r, echo=T}
+library(broom)
+tidy(femalereg)
+```
+
+---
+
+# Dummy Regression vs. Group Means
+
+.pull-left[
+
+From tabulation of group means
+
+| Gender | Avg. Wage | Std. Dev.   | $n$   |
+|--------|-------------|-----------|-------|
+| Female | $4.59$    | $2.33$      | $252$ |
+| Male   | $7.10$    | $4.16$      | $274$ |
+| Difference | $2.51$ | $0.30$ | $-$ |
+
+From $t$-test of difference in group means
+
+]
+
+.pull-right[
+```{r}
+tidy(femalereg)
+```
+
+]
+
+---
+
+class: inverse, center, middle
+
+# Recoding Dummies
+
+---
+
+# Recoding Dummies
+
+.content-box-green[
+.green[**Example**]: 
+
+- Suppose instead of $female$ we had used:
+
+$$\widehat{Wage_i}=\hat{\beta_0}+\hat{\beta_1}Male_i \quad \quad \text{ where } Male_i =
+ 		 \begin{cases}
+    		1 & \text{if person } i \text{ is } Male \\
+   			0 & \text{if person } i \text{ is } Female\\
+  		\end{cases}$$
+
+]
+
+---
+
+# Recoding Dummies with Data
+
+```{r}
+wages<-wages %>%
+  mutate(male = ifelse(female == 0, # condition: is female equal to 0?
+                       1, # if true: code as "1"
+                       0)) # if false: code as "0"
+
+# verify it worked
+wages %>% 
+  select(wage, female, male) %>%
+  head()
+```
+
+---
+
+# Scatterplot with Male
+
+.pull-left[
+
+- `Female` is our dummy $x$-variable
+
+- Hard to see relationships because of **overplotting**
+
+- Use `geom_jitter()` instead of `geom_point()` to *randomly* nudge points
+  - *Only* for plotting purposes, does not affect actual data, regression, etc.
+
+]
+
+.pull-right[
+```{r, fig.retina=3}
+wages<-wages %>%
+  mutate(Gender = factor(ifelse(female==0,
+                         "Male",
+                         "Female")))
+
+
+ggplot(data = wages)+
+  aes(x = male,
+      y = wage)+
+  geom_jitter(aes(color = Gender),
+              width=0.05)+
+  geom_smooth(method = "lm", color = "black")+
+  geom_hline(yintercept=male_avg,linetype="dashed",color="blue")+
+  geom_label(x = 0.5, y=male_avg, label="Average for Men", color="blue")+
+  geom_hline(yintercept=female_avg,linetype="dashed",color="red")+
+  geom_label(x = 0.5, y=female_avg, label="Average for Women", color="red")+
+  scale_x_continuous(breaks=c(0,1),
+                   labels=c(0,1))+
+  scale_y_continuous(labels=scales::dollar)+
+  labs(x = "Male",
+       y = "Wage")+
+  guides(color=F)+ # hide legend
+  theme_classic(base_family = "Fira Sans Condensed",
+           base_size=20)
+```
+]
+
+---
+
+# Dummy Variables as Group Means: With Male
+
+.pull-left[
+.content-box-green[
+.green[**Example**]:
+
+$$\widehat{Wage_i}=\hat{\beta_0}+\hat{\beta_1}Male_i$$
+
+$$\text{where } Male_i =
+ 		 \begin{cases}
+    		1 & \text{if } i \text{ is } Male \\
+   			0 & \text{if } i \text{ is } Female\\
+  		\end{cases}$$
+]
+]
+
+.pull-right[
+
+- Mean wage for men: 
+$$E[Wage|Male=1]=\hat{\beta_0}+\hat{\beta_1}$$
+
+- Mean wage for women: 
+$$E[Wage|Male=0]=\hat{\beta_0}$$
+
+- Difference in wage between men & women: 
+$$d = \hat{\beta_1}$$
+]
+
+---
+
+# Scatterplot with Male 
+
+.pull-left[
+
+]
+
+.pull-right[
+```{r, fig.retina=3}
+ggplot(data = wages)+
+  aes(x = male,
+      y = wage)+
+  geom_jitter(aes(color = Gender),
+              width=0.05)+
+  geom_smooth(method = "lm", color="black")+
+  geom_hline(yintercept=male_avg,linetype="dashed",color="blue")+
+  geom_label(x = 0.5, y=male_avg, label=expression(hat(beta[0])+hat(beta[1])), color="blue")+
+  geom_hline(yintercept=female_avg,linetype="dashed",color="red")+
+  geom_label(x = 0.5, y=female_avg, label=expression(hat(beta[0])), color="red")+
+  geom_label(x = 0.75, y=5.5, label=expression(paste(hat(beta[1]),"= difference")), color="black")+
+  scale_x_continuous(breaks=c(0,1),
+                   labels=c(0,1))+
+  scale_y_continuous(labels=scales::dollar)+
+  labs(x = "Male",
+       y = "Wage")+
+  guides(color=F)+ # hide legend
+  theme_classic(base_family = "Fira Sans Condensed",
+           base_size=20)
+```
+]
+
+---
+
+# The Regression with Male I
+
+```{r, echo=T}
+malereg<-lm(wage~male, data=wages)
+summary(malereg)
+```
+
+---
+
+# The Regression with Male II
+
+```{r, echo=T}
+library(broom)
+tidy(malereg)
+```
+
+---
+
+# The Dummy Regression: Male or Female
+
+.pull-left[
+
+```{r}
+library(huxtable)
+huxreg(malereg, femalereg,
+       coefs = c("Constant" = "(Intercept)",
+                 "Female" = "female",
+                 "Male" = "male"),
+       statistics = c("N" = "nobs",
+                      "R-Squared" = "r.squared",
+                      "SER" = "sigma"),
+       number_format = 2)
+```
+
+]
+
+.pull-right[
+
+- Note it doesn't matter if we use `male` or `female`, males always earn $2.51 more than females
+
+- Compare the constant (average for the $D=0$ group)
+
+- Should you use `male` AND `female`? We'll come to that...
+
+]
+
+---
+
+class: inverse, center, middle
+
+# Categorical Variables (More than 2 Categories)
+
+---
+
+# Categorical Variables with More than 2 Categories
+
+- A .shout[categorical variable] expresses membership in a category, where there is no ranking or hierarchy of the categories
+    - We've looked at categorical variables with 2 categories only
+    - e.g. Male/Female, Spring/Summer/Fall/Winter, Democratic/Republican/Independent
+
+--
+
+- Might be an .shout[ordinal variable] expresses rank or an ordering of data, but not necessarily their relative magnitude
+    - e.g. Order of finalists in a competition (1st, 2nd, 3rd)
+    - e.g. Highest education attained (1=elementary school, 2=high school, 3=bachelor's degree, 4=graduate degree)
+
+---
+
+# Using Categorical Variables in Regression I
+
+.content-box-green[
+.green[**Example**]: How do wages vary by region of the country? Let $Region_i=\{Northeast, \, Midwest, \, South, \, West\}$
+]
+
+--
+
+- Can we run the following regression?
+
+$$\widehat{Wages_i}=\hat{\beta_0}+\hat{\beta_1}Region_i$$
+
+---
+
+# Using Categorical Variables in Regression II
+
+.content-box-green[
+.green[**Example**]: How do wages vary by region of the country? 
+
+Code region numerically: $$Region_i=
+\begin{cases}1 & \text{if } i \text{ is in }Northeast \\
+   			2 & \text{if } i \text{ is in } Midwest\\
+    		3 & \text{if } i \text{ is in } South \\
+   			4 & \text{if } i \text{ is in } West\\ \end{cases}$$
+]
+
+--
+
+- Can we run the following regression?
+
+$$\widehat{Wages_i}=\hat{\beta_0}+\hat{\beta_1}Region_i$$
+
+---
+
+# Using Categorical Variables in Regression III
+
+.content-box-green[
+.green[**Example**]: How do wages vary by region of the country? 
+
+Create a dummy variable for *each* region: 
+
+- $Northeast_i = 1$ if $i$ is in Northeast, otherwise $=0$
+- $Midwest_i = 1$ if $i$ is in Midwest, otherwise $=0$
+- $South_i = 1$ if $i$ is in South, otherwise $=0$
+- $West_i = 1$ if $i$ is in West, otherwise $=0$
+
+]
+
+--
+
+- Can we run the following regression?
+
+$$\widehat{Wages_i}=\hat{\beta_0}+\hat{\beta_1}Northeast_i+\hat{\beta_2}Midwest_i+\hat{\beta_3}South_i+\hat{\beta_4}West_i$$
+
+--
+
+- For every $i: \, Northeast_i+Midwest_i+South_i+West_i=1$!
+
+---
+
+# The Dummy Variable Trap
+
+.content-box-green[
+.green[**Example**]: $\widehat{Wages_i}=\hat{\beta_0}+\hat{\beta_1}Northeast_i+\hat{\beta_2}Midwest_i+\hat{\beta_3}South_i+\hat{\beta_4}West_i$
+
+]
+
+- If we include *all* possible categories, they are .onfire[perfectly multicollinear], an exact linear function of one another: 
+
+$$Northeast_i+Midwest_i+South_i+West_i=1 \quad \forall i$$
+
+- This is known as the .shout[dummy variable trap], a common source of perfect multicollinearity 
+
+---
+
+# The Reference Category
+
+
+- To avoid the dummy variable trap, always omit one category from the regression, known as the .onfire[reference category]
+
+- It does not matter which category we omit!
+
+- .onfire[Coefficients on each dummy variable measure the *difference* between the *reference* category and each category dummy]
+
+---
+
+# The Reference Category: Example
+
+.content-box-green[
+.green[**Example**]: $\widehat{Wages_i}=\hat{\beta_0}+\hat{\beta_1}Northeast_i+\hat{\beta_2}Midwest_i+\hat{\beta_3}South_i$
+]
+
+
+
+- $West_i$ is omitted (arbitrarily chosen)
+
+--
+
+- $\hat{\beta_0}$: 
+
+---
+
+# The Reference Category: Example
+
+.content-box-green[
+.green[**Example**]: $\widehat{Wages_i}=\hat{\beta_0}+\hat{\beta_1}Northeast_i+\hat{\beta_2}Midwest_i+\hat{\beta_3}South_i$
+]
+
+
+
+- $West_i$ is omitted (arbitrarily chosen)
+
+- $\hat{\beta_0}$: average wage for $i$ in the West
+
+--
+
+- $\hat{\beta_1}$:
+
+---
+
+# The Reference Category: Example
+
+.content-box-green[
+.green[**Example**]: $\widehat{Wages_i}=\hat{\beta_0}+\hat{\beta_1}Northeast_i+\hat{\beta_2}Midwest_i+\hat{\beta_3}South_i$
+]
+
+
+
+- $West_i$ is omitted (arbitrarily chosen)
+
+- $\hat{\beta_0}$: average wage for $i$ in the West
+
+- $\hat{\beta_1}$: difference between West and Northeast
+
+--
+
+- $\hat{\beta_2}$:
+
+---
+
+# The Reference Category: Example
+
+.content-box-green[
+.green[**Example**]: $\widehat{Wages_i}=\hat{\beta_0}+\hat{\beta_1}Northeast_i+\hat{\beta_2}Midwest_i+\hat{\beta_3}South_i$
+]
+
+
+
+- $West_i$ is omitted (arbitrarily chosen)
+
+- $\hat{\beta_0}$: average wage for $i$ in the West
+
+- $\hat{\beta_1}$: difference between West and Northeast
+
+- $\hat{\beta_2}$: difference between West and Midwest
+
+--
+
+- $\hat{\beta_3}$: 
+
+---
+
+# The Reference Category: Example
+
+.content-box-green[
+.green[**Example**]: $\widehat{Wages_i}=\hat{\beta_0}+\hat{\beta_1}Northeast_i+\hat{\beta_2}Midwest_i+\hat{\beta_3}South_i$
+]
+
+
+
+- $West_i$ is omitted (arbitrarily chosen)
+
+- $\hat{\beta_0}$: average wage for $i$ in the West
+
+- $\hat{\beta_1}$: difference between West and Northeast
+
+- $\hat{\beta_2}$: difference between West and Midwest
+
+- $\hat{\beta_3}$: difference between West and South
+
+---
+
+# Dummy Variable Trap in R
+
+```{r}
+# create northeast dummy as the final category
+wages$noreast<-ifelse((wages$northcen==0 & wages$south==0 & wages$west==0),1,0)
+```
+
+.font90[
+```{r, echo=T}
+summary(lm(wage~noreast+northcen+south+west, data=wages))
+```
+]
+
+---
+
+# Using Different Reference Categories in R
+
+```{r}
+# create northeast dummy as the final category
+wages$noreast<-ifelse((wages$northcen==0 & wages$south==0 & wages$west==0),1,0)
+```
+
+```{r dummyregs, echo=T, eval=F}
+# let's run 4 regressions, each one we omit a different region
+no_noreast_reg<-lm(wage~northcen+south+west, data = wages)
+no_northcen_reg<-lm(wage~noreast+south+west, data = wages)
+no_south_reg<-lm(wage~noreast+northcen+west, data = wages)
+no_west_reg<-lm(wage~noreast+northcen+south, data = wages)
+
+# now make an output table
+library(huxtable)
+huxreg(no_noreast_reg,
+       no_northcen_reg,
+       no_south_reg,
+       no_west_reg,
+       coefs = c("Constant" = "(Intercept)",
+                 "Northeast" = "noreast",
+                 "Midwest" = "northcen",
+                 "South" = "south",
+                 "West" = "west"),
+       statistics = c("N" = "nobs",
+                      "R-Squared" = "r.squared",
+                      "SER" = "sigma"),
+       number_format = 3)
+```
+
+---
+
+# Using Different Reference Categories in R II
+
+.pull-left[
+.font90[
+```{r, ref.label="dummyregs"}
+
+```
+]
+]
+.pull-right[
+
+- Constant is alsways average wage for reference (omitted) region
+
+- Compare coefficients between Midwest in (1) and Northeast in (2)...
+
+- Compare coefficients between West in (3) and South in (4)...
+
+- Does not matter which region we omit!
+  - Same $R^2$, SER, coefficients give same results
+
+]
+
+---
+
+# Dummy *Dependent* (Y) Variables
+
+- In many contexts, we will want to have our *dependent* ($Y$) variable be a dummy variable
+
+--
+
+.content-box-green[
+.green[**Example**]: 
+$$\widehat{Admitted_i}=\hat{\beta_0}+\hat{\beta_1}GPA_i \quad \text{ where } Admitted_i =
+ 		 \begin{cases}
+    		1 & \text{if } i \text{ is Admitted} \\
+   			0 & \text{if } i \text{ is  Not Admitted}\\
+  		\end{cases}$$
+]
+
+--
+
+- A model where $Y$ is a dummy is called a .shout[linear probability model], as it measures the .onfire[probability of `\\(Y\\)` occuring `\\((=1)\\)` given the X's, i.e. `\\(P(Y_i=1|X_1, \cdots, X_k)\\)`]
+    - e.g. the probability person $i$ is Admitted to a program with a given GPA
+
+--
+
+- Requires special tools to properly interpret and extend this (**logit**, **probit**, etc)
+
+- Feel free to write papers that have dummy $Y$ variables (but you may have to ask me some more questions)!
