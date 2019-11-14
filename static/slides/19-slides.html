@@ -1,0 +1,1214 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>3.7: Regression with Interaction Effects</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Ryan Safner  Assistant Professor of Economics    safner@hood.edu    ryansafner/metricsf19    metricsF19.classes.ryansafner.com" />
+    <link href="libs/remark-css/hygge.css" rel="stylesheet" />
+    <link href="libs/pagedtable/css/pagedtable.css" rel="stylesheet" />
+    <script src="libs/pagedtable/js/pagedtable.js"></script>
+    <script src="https://use.fontawesome.com/5235085b15.js"></script>
+    <link rel="stylesheet" href="custom.css" type="text/css" />
+    <link rel="stylesheet" href="custom-fonts.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# 3.7: Regression with Interaction Effects
+## ECON 480 · Econometrics · Fall 2019
+### Ryan Safner<br> Assistant Professor of Economics <br> <a href="mailto:safner@hood.edu"><i class="fa fa-paper-plane fa-fw"></i> safner@hood.edu</a> <br> <a href="https://github.com/ryansafner/metricsf19"><i class="fa fa-github fa-fw"></i> ryansafner/metricsf19</a><br> <a href="https://metricsF19.classes.ryansafner.com"> <i class="fa fa-globe fa-fw"></i> metricsF19.classes.ryansafner.com</a><br>
+
+---
+
+
+
+
+# Interaction Effects
+
+- Sometimes one `\(X\)` variable might *interact* with another in determining `\(Y\)`
+
+.content-box-green[
+.green[**Example**]: Consider the gender pay gap again.
+
+- *Experience* certainly affects wages
+
+- Does experience affect *men*'s wages *differently* than it affects women's wages?
+  - i.e. is there an .shout[interaction effect] between gender and experience?
+
+- Note this is *NOT the same* as asking "do men earn more than women *with the same amount of experience*? (i.e. controlling for experience)
+]
+
+---
+
+# Three Types of Interactions
+
+- Depending on the types of variables paired, there are three possible types of interaction effects
+
+- We will look at each in turn
+
+--
+
+1. Interaction between a **dummy** and a **continuous** variable:
+`$$Y_i=\beta_0+\beta_1X_i+\beta_2 D_i+\beta_3 \mathbf{(X_i \times D_i)}$$`
+--
+
+2. Interaction between a **two dummy** variables:
+`$$Y_i=\beta_0+\beta_1D_{1i}+\beta_2 D_{2i}+\beta_3 \mathbf{(D_{1i} \times D_{2i})}$$`
+--
+
+3. Interaction between a **two continuous** variables:
+`$$Y_i=\beta_0+\beta_1X_{1i}+\beta_2 X_{2i}+\beta_3 \mathbf{(X_{1i} \times X_{2i})}$$`
+
+---
+
+class: inverse, center, middle
+
+# Interactions Between a Dummy and Continuous Variable
+
+---
+
+# Interactions Between a Dummy and Continuous Variable I
+
+- We can model an interaction by introducing a variable that is an .shout[interaction term] capturing the interaction between two variables:
+
+`$$Y_i=\beta_0+\beta_1X_i+\beta_2 D_i+\beta_3(X_i \times D_i) \quad \text{ where } D_i=\{0,1\}$$`
+
+--
+
+- `\(\beta_3\)` estimates the .shout[interaction term] (in this case between a dummy variable and a continuous variable)
+
+--
+
+- What do the different coefficients ($\beta$'s) tell us? 
+  - Again, think logically by examining each group `\((D_i=0\)` or `\(D_i=1)\)`
+
+---
+
+# Interaction Effects as Two Regressions I
+
+`$$Y_i=\beta_0+\beta_1X_i+\beta_2 D_i+\beta_3 X_i * D_i$$`
+
+- .red[When `\\(D_i=0\\)` (Control group):]
+
+`$$\begin{align*}
+\hat{Y_i}&amp;=\hat{\beta_0}+\hat{\beta_1}X_i+\hat{\beta_2}(\mathbf{0})+\hat{\beta_3}X_i \times (\mathbf{0})\\
+\hat{Y_i}&amp; =\hat{\beta_0}+\hat{\beta_1}X_i\\
+\end{align*}$$`
+
+--
+
+- .blue[When `\\(D_i=1\\)` (Treatment group):]
+
+`$$\begin{align*}
+\hat{Y_i}&amp;=\hat{\beta_0}+\hat{\beta_1}X_i+\hat{\beta_2}(\mathbf{1})+\hat{\beta_3}X_i \times (\mathbf{1})\\
+\hat{Y_i}&amp;= (\hat{\beta_0}+\hat{\beta_2})+(\hat{\beta_1}+\hat{\beta_3})X_i\\
+\end{align*}$$`
+
+--
+
+- So what we really have is *two* regression lines!
+
+---
+
+# Interaction Effects as Two Regressions II
+
+.pull-left[
+
+&lt;img src="19-slides_files/figure-html/unnamed-chunk-1-1.png" width="504" /&gt;
+]
+
+.pull-right[
+
+- .red[`\\(D_i=0\\)` group: `\\(Y_i=\hat{\beta_0}+\hat{\beta_1}X_i\\)`]
+
+- .blue[`\\(D_i=1\\)` group: `\\(Y_i=(\hat{\beta_0}+\hat{\beta_2})+(\hat{\beta_1}+\hat{\beta_3})X_i\\)`]
+
+]
+
+---
+
+# Interpretting Coefficients I
+
+`$$Y_i=\beta_0+\beta_1X_i+\beta_2 D_i+\beta_3 \mathbf{(X_i \times D_i)}$$`
+
+- To interpret the coefficients, compare cases after changing `\(X\)` by `\(\mathbf{\Delta X}\)`:
+
+--
+
+`$$Y_i+\mathbf{\Delta Y_i}=\beta_0+\beta_1(X_i\mathbf{+\Delta X_i})\beta_2D_i+\beta_3\big((X_i\mathbf{+\Delta X_i})D_i\big)$$`
+
+--
+
+- Subtracting these two equations, the difference is:
+
+--
+
+`$$\begin{align*}
+	\Delta Y_i &amp;= \beta_1 \Delta X_i + \beta_3 D_i \Delta X_i\\
+	\mathbf{\frac{\Delta Y_i}{\Delta X_i}} &amp;\mathbf{= \beta_1+\beta_3 D_i}\\
+\end{align*}$$`
+
+--
+
+- .onfire[The effect of `\\(X \rightarrow Y\\)` depends on the value of `\\(D_i\\)`!]
+
+- .shout[`\\(\beta_3\\)`: *increment* to the effect of `\\(X \rightarrow Y\\)` when `\\(D_i=1\\)` (vs. `\\(D_i=0\\)`]
+
+---
+
+# Interpretting Coefficients II
+
+`$$Y_i=\beta_0+\beta_1X_i+\beta_2 D_i+\beta_3 \mathbf{(X_i \times D_i)}$$`
+
+- `\(\hat{\beta_0}\)`: `\(Y_i\)` for `\(X_i=0\)` and `\(D_i=0\)`
+
+--
+
+- `\(\beta_1\)`: Marginal effect of `\(X_i \rightarrow Y_i\)` for `\(D_i=0\)`
+
+--
+
+- `\(\beta_2\)`: Marginal effect on `\(Y_i\)` of difference between `\(D_i=0\)` and `\(D_i=1\)`
+
+--
+
+- `\(\beta_3\)`: The **difference** of the marginal effect of `\(X_i \rightarrow Y_i\)` between `\(D_i=0\)` and `\(D_i=1\)`
+
+--
+
+- This is a bit awkward, easier to think about the two regression lines: 
+
+---
+
+# Interpretting Coefficients III
+
+`$$Y_i=\beta_0+\beta_1X_i+\beta_2 D_i+\beta_3 \mathbf{(X_i \times D_i)}$$`
+
+- .red[For `\\(D_i=0\\)` Group:  `\\(\hat{Y_i}=\hat{\beta_0}+\hat{\beta_1}X_i\\)`]
+  - Intercept `\((Y_i\)` for `\(X_i=0\)`): `\(\hat{\beta_0}\)`
+  - Slope (Marginal effect of `\(X_i \rightarrow Y_i\)` for `\(D_i=0\)` group): `\(\hat{\beta_1}\)`
+
+--
+
+- .blue[For `\\(D_i=1\\)` Group:  `\\(\hat{Y_i}=(\hat{\beta_0}+\hat{\beta_2})+(\hat{\beta_1}+\hat{\beta_3})X_i\\)`]
+  - Intercept `\((Y_i\)` for `\(X_i=0\)`): `\(\hat{\beta_0}+\hat{\beta_2}\)`
+  - Slope (Marginal effect of `\(X_i \rightarrow Y_i\)` for `\(D_i=1\)` group): `\(\hat{\beta_1}+\hat{\beta_3}\)`
+
+--
+
+- How can we determine if the two lines have the same slope and/or intercept?
+  - Same intercept? `\(t\)`-test `\(H_0\)`: `\(\beta_2=0\)`
+  - Same slope? `\(t\)`-test `\(H_0\)`: `\(\beta_3=0\)`
+
+---
+
+# Example I
+
+.content-box-green[
+.green[**Example**]: `$$\widehat{wage_i}=\hat{\beta_0}+\hat{\beta_1}exper_i+\hat{\beta_2}female_i+\hat{\beta_3}(exper_i \times female_i)$$`
+
+]
+
+--
+
+- .red[For males `\\((female=0)\\)`]:
+`$$\widehat{wage_i}=\hat{\beta_0}+\hat{\beta_1}exper$$`
+
+--
+
+- .blue[For females `\\((female=1)\\)`]:
+`$$\widehat{wage_i}=\underbrace{(\hat{\beta_0}+\hat{\beta_2})}_{\text{intercept}}+\underbrace{(\hat{\beta_1}+\hat{\beta_3})}_{\text{slope}}exper$$`
+
+---
+
+# Example II
+
+.pull-left[
+
+
+```r
+interaction_plot&lt;-ggplot(data = wages)+
+  aes(x = exper,
+      y = wage,
+      color = as.factor(female))+ # make female factor
+  geom_point()+
+  #geom_smooth(method = "lm")+
+  scale_y_continuous(labels=scales::dollar)+
+  labs(x = "Experience (Years)",
+       y = "Wage")+
+  guides(color=F)+ # hide legend
+  theme_classic(base_family = "Fira Sans Condensed",
+           base_size=20)
+interaction_plot
+```
+
+- Need to make sure `female` is a `factor` variable
+  - Use `as.factor()` in plot
+
+]
+
+.pull-right[
+
+![](19-slides_files/figure-html/unnamed-chunk-2-1.png)&lt;!-- --&gt;
+]
+
+---
+
+# Example II
+
+.pull-left[
+
+
+```r
+interaction_plot+
+  geom_smooth(method="lm")
+```
+]
+
+.pull-right[
+
+![](19-slides_files/figure-html/unnamed-chunk-3-1.png)&lt;!-- --&gt;
+]
+
+---
+
+# Example II
+
+.pull-left[
+
+
+```r
+interaction_plot+
+  geom_smooth(method="lm", color = "black")+
+  facet_wrap(~female)
+```
+]
+
+.pull-right[
+
+![](19-slides_files/figure-html/unnamed-chunk-4-1.png)&lt;!-- --&gt;
+]
+
+---
+
+# Example Regression in R I
+
+- Syntax for an interaction term is easy in `R`: `var1:var2`
+  - Or could just do `var1*var2` (multiply)
+
+
+
+---
+
+# Example Regression in R II
+
+.font80[
+
+```r
+summary(interaction_reg)
+```
+
+```
+## 
+## Call:
+## lm(formula = wage ~ female + exper + female:exper, data = wages)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -6.3200 -1.8191 -0.9708  1.4132 17.2672 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)   6.15828    0.34167  18.024  &lt; 2e-16 ***
+## female       -1.54655    0.48186  -3.210 0.001411 ** 
+## exper         0.05360    0.01544   3.472 0.000559 ***
+## female:exper -0.05507    0.02217  -2.483 0.013325 *  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 3.443 on 522 degrees of freedom
+## Multiple R-squared:  0.1356,	Adjusted R-squared:  0.1307 
+## F-statistic: 27.31 on 3 and 522 DF,  p-value: &lt; 2.2e-16
+```
+]
+
+---
+
+# Example Regression in R III
+
+.pull-left[
+
+
+```r
+library(huxtable)
+huxreg(interaction_reg,
+       coefs = c("Constant" = "(Intercept)",
+                 "Experience" = "exper",
+                 "Female" = "female",
+                 "Female * Exper" = "female:exper"),
+       statistics = c("N" = "nobs",
+                      "R-Squared" = "r.squared",
+                      "SER" = "sigma"),
+       number_format = 2)
+```
+
+]
+
+.pull-right[
+
+<table class="huxtable" style="border-collapse: collapse; margin-bottom: 2em; margin-top: 2em; width: 50%; margin-left: auto; margin-right: auto;  ">
+<col><col><tr>
+<td style="vertical-align: top; text-align: center; white-space: nowrap; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0pt 0pt; padding: 4pt 4pt 4pt 4pt;"></td>
+<td style="vertical-align: top; text-align: center; white-space: nowrap; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0.4pt 0pt; padding: 4pt 4pt 4pt 4pt;">(1)</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;">Constant</td>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;">6.16 ***</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;"></td>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;">(0.34)&nbsp;&nbsp;&nbsp;</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;">Experience</td>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;">0.05 ***</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;"></td>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;">(0.02)&nbsp;&nbsp;&nbsp;</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;">Female</td>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;">-1.55 **&nbsp;</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;"></td>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;">(0.48)&nbsp;&nbsp;&nbsp;</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;">Female * Exper</td>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;">-0.06 *&nbsp;&nbsp;</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;"></td>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt; padding: 4pt 4pt 4pt 4pt;">(0.02)&nbsp;&nbsp;&nbsp;</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;">N</td>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;">526&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;">R-Squared</td>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;">0.14&nbsp;&nbsp;&nbsp;&nbsp;</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; border-style: solid solid solid solid; border-width: 0pt 0pt 0.8pt 0pt; padding: 4pt 4pt 4pt 4pt;">SER</td>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; border-style: solid solid solid solid; border-width: 0pt 0pt 0.8pt 0pt; padding: 4pt 4pt 4pt 4pt;">3.44&nbsp;&nbsp;&nbsp;&nbsp;</td>
+</tr>
+<tr>
+<td colspan="2" style="vertical-align: top; text-align: left; white-space: normal; padding: 4pt 4pt 4pt 4pt;"> *** p &lt; 0.001;  ** p &lt; 0.01;  * p &lt; 0.05.</td>
+</tr>
+</table>
+
+]
+
+---
+
+# Example Regression in R: Interpretting Coefficients
+
+`$$\widehat{wage_i}=6.16+0.05 \, Experience_i - 1.55 \, Female_i - 0.06 \, (Experience_i \times Female_i)$$`
+
+--
+
+- `\(\hat{\beta_0}\)`: 
+
+---
+
+# Example Regression in R: Interpretting Coefficients
+
+`$$\widehat{wage_i}=6.16+0.05 \, Experience_i - 1.55 \, Female_i - 0.06 \, (Experience_i \times Female_i)$$`
+
+- `\(\hat{\beta_0}\)`: Men with experience of 0 years earn $6.16
+
+--
+
+- `\(\hat{\beta_1}\)`:
+
+---
+
+# Example Regression in R: Interpretting Coefficients
+
+`$$\widehat{wage_i}=6.16+0.05 \, Experience_i - 1.55 \, Female_i - 0.06 \, (Experience_i \times Female_i)$$`
+
+- `\(\hat{\beta_0}\)`: Men with experience of 0 years earn $6.16
+
+- `\(\hat{\beta_1}\)`: For every additional year of experience, *men* earn $0.05
+
+--
+
+- `\(\hat{\beta_2}\)`:
+
+---
+
+# Example Regression in R: Interpretting Coefficients
+
+`$$\widehat{wage_i}=6.16+0.05 \, Experience_i - 1.55 \, Female_i - 0.06 \, (Experience_i \times Female_i)$$`
+
+- `\(\hat{\beta_0}\)`: Men with experience of 0 years earn $6.16
+
+- `\(\hat{\beta_1}\)`: For every additional year of experience, *men* earn $0.05
+
+- `\(\hat{\beta_2}\)`: *Women* on average earn $1.55 less than men, *holding experience constant*
+
+--
+
+- `\(\hat{\beta_3}\)`: 
+
+---
+
+# Example Regression in R: Interpretting Coefficients
+
+`$$\widehat{wage_i}=6.16+0.05 \, Experience_i - 1.55 \, Female_i - 0.06 \, (Experience_i \times Female_i)$$`
+
+- `\(\hat{\beta_0}\)`: Men with experience of 0 years earn $6.16
+
+- `\(\hat{\beta_1}\)`: For every additional year of experience, *men* earn $0.05
+
+- `\(\hat{\beta_2}\)`: *Women* on average earn $1.55 less than men, *holding experience constant*
+
+- `\(\hat{\beta_3}\)`: *Women* earn $0.06 less than men for every additional year of experience
+
+---
+
+# Example Regression in R: Interpretting Coefficients as Two Regressions I
+
+`$$\widehat{wage_i}=6.16+0.05 \, Experience_i - 1.55 \, Female_i - 0.06 \, (Experience_i \times Female_i)$$`
+
+--
+
+.red[Regression for men `\\(female=0)\\)`]
+`$$\widehat{wage_i}=6.16+0.05 \, Experience$$`
+
+--
+
+- Men with no experience earn $6.16
+
+--
+
+- For every additional year of experience, men earn $0.05 more
+
+---
+
+# Example Regression in R: Interpretting Coefficients as Two Regressions II
+
+`$$\widehat{wage_i}=6.16+0.05 \, Experience_i - 1.55 \, Female_i - 0.06 \, (Experience_i \times Female_i)$$`
+
+.blue[Regression for women `\\(female=1)\\)`]
+`$$\begin{align*}
+\widehat{wage_i}&amp;=6.16+0.05 \, Experience - 1.55\mathbf{(1)}-0.06 \, Experience \times \mathbf{(1)}\\
+&amp;= (6.16-1.55)+(0.05-0.06) \, Experience\\
+&amp;= 4.61-0.01 \, Experience \\
+\end{align*}$$`
+
+--
+
+- Women with no experience earn $4.61
+
+--
+
+- For every additional year of experience, women earn $0.01 *less*
+
+---
+
+# Example Regression in R: Hypothesis Testing
+
+.pull-left[
+- Test the significance of interaction effects
+
+- Think: are slopes and intercepts of the two regressions statistically significantly different?
+
+- Are intercepts different?
+  - Difference between men vs. women for no experience?
+  - Is `\(\hat{\beta_2}\)` significant?
+  - Yes: `\(t = -3.210\)`, `\(p\)`-value = 0.00
+
+- Are slopes different?
+  - Difference between men vs. women for marginal effect of experience?
+  - Is `\(\hat{\beta_3}\)` significant?
+  - Yes: `\(t = -2.48\)`, `\(p\)`-value = 0.01
+
+]
+
+.pull-right[
+
+
+```r
+library(broom)
+tidy(interaction_reg)
+```
+
+<table class="huxtable" style="border-collapse: collapse; margin-bottom: 2em; margin-top: 2em; width: 95.5555555555556%; margin-left: 0%; margin-right: auto;  ">
+<col><col><col><col><col><tr>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt; padding: 4pt 4pt 4pt 4pt; font-weight: bold;">term</td>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt; padding: 4pt 4pt 4pt 4pt; font-weight: bold;">estimate</td>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt; padding: 4pt 4pt 4pt 4pt; font-weight: bold;">std.error</td>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt; padding: 4pt 4pt 4pt 4pt; font-weight: bold;">statistic</td>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt; padding: 4pt 4pt 4pt 4pt; font-weight: bold;">p.value</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt; padding: 4pt 4pt 4pt 4pt; background-color: rgb(242, 242, 242);">(Intercept)</td>
+<td style="vertical-align: top; text-align: right; white-space: normal; padding: 4pt 4pt 4pt 4pt; background-color: rgb(242, 242, 242);">6.16&nbsp;&nbsp;</td>
+<td style="vertical-align: top; text-align: right; white-space: normal; padding: 4pt 4pt 4pt 4pt; background-color: rgb(242, 242, 242);">0.342&nbsp;</td>
+<td style="vertical-align: top; text-align: right; white-space: normal; padding: 4pt 4pt 4pt 4pt; background-color: rgb(242, 242, 242);">18&nbsp;&nbsp;&nbsp;</td>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt; padding: 4pt 4pt 4pt 4pt; background-color: rgb(242, 242, 242);">8e-57&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt; padding: 4pt 4pt 4pt 4pt;">female</td>
+<td style="vertical-align: top; text-align: right; white-space: normal; padding: 4pt 4pt 4pt 4pt;">-1.55&nbsp;&nbsp;</td>
+<td style="vertical-align: top; text-align: right; white-space: normal; padding: 4pt 4pt 4pt 4pt;">0.482&nbsp;</td>
+<td style="vertical-align: top; text-align: right; white-space: normal; padding: 4pt 4pt 4pt 4pt;">-3.21</td>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt; padding: 4pt 4pt 4pt 4pt;">0.00141&nbsp;</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt; padding: 4pt 4pt 4pt 4pt; background-color: rgb(242, 242, 242);">exper</td>
+<td style="vertical-align: top; text-align: right; white-space: normal; padding: 4pt 4pt 4pt 4pt; background-color: rgb(242, 242, 242);">0.0536</td>
+<td style="vertical-align: top; text-align: right; white-space: normal; padding: 4pt 4pt 4pt 4pt; background-color: rgb(242, 242, 242);">0.0154</td>
+<td style="vertical-align: top; text-align: right; white-space: normal; padding: 4pt 4pt 4pt 4pt; background-color: rgb(242, 242, 242);">3.47</td>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt; padding: 4pt 4pt 4pt 4pt; background-color: rgb(242, 242, 242);">0.000559</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0.4pt; padding: 4pt 4pt 4pt 4pt;">female:exper</td>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt; padding: 4pt 4pt 4pt 4pt;">-0.0551</td>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt; padding: 4pt 4pt 4pt 4pt;">0.0222</td>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt; padding: 4pt 4pt 4pt 4pt;">-2.48</td>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0.4pt 0pt; padding: 4pt 4pt 4pt 4pt;">0.0133&nbsp;&nbsp;</td>
+</tr>
+</table>
+
+]
+
+---
+
+class: inverse, center, middle
+
+# Interactions Between Two Dummy Variables
+
+---
+
+# Interactions Between Two Dummy Variables
+
+`$$Y_i=\beta_0+\beta_1D_{1i}+\beta_2 D_{2i}+\beta_3 \mathbf{(D_{1i} \times D_{2i})}$$`
+
+- `\(D_{1i}\)` and `\(D_{2i}\)` are dummy variables
+
+--
+
+- `\(\hat{\beta_1}\)`: effect on `\(Y\)` of going from `\(D_{1i}=0\)` to `\(D_{1i}=1\)` for `\(D_{2i}=0\)`
+
+--
+
+- `\(\hat{\beta_2}\)`: effect on `\(Y\)` of going from `\(D_{2i}=0\)` to `\(D_{2i}=1\)` for `\(D_{1i}=0\)`
+
+--
+
+- `\(\hat{\beta_3}\)`: effect on `\(Y\)` of going from `\(D_{1i}=0\)` and `\(D_{2i}=1\)` to `\(D_{1i}=1\)` *and* `\(D_{2i}=1\)`
+  - *increment* to the effect of `\(D_{1i}\)` going from 0 to 1 when `\(D_{2i}=1\)` (vs. 0)
+  - *increment* to the effect of `\(D_{2i}\)` going from 0 to 1 when `\(D_{1i}=1\)` (vs. 0)
+
+---
+
+- As always, best to think logically about possibilities (when each dummy `\(=0\)` or `\(=1)\)`
+
+---
+
+# Interactions Between Two Dummy Variables: Interpretting Coefficients
+
+`$$Y_i=\beta_0+\beta_1D_{1i}+\beta_2 D_{2i}+\beta_3 \mathbf{(D_{1i} \times D_{2i})}$$`
+
+--
+
+- To interpret coefficients, compare cases (for `\(D_{i1}\)` as an example):
+
+`$$\begin{align*}
+E(Y_i|D_{1i}=0, D_{2i}=d_2) = \beta_0+\beta_2 d_2\\
+E(Y_i|D_{1i}=1, D_{2i}=d_2) = \beta_0+\beta_1(1)+\beta_2 d_2+\beta_3(1)d_2\\
+\end{align*}$$`
+
+--
+
+- Subtracting the two, the difference is:
+
+`$$\beta_1+\beta_3 d_2$$`
+
+- .onfire[The effect of `\\(D_{1i} \rightarrow Y_i\\)` depends on the value of `\\(D_{2i}\\)`]
+  - `\(\hat{\beta_3}\)` is the *increment* to the effect of `\(D_1\)` on `\(Y\)` when `\(D_2=1\)`
+
+---
+
+# Interactions Between Two Dummy Variables: Example
+
+.content-box-green[
+.green[**Example**]: Does the gender pay gap change if a person is married vs. single?
+
+`$$\widehat{wage_i}=\hat{\beta_0}+\hat{\beta_1}female_i+\hat{\beta_2}married_i+\hat{\beta_3}(female_i \times married_i)$$`
+
+]
+
+--
+
+- Logically, there are 4 possible combinations of `\(female_i = \{0,1\}\)` and `\(married_i = \{0,1\}\)`
+
+--
+
+1. **Unmarried men** `\((female_i=0, \, married_i=0)\)`
+`$$\widehat{wage_i}=\hat{\beta_0}$$`
+
+--
+
+2. **Married men** `\((female_i=0, \, married_i=1)\)`
+`$$\widehat{wage_i}=\hat{\beta_0}+\hat{\beta_2}$$`
+
+---
+
+# Interactions Between Two Dummy Variables: Example
+
+.content-box-green[
+.green[**Example**]: Does the gender pay gap change if a person is married vs. single?
+
+`$$\widehat{wage_i}=\hat{\beta_0}+\hat{\beta_1}female_i+\hat{\beta_2}married_i+\hat{\beta_3}(female_i \times married_i)$$`
+
+]
+
+- Logically, there are 4 possible combinations of `\(female_i = \{0,1\}\)` and `\(married_i = \{0,1\}\)`
+
+3. **Unmarried women** `\((female_i=1, \, married_i=0)\)`
+`$$\widehat{wage_i}=\hat{\beta_0}+\hat{\beta_1}$$`
+
+--
+
+4. **Married women** `\((female_i=1, \, married_i=1)\)`
+`$$\widehat{wage_i}=\hat{\beta_0}+\hat{\beta_1}+\hat{\beta_2}+\hat{\beta_3}$$`
+
+---
+
+# Looking at the Data
+
+.font70[
+.pull-left[
+
+
+```r
+# get average wage for unmarried men
+wages %&gt;%
+  filter(female == 0,
+         married == 0) %&gt;%
+  summarize(mean = mean(wage))
+```
+
+<table class="huxtable" style="border-collapse: collapse; margin-bottom: 2em; margin-top: 2em; width: 20%; margin-left: 0%; margin-right: auto;  ">
+<col><tr>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0.4pt; padding: 4pt 4pt 4pt 4pt; font-weight: bold;">mean</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0.4pt 0.4pt; padding: 4pt 4pt 4pt 4pt; background-color: rgb(242, 242, 242);">5.17</td>
+</tr>
+</table>
+
+
+```r
+# get average wage for married men
+wages %&gt;%
+  filter(female == 0,
+         married == 1) %&gt;%
+  summarize(mean = mean(wage))
+```
+
+<table class="huxtable" style="border-collapse: collapse; margin-bottom: 2em; margin-top: 2em; width: 20%; margin-left: 0%; margin-right: auto;  ">
+<col><tr>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0.4pt; padding: 4pt 4pt 4pt 4pt; font-weight: bold;">mean</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0.4pt 0.4pt; padding: 4pt 4pt 4pt 4pt; background-color: rgb(242, 242, 242);">7.98</td>
+</tr>
+</table>
+
+]
+
+.pull-right[
+
+
+```r
+# get average wage for unmarried women
+wages %&gt;%
+  filter(female == 1,
+         married == 0) %&gt;%
+  summarize(mean = mean(wage))
+```
+
+<table class="huxtable" style="border-collapse: collapse; margin-bottom: 2em; margin-top: 2em; width: 20%; margin-left: 0%; margin-right: auto;  ">
+<col><tr>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0.4pt; padding: 4pt 4pt 4pt 4pt; font-weight: bold;">mean</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0.4pt 0.4pt; padding: 4pt 4pt 4pt 4pt; background-color: rgb(242, 242, 242);">4.61</td>
+</tr>
+</table>
+
+
+```r
+# get average wage for married women
+wages %&gt;%
+  filter(female == 1,
+         married == 1) %&gt;%
+  summarize(mean = mean(wage))
+```
+
+<table class="huxtable" style="border-collapse: collapse; margin-bottom: 2em; margin-top: 2em; width: 20%; margin-left: 0%; margin-right: auto;  ">
+<col><tr>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0.4pt; padding: 4pt 4pt 4pt 4pt; font-weight: bold;">mean</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0.4pt 0.4pt; padding: 4pt 4pt 4pt 4pt; background-color: rgb(242, 242, 242);">4.57</td>
+</tr>
+</table>
+
+]
+]
+
+---
+
+# Interactions Between Two Dummy Variables: Group Means
+
+`$$\widehat{wage_i}=\hat{\beta_0}+\hat{\beta_1}female_i+\hat{\beta_2}married_i+\hat{\beta_3}(female_i \times married_i)$$`
+
+| Gender | Unmarried | Married |
+|--------|-----------|---------|
+| Male   | $5.17     | $7.98   |
+| Female | $4.61     | $4.57   |
+
+---
+
+# Interactions Between Two Dummy Variables: In R I
+
+.font70[
+
+```r
+reg_dummies&lt;-lm(wage~female+married+female:married, data = wages)
+summary(reg_dummies)
+```
+
+```
+## 
+## Call:
+## lm(formula = wage ~ female + married + female:married, data = wages)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -5.7530 -1.7327 -0.9973  1.2566 17.0184 
+## 
+## Coefficients:
+##                Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)      5.1680     0.3614  14.299  &lt; 2e-16 ***
+## female          -0.5564     0.4736  -1.175    0.241    
+## married          2.8150     0.4363   6.451 2.53e-10 ***
+## female:married  -2.8607     0.6076  -4.708 3.20e-06 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 3.352 on 522 degrees of freedom
+## Multiple R-squared:  0.181,	Adjusted R-squared:  0.1763 
+## F-statistic: 38.45 on 3 and 522 DF,  p-value: &lt; 2.2e-16
+```
+]
+
+---
+
+# Interactions Between Two Dummy Variables: In R II
+
+.pull-left[
+
+
+```r
+library(huxtable)
+huxreg(reg_dummies,
+       coefs = c("Constant" = "(Intercept)",
+                 "Female" = "female",
+                 "Married" = "married",
+                 "Female * Married" = "female:married"),
+       statistics = c("N" = "nobs",
+                      "R-Squared" = "r.squared",
+                      "SER" = "sigma"),
+       number_format = 2)
+```
+
+]
+
+.pull-right[
+
+<table class="huxtable" style="border-collapse: collapse; margin-bottom: 2em; margin-top: 2em; width: 50%; margin-left: auto; margin-right: auto;  ">
+<col><col><tr>
+<td style="vertical-align: top; text-align: center; white-space: nowrap; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0pt 0pt; padding: 4pt 4pt 4pt 4pt;"></td>
+<td style="vertical-align: top; text-align: center; white-space: nowrap; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0.4pt 0pt; padding: 4pt 4pt 4pt 4pt;">(1)</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;">Constant</td>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;">5.17 ***</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;"></td>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;">(0.36)&nbsp;&nbsp;&nbsp;</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;">Female</td>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;">-0.56&nbsp;&nbsp;&nbsp;&nbsp;</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;"></td>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;">(0.47)&nbsp;&nbsp;&nbsp;</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;">Married</td>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;">2.82 ***</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;"></td>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;">(0.44)&nbsp;&nbsp;&nbsp;</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;">Female * Married</td>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;">-2.86 ***</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;"></td>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt; padding: 4pt 4pt 4pt 4pt;">(0.61)&nbsp;&nbsp;&nbsp;</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;">N</td>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;">526&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;">R-Squared</td>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;">0.18&nbsp;&nbsp;&nbsp;&nbsp;</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; border-style: solid solid solid solid; border-width: 0pt 0pt 0.8pt 0pt; padding: 4pt 4pt 4pt 4pt;">SER</td>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; border-style: solid solid solid solid; border-width: 0pt 0pt 0.8pt 0pt; padding: 4pt 4pt 4pt 4pt;">3.35&nbsp;&nbsp;&nbsp;&nbsp;</td>
+</tr>
+<tr>
+<td colspan="2" style="vertical-align: top; text-align: left; white-space: normal; padding: 4pt 4pt 4pt 4pt;"> *** p &lt; 0.001;  ** p &lt; 0.01;  * p &lt; 0.05.</td>
+</tr>
+</table>
+
+]
+
+---
+
+# Interactions Between Two Dummy Variables: Interpretting Coefficients
+
+`$$\widehat{wage_i}=5.17-0.56 \, female_i + 2.82 \, married_i - 2.86 \, (female_i \times married_i)$$`
+
+| Gender | Unmarried | Married |
+|--------|-----------|---------|
+| Male   | $5.17     | $7.98   |
+| Female | $4.61     | $4.57   |
+
+--
+
+- Wage for **unmarried men**: `\(\hat{\beta_0}=5.17\)`
+
+--
+
+- Wage for **married men**: `\(\hat{\beta_0}+\hat{\beta_2}=5.17+2.82=7.98\)`
+
+--
+
+--
+
+- Wage for **unmarried women**: `\(\hat{\beta_0}+\hat{\beta_1}=5.17-0.56=4.61\)`
+
+--
+
+- Wage for **married women**: `\(\hat{\beta_0}+\hat{\beta_1}+\hat{\beta_2}+\hat{\beta_3}=5.17-0.56+2.82-2.86=4.57\)`
+
+---
+
+class: inverse, center, middle
+
+# Interactions Between Two Continuous Variables
+
+---
+
+# Interactions Between Two Continuous Variables
+
+`$$Y_i=\beta_0+\beta_1X_{1i}+\beta_2 X_{2i}+\beta_3 \mathbf{(X_{1i} \times X_{2i})}$$`
+
+--
+
+- To interpret coefficients, compare changes after changing `\(\mathbf{\Delta X_{1i}}\)`:
+
+`$$Y+\mathbf{\Delta Y}=\beta_0+\beta_1(X_1+\mathbf{\Delta X_1})\beta_2X_2+\beta_3((X_1+\mathbf{\Delta X_1}) \times X_2)$$`
+
+--
+
+- Take the difference to get:
+
+--
+
+`$$\begin{align*}
+\Delta Y &amp;= \beta_1 \Delta X_1 + \beta_3 X_2 \Delta X_1\\
+\frac{\Delta Y}{\Delta X_1} &amp;= \beta_1+\beta_3 X_2\\ 	
+\end{align*}$$`
+
+--
+
+- .onfire[The effect of `\\(X_1 \rightarrow Y_i\\)` depends on `\\(X_2\\)`]
+
+- `\(\beta_3\)`: increment to the effect of `\(X_1 \rightarrow Y_i\)` from a 1 unit change in `\(X_2\)``
+
+---
+
+# Interactions Between Two Continuous Variables: Example
+
+.content-box-green[
+.green[**Example**]: Do education and experience interact in their determination of wages?
+
+`$$	\widehat{wage_i}=\hat{\beta_0}+\hat{\beta_1} \, educ_i+\hat{\beta_2} \, exper_i+\hat{\beta_3}(educ_i \times exper_i)$$`
+
+]
+
+- Estimated effect of education on wages depends on the amount of experience (and vice versa)!
+
+`$$\frac{\Delta wage}{\Delta educ}=\hat{\beta_1}+\beta_3 \, exper$$`
+
+- This is a type of nonlinearity (we will examine nonlinearities next lesson)
+
+---
+
+# Interactions Between Two Continuous Variables: In R I
+
+.font70[
+
+```r
+reg_cont&lt;-lm(wage~educ+exper+educ:exper, data = wages)
+summary(reg_cont)
+```
+
+```
+## 
+## Call:
+## lm(formula = wage ~ educ + exper + educ:exper, data = wages)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -5.6747 -1.9683 -0.6991  1.2803 15.8067 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) -2.859916   1.181080  -2.421   0.0158 *  
+## educ         0.601735   0.089900   6.693 5.64e-11 ***
+## exper        0.045769   0.042614   1.074   0.2833    
+## educ:exper   0.002062   0.003491   0.591   0.5549    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 3.259 on 522 degrees of freedom
+## Multiple R-squared:  0.2257,	Adjusted R-squared:  0.2212 
+## F-statistic: 50.71 on 3 and 522 DF,  p-value: &lt; 2.2e-16
+```
+]
+
+---
+
+# Interactions Between Two Continuous Variables: In R II
+
+.pull-left[
+
+
+```r
+library(huxtable)
+huxreg(reg_cont,
+       coefs = c("Constant" = "(Intercept)",
+                 "Education" = "educ",
+                 "Experience" = "exper",
+                 "Education * Experience" = "educ:exper"),
+       statistics = c("N" = "nobs",
+                      "R-Squared" = "r.squared",
+                      "SER" = "sigma"),
+       number_format = 3)
+```
+
+]
+
+.pull-right[
+
+<table class="huxtable" style="border-collapse: collapse; margin-bottom: 2em; margin-top: 2em; width: 50%; margin-left: auto; margin-right: auto;  ">
+<col><col><tr>
+<td style="vertical-align: top; text-align: center; white-space: nowrap; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0pt 0pt; padding: 4pt 4pt 4pt 4pt;"></td>
+<td style="vertical-align: top; text-align: center; white-space: nowrap; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0.4pt 0pt; padding: 4pt 4pt 4pt 4pt;">(1)</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;">Constant</td>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;">-2.860 *&nbsp;&nbsp;</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;"></td>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;">(1.181)&nbsp;&nbsp;&nbsp;</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;">Education</td>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;">0.602 ***</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;"></td>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;">(0.090)&nbsp;&nbsp;&nbsp;</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;">Experience</td>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;">0.046&nbsp;&nbsp;&nbsp;&nbsp;</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;"></td>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;">(0.043)&nbsp;&nbsp;&nbsp;</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;">Education * Experience</td>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;">0.002&nbsp;&nbsp;&nbsp;&nbsp;</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;"></td>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt; padding: 4pt 4pt 4pt 4pt;">(0.003)&nbsp;&nbsp;&nbsp;</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;">N</td>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;">526&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;">R-Squared</td>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; padding: 4pt 4pt 4pt 4pt;">0.226&nbsp;&nbsp;&nbsp;&nbsp;</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: nowrap; border-style: solid solid solid solid; border-width: 0pt 0pt 0.8pt 0pt; padding: 4pt 4pt 4pt 4pt;">SER</td>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; border-style: solid solid solid solid; border-width: 0pt 0pt 0.8pt 0pt; padding: 4pt 4pt 4pt 4pt;">3.259&nbsp;&nbsp;&nbsp;&nbsp;</td>
+</tr>
+<tr>
+<td colspan="2" style="vertical-align: top; text-align: left; white-space: normal; padding: 4pt 4pt 4pt 4pt;"> *** p &lt; 0.001;  ** p &lt; 0.01;  * p &lt; 0.05.</td>
+</tr>
+</table>
+
+]
+
+---
+
+# Interactions Between Two Continuous Variables: Interpretting Coefficients
+
+`$$\widehat{wages_i}=-2.860+0.602 \, educ_i + 0.047 \, exper_i + 0.002 \, (educ_i \times exper_i)$$`
+
+--
+
+Changes in Education: 
+
+| Experience | `\(\displaystyle\frac{\Delta wage}{\Delta educ}\)` |
+|------------|------------------------------------------------|
+| 5 years | `\(0.602+0.002(5)=0.612\)` |
+| 10 years | `\(0.602+0.002(10)=0.622\)` |
+| 15 years | `\(0.602+0.002(15)=0.632\)` |
+
+--
+
+- Marginal effect of education `\(\rightarrow\)` wages **increases** with more experience (but very insignificantly)
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="macros.js"></script>
+<script src="https://platform.twitter.com/widgets.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"slideNumberFormat": "<div class=\"progress-bar-container\">   <div class=\"progress-bar\" style=\"width: calc(%current% / %total% * 100%);\">   </div> </div> "
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

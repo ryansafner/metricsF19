@@ -1,0 +1,136 @@
+---
+title: "Problem Set 4"
+editor_options: 
+  chunk_output_type: console
+---
+
+
+
+<p><em>Due by Tuesday, November 19, 2019</em></p>
+<ul>
+<li><a href="/homeworks/04-problem-set-pdf.pdf"><i class="fas fa-file-pdf"></i> <code>Download as PDF</code></a></li>
+<li><a href="/homeworks/04-problem-set.Rmd"><i class="fab fa-markdown"></i> <code>Download Markdown</code></a></li>
+</ul>
+<h2 id="instructions">Instructions</h2>
+<p>For this problem set, you may submit handwritten answers on a plain sheet of paper, or download and type/handwrite on the PDF.</p>
+<p>Alternatively, you may download the <code>.Rmd</code> file, do the homework in markdown, and email to me a single <code>knit</code>ted <code>html</code> or <code>pdf</code> file (and be sure that it shows all of your code).</p>
+<p>You may work together (and I highly encourage that) but you must turn in your own answers. I grade homeworks 70% for completion, and for the remaining 30%, pick one question to grade for accuracy - so it is best that you try every problem, even if you are unsure how to complete it accurately.</p>
+<h2 id="theory-and-concepts">Theory and Concepts</h2>
+<h3 id="question-1">Question 1</h3>
+<p>In your own words, describe what omitted variable bias means. What are the two conditions for an omitted variable to cause a bias?</p>
+<h3 id="question-2">Question 2</h3>
+<p>In your own words, describe what multicollinearity means. What is the cause, and what are the consequences of multicollinearity? How can we measure multicollinearity and its effects? What happens if multicollinearity is <em>perfect</em>?</p>
+<h3 id="question-3">Question 3</h3>
+<p>In your own words, describe what a proxy variable is. When or why would we use a proxy variable, and what effects does it have on our model?</p>
+<h3 id="question-4">Question 4</h3>
+<p>Explain how we use Directed Acyclic Graphs (DAGs) to depict a causal model: what are the two criteria that must hold for identifying a causal effect of <span class="math inline">\(X\)</span> on <span class="math inline">\(Y\)</span>? When should we control a variable, and when should we <em>not</em> control a variable?</p>
+<h2 id="theory-problems">Theory Problems</h2>
+<p>For the following questions, please <em>show all work</em> and explain answers as necessary. You may lose points if you only write the correct answer. You may use <code>R</code> to <em>verify</em> your answers, but you are expected to reach the answers in this section “manually.”</p>
+<h3 id="question-5">Question 5</h3>
+<p>Data were collected from a random sample of 220 home sales from a community in 2017.</p>
+<p><span class="math display">\[\widehat{Price}=119.2+0.485 \, BDR+23.4 \, Bath+0.156 \, Hsize+0.002 \, Lsize+0.090 \, Age\]</span></p>
+<ul>
+<li><span class="math inline">\(Price\)</span>: selling price (in $1,000s)</li>
+<li><span class="math inline">\(BDR\)</span>: number of bedrooms</li>
+<li><span class="math inline">\(Bath\)</span>: number of bathrooms</li>
+<li><span class="math inline">\(Hsize\)</span>: size of the house (in <span class="math inline">\(ft^2\)</span>)</li>
+<li><span class="math inline">\(Lsize\)</span>: lot size (in <span class="math inline">\(ft^2\)</span>)</li>
+<li><span class="math inline">\(Age\)</span>: age of the house (in years)</li>
+</ul>
+<h4 id="part-a">Part A</h4>
+<p>Suppose that a homeowner converts part of an existing living space in her house to a new bathroom. What is the expected increase in the value of the house?</p>
+<h4 id="part-b">Part B</h4>
+<p>Suppose a homeowner adds a new bathroom to her house, which also increases the size of the house by 100 square feet. What is the expected increase in the value of the house?</p>
+<h4 id="part-c">Part C</h4>
+<p>Suppose the <span class="math inline">\(R^2\)</span> of this regression is 0.727. Calculate the adjusted <span class="math inline">\(\bar{R}^2\)</span>.</p>
+<h4 id="part-d">Part D</h4>
+<p>Suppose the following auxiliary regression for <span class="math inline">\(BDR\)</span> has an <span class="math inline">\(R^2\)</span> of 0.841.</p>
+<p><span class="math display">\[\widehat{BDR}=\delta_0+\delta_1Bath+\delta_2Hsize+\delta_3Lsize+\delta_4Age\]</span></p>
+<p>Calculate the Variance Inflation Factor for <span class="math inline">\(BDR\)</span> and explain what it means.</p>
+<h3 id="question-6">Question 6</h3>
+<p>A researcher wants to investigate the effect of education on average hourly wages. Wage, education, and experience in the dataset have the following correlations:</p>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th>Wage</th>
+<th>Education</th>
+<th>Experience</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Wage</td>
+<td>1.0000</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>Education</td>
+<td>0.4059</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Experience</td>
+<td>0.1129</td>
+<td><span class="math inline">\(-0.2995\)</span></td>
+<td>1.0000</td>
+</tr>
+</tbody>
+</table>
+<p>She runs a simple regression first, and gets the results:</p>
+<p><span class="math display">\[\widehat{\text{Wage}} = -0.9049 +  0.5414 \, Education\]</span></p>
+<p>She runs another regression, and gets the results:</p>
+<p><span class="math display">\[\widehat{\text{Experience}} = 35.4615 - 1.4681 \, Education\]</span></p>
+<h4 id="part-a-1">Part A</h4>
+<p>If the true marginal effect of experience on wages (holding education constant) is 0.0701, calculate the omitted variable bias in the first regression caused by omitting experience. Does the estimate of <span class="math inline">\(\hat{\beta_1}\)</span> in the first regression overstate or understate the effect of education on wages?</p>
+<h4 id="part-b-1">Part B</h4>
+<p>Knowing this, what would be the <em>true effect</em> of education on wages, holding experience constant?</p>
+<h4 id="part-c-1">Part C</h4>
+<p>The <span class="math inline">\(R^2\)</span> for the second regression is 0.0897. If she were to run a better regression including both education and experience, how much would the variance of the coefficients on education and experience increase? Why?</p>
+<h2 id="question-7">Question 7</h2>
+<p>Consider</p>
+<h2 id="r-questions">R Questions</h2>
+<p>Answer the following questions using <code>R</code>. When necessary, please write answers in the same document (knitted <code>Rmd</code> to <code>html</code> or <code>pdf</code>, typed <code>.doc(x)</code>, or handwritten) as your answers to the above questions. Be sure to include (email or print an <code>.R</code> file, or show in your knitted <code>markdown</code>) your code and the outputs of your code with the rest of your answers.</p>
+<h3 id="question-11">Question 11</h3>
+<ul>
+<li><a href="http://metricsf19.classes.ryansafner.com/data/heightwages.csv"><i class="fas fa-table"></i> <code>heightwages.csv</code></a></li>
+</ul>
+<p>Download the <code>heightwages.csv</code> dataset. This data is a part of a larger dataset from the National Longitudinal Survey of Youth (NLSY) 1979 cohort: a nationally representative sample of 12,686 men and women aged 14-22 years old when they were first surveyed in 1979. They were subsequently interviewed every year through 1994 and then every other year afterwards. There are many included variables, but for now we will just focus on:</p>
+<ul>
+<li><code>wage96</code>: Adult hourly wages ($/hr) reported in 1996</li>
+<li><code>height85</code>: Adult height (inches) reported in 1985</li>
+<li><code>height81</code>: Adolescent height (inches) reported in 1981</li>
+</ul>
+<blockquote>
+<p>We want to figure out what is the effect of height on wages (e.g. do taller people earn more on average than shorter people?)</p>
+</blockquote>
+<h4 id="part-a-2">Part A</h4>
+<p>Create a quick scatterplot between <code>height85</code> (as <span class="math inline">\(X)\)</span> amd <code>wage96</code> (as <span class="math inline">\(Y)\)</span>.</p>
+<h4 id="part-b-2">Part B</h4>
+<p>Regress wages on adult height. Write the equation of the estimated OLS regression. Interpret the coefficient on <code>height85</code>.</p>
+<h4 id="part-c-2">Part C</h4>
+<p>How much would someone who is 5’10" be predicted to earn per hour, according to the model?</p>
+<h4 id="part-d-1">Part D</h4>
+<p>Would adolescent height cause an omitted variable bias if it were left out? Explain using both your intuition, and some statistical evidence with <code>R</code>.</p>
+<h4 id="part-e">Part E</h4>
+<p>Now add adolescent height to the regression, and write the new regression equation below, as before. Interpret the coefficient on <code>height85</code>.</p>
+<h4 id="part-f">Part F</h4>
+<p>How much would someone who is 5’10" in 1985 and 4’8" in 1981 be predicted to earn, according to the model?</p>
+<h4 id="part-g">Part G</h4>
+<p>What happened to the estimate on <code>height85</code> and its standard error?</p>
+<h4 id="part-h">Part H</h4>
+<p>Is there multicollinearity between <code>height85</code> and <code>height81</code>? Explore with a scatterplot.<span><label for="sn-1" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-1" class="margin-toggle"/><span class="sidenote">Hint: to avoid overplotting, use <code>geom_jitter()</code> instead of <code>geom_point()</code> to get a better view of the data.<br />
+<br />
+</span></span></p>
+<h4 id="part-i">Part I</h4>
+<p>Quantify how much multicollinearity affects the variance of the OLS estimates on both heights.<span><label for="sn-2" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-2" class="margin-toggle"/><span class="sidenote">Hint: You’ll need the <code>car</code> package.<br />
+<br />
+</span></span></p>
+<h4 id="part-j">Part J</h4>
+<p>Reach the same number as in part I by running an auxiliary regression.<span><label for="sn-3" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-3" class="margin-toggle"/><span class="sidenote">Hint: There’s some missing <code>wage96</code> data that may give you a different answer, so <code>filter()</code> your data here by <code>!is.na(wage96)</code> before running this regression - this will include only observations for <code>wage96</code> that are not <code>NA</code>’s.<br />
+<br />
+</span></span></p>
+<h4 id="part-k">Part K</h4>
+<p>Make a regression table from part B and D using <code>huxtable</code>.</p>
