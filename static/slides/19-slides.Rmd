@@ -768,7 +768,7 @@ $$\begin{align*}
 
 - .onfire[The effect of `\\(X_1 \rightarrow Y_i\\)` depends on `\\(X_2\\)`]
 
-- $\beta_3$: increment to the effect of $X_1 \rightarrow Y_i$ from a 1 unit change in $X_2$`
+- $\beta_3$: increment to the effect of $X_1 \rightarrow Y_i$ from a 1 unit change in $X_2$
 
 ---
 
@@ -823,6 +823,7 @@ huxreg(reg_cont,
 
 ```{r, ref.label="huxreg3"}
 ```
+
 ]
 
 ---
