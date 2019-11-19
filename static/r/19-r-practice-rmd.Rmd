@@ -101,7 +101,7 @@ df<-df %>%
 
 where
 - `df` is the name of your dataframe
-- `my_var` and `my_var2` are example variables^[As a bonus, you can try doing this with just one conditional command: `mutate_if(is.integer, factor)`. See our [Data Wrangling slides](https://metricsf19.classes.ryansafner.com/slides/05-slides#95) for refreshers of all the fancy `mutate()` possibilities!]
+- `my_var` and `my_var2` are example variables^[As a bonus, you can try doing this with just one conditional command: `mutate_at(c("Black", "Hispanic", "Female", "OutTown", "OutState"),factor)`. See our [Data Wrangling slides](https://metricsf19.classes.ryansafner.com/slides/05-slides#95) for refreshers of all the fancy `mutate()` possibilities!]
 
 ---
 
@@ -256,7 +256,7 @@ Use the regression coefficients to find
 Let's recode the sex variable. 
 
 ### Part A
-Make a new variable called `Male` and save it in your dataframe.^[Hint: `mutate()` and define `Male` equal to the `ifelse()` function, which has three arguments: 1. the condition to test, 2. what to define "Male" as when the condition is `TRUE`, and 3. what to define "Male" as when the condition is `FALSE`.]
+Make a new variable called `Male` and save it in your dataframe.^[Hint: `mutate()` and define `Male` equal to `factor(ifelse())`. This makes the variable a `factor` (so we don't have to later), and the `ifelse()` function has three arguments: 1. `test =` the condition to test, 2. `yes =` what to define "Male" as when the condition is `TRUE`, and 3. `no = ` what to define "Male" as when the condition is `FALSE`.]
 
 ---
 

@@ -72,8 +72,29 @@ Depending on the topic, you can also collect your own data, and many times you w
 - [Kaggle](https://www.kaggle.com/datasets)
 - [Harvard Law School: Find a Database](https://hls.harvard.edu/library/research/find-a-database/#hlsnav-databases-for-legal-and-law-related-research)
 
+**Good R Packages for Getting Data in R Format**^[Some of these come from [Nick Huntington-Klein's excellent list](http://www.nickchk.com/econometrics.html).]
+
+Below are packages written by and for R users that link up with the API of key data sets for easy use in R. Each link goes to the documentation and description of each package.
+
+Don't forget to install^[`install.packages("name_of_package")`] first and then load it with `library()`. 
+
+- [`wbstats`](https://cran.r-project.org/web/packages/wbstats/wbstats.pdf) provides access to all the data available on the **World Bank** API, which is basically everything on their website. The World Bank keeps track of *many* country-level indicators over time.
+- [`tidycensus`](https://cran.r-project.org/web/packages/tidycensus/tidycensus.pdf) gives you access to data from the **US Census** and the **American Community Survey.** These are the largest high-quality data sets you'll find of cross-sectional data on individual people in the US. You'll need to get a (free) API key from the website (or ask me for mine).
+- [`fredr`](https://cran.r-project.org/web/packages/fredr/vignettes/fredr.html) gets data from the **Federal Reserve's Economic Database (FRED)**. You'll need to get a (free) API key from the website (or ask me for mine).
+- [`tidyquant`](https://cran.r-project.org/web/packages/tidyquant/index.html) gets data from a number of financial sources (including `fredr).
+- [`icpsrdata`](https://cran.r-project.org/web/packages/icpsrdata/icpsrdata.pdf) downloads data from the **Inter-university Consortium for Political and Social Research** (you'll need an account and a keycode). ICPSR is a database of datasets from published social science papers for the purposes of reproducibility.
+- [`NHANES`](https://cran.r-project.org/web/packages/NHANES/NHANES.pdf) uses data from the **US National Health and Nutrition Examination Survey.**
+- [`ipumsr`](https://cran.r-project.org/web/packages/ipumsr/vignettes/ipums.html) has **census data** from *all around the world*, in addition to the US census, **American Community Survey**, and **Current Population Survey**. If you're doing international micro work, look at IPUMS. It's also the easiest way to get the **Current Population Survey (CPS)**, which is very popular for labor economics. Unfortunately ipumsr won't get the data from within R; you'll have to make your own data extract on the IPUMS website and download it. But ipumsr will read that file into R and preserve things like names and labels.
+- [`education-data-package-r`](https://github.com/UrbanInstitute/education-data-package-r)^[Note you will need to install `devtools` package first, and then install the package directly from Github with the command `devtools::install_github('UrbanInstitute/education-data-package-r')`] is the Urban Institute's data data on educational institutions in the US, including colleges (in IPEDS) and K-12 schools (in CCD). This package also has data on county-level poverty rates from SAIPE.
+- [`psidR`](https://cran.r-project.org/web/packages/psidR/psidR.pdf) is the **Panel Study of Income Dynamics**. This study doesn't just follow people over their lifetimes, it follows their children too, generationally! A great source for studying how things follow families through generations.
+- [`atus`](https://cran.r-project.org/web/packages/atus/atus.pdf) is th e **American Time Use Survey**, which is a large cross-sectional data set with information on how people spend their time.
+- [`Rilostat`](https://ilostat.github.io/Rilostat/index.html) uses data from the **International Labor Organization.** This contains lots of different statistics on labor, like employment, wage gaps, etc., generally aggregated to the national level and changing over time.
+- [`democracyData`](https://github.com/xmarquez/democracyData)^[Note you will need to install `devtools` package first, and then install the package directly from Github with the command `devtools::install_github('xmarquez/democracyData')`] is a great "package for accessing and manipulating existing measures of democracy."
+- [`politicaldata`](https://cran.rstudio.com/web/packages/politicaldata/index.html) provides useful functions for obtaining commonly-used data in political analysis and political science, including from sources such as the Comparative Agendas Project (which provides data on politics and policy from 20+ countries), the MIT Election and Data Science Lab, and FiveThirtyEight.
+
 Here is a list of good data sources depending on the types of topics you might be interested in writing on:
 
+- [Quality of Government Data](https://qog.pol.gu.se/data/dataextras/datasources) has an extremely wide range of data sources pertaining to measures of institutions. The data itself can be found [here](https://qog.pol.gu.se/data/datadownloads/qogstandarddata). 
 - National and State Accounts Data: [Bureau of Economic Analysis](http://www.bea.doc.gov/)
 - Labor Market and Price Data: [Bureau of Labor Statistics](http://www.bls.gov/)
 - Macroeconomic Data: [Federal Reserve Economic Data (FRED)](https://fred.stlouisfed.org/), [World Development Indicators (World Bank)](https://datacatalog.worldbank.org/dataset/world-development-indicators), [Penn World Table](https://www.rug.nl/ggdc/productivity/pwt/)
@@ -102,9 +123,9 @@ While it may be possible for many papers in your college career, is not a paper 
 | Assignment | Points | Due Date | Description |
 |------------|--------|----------|-------------|
 | Abstract | 5 | October 29 | Short summary of your ideas |
-| Data Description | 10 | November 14 | Description of data sources, and some summary statistics |
-| Literature Review | 10 | December 5 | 1-3 paragraphs on 2-3 scholarly sources |
-| Presentation | 5 | December 10/12 | Short presentation of your project so far |
+| Data Description | 10 | November 24 | Description of data sources, and some summary statistics |
+| Literature Review | 10 | December 6 | 1-3 paragraphs on 2-3 scholarly sources |
+| Presentation | 5 | December 5/10 | Short presentation of your project so far |
 | Final Paper Due | 70 | December 17 | Email to me paper, data, code |
 
 - **Abstract**: write a short paragraph (3-6 sentences) summarizing: what rough topic you want to look at, a specific research question that you think you can get data to test, where you think you might be able to get some data. It's okay that much of this is speculative and you might change your mind or do very different things later!

@@ -154,11 +154,13 @@ code span.wa { color: #bf0303; } /* Warning */
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>df&lt;-df <span class="op">%&gt;%</span></span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">my_var=</span><span class="kw">as.factor</span>(my_var),</span>
 <span id="cb1-3"><a href="#cb1-3"></a>         <span class="dt">my_var2=</span><span class="kw">as.factor</span>(my_var2))</span></code></pre></div>
-<p>where
-- <code>df</code> is the name of your dataframe
-- <code>my_var</code> and <code>my_var2</code> are example variables<span><label for="sn-2" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-2" class="margin-toggle"/><span class="sidenote">As a bonus, you can try doing this with just one conditional command: <code>mutate_if(is.integer, factor)</code>. See our <a href="https://metricsf19.classes.ryansafner.com/slides/05-slides#95">Data Wrangling slides</a> for refreshers of all the fancy <code>mutate()</code> possibilities!<br />
+<p>where</p>
+<ul>
+<li><code>df</code> is the name of your dataframe</li>
+<li><code>my_var</code> and <code>my_var2</code> are example variables<span><label for="sn-2" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-2" class="margin-toggle"/><span class="sidenote">As a bonus, you can try doing this with just one conditional command: <code>mutate_at(c("Black", "Hispanic", "Female", "OutTown", "OutState"),factor)</code>. See our <a href="https://metricsf19.classes.ryansafner.com/slides/05-slides#95">Data Wrangling slides</a> for refreshers of all the fancy <code>mutate()</code> possibilities!<br />
 <br />
-</span></span></p>
+</span></span></li>
+</ul>
 <h4 id="part-d">Part D</h4>
 <p>Confirm they are each now factors by checking their class again.</p>
 <h4 id="part-e">Part E</h4>
@@ -178,9 +180,11 @@ code span.wa { color: #bf0303; } /* Warning */
 <h4 id="part-c-2">Part C</h4>
 <p>We did not go over how to do this in class, but you can run a <strong>t-test for the difference in group means</strong> to see if the difference is statistically significant. The syntax is similar for a regression:</p>
 <p><code>t.test(y~d, data=df)</code></p>
-<p>where:
-- <code>y</code> is the variable we are testing
-- <code>d</code> is the dummy variable</p>
+<p>where:</p>
+<ul>
+<li><code>y</code> is the variable we are testing</li>
+<li><code>d</code> is the dummy variable</li>
+</ul>
 <p>Is there a statistically significant difference between Amount for male and female drivers?<span><label for="sn-5" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-5" class="margin-toggle"/><span class="sidenote">Hint: this is like any hypothesis test. A <span class="math inline">\(t\)</span>-value needs to be large enough to be greater than a critical value of <span class="math inline">\(t\)</span>. Check the <span class="math inline">\(p\)</span>-value and see if it is less than our standard of <span class="math inline">\(\alpha=0.05.\)</span><br />
 <br />
 </span></span></p>
@@ -205,7 +209,7 @@ code span.wa { color: #bf0303; } /* Warning */
 <h3 id="question-6">Question 6</h3>
 <p>Let’s recode the sex variable.</p>
 <h4 id="part-a-3">Part A</h4>
-<p>Make a new variable called <code>Male</code> and save it in your dataframe.<span><label for="sn-6" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-6" class="margin-toggle"/><span class="sidenote">Hint: <code>mutate()</code> and define <code>Male</code> equal to the <code>ifelse()</code> function, which has three arguments: 1. the condition to test, 2. what to define “Male” as when the condition is <code>TRUE</code>, and 3. what to define “Male” as when the condition is <code>FALSE</code>.<br />
+<p>Make a new variable called <code>Male</code> and save it in your dataframe.<span><label for="sn-6" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-6" class="margin-toggle"/><span class="sidenote">Hint: <code>mutate()</code> and define <code>Male</code> equal to <code>factor(ifelse())</code>. This makes the variable a <code>factor</code> (so we don’t have to later), and the <code>ifelse()</code> function has three arguments: 1. <code>test =</code> the condition to test, 2. <code>yes =</code> what to define “Male” as when the condition is <code>TRUE</code>, and 3. <code>no =</code> what to define “Male” as when the condition is <code>FALSE</code>.<br />
 <br />
 </span></span></p>
 <h4 id="part-b-3">Part B</h4>

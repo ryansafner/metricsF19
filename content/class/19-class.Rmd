@@ -15,6 +15,105 @@ editor_options:
 
 # Overview
 
+Another way to visualize what we've been covering:
+
+```{r, fig.retina=3}
+library(mosaic)
+
+control=function(x){2+0.5*x}
+treat=function(x){4+x}
+
+ggplot(data.frame(x=c(0,10)), aes(x=x))+
+  stat_function(fun=control, geom="line", size=2, color = "red")+
+    geom_label(aes(x=5,y=control(5)), color = "red", label=expression(paste("slope=",hat(beta[1]))), size = 5)+
+  stat_function(fun=treat, geom="line", size=2, color = "blue")+
+    geom_label(aes(x=5,y=treat(5)), color = "blue", label=expression(paste("slope=",hat(beta[1])+hat(beta[3]))), size = 5)+
+    scale_x_continuous(breaks=NULL,
+                     limits=c(0,10),
+                     expand=expand_scale(mult=c(0,0.1)))+
+  scale_y_continuous(breaks=c(2,4),
+                     labels=c(expression(hat(beta[0])),expression(hat(beta[0])+hat(beta[2]))),
+                     limits=c(0,10),
+                     expand=expand_scale(mult=c(0,0.1)))+
+  labs(x = "",
+       y = "")+
+  theme_classic(base_family = "Fira Sans Condensed", base_size=20)
+
+```
+
+
+$$\widehat{\text{wage}}_i=\hat{\beta_0}+\hat{\beta_1} \, \text{experience}_i$$
+
+$$\widehat{\text{wage}}_i=\hat{\beta_0}+\hat{\beta_1} \, \text{experience}_i+\hat{\beta_2} \, \text{gender}_i$$
+
+$$\widehat{\text{wage}}_i=\hat{\beta_0}+\hat{\beta_1} \, \text{experience}_i+\hat{\beta_2} \, \text{gender}_i+ \hat{\beta_3}(\text{experience}_i \times \text{gender}_i)$$
+
+```{r}
+library(tidyverse)
+library(wooldridge)
+# Our data comes from wage1 in the wooldridge package
+
+wages<-wooldridge::wage1
+```
+
+```{r, fig.retina=3}
+ggplot(data = wages)+
+  aes(x = exper,
+      y = wage)+
+  geom_point()+
+  geom_smooth(method="lm")+
+  scale_y_continuous(labels=scales::dollar)+
+  labs(x = "Experience (years)",
+       y = "Wage")+
+  theme_classic(base_family = "Fira Sans Condensed", base_size=20)
+```
+
+```{r}
+library(broom)
+gender_reg<-lm(wage~exper+female, data = wages) %>%
+  tidy()
+
+gender_reg
+
+slope<-gender_reg %>%
+  filter(term=="exper") %>%
+  pull(estimate)
+slope
+
+male_intercept<-gender_reg %>%
+  filter(term=="(Intercept)")%>%
+  pull(estimate)
+
+female_intercept<-gender_reg %>%
+  filter(term=="female") %>%
+  pull(estimate)
+
+female_intercept<-female_intercept+male_intercept
+```
+
+```{r, fig.retina=3}
+colors = c("1" = "pink", "0" = "blue")
+
+ggplot(data = wages)+
+  aes(x = exper,
+      y = wage,
+      color = as.factor(female))+
+  geom_point()+
+  geom_abline(slope=slope, intercept = male_intercept, size=2, color = "blue")+
+  geom_abline(slope=slope, intercept = female_intercept, size=2, color = "pink")+
+  geom_label(x=2.5,y=6.63, color="blue", label="6.63")+
+  geom_label(x=2.5,y=4.15, color="pink", label="4.15")+
+  scale_y_continuous(labels=scales::dollar)+
+  scale_color_manual("Gender", labels=c("Men","Women"), values = colors)+
+  guides(color=F)+
+  labs(x = "Experience (years)",
+       y = "Wage",
+       title = "Parallel Slopes Model",
+       subtitle = "wage = 6.63+0.03 Experience-2.48 Female")+
+  theme_classic(base_family = "Fira Sans Condensed", base_size=20)
+```
+]
+
 # Slides
 
 - [<i class="fas fa-external-link-square-alt"></i> Lecture Slides](/slides/19-slides.html)

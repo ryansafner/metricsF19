@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>3.8: Polynomial Regression</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Ryan Safner  Assistant Professor of Economics    safner@hood.edu    ryansafner/metricsf19    metricsF19.classes.ryansafner.com" />
+    <link href="libs/remark-css/hygge.css" rel="stylesheet" />
+    <link href="libs/pagedtable/css/pagedtable.css" rel="stylesheet" />
+    <script src="libs/pagedtable/js/pagedtable.js"></script>
+    <script src="https://use.fontawesome.com/5235085b15.js"></script>
+    <link rel="stylesheet" href="custom.css" type="text/css" />
+    <link rel="stylesheet" href="custom-fonts.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# 3.8: Polynomial Regression
+## ECON 480 · Econometrics · Fall 2019
+### Ryan Safner<br> Assistant Professor of Economics <br> <a href="mailto:safner@hood.edu"><i class="fa fa-paper-plane fa-fw"></i> safner@hood.edu</a> <br> <a href="https://github.com/ryansafner/metricsf19"><i class="fa fa-github fa-fw"></i> ryansafner/metricsf19</a><br> <a href="https://metricsF19.classes.ryansafner.com"> <i class="fa fa-globe fa-fw"></i> metricsF19.classes.ryansafner.com</a><br>
+
+---
+
+
+
+
+# *Linear* Regression
+
+.pull-left[
+
+- OLS is commonly known as "**_linear_ regression**" as it fits a *straight line* to data points
+
+- Often, data and relationships between variables may *not* be linear
+
+]
+
+--
+
+.pull-right[
+
+&lt;img src="20-slides_files/figure-html/unnamed-chunk-1-1.png" width="504" /&gt;
+]
+
+---
+
+# *Linear* Regression
+
+.pull-left[
+
+- OLS is commonly known as "**_linear_ regression**" as it fits a *straight line* to data points
+
+- Often, data and relationships between variables may *not* be linear
+
+]
+
+.pull-right[
+
+&lt;img src="20-slides_files/figure-html/unnamed-chunk-2-1.png" width="504" /&gt;
+]
+
+---
+
+# *Linear* Regression
+
+.pull-left[
+
+- OLS is commonly known as "**_linear_ regression**" as it fits a *straight line* to data points
+
+- Often, data and relationships between variables may *not* be linear
+
+]
+
+.pull-right[
+
+&lt;img src="20-slides_files/figure-html/unnamed-chunk-3-1.png" width="504" /&gt;
+]
+
+---
+
+# *Linear* Regression
+
+.pull-left[
+
+- OLS is commonly known as "**_linear_ regression**" as it fits a *straight line* to data points
+
+- Often, data and relationships between variables may *not* be linear
+
+- Get rid of the outliers `\((&gt;60,000)\)`
+
+]
+
+.pull-right[
+
+&lt;img src="20-slides_files/figure-html/unnamed-chunk-4-1.png" width="504" /&gt;
+]
+
+---
+
+# *Linear* Regression
+
+.pull-left[
+
+- OLS is commonly known as "**_linear_ regression**" as it fits a *straight line* to data points
+
+- Often, data and relationships between variables may *not* be linear
+
+- Get rid of the outliers `\((&gt;60,000)\)`
+
+]
+
+.pull-right[
+
+&lt;img src="20-slides_files/figure-html/unnamed-chunk-5-1.png" width="504" /&gt;
+]
+
+---
+
+# *Linear* Regression
+
+.pull-left[
+
+- OLS is commonly known as "**_linear_ regression**" as it fits a *straight line* to data points
+
+- Often, data and relationships between variables may *not* be linear
+
+- Get rid of the outliers `\((&gt;60,000)\)`
+
+]
+
+.pull-right[
+
+&lt;img src="20-slides_files/figure-html/unnamed-chunk-6-1.png" width="504" /&gt;
+]
+
+---
+
+# *Linear* Regression
+
+.pull-left[
+
+- OLS is commonly known as "**_linear_ regression**" as it fits a *straight line* to data points
+
+- Often, data and relationships between variables may *not* be linear
+
+- Get rid of the outliers `\((&gt;60,000)\)`
+
+]
+
+.pull-right[
+
+&lt;img src="20-slides_files/figure-html/unnamed-chunk-7-1.png" width="504" /&gt;
+]
+
+---
+
+# Nonlinear Effects in Linear Regression
+
+- Despite being "linear regression", OLS can handle this with an easy fix
+
+- OLS requires all *parameters* (i.e. the `\(\beta\)`'s) to be linear, the *regressors* `\((X\)`'s) can be nonlinear:
+
+--
+`$$Y_i=\beta_0+\beta_1 X_i^2 \quad  \mathbf{\checkmark}$$`
+--
+
+`$$Y_i=\beta_0+\beta_1^2X_i \quad  \mathbf{X}$$`
+
+
+--
+
+`$$Y_i=\beta_0+\beta_1 \sqrt{X_i} \quad  \mathbf{\checkmark}$$`
+
+--
+
+$$Y_i=\beta_0+\sqrt{\beta_1} X_i \quad  \mathbf{X} $$
+
+--
+
+`$$Y_i=\beta_0+\beta_1 (X_{1i} \times X_{2i}) \quad  \mathbf{\checkmark}$$`
+
+--
+
+`$$Y_i=\beta_0+\beta_1 ln(X_i) \quad  \mathbf{\checkmark}$$`
+--
+
+- In the end, each `\(X\)` is always just a number in the data, OLS can always estimate parameters for it
+
+- *Plotting* the modelled points `\((X_i, \hat{Y_i})\)` can result in a curve!
+
+---
+
+# Sources of Nonlinearities I
+
+- Effect of `\(X_1 \rightarrow Y\)` might be nonlinear if:
+
+--
+
+1. `\(X_1 \rightarrow Y\)` is different for different levels of `\(X_1\)`
+  - e.g. diminishing returns: `\(\uparrow X_1\)` increases `\(Y\)` at a *decreasing* rate
+  - e.g. increasing returns: `\(\uparrow X_1\)` increases `\(Y\)` at an *increasing* rate
+
+--
+
+2. `\(X_1 \rightarrow Y\)` is different for different levels of `\(X_2\)`
+  - e.g. interaction effects (last lesson)
+
+---
+
+# Sources of Nonlinearities II
+
+.pull-left[
+
+- **Linear**: 
+  - slope `\((\hat{\beta_1})\)`, `\(\frac{\Delta X}{\Delta Y}\)` same for all `\(X\)`
+
+]
+.pull-right[
+
+&lt;img src="20-slides_files/figure-html/unnamed-chunk-8-1.png" width="504" /&gt;
+]
+
+---
+
+# Sources of Nonlinearities II
+
+.pull-left[
+
+- **Polynomial**:
+  - slope `\((\hat{\beta_1})\)`, `\(\frac{\Delta X}{\Delta Y}\)` *depends on the value of* `\(X\)`
+
+]
+.pull-right[
+
+&lt;img src="20-slides_files/figure-html/unnamed-chunk-9-1.png" width="504" /&gt;
+]
+
+---
+
+# Sources of Nonlinearities III
+
+.pull-left[
+
+- **Interaction Effect**:
+  - slope `\((\hat{\beta_1})\)`, `\(\frac{\Delta X_1}{\Delta Y}\)` *depends on the value of* `\(X_2\)`
+
+- Easy example: if `\(X_2\)` is a dummy variable:
+  - .red[`\\(X_2=0\\)` (control)] vs. .green[`\\(X_2=1\\)` (treatment)]
+
+]
+.pull-right[
+
+&lt;img src="20-slides_files/figure-html/unnamed-chunk-10-1.png" width="504" /&gt;
+]
+
+---
+
+# Polynomial Functions of `\(X\)`
+
+`$$\hat{Y_i} = \hat{\beta_0} + \hat{\beta_1} X_i + \hat{\beta_2} X_i^2 + \cdots + \hat{\beta_{\mathbf{r}}} X_i^{\mathbf{r}} + \epsilon_i$$`
+
+- Where `\(r\)` is the highest power `\(X_i\)` is raised to
+  - e.g. quadratic `\(r=2\)`, cubic `\(r=3\)`, etc
+
+- The graph of an `\(r\)`&lt;sup&gt;th&lt;/sup&gt;-degree polynomial function has `\((r-1)\)` bends 
+
+- Just another multivariate OLS regression model  
+
+---
+
+# Quadratic Model
+
+`$$\hat{Y_i} = \hat{\beta_0} + \hat{\beta_1} X_i + \hat{\beta_2} X_i^2$$`
+
+- .shout[Quadratic model] has `\(X\)` and `\(X^2\)` variables in it (yes, need both!)
+
+--
+
+- How to interpret coefficients (betas)?
+  - `\(\beta_0\)` as "intercept" and `\(\beta_1\)` as "slope" makes no sense 
+  - `\(\beta_1\)` as effect `\(X_i \rightarrow Y_i\)` holding `\(X_i^2\)` constant makes no sense&lt;sup&gt;.red[1]&lt;/sup&gt;
+
+.footnote[&lt;sup&gt;.red[1]&lt;/sup&gt; This is *not* a multicollinearity problem! Correlation only measures *linear* relationships!]
+
+--
+
+- **Calculate marginal effects** by calculating predicted `\(\hat{Y_i}\)` for different levels of `\(X_i\)`
+
+---
+
+# Quadratic Model: Calculating Marginal Effects
+
+`$$\hat{Y_i} = \hat{\beta_0} + \hat{\beta_1} X_i + \hat{\beta_2} X_i^2$$`
+
+- What is the .shout[marginal effect] of `\(\Delta X_i \rightarrow \Delta Y_i\)`?
+
+--
+
+- Take the **derivative** of `\(Y_i\)` with respect to `\(X_i\)`:
+`$$\frac{d Y_i}{d X_i} = \hat{\beta_1}+2\hat{\beta_2} X_i$$`
+
+--
+
+- .onfire[Marginal effect] of a 1 unit change in `\(X_i\)` is a `\(\left(\hat{\beta_1}+2\hat{\beta_2} X_i \right)\)` unit change in `\(Y\)`
+
+---
+
+# Quadratic Model: Example I
+
+.content-box-green[
+.green[**Example**]: `$$\widehat{\text{Life Expectancy}_i} = \hat{\beta_0}+\hat{\beta_1} \, \text{GDP per capita}_i+\hat{\beta_2}\, \text{GDP per capita}^2_i$$`
+]
+
+- Use `gapminder` package and data
+
+
+```r
+library(gapminder)
+```
+
+---
+
+# Quadratic Model: Example II
+
+- These coefficients will be very large, so let's transform `gdpPercap` to be in $1,000's
+
+
+```r
+gapminder&lt;-gapminder %&gt;%
+  mutate(GDP_t = gdpPercap/1000)
+gapminder %&gt;% head() # look at it
+```
+
+&lt;div data-pagedtable="false"&gt;
+  &lt;script data-pagedtable-source type="application/json"&gt;
+{"columns":[{"label":["country"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["continent"],"name":[2],"type":["fctr"],"align":["left"]},{"label":["year"],"name":[3],"type":["int"],"align":["right"]},{"label":["lifeExp"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["pop"],"name":[5],"type":["int"],"align":["right"]},{"label":["gdpPercap"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["GDP_t"],"name":[7],"type":["dbl"],"align":["right"]}],"data":[{"1":"Afghanistan","2":"Asia","3":"1952","4":"28.801","5":"8425333","6":"779.4453","7":"0.7794453"},{"1":"Afghanistan","2":"Asia","3":"1957","4":"30.332","5":"9240934","6":"820.8530","7":"0.8208530"},{"1":"Afghanistan","2":"Asia","3":"1962","4":"31.997","5":"10267083","6":"853.1007","7":"0.8531007"},{"1":"Afghanistan","2":"Asia","3":"1967","4":"34.020","5":"11537966","6":"836.1971","7":"0.8361971"},{"1":"Afghanistan","2":"Asia","3":"1972","4":"36.088","5":"13079460","6":"739.9811","7":"0.7399811"},{"1":"Afghanistan","2":"Asia","3":"1977","4":"38.438","5":"14880372","6":"786.1134","7":"0.7861134"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  &lt;/script&gt;
+&lt;/div&gt;
+
+---
+
+# Quadratic Model: Example III
+
+- Let's also add the squared term, `gdp_sq`
+
+
+```r
+gapminder&lt;-gapminder %&gt;%
+  mutate(GDP_sq = GDP_t^2)
+gapminder %&gt;% head() # look at it
+```
+
+&lt;div data-pagedtable="false"&gt;
+  &lt;script data-pagedtable-source type="application/json"&gt;
+{"columns":[{"label":["country"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["continent"],"name":[2],"type":["fctr"],"align":["left"]},{"label":["year"],"name":[3],"type":["int"],"align":["right"]},{"label":["lifeExp"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["pop"],"name":[5],"type":["int"],"align":["right"]},{"label":["gdpPercap"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["GDP_t"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["GDP_sq"],"name":[8],"type":["dbl"],"align":["right"]}],"data":[{"1":"Afghanistan","2":"Asia","3":"1952","4":"28.801","5":"8425333","6":"779.4453","7":"0.7794453","8":"0.6075350"},{"1":"Afghanistan","2":"Asia","3":"1957","4":"30.332","5":"9240934","6":"820.8530","7":"0.8208530","8":"0.6737997"},{"1":"Afghanistan","2":"Asia","3":"1962","4":"31.997","5":"10267083","6":"853.1007","7":"0.8531007","8":"0.7277808"},{"1":"Afghanistan","2":"Asia","3":"1967","4":"34.020","5":"11537966","6":"836.1971","7":"0.8361971","8":"0.6992257"},{"1":"Afghanistan","2":"Asia","3":"1972","4":"36.088","5":"13079460","6":"739.9811","7":"0.7399811","8":"0.5475720"},{"1":"Afghanistan","2":"Asia","3":"1977","4":"38.438","5":"14880372","6":"786.1134","7":"0.7861134","8":"0.6179742"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  &lt;/script&gt;
+&lt;/div&gt;
+
+---
+
+# Quadratic Model: Example IV
+
+- Can "manually" run a multivariate regression with `GDP_t` and `GDP_sq`
+
+.font80[
+
+```r
+reg1&lt;-lm(lifeExp ~ GDP_t + GDP_sq, data = gapminder)
+summary(reg1)
+```
+
+```
+## 
+## Call:
+## lm(formula = lifeExp ~ GDP_t + GDP_sq, data = gapminder)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -28.0600  -6.4253   0.2611   7.0889  27.1752 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 50.5240058  0.2978135  169.65   &lt;2e-16 ***
+## GDP_t        1.5509911  0.0373735   41.50   &lt;2e-16 ***
+## GDP_sq      -0.0150193  0.0005794  -25.92   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 8.885 on 1701 degrees of freedom
+## Multiple R-squared:  0.5274,	Adjusted R-squared:  0.5268 
+## F-statistic: 949.1 on 2 and 1701 DF,  p-value: &lt; 2.2e-16
+```
+]
+
+---
+
+# Quadratic Model: Example V
+
+- OR use `gdp_t` and add the "transform" command in regression, `I(gdp_t^2)`
+
+.font80[
+
+```r
+reg1_alt&lt;-lm(lifeExp ~ GDP_t + I(GDP_t^2), data = gapminder)
+summary(reg1_alt)
+```
+
+```
+## 
+## Call:
+## lm(formula = lifeExp ~ GDP_t + I(GDP_t^2), data = gapminder)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -28.0600  -6.4253   0.2611   7.0889  27.1752 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 50.5240058  0.2978135  169.65   &lt;2e-16 ***
+## GDP_t        1.5509911  0.0373735   41.50   &lt;2e-16 ***
+## I(GDP_t^2)  -0.0150193  0.0005794  -25.92   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 8.885 on 1701 degrees of freedom
+## Multiple R-squared:  0.5274,	Adjusted R-squared:  0.5268 
+## F-statistic: 949.1 on 2 and 1701 DF,  p-value: &lt; 2.2e-16
+```
+]
+
+---
+
+# Quadratic Model: Example VI
+
+.pull-left[
+
+```r
+library(broom)
+tidy(reg1)
+```
+]
+
+.pull-right[
+&lt;div data-pagedtable="false"&gt;
+  &lt;script data-pagedtable-source type="application/json"&gt;
+{"columns":[{"label":["term"],"name":[1],"type":["chr"],"align":["left"]},{"label":["estimate"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["std.error"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["statistic"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["p.value"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"(Intercept)","2":"50.52400578","3":"0.2978134673","4":"169.64984","5":"0.000000e+00"},{"1":"GDP_t","2":"1.55099112","3":"0.0373734945","4":"41.49976","5":"1.292863e-260"},{"1":"GDP_sq","2":"-0.01501927","3":"0.0005794139","4":"-25.92149","5":"3.935809e-125"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  &lt;/script&gt;
+&lt;/div&gt;
+]
+
+--
+
+`$$\widehat{\text{Life Expectancy}_i} = 50.52+1.55 \, \text{GDP per capita}_i - 0.02\, \text{GDP per capita}^2_i$$`
+
+--
+
+- Marginal effect of GDP per capita on Life Expectancy:
+
+--
+
+`$$\begin{align*}
+\frac{d \, Y}{d \; X} &amp;= \hat{\beta_1}+2\hat{\beta_2} X_i\\
+\frac{d \, \text{Life Expectancy}}{d \, \text{GDP}} &amp;= 1.55+2(-0.02) \, \text{GDP}\\
+ &amp;= \mathbf{1.55-0.04 \, \text{GDP}}\\
+\end{align*}$$`
+
+---
+
+# Quadratic Model: Example VII
+
+`$$\frac{d \, \text{Life Expectancy}}{d \, \text{GDP}} = 1.55-0.04 \, \text{GDP}$$`
+- Positive, with diminishing returns
+
+- Effect on Life Expectancy of increasing GDP depends on initial value of GDP!
+
+---
+
+# Quadratic Model: Example VIII
+
+`$$\frac{d \, \text{Life Expectancy}}{d \, \text{GDP}} = 1.55-0.04 \, \text{GDP}$$`
+
+Marginal effect of GDP if GDP $=\$5$ (thousand): 
+
+`$$\begin{align*}
+\frac{d \, \text{Life Expectancy}}{d \, \text{GDP}} &amp;= 1.55-0.04\text{GDP}\\
+&amp;= 1.55-0.04(5)\\
+&amp;= 1.55-0.20\\
+&amp;=1.35\\
+\end{align*}$$`
+
+--
+
+- i.e. for every addition $1 (thousand) in GDP per capita, average life expectancy increases by 1.35 years
+
+---
+
+# Quadratic Model: Example IX
+
+`$$\frac{d \, \text{Life Expectancy}}{d \, \text{GDP}} = 1.55-0.04 \, \text{GDP}$$`
+
+Marginal effect of GDP if GDP $=\$25$ (thousand): 
+
+--
+
+`$$\begin{align*}
+\frac{d \, \text{Life Expectancy}}{d \, \text{GDP}} &amp;= 1.55-0.04\text{GDP}\\
+&amp;= 1.55-0.04(25)\\
+&amp;= 1.55-1.00\\
+&amp;=0.55\\
+\end{align*}$$`
+
+--
+
+- i.e. for every addition $1 (thousand) in GDP per capita, average life expectancy increases by 0.55 years
+
+---
+
+# Quadratic Model: Example X
+
+`$$\frac{d \, \text{Life Expectancy}}{d \, \text{GDP}} = 1.55-0.04 \, \text{GDP}$$`
+
+Marginal effect of GDP if GDP $=\$50$ (thousand): 
+
+--
+
+`$$\begin{align*}
+\frac{d \, \text{Life Expectancy}}{d \, \text{GDP}} &amp;= 1.55-0.04\text{GDP}\\
+&amp;= 1.55-0.04(50)\\
+&amp;= 1.55-2.00\\
+&amp;=-0.45\\
+\end{align*}$$`
+
+--
+
+- i.e. for every addition $1 (thousand) in GDP per capita, average life expectancy *decreases* by 0.45 years
+
+---
+
+# Quadratic Model: Example XI
+
+`$$\begin{align*}\widehat{\text{Life Expectancy}_i} &amp;= 50.52+1.55 \, \text{GDP per capita}_i - 0.02\, \text{GDP per capita}^2_i \\
+\frac{d \, \text{Life Expectancy}}{d \, \text{GDP}} &amp;= 1.55-0.04\text{GDP} \\ \end{align*}$$`
+
+| *Initial* GDP per capita | Marginal Effect&lt;sup&gt;.red[1]&lt;sup&gt; |
+|----------------|-------------------:|
+| $5,000 | `\(1.35\)` years |
+| $25,000 | `\(0.55\)` years |
+| $50,000 | `\(-0.45\)` years |
+
+.footnote[&lt;sup&gt;.red[1]&lt;/sup&gt; Of +$1,000 GDP/capita on Life Expectancy.]
+
+---
+
+# Quadratic Model: Example XII
+
+.pull-left[
+
+.font90[
+
+```r
+ggplot(data = gapminder)+
+  aes(x = GDP_t,
+      y = lifeExp)+
+  geom_point(color="blue", alpha=0.5)+
+* stat_smooth(method = "lm",
+*             formula = y ~ x + I(x^2),
+*             color="green")+
+  geom_vline(xintercept=c(5,25,50),
+             linetype="dashed",
+             color="red", size = 1)+
+  scale_x_continuous(labels=scales::dollar,
+                     breaks=seq(0,120,10))+
+  scale_y_continuous(breaks=seq(0,90,10),
+                     limits=c(0,90))+
+  labs(x = "GDP per Capita (in Thousands)",
+       y = "Life Expectancy (Years)")+
+  theme_classic(base_family = "Fira Sans Condensed",
+           base_size=20)
+```
+]
+]
+
+.pull-right[
+&lt;img src="20-slides_files/figure-html/unnamed-chunk-17-1.png" width="504" /&gt;
+]
+
+---
+
+# Quadratic Model: Maxima and Minima I
+
+- For a polynomial model, we can also find the predicted **maximum** or **minimum** of `\(\hat{Y_i}\)`
+
+--
+
+- A quadratic model has a single global maximum or minimum (1 bend)
+
+--
+
+- By calculus, a minimum or maximum occurs where:
+
+`$$\begin{align*}
+		\frac{ d Y_i}{d X_i} &amp;=0\\
+		\beta_1 + 2\beta_2 X_i &amp;= 0\\
+		2\beta_2 X_i&amp;= -\beta_1\\
+		X_i^*&amp;=-\frac{1}{2}\frac{\beta_1}{\beta_2}\\
+		\end{align*}$$`
+
+---
+
+# Quadratic Model: Maxima and Minima II
+
+.pull-left[
+
+```{}
+tidy(reg1)
+```
+]
+--
+
+.pull-right[
+
+`$$\begin{align*}
+GDP_i^*&amp;=-\frac{1}{2}\frac{\beta_1}{\beta_2}\\
+GDP_i^*&amp;=-\frac{1}{2}\frac{(1.55)}{(-0.015)}\\
+GDP_i^*&amp; \approx -\frac{1}{2}(-103.333)\\
+GDP_i^*&amp; \approx 51.67\\ \end{align*}$$`
+
+]
+
+---
+
+# Quadratic Model: Maxima and Minima III
+
+.pull-left[
+
+
+```r
+ggplot(data = gapminder)+
+  aes(x = GDP_t,
+      y = lifeExp)+
+  geom_point(color="blue", alpha=0.5)+
+* stat_smooth(method = "lm",
+*             formula = y ~ x + I(x^2),
+*             color="green")+
+  geom_vline(xintercept=51.67, linetype="dashed", color="red", size = 1)+
+  geom_label(x=51.67, y=90, label="$51.67", color="red")+
+  scale_x_continuous(labels=scales::dollar,
+                     breaks=seq(0,120,10))+
+  scale_y_continuous(breaks=seq(0,90,10),
+                     limits=c(0,90))+
+  labs(x = "GDP per Capita (in Thousands)",
+       y = "Life Expectancy (Years)")+
+  theme_classic(base_family = "Fira Sans Condensed",
+           base_size=20)
+```
+]
+
+.pull-right[
+&lt;img src="20-slides_files/figure-html/unnamed-chunk-18-1.png" width="504" /&gt;
+]
+
+---
+
+# Determining if Higher-Order Polynomials are Necessary I
+
+&lt;div data-pagedtable="false"&gt;
+  &lt;script data-pagedtable-source type="application/json"&gt;
+{"columns":[{"label":["term"],"name":[1],"type":["chr"],"align":["left"]},{"label":["estimate"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["std.error"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["statistic"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["p.value"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"(Intercept)","2":"50.52400578","3":"0.2978134673","4":"169.64984","5":"0.000000e+00"},{"1":"GDP_t","2":"1.55099112","3":"0.0373734945","4":"41.49976","5":"1.292863e-260"},{"1":"GDP_sq","2":"-0.01501927","3":"0.0005794139","4":"-25.92149","5":"3.935809e-125"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  &lt;/script&gt;
+&lt;/div&gt;
+
+- Is the quadratic term necessary?
+
+--
+
+- Determine if `\(\hat{\beta_2}\)` (on `\(X_i^2)\)` is statistically significant:
+  - `\(H_0: \hat{\beta_2}=0\)`
+  - `\(H_a: \hat{\beta_2} \neq 0\)`
+
+--
+
+- Statistically significant `\(\implies\)` we should keep the quadratic model
+  - If we only ran a linear model, it would be incorrect!
+
+---
+
+# Determining if Higher-Order Polynomials are Necessary I
+
+.pull-left[
+- Should we keep going up in polynomials?
+
+`$$\widehat{\text{Life Expectancy}_i} = \hat{\beta_0}+\hat{\beta_1} GDP_i+\hat{\beta_2}GDP^2_i+\hat{\beta_3}GDP_i^3$$`
+
+]
+
+.pull-right[
+&lt;img src="20-slides_files/figure-html/unnamed-chunk-20-1.png" width="504" /&gt;
+
+]
+
+---
+
+# Determining if Higher-Order Polynomials are Necessary II
+
+.pull-left[
+
+- In general, should have a compelling theoretical reason why data or relationships should "change direction" multiple times
+
+- Or clear data patterns that have multiple "bends"
+
+]
+
+.pull-right[
+&lt;img src="20-slides_files/figure-html/unnamed-chunk-21-1.png" width="504" /&gt;
+]
+
+---
+
+# A Second Polynomial Example I
+
+.pull-left[
+
+.content-box-green[
+.green[**Example**]: How does a school district's average income affect Test scores?
+]
+
+`$$\widehat{\text{Test Score}_i}=\hat{\beta_0}+\hat{\beta_1}\text{Income}_i$$`
+
+]
+
+--
+
+.pull-right[
+
+
+&lt;img src="20-slides_files/figure-html/unnamed-chunk-23-1.png" width="504" /&gt;
+]
+
+---
+
+# A Second Polynomial Example I
+
+.pull-left[
+
+.content-box-green[
+.green[**Example**]: How does a school district's average income affect Test scores?
+]
+
+`$$\widehat{\text{Test Score}_i}=\hat{\beta_0}+\hat{\beta_1}\text{Income}_i$$`
+
+]
+
+.pull-right[
+&lt;img src="20-slides_files/figure-html/unnamed-chunk-24-1.png" width="504" /&gt;
+]
+
+---
+
+# A Second Polynomial Example I
+
+.pull-left[
+
+.content-box-green[
+.green[**Example**]: How does a school district's average income affect Test scores?
+]
+
+`$$\widehat{\text{Test Score}_i}=\hat{\beta_0}+\hat{\beta_1}\text{Income}_i$$`
+
+]
+
+.pull-right[
+&lt;img src="20-slides_files/figure-html/unnamed-chunk-25-1.png" width="504" /&gt;
+]
+
+---
+
+# A Second Polynomial Example II
+
+.font80[
+
+```
+## 
+## Call:
+## lm(formula = testscr ~ avginc + I(avginc^2), data = CASchool)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -44.416  -9.048   0.440   8.348  31.639 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 607.30174    3.04622 199.362  &lt; 2e-16 ***
+## avginc        3.85100    0.30426  12.657  &lt; 2e-16 ***
+## I(avginc^2)  -0.04231    0.00626  -6.758 4.71e-11 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 12.72 on 417 degrees of freedom
+## Multiple R-squared:  0.5562,	Adjusted R-squared:  0.554 
+## F-statistic: 261.3 on 2 and 417 DF,  p-value: &lt; 2.2e-16
+```
+]
+
+
+---
+
+# A Second Polynomial Example III
+
+
+.pull-left[
+- Should we keep going?
+
+.font60[
+
+```
+## 
+## Call:
+## lm(formula = testscr ~ avginc + I(avginc^2) + I(avginc^3), data = CASchool)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -44.28  -9.21   0.20   8.32  31.16 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  6.001e+02  5.830e+00 102.937  &lt; 2e-16 ***
+## avginc       5.019e+00  8.595e-01   5.839 1.06e-08 ***
+## I(avginc^2) -9.581e-02  3.736e-02  -2.564   0.0107 *  
+## I(avginc^3)  6.855e-04  4.720e-04   1.452   0.1471    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 12.71 on 416 degrees of freedom
+## Multiple R-squared:  0.5584,	Adjusted R-squared:  0.5552 
+## F-statistic: 175.4 on 3 and 416 DF,  p-value: &lt; 2.2e-16
+```
+]
+]
+
+.pull-right[
+&lt;img src="20-slides_files/figure-html/unnamed-chunk-28-1.png" width="504" /&gt;
+
+]
+
+---
+
+# Strategy for Polynomial Model Specification
+
+1. Are there good theoretical reasons for relationships changing (e.g. increasing/decreasing returns)?
+
+--
+
+2. Plot your data: does a straight line fit well enough?
+
+--
+
+3. Specify a polynomial function of a higher power (start with 2) and estimate OLS regression
+
+--
+
+4. Use `\(t\)`-test to determine if higher-power term is significant
+
+--
+
+5. Interpret effect of change in `\(X\)` on `\(Y\)`
+
+--
+
+6. Repeat steps 3-5 as necessary
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="macros.js"></script>
+<script src="https://platform.twitter.com/widgets.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"slideNumberFormat": "<div class=\"progress-bar-container\">   <div class=\"progress-bar\" style=\"width: calc(%current% / %total% * 100%);\">   </div> </div> "
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
