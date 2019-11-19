@@ -253,8 +253,8 @@ $$Y_i=\beta_0+\beta_1 ln(X_i) \quad  \mathbf{\checkmark}$$
 --
 
 1. $X_1 \rightarrow Y$ is different for different levels of $X_1$
-  - e.g. diminishing returns: $\uparrow X_1$ increases $Y$ at a *decreasing* rate
-  - e.g. increasing returns: $\uparrow X_1$ increases $Y$ at an *increasing* rate
+  - e.g. **diminishing returns**: $\uparrow X_1$ increases $Y$ at a *decreasing* rate
+  - e.g. **increasing returns**: $\uparrow X_1$ increases $Y$ at an *increasing* rate
 
 --
 
@@ -370,16 +370,173 @@ ggplot(data.frame(x=c(0,10)), aes(x=x))+
 
 ---
 
-# Polynomial Functions of $X$
+# Polynomial Functions of $X$ I
 
-$$\hat{Y_i} = \hat{\beta_0} + \hat{\beta_1} X_i + \hat{\beta_2} X_i^2 + \cdots + \hat{\beta_{\mathbf{r}}} X_i^{\mathbf{r}} + \epsilon_i$$
+.pull-left[
+
+- .blue[Linear], $X$
+
+]
+
+.pull-right[
+
+```{r, fig.retina=3}
+library("mosaic")
+linear=function(x){x}
+quadratic=function(x){x^2}
+cubic=function(x){x^3}
+quartic=function(x){x^4}
+
+ggplot(data.frame(x=c(-10,10)), aes(x=x))+
+  stat_function(fun=linear, geom="line", size=2, color = "blue")+
+    scale_x_continuous(breaks=seq(-1,1,1),
+                     limits=c(-2,2),
+                     expand=expand_scale(mult=c(0,0.1)))+
+  scale_y_continuous(breaks=seq(-1,1,1),
+                     limits=c(-1,1))+
+  #                   expand=expand_scale(mult=c(0,0.1)),
+  #                   labels = function(x){paste("$", x, sep="")})+
+  coord_cartesian(clip="off")+
+  labs(x = "X",
+       y = "Y")+
+  theme_classic(base_family = "Fira Sans Condensed", base_size=20)
+
+```
+]
+
+---
+
+# Polynomial Functions of $X$ I
+
+.pull-left[
+
+- .blue[Linear], $X$
+
+- .green[Quadratic], $X^2$
+
+]
+
+.pull-right[
+
+```{r, fig.retina=3}
+
+ggplot(data.frame(x=c(-10,10)), aes(x=x))+
+  stat_function(fun=linear, geom="line", size=2, color = "blue")+
+  stat_function(fun=quadratic, geom="line", size=2, color = "green")+
+    scale_x_continuous(breaks=seq(-1,1,1),
+                     limits=c(-2,2),
+                     expand=expand_scale(mult=c(0,0.1)))+
+  scale_y_continuous(breaks=seq(-1,1,1),
+                     limits=c(-1,1))+
+  #                   expand=expand_scale(mult=c(0,0.1)),
+  #                   labels = function(x){paste("$", x, sep="")})+
+  coord_cartesian(clip="off")+
+  labs(x = "X",
+       y = "Y")+
+  theme_classic(base_family = "Fira Sans Condensed", base_size=20)
+
+```
+]
+
+---
+# Polynomial Functions of $X$ I
+
+.pull-left[
+
+- .blue[Linear], $X$
+
+- .green[Quadratic], $X^2$
+
+- .orange[Cubic], $X^3$
+
+]
+
+.pull-right[
+
+```{r, fig.retina=3}
+ggplot(data.frame(x=c(-10,10)), aes(x=x))+
+  stat_function(fun=linear, geom="line", size=2, color = "blue")+
+  stat_function(fun=quadratic, geom="line", size=2, color = "green")+
+  stat_function(fun=cubic, geom="line", size=2, color = "orange")+
+    scale_x_continuous(breaks=seq(-1,1,1),
+                     limits=c(-2,2),
+                     expand=expand_scale(mult=c(0,0.1)))+
+  scale_y_continuous(breaks=seq(-1,1,1),
+                     limits=c(-1,1))+
+  #                   expand=expand_scale(mult=c(0,0.1)),
+  #                   labels = function(x){paste("$", x, sep="")})+
+  coord_cartesian(clip="off")+
+  labs(x = "X",
+       y = "Y")+
+  theme_classic(base_family = "Fira Sans Condensed", base_size=20)
+
+```
+]
+
+---
+
+# Polynomial Functions of $X$ I
+
+.pull-left[
+
+- .blue[Linear], $X$
+
+- .green[Quadratic], $X^2$
+
+- .orange[Cubic], $X^3$
+
+- .purple[Quartic], $X^4$
+]
+
+.pull-right[
+
+```{r, fig.retina=3}
+
+ggplot(data.frame(x=c(-10,10)), aes(x=x))+
+  stat_function(fun=linear, geom="line", size=2, color = "blue")+
+  stat_function(fun=quadratic, geom="line", size=2, color = "green")+
+  stat_function(fun=cubic, geom="line", size=2, color = "orange")+
+  stat_function(fun=quartic, geom="line", size=2, color = "purple")+
+    scale_x_continuous(breaks=seq(-1,1,1),
+                     limits=c(-2,2),
+                     expand=expand_scale(mult=c(0,0.1)))+
+  scale_y_continuous(breaks=seq(-1,1,1),
+                     limits=c(-1,1))+
+  #                   expand=expand_scale(mult=c(0,0.1)),
+  #                   labels = function(x){paste("$", x, sep="")})+
+  coord_cartesian(clip="off")+
+  labs(x = "X",
+       y = "Y")+
+  theme_classic(base_family = "Fira Sans Condensed", base_size=20)
+
+```
+]
+
+---
+
+# Polynomial Functions of $X$ I
+
+$$\hat{Y_i} = \hat{\beta_0} + \hat{\beta_1} X_i + \hat{\beta_2} X_i^2 + \cdots + \hat{\beta_{\mathbf{r}}} X_i^{\mathbf{r}} + u_i$$
+--
 
 - Where $r$ is the highest power $X_i$ is raised to
-  - e.g. quadratic $r=2$, cubic $r=3$, etc
+  - quadratic $r=2$
+  - cubic $r=3$
+
+--
 
 - The graph of an $r$<sup>th</sup>-degree polynomial function has $(r-1)$ bends 
 
-- Just another multivariate OLS regression model  
+--
+
+- Just another multivariate OLS regression model!
+
+---
+
+
+class: inverse, center, middle
+
+# The Quadratic Model
 
 ---
 
@@ -529,7 +686,7 @@ $$\frac{d \, \text{Life Expectancy}}{d \, \text{GDP}} = 1.55-0.04 \, \text{GDP}$
 
 $$\frac{d \, \text{Life Expectancy}}{d \, \text{GDP}} = 1.55-0.04 \, \text{GDP}$$
 
-Marginal effect of GDP if GDP $=\$5$ (thousand): 
+Marginal effect of GDP if GDP $=5$ ($ thousand): 
 
 $$\begin{align*}
 \frac{d \, \text{Life Expectancy}}{d \, \text{GDP}} &= 1.55-0.04\text{GDP}\\
@@ -548,7 +705,7 @@ $$\begin{align*}
 
 $$\frac{d \, \text{Life Expectancy}}{d \, \text{GDP}} = 1.55-0.04 \, \text{GDP}$$
 
-Marginal effect of GDP if GDP $=\$25$ (thousand): 
+Marginal effect of GDP if GDP $=25$ ($ thousand): 
 
 --
 
@@ -569,7 +726,7 @@ $$\begin{align*}
 
 $$\frac{d \, \text{Life Expectancy}}{d \, \text{GDP}} = 1.55-0.04 \, \text{GDP}$$
 
-Marginal effect of GDP if GDP $=\$50$ (thousand): 
+Marginal effect of GDP if GDP $=50$ ($ thousand): 
 
 --
 
@@ -634,6 +791,12 @@ ggplot(data = gapminder)+
 ```{r, ref.label="quadplot", fig.retina=3}
 ```
 ]
+
+---
+
+class: inverse, center, middle
+
+# The Quadratic Model: Maxima and Minima
 
 ---
 
@@ -709,6 +872,12 @@ ggplot(data = gapminder)+
 ```{r, ref.label="quadplotmax", fig.retina=3}
 ```
 ]
+
+---
+
+class: inverse, center, middle
+
+# Are Polynomials Necessary?
 
 ---
 
