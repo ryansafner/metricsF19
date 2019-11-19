@@ -825,10 +825,11 @@ $$\begin{align*}
 
 .pull-left[
 
-```{}
+```{r}
 tidy(reg1)
 ```
 ]
+
 --
 
 .pull-right[
