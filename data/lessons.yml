@@ -129,10 +129,14 @@ lessons:
     slides: "19-slides"
     r: "19-r-practice"
     
-  - title: "3.8 Polynomial Models"
-  
-  - title: "3.9 Logarithmic Models"
-  
+  - title: "3.8 Polynomial Regression"
+    reading: "20-reading"
+    class: "20-class"
+    slides: "20-slides"
+
+  - title: "3.9 Logarithmic Regression"
+    reading: "21-reading"
+
   - title: '<i class="fas fa-laptop-code"></i> **Problem Set 5**'
     assignment: "05-problem-set"
 

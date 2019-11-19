@@ -1,0 +1,34 @@
+---
+title: "3.8: Polynomial Regression - Class Notes"
+citeproc: false
+bibliography: ../../static/bib/references.bib
+csl: ../../static/bib/chicago-syllabus-no-bib.csl
+output:
+  blogdown::html_page:
+    template: ../../pandoc/toc-title_html.template
+    toc: true
+editor_options: 
+  chunk_output_type: console
+---
+
+*Tuesday, November 19, 2019*
+
+# Overview
+
+This week we will cover non-linear models, which we anticipated last week with an interaction effect between two continuous variables: $X_1 \times X_2$, where the marginal effect of $X_1 \rightarrow Y$ is dependent on the value of $X_2$.
+
+We cover two types of nonlinear models. *Today*, we cover **polynomial models**, where we include higher-order $X$ variables to explain a non-linear effect. *Next* class we will cover **logarithmic models**, which are more frequently used - as well as a few final tests and transformations for multivariate regression before we turn to panel data.
+
+Today, we will spend the first half of class finishing [last class' practice problems](/practice/19-r-practice) (on dummy variables and interaction effects), then I will cover polynomial models. After we finish next class' lecture, we will do another set of R practice problems, and you will be given **HW 5** to work on this material. 
+
+# Slides
+
+- [<i class="fas fa-external-link-square-alt"></i> Lecture Slides](/slides/19-slides.html)
+
+# R Practice Problems
+
+We will begin by finishing your work on [Last Class' Practice Problems](/r/17-r-practice). Answers are posted there tonight.
+
+# Problem Set 4 Due Thursday Nov 21
+
+[Problm Set 4](/assignment/04-problem-set) (on classes 3.1-3.5) is due by Thursday November 21.
