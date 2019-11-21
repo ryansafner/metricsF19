@@ -136,7 +136,10 @@ lessons:
 
   - title: "3.9 Logarithmic Regression"
     reading: "21-reading"
-
+    class: "21-class"
+    slides: "21-slides"
+    r: "21-r-practice"
+    
   - title: '<i class="fas fa-laptop-code"></i> **Problem Set 5**'
     assignment: "05-problem-set"
 
