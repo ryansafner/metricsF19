@@ -13,7 +13,7 @@ source(file.path(here::here(), "lib", "graphics.R"))
 *Due by Thursday, November 21, 2019*
 
 - [<i class="fas fa-file-pdf"></i> `Download as PDF`](/homeworks/04-problem-set-pdf.pdf)
-- [<i class="fab fa-markdown"></i> `Download Markdown`](/homeworks/04-problem-set.Rmd)
+- [<i class="fab fa-markdown"></i> `Download Markdown`](/homeworks/04-problem-set-rmd.Rmd)
 
 # Instructions
 
@@ -97,14 +97,11 @@ Knowing this, what would be the *true effect* of education on wages, holding exp
 ### Part C
 The $R^2$ for the second regression is 0.0897. If she were to run a better regression including both education and experience, how much would the variance of the coefficients on education and experience increase? Why?
 
-# Question 7
-Consider 
-
 # R Questions
 
 Answer the following questions using `R`. When necessary, please write answers in the same document (knitted `Rmd` to `html` or `pdf`, typed `.doc(x)`, or handwritten) as your answers to the above questions. Be sure to include (email or print an `.R` file, or show in your knitted `markdown`) your code and the outputs of your code with the rest of your answers.
 
-## Question 11
+## Question 7
 
 - [<i class="fas fa-table"></i> `heightwages.csv`](http://metricsf19.classes.ryansafner.com/data/heightwages.csv)
 
