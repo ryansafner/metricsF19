@@ -1151,7 +1151,9 @@ $$F_{q,(n-k-1)}=\cfrac{\left(\displaystyle\frac{(R^2_u-R^2_r)}{q}\right)}{\left(
 
 - $k$: number of $X$ variables in **unrestricted model** (all variables)
 
-- $F$ has two sets of degrees of freedom, $q$ for the numerator, $n-k-1$ for the denominator
+- $F$ has two sets of degrees of freedom:
+  - $q$ for the numerator
+  - $(n-k-1)$ for the denominator
 ]
 
 ---
@@ -1191,34 +1193,133 @@ restricted_reg<-lm(wage~female, data=wages)
 
 # F-test Example II
 
-- Command is `linearHypothesis()`, comes from the `car` package
+- **Unrestricted model**:
+
+$$\widehat{Wage_i}=\hat{\beta_0}+\hat{\beta_1}Female_i+\hat{\beta_2}Northeast_i+\hat{\beta_3}Northcen+\hat{\beta_4}South_i$$
+
+- **Restricted model**:
+
+$$\widehat{Wage_i}=\hat{\beta_0}+\hat{\beta_1}Female_i$$
+
+- $H_0: \beta_2 = \beta_3 = \beta_4 =0$
+
+- $q = 3$ restrictions (F numerator df)
+
+- $n-k-1 = 526-4-1=521$ (F denominator df)
+
+---
+
+# F-test Example III
+
+- We can use the `car` package's `linearHypothesis()` command to run an $F$-test:
+  - first argument: name of the (unrestricted) regression
+  - second argument: vector of variable names (in quotes) you are testing
 
 ```{r, echo=T}
 # load car package for additional regression tools
 library("car") 
 
-# test that northcen=west=south=0
-# # the first argument is the name of my regression ("unrestricted_reg")
+# F-test
 linearHypothesis(unrestricted_reg, c("northcen", "west", "south")) 
 ```
 
 ---
 
+# Second F-test Example: Are Two Coefficients Equal?
+
+- The second type of test is whether two coefficients equal one another
+
+.content-box-green[
+.green[**Example**]: 
+
+$$\widehat{wage_i}=\beta_0+\beta_1 \text{Adolescent height}_i + \beta_2 \text{Adult height}_i + \beta_3 \text{Male}_i$$
+
+]
+
+--
+
+- Does height as an adolescent have the same effect on wages as height as an adult?
+
+$$H_0: \beta_1=\beta_2$$
+
+--
+
+- What is the restricted regression?
+
+$$\widehat{wage_i}=\beta_0+\beta_1(\text{Adolescent height}_i + \text{Adult height}_i )+ \beta_3 \text{Male}_i$$
+
+- $q=1$ restriction
+
+---
+
+# Second F-test Example: Data
+
+```{r, echo=T}
+# load in data
+heightwages<-read_csv("../data/heightwages.csv")
+
+# make a "heights" variable as the sum of adolescent (height81) and adult (height85) height
+
+heightwages <- heightwages %>%
+  mutate(heights=height81+height85)
+
+height_reg<-lm(wage96~height81+height85+male, data=heightwages)
+height_restricted_reg<-lm(wage96~heights+male, data=heightwages)
+
+```
+
+---
+
+# Second F-test Example: Data
+
+- For second argument, set two variables equal, in quotes
+
+```{r, echo=T}
+linearHypothesis(height_reg, "height81=height85") # F-test 
+```
+
+- Insufficient evidence to reject $H_0$!
+
+- The effect of adolescent and adult height on wages is the same
+
+---
+  
 # All F-test I
 
-.font50[
-```{r, echo=F}
+.pull-left[
+
+```{css, echo = FALSE}
+.smallcode .remark-code { /*Change made here*/
+  font-size: 65% !important;
+}
+```
+
+.smallcode[
+```{r, echo=T}
 summary(unrestricted_reg)
 ```
+]
+]
+
+.pull-right[
+
+- Last line of regression output from `summary()` of an `lm()` object is an **All F-test**
+  - $H_0:$ all $\beta's=0$ 
+    - the regression explains no variation in $Y$
+  - Calculates an `F-statistic` that, if high enough, is significant (`p-value` $<0.05)$ enough to reject $H_0$
 ]
 
 ---
 
 # All F-test II
 
+- Alternatively, if you use `broom` instead of `summary()` of `lm` object:
+  - `glance()` command makes table of regression summary statistics
+  - `tidy()` only shows coefficients
+
 ```{r, echo=T}
 library(broom)
 glance(unrestricted_reg)
 ```
 
-- "**statistic**" is the All F-test, "**p.value**" next to it is the p value from the F test!
+- "**statistic**" is the All F-test, "**p.value**" next to it is the p value from the F test

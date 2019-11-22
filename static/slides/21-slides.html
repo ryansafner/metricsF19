@@ -1287,7 +1287,9 @@ or simply, that `\(H_0\)` is not true
 
 - `\(k\)`: number of `\(X\)` variables in **unrestricted model** (all variables)
 
-- `\(F\)` has two sets of degrees of freedom, `\(q\)` for the numerator, `\(n-k-1\)` for the denominator
+- `\(F\)` has two sets of degrees of freedom:
+  - `\(q\)` for the numerator
+  - `\((n-k-1)\)` for the denominator
 ]
 
 ---
@@ -1328,15 +1330,34 @@ restricted_reg&lt;-lm(wage~female, data=wages)
 
 # F-test Example II
 
-- Command is `linearHypothesis()`, comes from the `car` package
+- **Unrestricted model**:
+
+`$$\widehat{Wage_i}=\hat{\beta_0}+\hat{\beta_1}Female_i+\hat{\beta_2}Northeast_i+\hat{\beta_3}Northcen+\hat{\beta_4}South_i$$`
+
+- **Restricted model**:
+
+`$$\widehat{Wage_i}=\hat{\beta_0}+\hat{\beta_1}Female_i$$`
+
+- `\(H_0: \beta_2 = \beta_3 = \beta_4 =0\)`
+
+- `\(q = 3\)` restrictions (F numerator df)
+
+- `\(n-k-1 = 526-4-1=521\)` (F denominator df)
+
+---
+
+# F-test Example III
+
+- We can use the `car` package's `linearHypothesis()` command to run an `\(F\)`-test:
+  - first argument: name of the (unrestricted) regression
+  - second argument: vector of variable names (in quotes) you are testing
 
 
 ```r
 # load car package for additional regression tools
 library("car") 
 
-# test that northcen=west=south=0
-# # the first argument is the name of my regression ("unrestricted_reg")
+# F-test
 linearHypothesis(unrestricted_reg, c("northcen", "west", "south")) 
 ```
 
@@ -1370,9 +1391,109 @@ linearHypothesis(unrestricted_reg, c("northcen", "west", "south"))
 
 ---
 
+# Second F-test Example: Are Two Coefficients Equal?
+
+- The second type of test is whether two coefficients equal one another
+
+.content-box-green[
+.green[**Example**]: 
+
+`$$\widehat{wage_i}=\beta_0+\beta_1 \text{Adolescent height}_i + \beta_2 \text{Adult height}_i + \beta_3 \text{Male}_i$$`
+
+]
+
+--
+
+- Does height as an adolescent have the same effect on wages as height as an adult?
+
+`$$H_0: \beta_1=\beta_2$$`
+
+--
+
+- What is the restricted regression?
+
+`$$\widehat{wage_i}=\beta_0+\beta_1(\text{Adolescent height}_i + \text{Adult height}_i )+ \beta_3 \text{Male}_i$$`
+
+- `\(q=1\)` restriction
+
+---
+
+# Second F-test Example: Data
+
+
+```r
+# load in data
+heightwages&lt;-read_csv("../data/heightwages.csv")
+
+# make a "heights" variable as the sum of adolescent (height81) and adult (height85) height
+
+heightwages &lt;- heightwages %&gt;%
+  mutate(heights=height81+height85)
+
+height_reg&lt;-lm(wage96~height81+height85+male, data=heightwages)
+height_restricted_reg&lt;-lm(wage96~heights+male, data=heightwages)
+```
+
+---
+
+# Second F-test Example: Data
+
+- For second argument, set two variables equal, in quotes
+
+
+```r
+linearHypothesis(height_reg, "height81=height85") # F-test 
+```
+
+<table class="huxtable" style="border-collapse: collapse; margin-bottom: 2em; margin-top: 2em; width: 78.8888888888889%; margin-left: 0%; margin-right: auto;  ">
+<col><col><col><col><col><col><tr>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt; padding: 4pt 4pt 4pt 4pt; font-weight: bold;">Res.Df</td>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt; padding: 4pt 4pt 4pt 4pt; font-weight: bold;">RSS</td>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt; padding: 4pt 4pt 4pt 4pt; font-weight: bold;">Df</td>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt; padding: 4pt 4pt 4pt 4pt; font-weight: bold;">Sum of Sq</td>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt; padding: 4pt 4pt 4pt 4pt; font-weight: bold;">F</td>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt; padding: 4pt 4pt 4pt 4pt; font-weight: bold;">Pr(&gt;F)</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt; padding: 4pt 4pt 4pt 4pt; background-color: rgb(242, 242, 242);">6.59e+03</td>
+<td style="vertical-align: top; text-align: right; white-space: normal; padding: 4pt 4pt 4pt 4pt; background-color: rgb(242, 242, 242);">5.13e+06</td>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; padding: 4pt 4pt 4pt 4pt; background-color: rgb(242, 242, 242);"></td>
+<td style="vertical-align: top; text-align: right; white-space: normal; padding: 4pt 4pt 4pt 4pt; background-color: rgb(242, 242, 242);"></td>
+<td style="vertical-align: top; text-align: right; white-space: normal; padding: 4pt 4pt 4pt 4pt; background-color: rgb(242, 242, 242);">&nbsp;&nbsp;&nbsp;</td>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt; padding: 4pt 4pt 4pt 4pt; background-color: rgb(242, 242, 242);">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+</tr>
+<tr>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0.4pt; padding: 4pt 4pt 4pt 4pt;">6.59e+03</td>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt; padding: 4pt 4pt 4pt 4pt;">5.13e+06</td>
+<td style="vertical-align: top; text-align: right; white-space: nowrap; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt; padding: 4pt 4pt 4pt 4pt;">1</td>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt; padding: 4pt 4pt 4pt 4pt;">959</td>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt; padding: 4pt 4pt 4pt 4pt;">1.23</td>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0.4pt 0pt; padding: 4pt 4pt 4pt 4pt;">0.267</td>
+</tr>
+</table>
+
+
+- Insufficient evidence to reject `\(H_0\)`!
+
+- The effect of adolescent and adult height on wages is the same
+
+---
+  
 # All F-test I
 
-.font50[
+.pull-left[
+
+&lt;style type="text/css"&gt;
+.smallcode .remark-code { /*Change made here*/
+  font-size: 65% !important;
+}
+&lt;/style&gt;
+
+.smallcode[
+
+```r
+summary(unrestricted_reg)
+```
 
 ```
 ## 
@@ -1398,10 +1519,23 @@ linearHypothesis(unrestricted_reg, c("northcen", "west", "south"))
 ## F-statistic: 20.79 on 4 and 521 DF,  p-value: 6.501e-16
 ```
 ]
+]
+
+.pull-right[
+
+- Last line of regression output from `summary()` of an `lm()` object is an **All F-test**
+  - `\(H_0:\)` all `\(\beta's=0\)` 
+    - the regression explains no variation in `\(Y\)`
+  - Calculates an `F-statistic` that, if high enough, is significant (`p-value` `\(&lt;0.05)\)` enough to reject `\(H_0\)`
+]
 
 ---
 
 # All F-test II
+
+- Alternatively, if you use `broom` instead of `summary()` of `lm` object:
+  - `glance()` command makes table of regression summary statistics
+  - `tidy()` only shows coefficients
 
 
 ```r
@@ -1439,7 +1573,7 @@ glance(unrestricted_reg)
 </table>
 
 
-- "**statistic**" is the All F-test, "**p.value**" next to it is the p value from the F test!
+- "**statistic**" is the All F-test, "**p.value**" next to it is the p value from the F test
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
