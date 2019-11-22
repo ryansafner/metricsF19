@@ -786,11 +786,11 @@ ggplot(data = gapminder)+
 
 | Model | Equation | Interpretation |
 |-------|----------|----------------|
-| Linear-Log | $Y=\beta_0+\beta_1 \mathbf{ln(X)}$ | 1% change in $X \rightarrow \frac{\hat{\beta_1}}{100}$ **unit** change in $Y$ |
-| Log-Linear | $\mathbf{ln(Y)}=\beta_0+\beta_1X$ | 1 **unit** change in $X \rightarrow \hat{\beta_1}\times 100$**%** change in $Y$ |
-| Log-Log | $\mathbf{ln(Y)}=\beta_0+\beta_1\mathbf{ln(X)}$ | 1**%** change in $X \rightarrow \hat{\beta_1}$**%** change in $Y$ |
+| Linear-**Log** | $Y=\beta_0+\beta_1 \mathbf{ln(X)}$ | 1% change in $X \rightarrow \frac{\hat{\beta_1}}{100}$ **unit** change in $Y$ |
+| **Log**-Linear | $\mathbf{ln(Y)}=\beta_0+\beta_1X$ | 1 **unit** change in $X \rightarrow \hat{\beta_1}\times 100$**%** change in $Y$ |
+| **Log**-**Log** | $\mathbf{ln(Y)}=\beta_0+\beta_1\mathbf{ln(X)}$ | 1**%** change in $X \rightarrow \hat{\beta_1}$**%** change in $Y$ |
 
-- Hint: the variable that gets logged changes in **percent** terms, the variable not logged changes in **unit** terms 
+- Hint: the variable that gets logged changes in **percent** terms, the variable not logged changes in *unit* terms
 
 ---
 
@@ -826,19 +826,31 @@ huxreg("Life Exp." = lin_log_reg,
 
 ---
 
+# Comparing Models III
+
+| Linear-Log | Log-Linear | Log-Log |
+|:----------:|:----------:|:-------:|
+| ![](21-slides_files/figure-html/unnamed-chunk-14-1.png) | ![](21-slides_files/figure-html/unnamed-chunk-20-1.png) | ![](21-slides_files/figure-html/unnamed-chunk-25-1.png) |
+| $\hat{Y_i}=\hat{\beta_0}+\hat{\beta_1}\mathbf{ln(X_i)}$ | $\mathbf{ln(\hat{Y_i})}=\hat{\beta_0}+\hat{\beta_1}X_i$ | $\mathbf{ln(\hat{Y_i})}=\hat{\beta_0}+\hat{\beta_1}\mathbf{ln(X_i)}$ |
+| $R^2=0.65$ | $R^2=0.30$ | $R^2=0.61$ |
+
+
+---
+
 # When to Log?
 
-- In practice, the following types of variables are logged (ln):
+- In practice, the following types of variables are logged:
   - Variables that must always be positive (prices, sales, market values)
   - Very large numbers (population, GDP)
-  - Variables expressed as percentages or percentage changes (inflation, population growth, GDP growth, labor force participation rate, unemployment rate)
+  - Variables we want to talk about as percentage changes or growth rates (money supply, population, GDP)
+  - Variables that have diminishing returns (output, utility)
   - Variables that have nonlinear scatterplots
 
 --
 
-- Never use logs for:
-  - Variables that are less than one, decimals, 0, or negative (temperature)
-  - Categorical variables
+- Avoid logs for:
+  - Variables that are less than one, decimals, 0, or negative
+  - Categorical variables (season, gender, political party)
   - Time variables (year, week, day)
 
 ---
