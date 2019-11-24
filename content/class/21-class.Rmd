@@ -1,0 +1,51 @@
+---
+title: "3.9: Logarithmic Regression - Class Notes"
+citeproc: false
+bibliography: ../../static/bib/references.bib
+csl: ../../static/bib/chicago-syllabus-no-bib.csl
+output:
+  blogdown::html_page:
+    template: ../../pandoc/toc-title_html.template
+    toc: true
+editor_options: 
+  chunk_output_type: console
+---
+
+*Thursday, November 21, 2019*
+
+# Overview
+
+*Today*, we finish up our view of *nonlinear* models with **logarithmic models**, which are more frequently used. We also discuss a few other tests and transformations to wrap up multivariate regression before we turn to panel data: **standardizing variables** to compare effect sizes, and **joint hypothesis tests**.
+
+
+Interpretting logged variables can often be difficult to remember, so here I reproduce the tables that describe the interpretations of the marginal effect of $X \rightarrow Y$, as well as some visual examples from the slides:
+
+| Model | Equation | Interpretation |
+|-------|----------|----------------|
+| Linear-**Log** | $Y=\beta_0+\beta_1 \mathbf{ln(X)}$ | 1% change in $X \rightarrow \frac{\hat{\beta_1}}{100}$ **unit** change in $Y$ |
+| **Log**-Linear | $\mathbf{ln(Y)}=\beta_0+\beta_1X$ | 1 **unit** change in $X \rightarrow \hat{\beta_1}\times 100$**%** change in $Y$ |
+| **Log**-**Log** | $\mathbf{ln(Y)}=\beta_0+\beta_1\mathbf{ln(X)}$ | 1**%** change in $X \rightarrow \hat{\beta_1}$**%** change in $Y$ |
+
+- Hint: the variable that gets logged changes in **percent** terms, the variable not logged changes in *unit* terms
+
+
+| Linear-Log | Log-Linear | Log-Log |
+|:----------:|:----------:|:-------:|
+| ![](21-slides_files/figure-html/unnamed-chunk-14-1.png) | ![](21-slides_files/figure-html/unnamed-chunk-20-1.png) | ![](21-slides_files/figure-html/unnamed-chunk-25-1.png) |
+| $\hat{Y_i}=\hat{\beta_0}+\hat{\beta_1}\mathbf{ln(X_i)}$ | $\mathbf{ln(\hat{Y_i})}=\hat{\beta_0}+\hat{\beta_1}X_i$ | $\mathbf{ln(\hat{Y_i})}=\hat{\beta_0}+\hat{\beta_1}\mathbf{ln(X_i)}$ |
+| $R^2=0.65$ | $R^2=0.30$ | $R^2=0.61$ |
+
+
+We will do another set of R practice problems, and you will be given **HW 5** to work on this material.
+
+# Slides
+
+- [<i class="fas fa-external-link-square-alt"></i> Lecture Slides](/slides/21-slides.html)
+
+# R Practice Problems
+
+We will do some [R Practice Problems](/r/21-r-practice) on nonlinear models, which we will continue into Tuesday November 26.
+
+# Problem Set 4 Due TODAY
+
+[Problm Set 4](/assignment/04-problem-set) (on classes 3.1-3.5) is due TODAY.

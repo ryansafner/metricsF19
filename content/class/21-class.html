@@ -1,0 +1,104 @@
+---
+title: "3.9: Logarithmic Regression - Class Notes"
+citeproc: false
+bibliography: ../../static/bib/references.bib
+csl: ../../static/bib/chicago-syllabus-no-bib.csl
+output:
+  blogdown::html_page:
+    template: ../../pandoc/toc-title_html.template
+    toc: true
+editor_options: 
+  chunk_output_type: console
+---
+
+<!-- BLOGDOWN-HEAD -->
+<!-- /BLOGDOWN-HEAD -->
+
+<h2>Contents</h2>
+<div id="TOC">
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#slides">Slides</a></li>
+<li><a href="#r-practice-problems">R Practice Problems</a></li>
+<li><a href="#problem-set-4-due-today">Problem Set 4 Due TODAY</a></li>
+</ul>
+</div>
+
+<p><em>Thursday, November 21, 2019</em></p>
+<h2 id="overview">Overview</h2>
+<p><em>Today</em>, we finish up our view of <em>nonlinear</em> models with <strong>logarithmic models</strong>, which are more frequently used. We also discuss a few other tests and transformations to wrap up multivariate regression before we turn to panel data: <strong>standardizing variables</strong> to compare effect sizes, and <strong>joint hypothesis tests</strong>.</p>
+<p>Interpretting logged variables can often be difficult to remember, so here I reproduce the tables that describe the interpretations of the marginal effect of <span class="math inline">\(X \rightarrow Y\)</span>, as well as some visual examples from the slides:</p>
+<table>
+<colgroup>
+<col width="21%" />
+<col width="30%" />
+<col width="48%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Model</th>
+<th>Equation</th>
+<th>Interpretation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Linear-<strong>Log</strong></td>
+<td><span class="math inline">\(Y=\beta_0+\beta_1 \mathbf{ln(X)}\)</span></td>
+<td>1% change in <span class="math inline">\(X \rightarrow \frac{\hat{\beta_1}}{100}\)</span> <strong>unit</strong> change in <span class="math inline">\(Y\)</span></td>
+</tr>
+<tr class="even">
+<td><strong>Log</strong>-Linear</td>
+<td><span class="math inline">\(\mathbf{ln(Y)}=\beta_0+\beta_1X\)</span></td>
+<td>1 <strong>unit</strong> change in <span class="math inline">\(X \rightarrow \hat{\beta_1}\times 100\)</span><strong>%</strong> change in <span class="math inline">\(Y\)</span></td>
+</tr>
+<tr class="odd">
+<td><strong>Log</strong>-<strong>Log</strong></td>
+<td><span class="math inline">\(\mathbf{ln(Y)}=\beta_0+\beta_1\mathbf{ln(X)}\)</span></td>
+<td>1<strong>%</strong> change in <span class="math inline">\(X \rightarrow \hat{\beta_1}\)</span><strong>%</strong> change in <span class="math inline">\(Y\)</span></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Hint: the variable that gets logged changes in <strong>percent</strong> terms, the variable not logged changes in <em>unit</em> terms</li>
+</ul>
+<table>
+<colgroup>
+<col width="36%" />
+<col width="36%" />
+<col width="27%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Linear-Log</th>
+<th align="center">Log-Linear</th>
+<th align="center">Log-Log</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><img src="21-slides_files/figure-html/unnamed-chunk-14-1.png" /></td>
+<td align="center"><img src="21-slides_files/figure-html/unnamed-chunk-20-1.png" /></td>
+<td align="center"><img src="21-slides_files/figure-html/unnamed-chunk-25-1.png" /></td>
+</tr>
+<tr class="even">
+<td align="center"><span class="math inline">\(\hat{Y_i}=\hat{\beta_0}+\hat{\beta_1}\mathbf{ln(X_i)}\)</span></td>
+<td align="center"><span class="math inline">\(\mathbf{ln(\hat{Y_i})}=\hat{\beta_0}+\hat{\beta_1}X_i\)</span></td>
+<td align="center"><span class="math inline">\(\mathbf{ln(\hat{Y_i})}=\hat{\beta_0}+\hat{\beta_1}\mathbf{ln(X_i)}\)</span></td>
+</tr>
+<tr class="odd">
+<td align="center"><span class="math inline">\(R^2=0.65\)</span></td>
+<td align="center"><span class="math inline">\(R^2=0.30\)</span></td>
+<td align="center"><span class="math inline">\(R^2=0.61\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>We will do another set of R practice problems, and you will be given <strong>HW 5</strong> to work on this material.</p>
+<h2 id="slides">Slides</h2>
+<ul>
+<li><a href="/slides/21-slides.html"><i class="fas fa-external-link-square-alt"></i> Lecture Slides</a></li>
+</ul>
+<h2 id="r-practice-problems">R Practice Problems</h2>
+<p>We will do some <a href="/r/21-r-practice">R Practice Problems</a> on nonlinear models, which we will continue into Tuesday November 26.</p>
+<h2 id="problem-set-4-due-today">Problem Set 4 Due TODAY</h2>
+<p><a href="/assignment/04-problem-set">Problm Set 4</a> (on classes 3.1-3.5) is due TODAY.</p>
