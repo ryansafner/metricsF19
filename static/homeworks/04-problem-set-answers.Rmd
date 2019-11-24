@@ -1,8 +1,16 @@
 ---
 title: "Problem Set 4 (Answers)"
-author: "Ryan Safner" # put your name here! 
+author: "Ryan Safner"
 date: "ECON 480 - Fall 2019"
-output: html_document # change to pdf if you'd like, this will make a webpage (you can email it and open in any browser)
+output:
+  html_document:
+    df_print: paged
+    #theme: simplex
+    toc: true 
+    toc_depth: 3
+    toc_float: true
+    code_folding: show
+    highlight: tango
 ---
 
 <!--CLICK "KNIT" ABOVE TO RENDER TO HTML, PDF, OR WORD OUTPUT
