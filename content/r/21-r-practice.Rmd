@@ -114,4 +114,7 @@ Create new standardized variables for `Amount`, `Age`, and `MPHover`.^[Hint: use
 
 ### Part B
 
-Run a regression of standardized `Amount` on standardized `Age` and `MPHover`. Interpret $\hat{\beta_1}$ and $\hat{\beta_2}$ Which variable has a bigger effect on `Amount`? 
+Run a regression of standardized `Amount` on standardized `Age` and `MPHover`. Interpret $\hat{\beta_1}$ and $\hat{\beta_2}$ Which variable has a bigger effect on `Amount`?
+
+# Question 9
+Make a regression output table with `huxtable` of your regressions in Questions 2, 3, 4, 6a, 6b, 6c, 7 and 8.
