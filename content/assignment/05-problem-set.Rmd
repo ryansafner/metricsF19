@@ -81,6 +81,7 @@ $$\text{Civil Law}_i = \begin{cases}
 Suppose a real estate agent collects data on houses that have sold in a particular neighborhood over the past year, with the following variables:
 
 | Variable | Description |
+|----------|-------------|
 | `$Price_h$ | price of house $h$ (in thousands of $) |
 | $Bedrooms_h$ | number of bedrooms in house $h$ |
 | $Baths_h$ | number of bathrooms in house $h$ |
@@ -204,6 +205,7 @@ Answer the following questions using `R`. When necessary, please write answers i
 Lead is toxic, particularly for young children, and for this reason government regulations severely restrict the amount of lead in our environment. In the early part of the 20^th^ century, the underground water pipes in many U.S. cities contained lead, and lead from these pipes leached into drinking water. This exercise will have you investigate the effect of these lead pipes on infant mortality. Download the `LeadMortality.dta` dataset from Blackboard. This dataset contains data on:
 
 | Variable | Description |
+|----------}-------------}
 | `infrate` | infant mortality rate (deaths per 100 in population) |
 | `lead` | $=1$ if city has lead water pipes, $=0$ if did not have lead pipes |
 | `pH` | water pH |
@@ -258,6 +260,7 @@ Use `huxtable` to make a nice output table of all of your regressions from parts
 Let's look at economic freedom and GDP per capita using some data I sourced from [Gapminder](https://gapminder.org/tools)^[GDP per capita (2018)], [Freedom House](https://freedomhouse.org/content/freedom-world-data-and-resources)^[Political freedom score (2018)] and [[Fraser Institute Data](https://www.fraserinstitute.org/economic-freedom/dataset?geozone=world&year=2016&page=dataset)]^[Economic Freedom score (2016)] and cleaned up for you, with the following variables:
 
 | Variable | Description |
+|----------|-------------|
 | `Country` | Name of country |
 | `ISO` | Code of country (good for plotting) |
 | `econ_freedom` | Economic Freedom Index score (2016) from 1 (least) to 10 (most free) |

@@ -78,12 +78,40 @@ editor_options:
     \end{cases}\]</span></p>
 <h3 id="question-6">Question 6</h3>
 <p>Suppose a real estate agent collects data on houses that have sold in a particular neighborhood over the past year, with the following variables:</p>
-<div class="line-block">Variable | Description |<br />
-`<span class="math inline">\(Price_h\)</span> | price of house <span class="math inline">\(h\)</span> (in thousands of $) |<br />
-<span class="math inline">\(Bedrooms_h\)</span> | number of bedrooms in house <span class="math inline">\(h\)</span> |<br />
-<span class="math inline">\(Baths_h\)</span> | number of bathrooms in house <span class="math inline">\(h\)</span> |<br />
-<span class="math inline">\(Pool_h\)</span> | <span class="math inline">\(\begin{cases} =1 &amp; \text{if house } h \text{ has a pool} \\ =0 &amp; \text{if house } h \text{ does not have a pool} \end{cases}\)</span> |<br />
-<span class="math inline">\(View_h\)</span> | <span class="math inline">\(\begin{cases} =1 &amp; \text{if house } h \text{ has a nice view} \\ =0 &amp; \text{if house } h \text{ does not have a nice view} \end{cases}\)</span> |</div>
+<table>
+<colgroup>
+<col width="43%" />
+<col width="56%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>`<span class="math inline">\(Price_h\)</span></td>
+<td>price of house <span class="math inline">\(h\)</span> (in thousands of $)</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(Bedrooms_h\)</span></td>
+<td>number of bedrooms in house <span class="math inline">\(h\)</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(Baths_h\)</span></td>
+<td>number of bathrooms in house <span class="math inline">\(h\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(Pool_h\)</span></td>
+<td><span class="math inline">\(\begin{cases} =1 &amp; \text{if house } h \text{ has a pool} \\ =0 &amp; \text{if house } h \text{ does not have a pool} \end{cases}\)</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(View_h\)</span></td>
+<td><span class="math inline">\(\begin{cases} =1 &amp; \text{if house } h \text{ has a nice view} \\ =0 &amp; \text{if house } h \text{ does not have a nice view} \end{cases}\)</span></td>
+</tr>
+</tbody>
+</table>
 <h4 id="part-a-1">Part A</h4>
 <p>Suppose she runs the following regression:
 <span class="math display">\[\widehat{\text{Price}_h}=119.20+29.76 \, \text{Bedrooms}_h+24.09 \, \text{View}_h+14.06 \, (\text{Bedrooms}_h \times \text{View}_h)\]</span></p>
@@ -173,10 +201,11 @@ editor_options:
 <li><a href="http://metricsf19.classes.ryansafner.com/data/LeadMortality.csv"><i class="fas fa-table"></i> <code>LeadMortality.csv</code></a></li>
 </ul>
 <p>Lead is toxic, particularly for young children, and for this reason government regulations severely restrict the amount of lead in our environment. In the early part of the 20<sup>th</sup> century, the underground water pipes in many U.S. cities contained lead, and lead from these pipes leached into drinking water. This exercise will have you investigate the effect of these lead pipes on infant mortality. Download the <code>LeadMortality.dta</code> dataset from Blackboard. This dataset contains data on:</p>
-<div class="line-block">Variable | Description |<br />
-<code>infrate</code> | infant mortality rate (deaths per 100 in population) |<br />
-<code>lead</code> | <span class="math inline">\(=1\)</span> if city has lead water pipes, <span class="math inline">\(=0\)</span> if did not have lead pipes |<br />
-<code>pH</code> | water pH |</div>
+<div class="line-block">Variable | Description |</div>
+<p>|———-}————-}
+| <code>infrate</code> | infant mortality rate (deaths per 100 in population) |
+| <code>lead</code> | <span class="math inline">\(=1\)</span> if city has lead water pipes, <span class="math inline">\(=0\)</span> if did not have lead pipes |
+| <code>pH</code> | water pH |</p>
 <blockquote>
 <p>and several demographic variables for 172 U.S. cities in 1900.</p>
 </blockquote>
@@ -216,13 +245,44 @@ editor_options:
 </span></span> and [<a href="https://www.fraserinstitute.org/economic-freedom/dataset?geozone=world&amp;year=2016&amp;page=dataset">Fraser Institute Data</a>]<span><label for="sn-4" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-4" class="margin-toggle"/><span class="sidenote">Economic Freedom score (2016)<br />
 <br />
 </span></span> and cleaned up for you, with the following variables:</p>
-<div class="line-block">Variable | Description |<br />
-<code>Country</code> | Name of country |<br />
-<code>ISO</code> | Code of country (good for plotting) |<br />
-<code>econ_freedom</code> | Economic Freedom Index score (2016) from 1 (least) to 10 (most free) |<br />
-<code>pol_freedom</code> | Political freedom index score (2018) from 1 (least) top 10 (most free) |<br />
-<code>gdp_pc</code> | GDP per capita (2018 USD) |<br />
-<code>continent</code> | Continent of country |</div>
+<table>
+<colgroup>
+<col width="43%" />
+<col width="56%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>Country</code></td>
+<td>Name of country</td>
+</tr>
+<tr class="even">
+<td><code>ISO</code></td>
+<td>Code of country (good for plotting)</td>
+</tr>
+<tr class="odd">
+<td><code>econ_freedom</code></td>
+<td>Economic Freedom Index score (2016) from 1 (least) to 10 (most free)</td>
+</tr>
+<tr class="even">
+<td><code>pol_freedom</code></td>
+<td>Political freedom index score (2018) from 1 (least) top 10 (most free)</td>
+</tr>
+<tr class="odd">
+<td><code>gdp_pc</code></td>
+<td>GDP per capita (2018 USD)</td>
+</tr>
+<tr class="even">
+<td><code>continent</code></td>
+<td>Continent of country</td>
+</tr>
+</tbody>
+</table>
 <h4 id="part-a-5">Part A</h4>
 <p>Does economic freedom affect GDP per capita? Create a scatterplot of <code>gdp_pc</code> (<code>Y</code>) against <code>econ_freedom</code> (<code>x</code>). Does the effect appear to be linear or nonlinear?</p>
 <h4 id="part-b-5">Part B</h4>
