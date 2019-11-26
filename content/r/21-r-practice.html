@@ -99,7 +99,7 @@ editor_options:
 <h2 id="question-4">Question 4</h2>
 <p>Should we use a higher-order polynomial equation? Run a cubic regression, and determine whether it is necessary.</p>
 <h2 id="question-5">Question 5</h2>
-<p>Run an <span class="math inline">\(F\)</span>-test to check if a nonlinear model is appropriate. Your null hypothesis is $H_0: <span class="math inline">\(\beta_2+\beta_3=0\)</span> from the regression in pert (h). The command is <code>linearHypothesis(reg_name, c("var1", "var2"))</code> where <code>reg_name</code> is the name of the <code>lm</code> object you saved your regression in, and <code>var1</code> and <code>var2</code> (or more) in quotes are the names of the variables you are testing. This function requires (installing and) loading the “<code>car</code>” package (additional regression tools).</p>
+<p>Run an <span class="math inline">\(F\)</span>-test to check if a nonlinear model is appropriate. Your null hypothesis is <span class="math inline">\(H_0: \beta_2=\beta_3=0\)</span> from the regression in pert (h). The command is <code>linearHypothesis(reg_name, c("var1", "var2"))</code> where <code>reg_name</code> is the name of the <code>lm</code> object you saved your regression in, and <code>var1</code> and <code>var2</code> (or more) in quotes are the names of the variables you are testing. This function requires (installing and) loading the “<code>car</code>” package (additional regression tools).</p>
 <h2 id="question-6">Question 6</h2>
 <p>Now let’s take a look at speed (<code>MPHover</code> the speed limit).</p>
 <h3 id="part-a-1">Part A</h3>

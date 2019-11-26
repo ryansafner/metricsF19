@@ -78,15 +78,14 @@ editor_options:
     \end{cases}\]</span></p>
 <h3 id="question-6">Question 6</h3>
 <p>Suppose a real estate agent collects data on houses that have sold in a particular neighborhood over the past year, with the following variables:</p>
-<ul>
-<li><span class="math inline">\(Price_h\)</span>: price of house <span class="math inline">\(h\)</span> (in thousands of $)</li>
-<li><span class="math inline">\(Bedrooms_h:\)</span> number of bedrooms in house <span class="math inline">\(h\)</span></li>
-<li><span class="math inline">\(Baths_h:\)</span> number of bathrooms in house <span class="math inline">\(h\)</span></li>
-<li><span class="math inline">\(Pool_h: \begin{cases} =1 &amp; \text{if house } h \text{ has a pool} \\ =0 &amp; \text{if house } h \text{ does not have a pool} \end{cases}\)</span></li>
-<li><span class="math inline">\(View_h: \begin{cases} =1 &amp; \text{if house } h \text{ has a nice view} \\ =0 &amp; \text{if house } h \text{ does not have a nice view} \end{cases}\)</span></li>
-</ul>
+<div class="line-block">Variable | Description |<br />
+`<span class="math inline">\(Price_h\)</span> | price of house <span class="math inline">\(h\)</span> (in thousands of $) |<br />
+<span class="math inline">\(Bedrooms_h\)</span> | number of bedrooms in house <span class="math inline">\(h\)</span> |<br />
+<span class="math inline">\(Baths_h\)</span> | number of bathrooms in house <span class="math inline">\(h\)</span> |<br />
+<span class="math inline">\(Pool_h\)</span> | <span class="math inline">\(\begin{cases} =1 &amp; \text{if house } h \text{ has a pool} \\ =0 &amp; \text{if house } h \text{ does not have a pool} \end{cases}\)</span> |<br />
+<span class="math inline">\(View_h\)</span> | <span class="math inline">\(\begin{cases} =1 &amp; \text{if house } h \text{ has a nice view} \\ =0 &amp; \text{if house } h \text{ does not have a nice view} \end{cases}\)</span> |</div>
 <h4 id="part-a-1">Part A</h4>
-<p>Suppose he runs the following regression:
+<p>Suppose she runs the following regression:
 <span class="math display">\[\widehat{\text{Price}_h}=119.20+29.76 \, \text{Bedrooms}_h+24.09 \, \text{View}_h+14.06 \, (\text{Bedrooms}_h \times \text{View}_h)\]</span></p>
 <blockquote>
 <p>What does each coefficient mean?</p>
@@ -94,7 +93,7 @@ editor_options:
 <h4 id="part-b-1">Part B</h4>
 <p>Write out <strong>two</strong> separate regression equations, one for houses <em>with</em> a nice view, and one for homes <em>without</em> a nice view. Explain each coefficient in each regression.</p>
 <h4 id="part-c-1">Part C</h4>
-<p>Suppose he runs the following regression:</p>
+<p>Suppose she runs the following regression:</p>
 <p><span class="math display">\[\widehat{\text{Price}_h}=189.20+42.40 \, \text{Pool}_h+12.10 \, \text{View}_h+12.09 \, (\text{Pool}_h \times \text{View}_h)\]</span></p>
 <blockquote>
 <p>What does each coefficient mean?</p>
@@ -108,7 +107,7 @@ editor_options:
 <li>a house with a pool and with a view</li>
 </ul>
 <h4 id="part-e-1">Part E</h4>
-<p>Suppose he runs the following regression:
+<p>Suppose she runs the following regression:
 <span class="math display">\[\widehat{\text{Price}_h}=87.90+53.94 \, \text{Bedrooms}_h+15.29 \, \text{Baths}_h+16.19 \, (\text{Bedrooms}_h \times \text{Baths}_h)\]</span></p>
 <blockquote>
 <p>What is the marginal effect of adding an additional <em>bedroom</em> if the house has 1 bathroom? 2 bathrooms? 3 bathrooms?</p>
@@ -138,7 +137,9 @@ editor_options:
 <h4 id="part-a-3">Part A</h4>
 <p>Suppose we estimate the following simple regression:</p>
 <p><span class="math display">\[\widehat{\text{fatalities}_i}=123.98+0.091\text{cell plans}_i\]</span></p>
+<blockquote>
 <p>Interpret the coefficient on cell plans (i.e. <span class="math inline">\(\hat{\beta_1})\)</span></p>
+</blockquote>
 <h4 id="part-b-3">Part B</h4>
 <p>Now suppose we estimate the regression using a linear-log model:</p>
 <p><span class="math display">\[\widehat{\text{fatalities}_i}=-3557.08+515.81\text{ln(cell plans}_i)\]</span></p>
@@ -167,17 +168,18 @@ editor_options:
 <p>Suppose the <span class="math inline">\(R^2\)</span> on the original regression from (e) was 0.9221, and the <span class="math inline">\(R^2\)</span> from the restricted regression is 0.9062. With 50 observations, calculate the <span class="math inline">\(F\)</span>-statistic.</p>
 <h2 id="r-questions">R Questions</h2>
 <p>Answer the following questions using <code>R</code>. When necessary, please write answers in the same document (knitted <code>Rmd</code> to <code>html</code> or <code>pdf</code>, typed <code>.doc(x)</code>, or handwritten) as your answers to the above questions. Be sure to include (email or print an <code>.R</code> file, or show in your knitted <code>markdown</code>) your code and the outputs of your code with the rest of your answers.</p>
-<h3 id="question-7-1">Question 7</h3>
+<h3 id="question-9">Question 9</h3>
 <ul>
 <li><a href="http://metricsf19.classes.ryansafner.com/data/LeadMortality.csv"><i class="fas fa-table"></i> <code>LeadMortality.csv</code></a></li>
 </ul>
 <p>Lead is toxic, particularly for young children, and for this reason government regulations severely restrict the amount of lead in our environment. In the early part of the 20<sup>th</sup> century, the underground water pipes in many U.S. cities contained lead, and lead from these pipes leached into drinking water. This exercise will have you investigate the effect of these lead pipes on infant mortality. Download the <code>LeadMortality.dta</code> dataset from Blackboard. This dataset contains data on:</p>
-<ul>
-<li><code>infrate</code>: infant mortality rate (deaths per 100 in population)</li>
-<li><code>lead</code>: <span class="math inline">\(=1\)</span> if city has lead water pipes, <span class="math inline">\(=0\)</span> if did not have lead pipes</li>
-<li><code>pH</code>: water pH</li>
-</ul>
+<div class="line-block">Variable | Description |<br />
+<code>infrate</code> | infant mortality rate (deaths per 100 in population) |<br />
+<code>lead</code> | <span class="math inline">\(=1\)</span> if city has lead water pipes, <span class="math inline">\(=0\)</span> if did not have lead pipes |<br />
+<code>pH</code> | water pH |</div>
+<blockquote>
 <p>and several demographic variables for 172 U.S. cities in 1900.</p>
+</blockquote>
 <h4 id="part-a-4">Part A</h4>
 <p>Using <code>R</code> to examine the data, find the average infant mortality rate for cities with lead pipes and for cities without lead pipes. Calculate the difference, and run a <span class="math inline">\(t\)</span>-test to determine if this difference is statistically significant.</p>
 <h4 id="part-b-4">Part B</h4>
@@ -203,7 +205,7 @@ editor_options:
 </span></span></p>
 <h4 id="part-i">Part I</h4>
 <p>Use <code>huxtable</code> to make a nice output table of all of your regressions from parts B, C, and D.</p>
-<h3 id="question-8-1">Question 8</h3>
+<h3 id="question-10">Question 10</h3>
 <ul>
 <li><a href="http://metricsf19.classes.ryansafner.com/data/freedom.csv"><i class="fas fa-table"></i> <code>freedom.csv</code></a></li>
 </ul>
@@ -238,10 +240,12 @@ editor_options:
 <h4 id="part-h-1">Part H</h4>
 <p>Another way we can <em>test</em> for non-linearity is to run an <span class="math inline">\(F\)</span>-test on all non-linear variables - i.e. the quadratic term and the cubic term <span class="math inline">\((\hat{\beta_2}\)</span> and <span class="math inline">\(\hat{\beta_3}\)</span>) and test against the null hypothesis that:
 <span class="math display">\[H_0: \hat{\beta_2} = \hat{\beta_3} = 0\]</span></p>
+<blockquote>
 <p>Run this joint hypothesis test, and what can you conclude?</p>
+</blockquote>
 <h4 id="part-i-1">Part I</h4>
 <p>Instead of a polynomial model, try out a logarithmic model. It is hard to interpret percent changes on an index, but it is easy to understand percent changes in GDP per capita, so run a <strong>log-linear</strong> regression. Write out the estimated regression equation. What is the marginal effect of <code>econ_freedom</code>?</p>
-<h4 id="part-g-3">Part G</h4>
+<h4 id="part-j">Part J</h4>
 <p>Make a scatterplot of your log-linear model with a regression line.</p>
-<h4 id="part-h-2">Part H</h4>
+<h4 id="part-k">Part K</h4>
 <p>Put all of your results together in a regression output table with <code>huxtable</code> from your answers in questions B, C, G, and H.</p>

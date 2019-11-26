@@ -217,7 +217,7 @@ Should we use a higher-order polynomial equation? Run a cubic regression, and de
 
 ## Question 5
 
-Run an $F$-test to check if a nonlinear model is appropriate. Your null hypothesis is $H_0: $\beta_2+\beta_3=0$ from the regression in pert (h). The command is `linearHypothesis(reg_name, c("var1", "var2"))` where `reg_name` is the name of the `lm` object you saved your regression in, and `var1` and `var2` (or more) in quotes are the names of the variables you are testing. This function requires (installing and) loading the "`car`" package (additional regression tools).
+Run an $F$-test to check if a nonlinear model is appropriate. Your null hypothesis is $H_0: \beta_2=\beta_3=0$ from the regression in pert (h). The command is `linearHypothesis(reg_name, c("var1", "var2"))` where `reg_name` is the name of the `lm` object you saved your regression in, and `var1` and `var2` (or more) in quotes are the names of the variables you are testing. This function requires (installing and) loading the "`car`" package (additional regression tools).
 
 ---
 

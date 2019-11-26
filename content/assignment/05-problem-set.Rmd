@@ -80,14 +80,15 @@ $$\text{Civil Law}_i = \begin{cases}
 
 Suppose a real estate agent collects data on houses that have sold in a particular neighborhood over the past year, with the following variables:
 
-- $Price_h$: price of house $h$ (in thousands of $)
-- $Bedrooms_h:$ number of bedrooms in house $h$
-- $Baths_h:$ number of bathrooms in house $h$
-- $Pool_h: \begin{cases} =1 & \text{if house } h \text{ has a pool} \\ =0 & \text{if house } h \text{ does not have a pool} \end{cases}$
-- $View_h: \begin{cases} =1 & \text{if house } h \text{ has a nice view} \\ =0 & \text{if house } h \text{ does not have a nice view} \end{cases}$
+| Variable | Description |
+| `$Price_h$ | price of house $h$ (in thousands of $) |
+| $Bedrooms_h$ | number of bedrooms in house $h$ |
+| $Baths_h$ | number of bathrooms in house $h$ |
+| $Pool_h$ | $\begin{cases} =1 & \text{if house } h \text{ has a pool} \\ =0 & \text{if house } h \text{ does not have a pool} \end{cases}$ |
+| $View_h$ |  $\begin{cases} =1 & \text{if house } h \text{ has a nice view} \\ =0 & \text{if house } h \text{ does not have a nice view} \end{cases}$ |
 
 ### Part A
-Suppose he runs the following regression:
+Suppose she runs the following regression:
 $$\widehat{\text{Price}_h}=119.20+29.76 \, \text{Bedrooms}_h+24.09 \, \text{View}_h+14.06 \, (\text{Bedrooms}_h \times \text{View}_h)$$
 
 > What does each coefficient mean?
@@ -96,7 +97,7 @@ $$\widehat{\text{Price}_h}=119.20+29.76 \, \text{Bedrooms}_h+24.09 \, \text{View
 Write out **two** separate regression equations, one for houses *with* a nice view, and one for homes *without* a nice view. Explain each coefficient in each regression.
 
 ### Part C
-Suppose he runs the following regression: 
+Suppose she runs the following regression: 
 
 $$\widehat{\text{Price}_h}=189.20+42.40 \, \text{Pool}_h+12.10 \, \text{View}_h+12.09 \, (\text{Pool}_h \times \text{View}_h)$$
 
@@ -111,7 +112,7 @@ Find the expected price for:
 - a house with a pool and with a view
 
 ### Part E
-Suppose he runs the following regression:
+Suppose she runs the following regression:
 $$\widehat{\text{Price}_h}=87.90+53.94 \, \text{Bedrooms}_h+15.29 \, \text{Baths}_h+16.19 \, (\text{Bedrooms}_h \times \text{Baths}_h)$$
 
 > What is the marginal effect of adding an additional *bedroom* if the house has 1 bathroom? 2 bathrooms? 3 bathrooms?
@@ -155,7 +156,7 @@ Suppose we estimate the following simple regression:
 
 $$\widehat{\text{fatalities}_i}=123.98+0.091\text{cell plans}_i$$
 
-Interpret the coefficient on cell plans (i.e. $\hat{\beta_1})$
+> Interpret the coefficient on cell plans (i.e. $\hat{\beta_1})$
 
 ### Part B
 Now suppose we estimate the regression using a linear-log model: 
@@ -196,18 +197,18 @@ Suppose the $R^2$ on the original regression from (e) was 0.9221, and the $R^2$ 
 
 Answer the following questions using `R`. When necessary, please write answers in the same document (knitted `Rmd` to `html` or `pdf`, typed `.doc(x)`, or handwritten) as your answers to the above questions. Be sure to include (email or print an `.R` file, or show in your knitted `markdown`) your code and the outputs of your code with the rest of your answers.
 
-## Question 7
+## Question 9
 
 - [<i class="fas fa-table"></i> `LeadMortality.csv`](http://metricsf19.classes.ryansafner.com/data/LeadMortality.csv)
 
 Lead is toxic, particularly for young children, and for this reason government regulations severely restrict the amount of lead in our environment. In the early part of the 20^th^ century, the underground water pipes in many U.S. cities contained lead, and lead from these pipes leached into drinking water. This exercise will have you investigate the effect of these lead pipes on infant mortality. Download the `LeadMortality.dta` dataset from Blackboard. This dataset contains data on:
 
-- `infrate`: infant mortality rate (deaths per 100 in population)
-- `lead`: $=1$ if city has lead water pipes, $=0$ if did not have lead pipes
-- `pH`: water pH 	
+| Variable | Description |
+| `infrate` | infant mortality rate (deaths per 100 in population) |
+| `lead` | $=1$ if city has lead water pipes, $=0$ if did not have lead pipes |
+| `pH` | water pH |
 
-and several demographic variables for 172 U.S. cities in 1900.
-
+> and several demographic variables for 172 U.S. cities in 1900.
 
 ### Part A
 
@@ -250,7 +251,7 @@ Double check your calculations in G are correct by running the regression in D t
 
 Use `huxtable` to make a nice output table of all of your regressions from parts B, C, and D.
 
-## Question 8
+## Question 10
 
 - [<i class="fas fa-table"></i> `freedom.csv`](http://metricsf19.classes.ryansafner.com/data/freedom.csv)
 
@@ -289,13 +290,13 @@ Run a cubic model to see if we should keep going up in polynomials. Write out th
 Another way we can *test* for non-linearity is to run an $F$-test on all non-linear variables - i.e. the quadratic term and the cubic term $(\hat{\beta_2}$ and $\hat{\beta_3}$) and test against the null hypothesis that:
 $$H_0: \hat{\beta_2} = \hat{\beta_3} = 0$$
 
-Run this joint hypothesis test, and what can you conclude?
+> Run this joint hypothesis test, and what can you conclude?
 
 ### Part I
 Instead of a polynomial model, try out a logarithmic model. It is hard to interpret percent changes on an index, but it is easy to understand percent changes in GDP per capita, so run a **log-linear** regression. Write out the estimated regression equation. What is the marginal effect of `econ_freedom`?
 
-### Part G
+### Part J
 Make a scatterplot of your log-linear model with a regression line.
 
-### Part H
+### Part K
 Put all of your results together in a regression output table with `huxtable` from your answers in questions B, C, G, and H.
