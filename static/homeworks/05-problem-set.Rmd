@@ -150,7 +150,7 @@ Suppose a real estate agent collects data on houses that have sold in a particul
 **Suppose she runs the following regression:**
 $$\widehat{\text{Price}_h}=119.20+29.76 \, \text{Bedrooms}_h+24.09 \, \text{View}_h+14.06 \, (\text{Bedrooms}_h \times \text{View}_h)$$
 
-> **What does each coefficient mean?**
+**What does each coefficient mean?**
 
 ---
 
@@ -174,7 +174,7 @@ $$\widehat{\text{Price}_h}=119.20+29.76 \, \text{Bedrooms}_h+24.09 \, \text{View
 
 $$\widehat{\text{Price}_h}=189.20+42.40 \, \text{Pool}_h+12.10 \, \text{View}_h+12.09 \, (\text{Pool}_h \times \text{View}_h)$$
 
-> **What does each coefficient mean?**
+**What does each coefficient mean?**
 
 ---
 
@@ -200,7 +200,7 @@ $$\widehat{\text{Price}_h}=189.20+42.40 \, \text{Pool}_h+12.10 \, \text{View}_h+
 **Suppose she runs the following regression:**
 $$\widehat{\text{Price}_h}=87.90+53.94 \, \text{Bedrooms}_h+15.29 \, \text{Baths}_h+16.19 \, (\text{Bedrooms}_h \times \text{Baths}_h)$$
 
-> **What is the marginal effect of adding an additional _bedroom_ if the house has 1 bathroom? 2 bathrooms? 3 bathrooms?**
+**What is the marginal effect of adding an additional _bedroom_ if the house has 1 bathroom? 2 bathrooms? 3 bathrooms?**
 
 ---
 
@@ -228,7 +228,7 @@ Suppose we want to examine the change in average global temperature over time. W
 
 $$\widehat{\text{Temperature}_i}=-10.46+0.006 \text{Year}_i$$
 
-> **Interpret the coefficient on Year (i.e. $\hat{\beta_1})$**
+**Interpret the coefficient on Year (i.e. $\hat{\beta_1})$**
 
 ---
 
@@ -289,7 +289,7 @@ Suppose we want to examine the effect of cell phone use while driving on traffic
 
 $$\widehat{\text{fatalities}_i}=123.98+0.091\text{cell plans}_i$$
 
-> **Interpret the coefficient on cell plans (i.e. $\hat{\beta_1})$**
+**Interpret the coefficient on cell plans (i.e. $\hat{\beta_1})$**
 
 ---
 
@@ -303,7 +303,7 @@ $$\widehat{\text{fatalities}_i}=123.98+0.091\text{cell plans}_i$$
 
 $$\widehat{\text{fatalities}_i}=-3557.08+515.81\text{ln(cell plans}_i)$$
 
-> **Interpret the coefficient on ln(cell plans) (i.e. $\hat{\beta_1})$**
+**Interpret the coefficient on ln(cell plans) (i.e. $\hat{\beta_1})$**
 
 ---
 
@@ -317,7 +317,7 @@ $$\widehat{\text{fatalities}_i}=-3557.08+515.81\text{ln(cell plans}_i)$$
 
 $$\widehat{\text{ln(fatalities}_i)}=5.43+0.0001\text{cell plans}_i$$
 
-> **Interpret the coefficient on cell plans (i.e. $\hat{\beta_1})$**
+**Interpret the coefficient on cell plans (i.e. $\hat{\beta_1})$**
 
 ---
 
@@ -331,7 +331,7 @@ $$\widehat{\text{ln(fatalities}_i)}=5.43+0.0001\text{cell plans}_i$$
 
 $$\widehat{\text{ln(fatalities}_i)}=-0.89+0.85\text{ln(cell plans}_i)$$
 
-> **Interpret the coefficient on cell plans (i.e. $\hat{\beta_1})$**
+**Interpret the coefficient on cell plans (i.e. $\hat{\beta_1})$**
 
 ---
 
@@ -381,7 +381,7 @@ Answer the following questions using `R`. When necessary, please write answers i
 
 - [<i class="fas fa-table"></i> `LeadMortality.csv`](http://metricsf19.classes.ryansafner.com/data/LeadMortality.csv)
 
-Lead is toxic, particularly for young children, and for this reason government regulations severely restrict the amount of lead in our environment. In the early part of the 20^th^ century, the underground water pipes in many U.S. cities contained lead, and lead from these pipes leached into drinking water. This exercise will have you investigate the effect of these lead pipes on infant mortality. Download the `LeadMortality.dta` dataset from Blackboard. This dataset contains data on:
+Lead is toxic, particularly for young children, and for this reason government regulations severely restrict the amount of lead in our environment. In the early part of the 20^th^ century, the underground water pipes in many U.S. cities contained lead, and lead from these pipes leached into drinking water. This exercise will have you investigate the effect of these lead pipes on infant mortality. This dataset contains data on:
 
 | Variable | Description |
 |----------|-------------|
@@ -389,7 +389,7 @@ Lead is toxic, particularly for young children, and for this reason government r
 | `lead` | $=1$ if city has lead water pipes, $=0$ if did not have lead pipes |
 | `pH` | water pH |
 
-> and several demographic variables for 172 U.S. cities in 1900.
+ and several demographic variables for 172 U.S. cities in 1900.
 
 ### Part A
 
@@ -527,7 +527,7 @@ Part A
 
 - [<i class="fas fa-table"></i> `freedom.csv`](http://metricsf19.classes.ryansafner.com/data/freedom.csv)
 
-Let's look at economic freedom and GDP per capita using some data I sourced from [Gapminder](https://gapminder.org/tools)^[GDP per capita (2018)], [Freedom House](https://freedomhouse.org/content/freedom-world-data-and-resources)^[Political freedom score (2018)] and [[Fraser Institute Data](https://www.fraserinstitute.org/economic-freedom/dataset?geozone=world&year=2016&page=dataset)]^[Economic Freedom score (2016)] and cleaned up for you, with the following variables:
+Let's look at economic freedom and GDP per capita using some data I sourced from [Gapminder](https://gapminder.org/tools)^[GDP per capita (2018)], [Freedom House](https://freedomhouse.org/content/freedom-world-data-and-resources)^[Political freedom score (2018)] and [Fraser Institute Data](https://www.fraserinstitute.org/economic-freedom/dataset?geozone=world&year=2016&page=dataset)^[Economic Freedom score (2016)] and cleaned up for you, with the following variables:
 
 | Variable | Description |
 |----------|-------------|
@@ -642,7 +642,7 @@ Let's look at economic freedom and GDP per capita using some data I sourced from
 **Another way we can _test_ for non-linearity is to run an $F$-test on all non-linear variables - i.e. the quadratic term and the cubic term $(\hat{\beta_2}$ and $\hat{\beta_3}$) and test against the null hypothesis that:**
 $$H_0: \hat{\beta_2} = \hat{\beta_3} = 0$$
 
-> **Run this joint hypothesis test, and what can you conclude?**
+**Run this joint hypothesis test, and what can you conclude?**
 
 ---
 
