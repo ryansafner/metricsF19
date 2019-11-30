@@ -75,7 +75,7 @@ Suppose data on many countries' legal systems (Common Law or Civil Law) and thei
 
 ### Part A
 
-**Using the group means, write a regression equation for a regression of GDP Growth rate on Common Law, including the standard errors in parentheses below the coefficients. Define**
+**Using the group means, write a regression equation for a regression of GDP Growth rate on Common Law. Define**
 
 $$\text{Common Law}_i = \begin{cases}
     1 & \text{if country } i \text{ has common law} \\

@@ -60,7 +60,7 @@ For the following questions, please *show all work* and explain answers as neces
 | Civil Law | $4.97$ | $4.27$ | $141$ |
 | Difference | $-3.13$ | $1.02$ | $-$ |
 
-a. Using the group means, write a regression equation for a regression of GDP Growth rate on Common Law, including the standard errors in parentheses below the coefficients. Define
+a. Using the group means, write a regression equation for a regression of GDP Growth rate on Common Law. Define
 $$\text{Common Law}_i = \begin{cases}
     1 & \text{if country } i \text{ has common law} \\
     0 & \text{if country } i \text{ has civil law}\\
