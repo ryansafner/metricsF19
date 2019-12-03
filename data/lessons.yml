@@ -147,7 +147,10 @@ lessons:
     header: True
 
   - title: "4.1 Panel Data and Fixed Effects Models"
-  
+    reading: "22-reading"
+    class: "22-class"
+    slides: "22-slides"
+
   - title: "4.2 Difference in Difference Models"
 
   - title: '<span class="fake-header-table">5. Advanced Regression</span>'
