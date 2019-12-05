@@ -135,6 +135,7 @@ While it may be possible for many papers in your college career, is not a paper 
 - **Literature Review**: find 2-3 scholarly sources (ideally scholarly journal articles) that discuss your research question (or related topics), especially if they have empirical findings. Explain what these sources found, how they found it, and how your paper relates to this literature. Don't worry about being original!
 
 - **Presentation**: a 5-10 minute presentation of what you have so far. Different people will be at different stages, since your paper is not due yet! Use this as an opportunity to get feedback from me and your classmates, that might help you finish your project. Using some slides to show tables, models, and plots is highly recommended.
+  - [<i class="fas fa-file-pdf"></i> Example](/papers/Presentation_example.pdf)
 
 - **Final Paper Due**: *email* the full paper to me (see below for what should be in the email).
 

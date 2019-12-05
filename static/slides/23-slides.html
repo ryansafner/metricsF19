@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+  <head>
+    <title>4.2: Differences-in-Differences Models</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Ryan Safner  Assistant Professor of Economics    safner@hood.edu    ryansafner/metricsf19    metricsF19.classes.ryansafner.com" />
+    <link href="libs/remark-css/hygge.css" rel="stylesheet" />
+    <link href="libs/pagedtable/css/pagedtable.css" rel="stylesheet" />
+    <script src="libs/pagedtable/js/pagedtable.js"></script>
+    <script src="https://use.fontawesome.com/5235085b15.js"></script>
+    <link rel="stylesheet" href="custom.css" type="text/css" />
+    <link rel="stylesheet" href="custom-fonts.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# 4.2: Differences-in-Differences Models
+## ECON 480 · Econometrics · Fall 2019
+### Ryan Safner<br> Assistant Professor of Economics <br> <a href="mailto:safner@hood.edu"><i class="fa fa-paper-plane fa-fw"></i> safner@hood.edu</a> <br> <a href="https://github.com/ryansafner/metricsf19"><i class="fa fa-github fa-fw"></i> ryansafner/metricsf19</a><br> <a href="https://metricsF19.classes.ryansafner.com"> <i class="fa fa-globe fa-fw"></i> metricsF19.classes.ryansafner.com</a><br>
+
+---
+
+
+
+
+class: inverse, center, middle
+
+# Difference-in-Difference Models
+
+---
+
+# Difference-in-Difference Models I
+
+- Often, we want to examine the consequences of a change, such as a law or policy
+    - e.g. States that implemented law `\(X\)` saw a change in `\(Y\)`
+    - **Treatment**: States that implement law `\(X\)`
+    - **Control**: States that did not implement law `\(X\)`
+    - If we have **panel data** with observations for all states before *and* after the change:
+- Simple logic: compare difference in outcomes of treatment group (before and after treatment) with those of non-treated group (before and after same treatment period)
+
+---
+
+# Difference-in-Difference Models II
+
+.center[
+![](https://www.dropbox.com/s/vpk560fok07yo9t/dndhot.jpg?raw=1)
+]
+
+---
+
+# Difference-in-Difference Models III
+
+- The .shout[difference-in-difference model] (aka .shout["diff-in-diff"] or .shout[DND"]) identifies treatment effect by differencing the difference pre- and post-treatment between treatment and control groups
+
+--
+
+`$$\hat{Y_{it}}=\beta_0+\beta_1 \text{Treated}_i +\beta_2 \text{After}_{t}+\beta_3 (\text{Treated}_i \times \text{After}_{t})+u_{it}$$`
+
+--
+
+- `\(Treated_i= \begin{cases}1 \text{ if } i \text{ is in treatment group}\\ 0 \text{ if } i \text{ is not in treatment group}\end{cases}\)`
+
+- `\(After_t= \begin{cases}1 \text{ if } t \text{ is after treatment period}\\ 0 \text{ if } t \text{ is before treatment period}\end{cases}\)`
+
+--
+
+|    | Control | Treatment | **Group Diff** `\((\Delta Y_i)\)` |
+|----|---------|-----------|---------------------------|
+| Before | `\(\beta_0\)` | `\(\beta_0+\beta_1\)` | `\(\beta_1\)` |
+| After | `\(\beta_0+\beta_2\)` | `\(\beta_0+\beta_1+\beta_2+\beta_3\)` | `\(\beta_1+\beta_3\)` |
+| **Time Diff** `\((\Delta Y_t)\)` | `\(\beta_2\)` | `\(\beta_2+\beta_3\)` | **Diff-in-diff** `\(\Delta_i \Delta_t: \beta_3\)` |
+
+---
+
+
+
+
+# Visualizing Diff-in-Diff
+
+`$$\hat{Y_{it}}=\beta_0+\beta_1 \text{Treated}_i +\beta_2 \text{After}_{t}+\beta_3 (\text{Treated}_i \times \text{After}_{t})+u_{it}$$`
+
+
+.pull-left[
+
+&lt;img src="23-slides_files/figure-html/unnamed-chunk-2-1.png" width="504" /&gt;
+]
+
+.pull-right[
+
+- .red[Control group `\\((Treated = 0)\\)`]
+
+
+- .red[`\\(\hat{\beta_0}\\)`]: value of `\(Y\)` for **control** group **before** treatment
+
+- .red[`\\(\hat{\beta_2}\\)`]: time *difference* (for **control** group)
+
+
+]
+
+---
+
+# Visualizing Diff-in-Diff
+
+`$$\hat{Y_{it}}=\beta_0+\beta_1 \text{Treated}_i +\beta_2 \text{After}_{t}+\beta_3 (\text{Treated}_i \times \text{After}_{t})+u_{it}$$`
+
+
+.pull-left[
+
+&lt;img src="23-slides_files/figure-html/unnamed-chunk-3-1.png" width="504" /&gt;
+]
+
+.pull-right[
+
+- .red[Control group `\\((Treated = 0)\\)`]
+
+
+- .red[`\\(\hat{\beta_0}\\)`]: value of `\(Y\)` for **control** group **before** treatment
+
+- .red[`\\(\hat{\beta_2}\\)`]: time *difference* (for **control** group)
+
+- .green[Treated group `\\((Treated = 1)\\)`]
+
+
+]
+
+---
+
+# Visualizing Diff-in-Diff
+
+`$$\hat{Y_{it}}=\beta_0+\beta_1 \text{Treated}_i +\beta_2 \text{After}_{t}+\beta_3 (\text{Treated}_i \times \text{After}_{t})+u_{it}$$`
+
+
+.pull-left[
+
+&lt;img src="23-slides_files/figure-html/unnamed-chunk-4-1.png" width="504" /&gt;
+]
+
+.pull-right[
+
+- .red[Control group `\\((Treated = 0)\\)`]
+
+
+- .red[`\\(\hat{\beta_0}\\)`]: value of `\(Y\)` for **control** group **before** treatment
+
+- .red[`\\(\hat{\beta_2}\\)`]: time *difference* (for **control** group)
+
+- .green[Treated group `\\((Treated = 1)\\)`]
+
+- `\(\hat{\beta_1}\)`: *difference* between groups **before** treatment
+
+]
+
+---
+
+# Visualizing Diff-in-Diff
+
+`$$\hat{Y_{it}}=\beta_0+\beta_1 \text{Treated}_i +\beta_2 \text{After}_{t}+\beta_3 (\text{Treated}_i \times \text{After}_{t})+u_{it}$$`
+
+
+.pull-left[
+
+&lt;img src="23-slides_files/figure-html/unnamed-chunk-5-1.png" width="504" /&gt;
+]
+
+.pull-right[
+
+- .red[Control group `\\((Treated = 0)\\)`]
+
+
+- .red[`\\(\hat{\beta_0}\\)`]: value of `\(Y\)` for **control** group **before** treatment
+
+- .red[`\\(\hat{\beta_2}\\)`]: time *difference* (for **control** group)
+
+- .green[Treated group `\\((Treated = 1)\\)`]
+
+- `\(\hat{\beta_1}\)`: *difference* between groups **before** treatment
+
+- .blue[`\\(\hat{\beta_3}\\)`]: difference-in-difference: .blue[treatment effect]
+]
+
+---
+
+# Visualizing Diff-in-Diff II
+
+`$$\hat{Y_{it}}=\beta_0+\beta_1 \text{Treated}_i +\beta_2 \text{After}_{t}+\beta_3 (\text{Treated}_i \times \text{After}_{t})+u_{it}$$`
+
+
+.pull-left[
+
+&lt;img src="23-slides_files/figure-html/unnamed-chunk-6-1.png" width="504" /&gt;
+]
+
+.pull-right[
+
+- `\(Y_i\)` for **Control** group **before**: `\(\hat{\beta_0}\)`
+
+]
+
+
+---
+
+# Visualizing Diff-in-Diff II
+
+`$$\hat{Y_{it}}=\beta_0+\beta_1 \text{Treated}_i +\beta_2 \text{After}_{t}+\beta_3 (\text{Treated}_i \times \text{After}_{t})+u_{it}$$`
+
+
+.pull-left[
+
+&lt;img src="23-slides_files/figure-html/unnamed-chunk-7-1.png" width="504" /&gt;
+]
+
+.pull-right[
+
+- `\(Y_i\)` for **Control** group **before**: `\(\hat{\beta_0}\)`
+
+- `\(Y_i\)` for **Control** group **after**: `\(\hat{\beta_0}+\hat{\beta_2}\)`
+
+]
+
+---
+
+# Visualizing Diff-in-Diff II
+
+`$$\hat{Y_{it}}=\beta_0+\beta_1 \text{Treated}_i +\beta_2 \text{After}_{t}+\beta_3 (\text{Treated}_i \times \text{After}_{t})+u_{it}$$`
+
+
+.pull-left[
+
+&lt;img src="23-slides_files/figure-html/unnamed-chunk-8-1.png" width="504" /&gt;
+]
+
+.pull-right[
+
+- `\(Y_i\)` for **Control** group **before**: `\(\hat{\beta_0}\)`
+
+- `\(Y_i\)` for **Control** group **after**: `\(\hat{\beta_0}+\hat{\beta_2}\)`
+
+- `\(Y_i\)` for **Treatment** group **before**: `\(\hat{\beta_0}+\hat{\beta_1}\)`
+
+]
+
+
+
+---
+
+# Visualizing Diff-in-Diff II
+
+`$$\hat{Y_{it}}=\beta_0+\beta_1 \text{Treated}_i +\beta_2 \text{After}_{t}+\beta_3 (\text{Treated}_i \times \text{After}_{t})+u_{it}$$`
+
+
+.pull-left[
+
+&lt;img src="23-slides_files/figure-html/unnamed-chunk-9-1.png" width="504" /&gt;
+]
+
+.pull-right[
+
+- `\(Y_i\)` for **Control** group **before**: `\(\hat{\beta_0}\)`
+
+- `\(Y_i\)` for **Control** group **after**: `\(\hat{\beta_0}+\hat{\beta_2}\)`
+
+- `\(Y_i\)` for **Treatment** group **before**: `\(\hat{\beta_0}+\hat{\beta_1}\)`
+
+- `\(Y_i\)` for **Treatment** group **after**: `\(\hat{\beta_0}+\hat{\beta_1}+\hat{\beta_2}+\hat{\beta_3}\)`
+
+]
+
+---
+
+# Visualizing Diff-in-Diff II
+
+`$$\hat{Y_{it}}=\beta_0+\beta_1 \text{Treated}_i +\beta_2 \text{After}_{t}+\beta_3 (\text{Treated}_i \times \text{After}_{t})+u_{it}$$`
+
+
+.pull-left[
+
+&lt;img src="23-slides_files/figure-html/unnamed-chunk-10-1.png" width="504" /&gt;
+]
+
+.pull-right[
+
+- `\(Y_i\)` for **Control** group **before**: `\(\hat{\beta_0}\)`
+
+- `\(Y_i\)` for **Control** group **after**: `\(\hat{\beta_0}+\hat{\beta_2}\)`
+
+- `\(Y_i\)` for **Treatment** group **before**: `\(\hat{\beta_0}+\hat{\beta_1}\)`
+
+- `\(Y_i\)` for **Treatment** group **after**: `\(\hat{\beta_0}+\hat{\beta_1}+\hat{\beta_2}+\hat{\beta_3}\)`
+
+- **Group Difference (before)**: `\(\hat{\beta_1}\)`
+
+]
+
+
+---
+
+# Visualizing Diff-in-Diff II
+
+`$$\hat{Y_{it}}=\beta_0+\beta_1 \text{Treated}_i +\beta_2 \text{After}_{t}+\beta_3 (\text{Treated}_i \times \text{After}_{t})+u_{it}$$`
+
+
+.pull-left[
+
+&lt;img src="23-slides_files/figure-html/unnamed-chunk-11-1.png" width="504" /&gt;
+]
+
+.pull-right[
+
+- `\(Y_i\)` for **Control** group **before**: `\(\hat{\beta_0}\)`
+
+- `\(Y_i\)` for **Control** group **after**: `\(\hat{\beta_0}+\hat{\beta_2}\)`
+
+- `\(Y_i\)` for **Treatment** group **before**: `\(\hat{\beta_0}+\hat{\beta_1}\)`
+
+- `\(Y_i\)` for **Treatment** group **after**: `\(\hat{\beta_0}+\hat{\beta_1}+\hat{\beta_2}+\hat{\beta_3}\)`
+
+- **Group Difference (before)**: `\(\hat{\beta_1}\)`
+
+- **Time Difference**: `\(\hat{\beta_2}\)`
+
+]
+
+---
+
+# Visualizing Diff-in-Diff II
+
+`$$\hat{Y_{it}}=\beta_0+\beta_1 \text{Treated}_i +\beta_2 \text{After}_{t}+\beta_3 (\text{Treated}_i \times \text{After}_{t})+u_{it}$$`
+
+
+.pull-left[
+
+&lt;img src="23-slides_files/figure-html/unnamed-chunk-12-1.png" width="504" /&gt;
+]
+
+.pull-right[
+
+- `\(Y_i\)` for **Control** group **before**: `\(\hat{\beta_0}\)`
+
+- `\(Y_i\)` for **Control** group **after**: `\(\hat{\beta_0}+\hat{\beta_2}\)`
+
+- `\(Y_i\)` for **Treatment** group **before**: `\(\hat{\beta_0}+\hat{\beta_1}\)`
+
+- `\(Y_i\)` for **Treatment** group **after**: `\(\hat{\beta_0}+\hat{\beta_1}+\hat{\beta_2}+\hat{\beta_3}\)`
+
+- **Group Difference (before)**: `\(\hat{\beta_1}\)`
+
+- **Time Difference**: `\(\hat{\beta_2}\)`
+
+- .blue[**Difference-in-difference**: `\\(\hat{\beta_3}\\)` (treatment effect)]
+]
+
+---
+
+# Comparing Group Means (Again)
+
+`$$\hat{Y_{it}}=\beta_0+\beta_1 \text{Treated}_i +\beta_2 \text{After}_{t}+\beta_3 (\text{Treated}_i \times \text{After}_{t})+u_{it}$$`
+
+
+|    | Control | Treatment | **Group Diff** `\((\Delta Y_i)\)` |
+|----|---------|-----------|---------------------------|
+| Before | `\(\beta_0\)` | `\(\beta_0+\beta_1\)` | `\(\beta_1\)` |
+| After | `\(\beta_0+\beta_2\)` | `\(\beta_0+\beta_1+\beta_2+\beta_3\)` | `\(\beta_1+\beta_3\)` |
+| **Time Diff** `\((\Delta Y_t)\)` | `\(\beta_2\)` | `\(\beta_2+\beta_3\)` | **Diff-in-diff** `\(\Delta_i \Delta_t: \beta_3\)` |
+
+---
+
+# Key Assumption: Counterfactual
+
+`$$\hat{Y_{it}}=\beta_0+\beta_1 \text{Treated}_i +\beta_2 \text{After}_{t}+\beta_3 (\text{Treated}_i \times \text{After}_{t})+u_{it}$$`
+
+
+.pull-left[
+
+&lt;img src="23-slides_files/figure-html/unnamed-chunk-13-1.png" width="504" /&gt;
+]
+
+.pull-right[
+
+- Key assumption for DND: **time trends** (for treatment and control) are **parallel**
+
+- Treatment and control groups assumed to be identical over time on average, **except for treatment**
+
+- .shout[Counterfactual]: if the treatment group had not recieved treatment, it would have changed identically over time as the control group `\((\hat{\beta_2})\)`
+
+]
+
+---
+
+# Key Assumption: Counterfactual
+
+`$$\hat{Y_{it}}=\beta_0+\beta_1 \text{Treated}_i +\beta_2 \text{After}_{t}+\beta_3 (\text{Treated}_i \times \text{After}_{t})+u_{it}$$`
+
+
+.pull-left[
+
+&lt;img src="23-slides_files/figure-html/unnamed-chunk-14-1.png" width="504" /&gt;
+]
+
+.pull-right[
+
+- If the time-trends would have been *different*, a **biased** measure of the treatment effect `\((\hat{\beta_3})\)`!
+
+]
+
+---
+
+# Diff-in-Diff Example I
+
+.content-box-green[
+.green[**Example**]: In 1993 Georgia initiated a HOPE scholarship program to let state residents with at least a B average in high school attend public college in Georgia for free. Did it increase college enrollment?
+]
+
+- Micro-level data on 4,291 young individuals
+
+--
+
+- `\(\text{InCollege}_{it}=\begin{cases}1 \text{ if } i \text{ is in college during year }t\\ 0 \text{ if } i \text{ is not in college during year }t\\ \end{cases}\)`
+
+--
+
+- `\(\text{Georgia}_i=\begin{cases}1 \text{ if } i \text{ is a Georgia resident}\\ 0 \text{ if } i \text{ is not a Georgia resident}\\ \end{cases}\)`
+
+--
+
+- `\(\text{After}_t=\begin{cases}1 \text{ if } t \text{ is after 1992}\\ 0 \text{ if } t \text{ is after 1992}\\ \end{cases}\)`
+
+.source[Dynarski, Susan (2000), "Hope for Whom? Financial Aid for the Middle Class and Its Impact on College Attendance"]
+
+.footnote[Note: With a dummy *dependent* (Y) variable, coefficients estimate the probability `\\(Y=1\\)`, i.e. the *probability* a person is enrolled in college]
+
+---
+
+# Diff-in-Diff Example II
+
+- We can use a DND model to measure the effect of HOPE scholarship on enrollments
+
+- Georgia and nearby States, if not for HOPE, changes should be the same over time
+
+--
+
+- Treatment period: after 1992
+
+--
+
+- Treatment: Georgia
+
+--
+
+- Differences-in-differences: `$$\Delta_i \Delta_t Enrolled = (\text{GA}_{after}-\text{GA}_{before})-(\text{neighbors}_{after}-\text{neighbors}_{before})$$`
+
+--
+
+- Regression equation:
+`$$\widehat{Enrolled_{it}} = \beta_0+\beta_1 \, Georgia_{it}+\beta_2 \,  After_{it}+\beta_3 \, (Georgia_{it} \times After_{it})$$`
+
+---
+
+# Example: Regression
+
+
+
+.pull-left[
+
+.font70[
+
+```r
+DND_reg&lt;-lm(InCollege ~ Georgia + After + Georgia:After, data = hope)
+summary(DND_reg)
+```
+
+```
+## 
+## Call:
+## lm(formula = InCollege ~ Georgia + After + Georgia:After, data = hope)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -0.4058 -0.4058 -0.4013  0.5942  0.6995 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)    0.40578    0.01092  37.146  &lt; 2e-16 ***
+## Georgia       -0.10524    0.03778  -2.785  0.00537 ** 
+## After         -0.00446    0.01585  -0.281  0.77848    
+## Georgia:After  0.08933    0.04889   1.827  0.06776 .  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.4893 on 4287 degrees of freedom
+## Multiple R-squared:  0.001872,	Adjusted R-squared:  0.001174 
+## F-statistic: 2.681 on 3 and 4287 DF,  p-value: 0.04528
+```
+]
+
+--
+
+.pull-right[
+`$$\widehat{Enrolled_{it}}=0.406-0.105 \, Georgia_{i}-0.004 \, After_{t}+0.089 \, (Georgia_{i} \times After_{t})$$`
+]
+
+---
+
+# Example: Interpretting the Regression
+
+`$$\widehat{Enrolled_{it}}=0.406-0.105 \, Georgia_{i}-0.004 \, After_{t}+0.089 \, (Georgia_{i} \times After_{t})$$`
+
+--
+
+- `\(\beta_0\)`: 
+--
+A **non-Georgian** **before** 1992 was 40.6% likely to be a college student
+
+--
+
+- `\(\beta_1\)`:
+--
+**Georgians** **before** 1992 were 10.5% less likely to be college students than neighboring states
+
+--
+
+- `\(\beta_2\)`:
+--
+**After** 1992, **non-Georgians** are 0.4% less likely to be college students
+
+--
+
+- `\(\beta_3\)`:
+--
+**After** 1992, **Georgians** are 8.9% more likely to enroll in colleges than neighboring states
+
+--
+
+- .onfire[Treatment effect: HOPE increased enrollment likelihood by 8.9%]
+
+---
+
+# Example: Comparing Group Means
+
+`$$\widehat{Enrolled_{it}}=0.406-0.105 \, Georgia_{i}-0.004 \, After_{t}+0.089 \, (Georgia_{i} \times After_{t})$$`
+
+- A group mean for a dummy `\(Y\)` is `\(E[Y=1]\)`, i.e. the probability a student is enrolled:
+
+- **Non-Georgian enrollment probability pre-1992**:
+--
+`\(\beta_0=0.406\)`
+
+--
+- **Georgian enrollment probability pre-1992**:
+--
+`\(\beta_0+\beta_1=0.406-0.105=0.301\)`
+
+--
+
+- **Non-Georgian enrollment probability post-1992**:
+--
+`\(\beta_0+\beta_2=0.406-0.004=0.402\)`
+
+--
+
+- **Georgian enrollment probability post-1992**:
+--
+`\(\beta_0+\beta_1+\beta_2+\beta_3=0.406-0.105-0.004+0.089=0.386\)`
+
+---
+
+# Example: Comparing Group Means in R
+
+.pull-left[
+
+```r
+# group mean for non-Georgian before 1992
+hope %&gt;%
+  filter(Georgia==0,
+         After==0) %&gt;%
+  summarize(prob = mean(InCollege))
+```
+
+&lt;div data-pagedtable="false"&gt;
+  &lt;script data-pagedtable-source type="application/json"&gt;
+{"columns":[{"label":["prob"],"name":[1],"type":["dbl"],"align":["right"]}],"data":[{"1":"0.4057827"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  &lt;/script&gt;
+&lt;/div&gt;
+
+```r
+# group mean for Georgian before 1992
+hope %&gt;%
+  filter(Georgia==1,
+         After==0) %&gt;%
+  summarize(prob = mean(InCollege))
+```
+
+&lt;div data-pagedtable="false"&gt;
+  &lt;script data-pagedtable-source type="application/json"&gt;
+{"columns":[{"label":["prob"],"name":[1],"type":["dbl"],"align":["right"]}],"data":[{"1":"0.3005464"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  &lt;/script&gt;
+&lt;/div&gt;
+]
+
+--
+
+.pull-right[
+
+```r
+# group mean for non-Georgian AFTER 1992
+hope %&gt;%
+  filter(Georgia==0,
+         After==1) %&gt;%
+  summarize(prob = mean(InCollege))
+```
+
+&lt;div data-pagedtable="false"&gt;
+  &lt;script data-pagedtable-source type="application/json"&gt;
+{"columns":[{"label":["prob"],"name":[1],"type":["dbl"],"align":["right"]}],"data":[{"1":"0.401323"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  &lt;/script&gt;
+&lt;/div&gt;
+
+```r
+# group mean for Georgian AFTER 1992
+hope %&gt;%
+  filter(Georgia==1,
+         After==1) %&gt;%
+  summarize(prob = mean(InCollege))
+```
+
+&lt;div data-pagedtable="false"&gt;
+  &lt;script data-pagedtable-source type="application/json"&gt;
+{"columns":[{"label":["prob"],"name":[1],"type":["dbl"],"align":["right"]}],"data":[{"1":"0.3854167"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  &lt;/script&gt;
+&lt;/div&gt;
+]
+
+---
+
+# Example: Diff-in-Diff Summary
+
+`$$\widehat{Enrolled_{it}}=0.406-0.105 \, Georgia_{i}-0.004 \, After_{t}+0.089 \, (Georgia_{i} \times After_{t})$$`
+
+|    | Neighbors | Georgia | **Group Diff** `\((\Delta Y_i)\)` |
+|----|---------|-----------|---------------------------|
+| Before | `\(0.406\)` | `\(0.301\)` | `\(-0.105\)` |
+| After | `\(0.402\)` | `\(0.386\)` | `\(0.016\)` |
+| **Time Diff** `\((\Delta Y_t)\)` | `\(-0.004\)` | `\(0.085\)` | **Diff-in-diff** `\(0.089\)` |
+
+--
+
+`$$\begin{align*}
+	\Delta_i \Delta_t Enrolled &amp;= (\text{GA}_{after}-\text{GA}_{before})-(\text{neighbors}_{after}-\text{neighbors}_{before})\\
+	&amp;=(0.386-0.301)-(0.402-0.406)\\
+	&amp;=(0.085)-(-0.004)\\
+	&amp;=0.089\\ \end{align*}$$`
+
+---
+
+# Example: Diff-in-Diff Graph
+
+&lt;img src="23-slides_files/figure-html/unnamed-chunk-19-1.png" width="1152" style="display: block; margin: auto;" /&gt;
+
+---
+
+class: inverse. center, middle
+
+# Generalizing DND Models
+
+---
+
+# Generalizing DND Models
+
+- DND can be **generalized** with a **two-way fixed effects** model:  	
+`$$\widehat{Y_{it}}=\alpha_i+\theta_t+\beta_3 (\text{Treated}_i * \text{After}_{it})+\nu_{it}$$`
+    - `\(\alpha_i\)`: **group fixed effects** (treatments/control groups)
+    - `\(\theta_t\)`: **time fixed effects** (pre/post treatment)
+
+--
+
+- Allows *many* periods, and treatment(s) can occur at different times to different units (so long as some do not get treated)
+
+--
+
+- Can also add control variables that vary within units and over time 
+`$$\widehat{Y_{it}}=\alpha_i+\theta_t+\beta_3 \, (\text{Treated}_i \times \text{After}_{it})+\beta_4 X_{it}+\nu_{it}$$`
+
+---
+
+# Our Example, Generalized I
+
+`$$\widehat{Enrolled_{it}} = \alpha_i+\theta_t+\beta_3 \, (Georgia_{it} \times After_{it})$$`
+
+- `StateCode` is a variable for the State `\(\implies\)` create State fixed effect
+
+- `Year` is a variable for the year `\(\implies\)` create year fixed effect
+
+- Using LSDV method... 
+
+
+```r
+DND_fe&lt;-lm(InCollege ~ Georgia:After + factor(StateCode) + factor(Year),
+           data = hope)
+summary(DND_fe)
+```
+
+---
+
+# Our Example, Generalized II
+
+&lt;style type="text/css"&gt;
+.smallcode .remark-code { /*Change made here*/
+  font-size: 55% !important;
+}
+&lt;/style&gt;
+
+.pull-left[
+.smallcode[
+
+```
+## 
+## Call:
+## lm(formula = InCollege ~ Georgia:After + factor(StateCode) + 
+##     factor(Year), data = hope)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -0.4934 -0.4148 -0.3344  0.5690  0.7359 
+## 
+## Coefficients:
+##                      Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)          0.418057   0.022611  18.489  &lt; 2e-16 ***
+## factor(StateCode)57 -0.014181   0.027397  -0.518 0.604754    
+## factor(StateCode)58 -0.141501   0.039361  -3.595 0.000328 ***
+## factor(StateCode)59 -0.062379   0.019543  -3.192 0.001424 ** 
+## factor(StateCode)62 -0.132650   0.028061  -4.727 2.35e-06 ***
+## factor(StateCode)63 -0.005104   0.026278  -0.194 0.846007    
+## factor(Year)90       0.046609   0.028336   1.645 0.100075    
+## factor(Year)91       0.032276   0.028569   1.130 0.258642    
+## factor(Year)92       0.023536   0.029846   0.789 0.430403    
+## factor(Year)93       0.030161   0.030154   1.000 0.317254    
+## factor(Year)94       0.014505   0.030574   0.474 0.635220    
+## factor(Year)95      -0.003263   0.031699  -0.103 0.918007    
+## factor(Year)96      -0.021314   0.032263  -0.661 0.508883    
+## factor(Year)97       0.075341   0.031280   2.409 0.016057 *  
+## Georgia:After        0.091420   0.048761   1.875 0.060879 .  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.4875 on 4276 degrees of freedom
+## Multiple R-squared:  0.01146,	Adjusted R-squared:  0.008222 
+## F-statistic:  3.54 on 14 and 4276 DF,  p-value: 7.84e-06
+```
+]
+]
+
+--
+
+.pull-right[
+`$$\widehat{InCollege_{it}}=\alpha_i+\theta_t+0.091 \, (\text{Georgia}_i \times \text{After}_{it})$$`
+
+]
+
+---
+
+# Intuition behind DND
+
+- Diff-in-diff models are the quintessential example of exploiting .shout[natural experiments]
+
+- A major change at a point in time (change in law, a natural disaster, political crisis) separates groups where one is affected and another is not---identifies the effect of the change (treatment) 
+
+- One of the cleanest and clearest causal **identification strategies**
+
+---
+
+class: inverse, center, middle
+
+# Example: "The" Card-Kreuger Minimum Wage Study
+
+---
+
+# Example: "The" Card-Kreuger Minimum Wage Study I
+
+.content-box-green[
+.green[**Example**]: *The* controversial minimum wage study, Card &amp; Kreuger (1994) is a quintessential (and clever) diff-in-diff.
+]
+
+.source[Card, David, Krueger, Alan B, (1994), "Minimum Wages and Employment: A Case Study of the Fast-Food Industry in New Jersey and Pennsylvania," *American Economic Review* 84 (4): 772–793	]
+
+---
+
+# Card &amp; Kreuger (1994): Background I
+
+.pull-left[
+- Card &amp; Kreuger (1994)	compare employment in fast food restaurants on New Jersey and Pennsylvania sides of border between February and November 1992.
+
+- Pennsylvania &amp; New Jersey both had a minimum wage of $4.25 before February 1992
+
+- In February 1992, New Jersey raised minimum wage from $4.25 to $5.05
+]
+
+.pull-right[
+.center[
+![](https://www.dropbox.com/s/gdoip37e26j253b/PANJ.png?raw=1)
+]
+]
+
+---
+
+# Card &amp; Kreuger (1994): Background II
+
+.pull-left[
+- If we look only at New Jersey before &amp; after change: 
+  - **Omitted variable bias**: macroeconomic variables (there's a recession!), weather, etc.
+	- Including PA as a control will control for these time-varying effects if they are national trends
+
+- Surveyed 400 fast food restaurants on each side of the border, before &amp; after min wage increase
+  - .onfire[Key assumption]: Pennsylvania and New Jersey follow parallel trends, 
+	- **Counterfactual**: if not for the minimum wage increase, NJ employment would have changed similar to PA employment
+]
+
+.pull-right[
+.center[
+![](https://www.dropbox.com/s/gdoip37e26j253b/PANJ.png?raw=1)
+]
+]
+
+---
+
+# Card &amp; Kreuger (1994): Comparisons
+
+.center[
+![:scale 25%](https://www.dropbox.com/s/d0z7vb9so296eun/CardKreuger1.png?raw=1)
+]
+
+---
+
+# Card &amp; Kreuger (1994): Summary I
+
+.center[
+![:scale 65%](https://www.dropbox.com/s/9igiex5ly8u67vq/CardKreuger2.png?raw=1)
+]
+
+---
+
+# Card &amp; Kreuger (1994): Summary II
+
+.center[
+![:scale 65%](https://www.dropbox.com/s/gj4spkyz3jkop2z/CardKreuger3.png?raw=1)
+]
+
+---
+
+# Card &amp; Kreuger (1994): Identification Strategy and Model 
+
+`$$\widehat{Employment_{i t}}=\beta_0+\beta_1 \, NJ_{i}+\beta_2 \, After_{t}+\beta_3 \, (NJ_i \times After_t)$$`
+
+- PA Before: `\(\beta_0\)`
+
+- PA After: `\(\beta_0+\beta_2\)`
+
+- NJ Before: `\(\beta_0+\beta_1\)`
+
+- NJ After: `\(\beta_0+\beta_1+\beta_2+\beta_3\)`
+
+- **Diff-in-diff**: `\((NJ_{after}-NJ_{before})-(PA_{after}-PA_{before})\)`
+
+--
+
+
+|    | PA | NJ | **Group Diff** `\((\Delta Y_i)\)` |
+|----|---------|-----------|---------------------------|
+| Before | `\(\beta_0\)` | `\(\beta_0+\beta_1\)` | `\(\beta_1\)` |
+| After | `\(\beta_0+\beta_2\)` | `\(\beta_0+\beta_1+\beta_2+\beta_3\)` | `\(\beta_1+\beta_3\)` |
+| **Time Diff** `\((\Delta Y_t)\)` | `\(\beta_2\)` | `\(\beta_2+\beta_3\)` | **Diff-in-diff** `\(\Delta_i \Delta_t: \beta_3\)` |
+
+---
+
+# Card &amp; Kreuger (1994): Results
+
+.center[
+![:scale 65%](https://www.dropbox.com/s/ms5gpn8lfkws6a9/CardKreuger5.png?raw=1)
+]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="macros.js"></script>
+<script src="https://platform.twitter.com/widgets.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"slideNumberFormat": "<div class=\"progress-bar-container\">   <div class=\"progress-bar\" style=\"width: calc(%current% / %total% * 100%);\">   </div> </div> "
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();</script>
+
+<script>
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

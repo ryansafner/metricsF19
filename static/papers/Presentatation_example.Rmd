@@ -1,0 +1,183 @@
+---
+title: "The Effect of Writing Longer Papers"
+subtitle: "ECON 480 - Econometrics - Fall 2018"
+author: "Ryan Safner"
+date: "Dec 10, 2018"
+output: 
+  beamer_presentation:
+    incremental: true 
+    fig_caption: yes
+    toc: true 
+    slide_level: 3
+    includes:
+      in_header: template.tex
+    keep_tex: no 
+    latex_engine: xelatex #required for Fira Sans font to render properly 
+
+classoption: aspectratio=169
+---
+
+```{r setup, include=FALSE}
+# For making transparent ggplot2 graphs, from https://gist.github.com/cboettig/5600558 
+
+# Set plotting to bw plot default, but with transparent background elements.  
+# Note transparency requires the panel.background, plot.background, and device background all be set!
+library(tidyverse)
+library(knitr)
+library(stargazer)
+
+theme_set(theme_bw(base_size=12))
+theme_update(panel.background = element_rect(fill = "transparent", colour = NA),
+             plot.background = element_rect(fill = "transparent", colour = NA))
+knitr::opts_chunk$set(echo=FALSE, warning=FALSE, message=FALSE, dev.args=list(bg="transparent"))
+```
+
+```{r, load-data}
+papers<-read.csv("paperlengthsregcsv.csv")
+```
+
+### Overview 
+
+- As a student writing an empirical research paper, does writing a longer paper attain a higher grade?
+- Simple OLS regression
+- Sample data collected from previous classes with paper assignments 
+- Strong positive effect: for every marginal page written, grades improve by about 1-2 points 
+- Robust to different models 
+
+### Theory
+
+- Dilemma:
+1. Longer papers might imply students work hard and write a good paper 
+2. But students might also put in low quality filler hoping to inflate their grades 
+
+### Data
+
+- I collected data from 7 different classes at 2 different colleges where I assigned a longer term paper 
+
+\columnsbegin
+
+\column{0.33\textwidth}
+
+```{r}
+papers %>% 
+  count(Class) %>%
+  kable(.)
+```
+
+\column{0.33\textwidth}
+
+```{r}
+papers %>% 
+  count(School) %>%
+  kable(.)
+```
+
+\column{0.33\textwidth}
+
+```{r}
+papers %>% 
+  count(Year) %>%
+  kable(.)
+```
+
+\columnsend
+
+### Variables Used 
+
+\begin{table}
+  \begin{tabular}{ll}
+  Variable & Description \\ \toprule
+  Grade & Grade on paper assignment (0-100)\\ \midrule
+  Pages & Number of pages written\\ 
+  Female & $=1$ if student is female, $=0$ if male\\
+  Morning & $=1$ if class met in morning, $=0$ if afternoon\\
+  Hood & $=1$ if class taught at Hood, $=0$ if other school\\
+  Metrics & $=1$ if class was Econometrics, $=0$ if other class\\ \bottomrule 
+  \end{tabular} 
+\end{table}
+
+### Summary Statistics
+
+```{r, results="asis"}
+source("nice.summary.R")
+sumstats<-nice.summary(papers,Grade,Pages)
+sumstats
+```
+
+### Data: Histogram of Pages Written
+
+```{r, fig.height=3.5}
+library("ggplot2")
+h<-ggplot(papers, aes(x=Pages))+
+  geom_histogram(color="black", fill="indianred",breaks=seq(0,24,2))+
+  scale_x_continuous(breaks=seq(0,24,2))+xlab("Pages Written")+ylab("Number of Students")+theme_light()
+h
+```
+
+```{r, echo=F}
+papers$Female<-ifelse(papers$Sex=="F",1,0)
+papers$Morning<-ifelse(papers$Time=="Morning",1,0)
+papers$Hood<-ifelse(papers$School=="Hood",1,0)
+papers$Metrics<-ifelse(papers$Class=="Econometrics",1,0)
+```
+
+### Data: Histogram of Paper Grades
+
+```{r}
+g<-ggplot(papers, aes(x=Grade))+
+  geom_histogram(color="black", fill="indianred",breaks=seq(0,100,10))+
+  scale_x_continuous(breaks=seq(0,100,10))+xlab("Paper Grade")+ylab("Number of Students")+theme_light()
+g
+```
+
+### Scatterplot of Pages Written and Grade with Outliers (0's) Dropped
+
+```{r}
+
+papers0<-subset(papers, Grade>0)
+
+s0<-ggplot(papers0, aes(x=Pages, y=Grade))+
+  geom_jitter(color="blue")+
+  geom_smooth(method="lm", color="red")+
+  scale_x_continuous(breaks=seq(0,24,2))+
+  scale_y_continuous(breaks=seq(0,100,10))+xlab("Pages Written")+ylab("Paper Grades")+theme_light()
+s0
+```
+
+### Scatterplot For Econometrics Classes vs Non-Econometrics Classes
+
+```{r}
+papers$Metrics<-ifelse(papers$Class=="Econometrics",1,0)
+
+s0+facet_grid(cols=vars(Metrics))
+```
+
+### Empirical Model
+
+$$Grade_i=Length_i+Final_i+Female_i+Morning_i+Hood_i+Metrics_i\epsilon_i$$
+
+- $Length$ is the most important variable we care about
+- $Length$ probably endogenous, correlated with other Grade-determining factors
+    - Why we included $Final$, $Female$, $Morning$, $Hood$, and $Metrics$
+- We probably expect $Length$ to be positive and small 
+- **Endogeneity**: unmeasured attributes (e.g. paper topic, student's diligence, conscienciousness, intelligence, etc) correlated with both number of `Length` and `Grade`
+
+### Results
+
+```{r, regs, results="asis"}
+basicreg<-lm(Grade~Pages, data=papers)
+no0reg<-lm(Grade~Pages, data=papers0)
+finalreg<-lm(Grade~Pages+Final, data=papers0)
+sexreg<-lm(Grade~Pages+Final+Female, data=papers0)
+timereg<-lm(Grade~Pages+Final+Female+Morning, data=papers0)
+hoodreg<-lm(Grade~Pages+Final+Female+Morning+Hood, data=papers0)
+metricsreg<-lm(Grade~Pages+Final+Female+Morning+Hood+Metrics, data=papers0)
+
+stargazer(basicreg,finalreg,sexreg,timereg,hoodreg,metricsreg, type="latex", header=FALSE, float=FALSE, column.labels = c("All", "No 0s", "No 0s", "No 0s", "No 0s", "No 0s", "No 0s"), font.size = "tiny", column.sep.width = "-1pt", omit.stat=c("F", "rsq"), dep.var.caption = "")
+```
+
+### Results II
+
+- For each additional page written, paper grades increase by about about 1-2 points 
+- Still probably strongly endogenous 
+- Poor advice to just write long papers! 

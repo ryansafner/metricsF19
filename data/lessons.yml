@@ -152,6 +152,9 @@ lessons:
     slides: "22-slides"
 
   - title: "4.2 Difference in Difference Models"
+    reading: "23-reading"
+    class: "23-class"
+    slides: "23-slides"
 
   - title: '<span class="fake-header-table">5. Advanced Regression</span>'
     header: True
