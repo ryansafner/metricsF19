@@ -37,7 +37,9 @@ update_geom_defaults("label", list(family = "Fira Sans Condensed"))
 
 # Clever Research Designs Identify Causality
 
-```{r, fig.retina=3, fig.align="center", fig.width=13}
+Again, **this toolkit** of research designs to **identify causal effects** is the economist's **comparative advantage** that firms and governments want!
+
+```{r, fig.retina=3, fig.align="center", fig.width=12}
 ggplot(data = tibble(x=c(0,10),
                      y=c(0,10)))+
   aes(x = x,
@@ -63,8 +65,6 @@ ggplot(data = tibble(x=c(0,10),
   theme_void()
   
 ```
-
-Again, this toolkit of research designs to identify causal effects is the economist's comparative advantage that firms and governments want!
 
 ---
 
@@ -1203,7 +1203,7 @@ ggplot(data = tibble(x=1,3))+
 --
 
 - Regression equation:
-$$\widehat{Enrolled_{it}} = \beta_0+\beta_1 \, Georgia_{it}+\beta_2 \,  After_{it}+\beta_3 \, (Georgia_{it} \times After_{it})$$
+$$\widehat{Enrolled_{it}} = \beta_0+\beta_1 \, Georgia_{i}+\beta_2 \,  After_{t}+\beta_3 \, (Georgia_{i} \times After_{t})$$
 
 ---
 
@@ -1222,6 +1222,7 @@ hope<-hope %>%
 DND_reg<-lm(InCollege ~ Georgia + After + Georgia:After, data = hope)
 summary(DND_reg)
 ```
+]
 ]
 
 --
@@ -1244,19 +1245,19 @@ A **non-Georgian** **before** 1992 was 40.6% likely to be a college student
 
 --
 
-- $\beta_1$:
+- $\beta_1$: 
 --
 **Georgians** **before** 1992 were 10.5% less likely to be college students than neighboring states
 
 --
 
-- $\beta_2$:
+- $\beta_2$: 
 --
 **After** 1992, **non-Georgians** are 0.4% less likely to be college students
 
 --
 
-- $\beta_3$:
+- $\beta_3$: 
 --
 **After** 1992, **Georgians** are 8.9% more likely to enroll in colleges than neighboring states
 
@@ -1272,24 +1273,24 @@ $$\widehat{Enrolled_{it}}=0.406-0.105 \, Georgia_{i}-0.004 \, After_{t}+0.089 \,
 
 - A group mean for a dummy $Y$ is $E[Y=1]$, i.e. the probability a student is enrolled:
 
-- **Non-Georgian enrollment probability pre-1992**:
+- **Non-Georgian enrollment probability pre-1992**: 
 --
 $\beta_0=0.406$
 
 --
-- **Georgian enrollment probability pre-1992**:
+- **Georgian enrollment probability pre-1992**: 
 --
 $\beta_0+\beta_1=0.406-0.105=0.301$
 
 --
 
-- **Non-Georgian enrollment probability post-1992**:
+- **Non-Georgian enrollment probability post-1992**: 
 --
 $\beta_0+\beta_2=0.406-0.004=0.402$
 
 --
 
-- **Georgian enrollment probability post-1992**:
+- **Georgian enrollment probability post-1992**: 
 --
 $\beta_0+\beta_1+\beta_2+\beta_3=0.406-0.105-0.004+0.089=0.386$
 
@@ -1305,11 +1306,6 @@ hope %>%
          After==0) %>%
   summarize(prob = mean(InCollege))
 
-# group mean for Georgian before 1992
-hope %>%
-  filter(Georgia==1,
-         After==0) %>%
-  summarize(prob = mean(InCollege))
 ```
 ]
 
@@ -1323,6 +1319,27 @@ hope %>%
          After==1) %>%
   summarize(prob = mean(InCollege))
 
+```
+]
+
+---
+
+# Example: Comparing Group Means in R II
+
+.pull-left[
+```{r, echo=T}
+# group mean for Georgian before 1992
+hope %>%
+  filter(Georgia==1,
+         After==0) %>%
+  summarize(prob = mean(InCollege))
+```
+]
+
+--
+
+.pull-right[
+```{r, echo=T}
 # group mean for Georgian AFTER 1992
 hope %>%
   filter(Georgia==1,
@@ -1338,10 +1355,10 @@ hope %>%
 $$\widehat{Enrolled_{it}}=0.406-0.105 \, Georgia_{i}-0.004 \, After_{t}+0.089 \, (Georgia_{i} \times After_{t})$$
 
 |    | Neighbors | Georgia | **Group Diff** $(\Delta Y_i)$ |
-|----|---------|-----------|---------------------------|
+|----|--------:|----------:|--------------------------:|
 | Before | $0.406$ | $0.301$ | $-0.105$ |
 | After | $0.402$ | $0.386$ | $0.016$ |
-| **Time Diff** $(\Delta Y_t)$ | $-0.004$ | $0.085$ | **Diff-in-diff** $0.089$ |
+| **Time Diff** $(\Delta Y_t)$ | $-0.004$ | $0.085$ | **Diff-in-diff**: $0.089$ |
 
 --
 
@@ -1384,7 +1401,7 @@ class: inverse, center, middle
 # Generalizing DND Models
 
 - DND can be **generalized** with a **two-way fixed effects** model:  	
-$$\widehat{Y_{it}}=\alpha_i+\theta_t+\beta_3 (\text{Treated}_i * \text{After}_{it})+\nu_{it}$$
+$$\widehat{Y_{it}}=\alpha_i+\theta_t+\beta_3 (\text{Treated}_i * \text{After}_{t})+\nu_{it}$$
     - $\alpha_i$: **group fixed effects** (treatments/control groups)
     - $\theta_t$: **time fixed effects** (pre/post treatment)
 
@@ -1395,7 +1412,7 @@ $$\widehat{Y_{it}}=\alpha_i+\theta_t+\beta_3 (\text{Treated}_i * \text{After}_{i
 --
 
 - Can also add control variables that vary within units and over time 
-$$\widehat{Y_{it}}=\alpha_i+\theta_t+\beta_3 \, (\text{Treated}_i \times \text{After}_{it})+\beta_4 X_{it}+\nu_{it}$$
+$$\widehat{Y_{it}}=\alpha_i+\theta_t+\beta_3 \, (\text{Treated}_i \times \text{After}_{t})+\beta_4 X_{it}+\nu_{it}$$
 
 ---
 

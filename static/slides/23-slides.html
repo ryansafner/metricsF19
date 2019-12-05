@@ -26,9 +26,9 @@ class: center, middle, inverse, title-slide
 
 # Clever Research Designs Identify Causality
 
-&lt;img src="23-slides_files/figure-html/unnamed-chunk-1-1.png" width="936" style="display: block; margin: auto;" /&gt;
+Again, **this toolkit** of research designs to **identify causal effects** is the economist's **comparative advantage** that firms and governments want!
 
-Again, this toolkit of research designs to identify causal effects is the economist's comparative advantage that firms and governments want!
+&lt;img src="23-slides_files/figure-html/unnamed-chunk-1-1.png" width="864" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -492,7 +492,7 @@ class: inverse, center, middle
 --
 
 - Regression equation:
-`$$\widehat{Enrolled_{it}} = \beta_0+\beta_1 \, Georgia_{it}+\beta_2 \,  After_{it}+\beta_3 \, (Georgia_{it} \times After_{it})$$`
+`$$\widehat{Enrolled_{it}} = \beta_0+\beta_1 \, Georgia_{i}+\beta_2 \,  After_{t}+\beta_3 \, (Georgia_{i} \times After_{t})$$`
 
 ---
 
@@ -532,6 +532,7 @@ summary(DND_reg)
 ## F-statistic: 2.681 on 3 and 4287 DF,  p-value: 0.04528
 ```
 ]
+]
 
 --
 
@@ -553,19 +554,19 @@ A **non-Georgian** **before** 1992 was 40.6% likely to be a college student
 
 --
 
-- `\(\beta_1\)`:
+- `\(\beta_1\)`: 
 --
 **Georgians** **before** 1992 were 10.5% less likely to be college students than neighboring states
 
 --
 
-- `\(\beta_2\)`:
+- `\(\beta_2\)`: 
 --
 **After** 1992, **non-Georgians** are 0.4% less likely to be college students
 
 --
 
-- `\(\beta_3\)`:
+- `\(\beta_3\)`: 
 --
 **After** 1992, **Georgians** are 8.9% more likely to enroll in colleges than neighboring states
 
@@ -581,24 +582,24 @@ A **non-Georgian** **before** 1992 was 40.6% likely to be a college student
 
 - A group mean for a dummy `\(Y\)` is `\(E[Y=1]\)`, i.e. the probability a student is enrolled:
 
-- **Non-Georgian enrollment probability pre-1992**:
+- **Non-Georgian enrollment probability pre-1992**: 
 --
 `\(\beta_0=0.406\)`
 
 --
-- **Georgian enrollment probability pre-1992**:
+- **Georgian enrollment probability pre-1992**: 
 --
 `\(\beta_0+\beta_1=0.406-0.105=0.301\)`
 
 --
 
-- **Non-Georgian enrollment probability post-1992**:
+- **Non-Georgian enrollment probability post-1992**: 
 --
 `\(\beta_0+\beta_2=0.406-0.004=0.402\)`
 
 --
 
-- **Georgian enrollment probability post-1992**:
+- **Georgian enrollment probability post-1992**: 
 --
 `\(\beta_0+\beta_1+\beta_2+\beta_3=0.406-0.105-0.004+0.089=0.386\)`
 
@@ -621,20 +622,6 @@ hope %&gt;%
 {"columns":[{"label":["prob"],"name":[1],"type":["dbl"],"align":["right"]}],"data":[{"1":"0.4057827"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   &lt;/script&gt;
 &lt;/div&gt;
-
-```r
-# group mean for Georgian before 1992
-hope %&gt;%
-  filter(Georgia==1,
-         After==0) %&gt;%
-  summarize(prob = mean(InCollege))
-```
-
-&lt;div data-pagedtable="false"&gt;
-  &lt;script data-pagedtable-source type="application/json"&gt;
-{"columns":[{"label":["prob"],"name":[1],"type":["dbl"],"align":["right"]}],"data":[{"1":"0.3005464"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
-  &lt;/script&gt;
-&lt;/div&gt;
 ]
 
 --
@@ -654,6 +641,32 @@ hope %&gt;%
 {"columns":[{"label":["prob"],"name":[1],"type":["dbl"],"align":["right"]}],"data":[{"1":"0.401323"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   &lt;/script&gt;
 &lt;/div&gt;
+]
+
+---
+
+# Example: Comparing Group Means in R II
+
+.pull-left[
+
+```r
+# group mean for Georgian before 1992
+hope %&gt;%
+  filter(Georgia==1,
+         After==0) %&gt;%
+  summarize(prob = mean(InCollege))
+```
+
+&lt;div data-pagedtable="false"&gt;
+  &lt;script data-pagedtable-source type="application/json"&gt;
+{"columns":[{"label":["prob"],"name":[1],"type":["dbl"],"align":["right"]}],"data":[{"1":"0.3005464"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  &lt;/script&gt;
+&lt;/div&gt;
+]
+
+--
+
+.pull-right[
 
 ```r
 # group mean for Georgian AFTER 1992
@@ -677,10 +690,10 @@ hope %&gt;%
 `$$\widehat{Enrolled_{it}}=0.406-0.105 \, Georgia_{i}-0.004 \, After_{t}+0.089 \, (Georgia_{i} \times After_{t})$$`
 
 |    | Neighbors | Georgia | **Group Diff** `\((\Delta Y_i)\)` |
-|----|---------|-----------|---------------------------|
+|----|--------:|----------:|--------------------------:|
 | Before | `\(0.406\)` | `\(0.301\)` | `\(-0.105\)` |
 | After | `\(0.402\)` | `\(0.386\)` | `\(0.016\)` |
-| **Time Diff** `\((\Delta Y_t)\)` | `\(-0.004\)` | `\(0.085\)` | **Diff-in-diff** `\(0.089\)` |
+| **Time Diff** `\((\Delta Y_t)\)` | `\(-0.004\)` | `\(0.085\)` | **Diff-in-diff**: `\(0.089\)` |
 
 --
 
@@ -694,7 +707,7 @@ hope %&gt;%
 
 # Example: Diff-in-Diff Graph
 
-&lt;img src="23-slides_files/figure-html/unnamed-chunk-20-1.png" width="1152" style="display: block; margin: auto;" /&gt;
+&lt;img src="23-slides_files/figure-html/unnamed-chunk-22-1.png" width="1152" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -707,7 +720,7 @@ class: inverse, center, middle
 # Generalizing DND Models
 
 - DND can be **generalized** with a **two-way fixed effects** model:  	
-`$$\widehat{Y_{it}}=\alpha_i+\theta_t+\beta_3 (\text{Treated}_i * \text{After}_{it})+\nu_{it}$$`
+`$$\widehat{Y_{it}}=\alpha_i+\theta_t+\beta_3 (\text{Treated}_i * \text{After}_{t})+\nu_{it}$$`
     - `\(\alpha_i\)`: **group fixed effects** (treatments/control groups)
     - `\(\theta_t\)`: **time fixed effects** (pre/post treatment)
 
@@ -718,7 +731,7 @@ class: inverse, center, middle
 --
 
 - Can also add control variables that vary within units and over time 
-`$$\widehat{Y_{it}}=\alpha_i+\theta_t+\beta_3 \, (\text{Treated}_i \times \text{After}_{it})+\beta_4 X_{it}+\nu_{it}$$`
+`$$\widehat{Y_{it}}=\alpha_i+\theta_t+\beta_3 \, (\text{Treated}_i \times \text{After}_{t})+\beta_4 X_{it}+\nu_{it}$$`
 
 ---
 
