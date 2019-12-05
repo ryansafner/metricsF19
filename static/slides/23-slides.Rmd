@@ -1,5 +1,5 @@
 ---
-title: "4.2: Differences-in-Differences Models"
+title: "4.2: Difference-in-Difference Models"
 subtitle: "ECON 480 · Econometrics · Fall 2019"
 author: 'Ryan Safner<br> Assistant Professor of Economics <br> <a href="mailto:safner@hood.edu"><i class="fa fa-paper-plane fa-fw"></i> safner@hood.edu</a> <br> <a href="https://github.com/ryansafner/metricsf19"><i class="fa fa-github fa-fw"></i> ryansafner/metricsf19</a><br> <a href="https://metricsF19.classes.ryansafner.com"> <i class="fa fa-globe fa-fw"></i> metricsF19.classes.ryansafner.com</a><br>'
 #date:
@@ -35,6 +35,39 @@ set.seed(256)
 update_geom_defaults("label", list(family = "Fira Sans Condensed"))
 ```
 
+# Clever Research Designs Identify Causality
+
+```{r, fig.retina=3, fig.align="center", fig.width=13}
+ggplot(data = tibble(x=c(0,10),
+                     y=c(0,10)))+
+  aes(x = x,
+      y = y)+
+  geom_label(x=1,y=2, label="Correlation", size =10, color = "#fde0dd")+
+  geom_label(x=5,y=2, label="Causation", size = 10, color = "#7a0177")+
+  
+  
+  geom_label(x=1,y=4, label="Differences", size =5, color = "#fde0dd")+
+  geom_label(x=1,y=3.5, label="Pre-Post", size =5, color = "#fde0dd")+
+  geom_label(x=2,y=4.5, label="Multiple Regression", size =5, color = "#fbb4b9")+
+  geom_label(x=2,y=3.5, label="Matching", size =5, color = "#fbb4b9")+
+    geom_label(x=3,y=5, label="Fixed Effects", size =5, color = "#f768a1")+
+    geom_label(x=3.5,y=4.5, label="Diff-in-Diff", size =5, color = "#c51b8a")+
+  geom_label(x=4,y=3.5, label="Natural Experiments", size =5, color = "#c51b8a")+
+  geom_label(x=3.5,y=4, label="Regression Discontinuity", size =5, color = "#c51b8a")+
+  geom_label(x=5,y=4.5, label="RCTs", size =5, color = "#7a0177")+
+  annotate("segment", x = 1, xend = 5, y = 3, yend = 3, colour = "black", size=2, alpha=1, arrow=arrow(length=unit(0.5,"cm"), ends="last", type="closed"))+
+  scale_x_continuous(breaks=seq(0,6,1),
+                     limits=c(0,6))+
+  scale_y_continuous(breaks=seq(1,5,1),
+                     limits=c(1,5))+
+  theme_void()
+  
+```
+
+Again, this toolkit of research designs to identify causal effects is the economist's comparative advantage that firms and governments want!
+
+---
+
 class: inverse, center, middle
 
 # Difference-in-Difference Models
@@ -43,26 +76,58 @@ class: inverse, center, middle
 
 # Difference-in-Difference Models I
 
+.pull-left[
+
 - Often, we want to examine the consequences of a change, such as a law or policy
-    - e.g. States that implemented law $X$ saw a change in $Y$
-    - **Treatment**: States that implement law $X$
-    - **Control**: States that did not implement law $X$
-    - If we have **panel data** with observations for all states before *and* after the change:
-- Simple logic: compare difference in outcomes of treatment group (before and after treatment) with those of non-treated group (before and after same treatment period)
+
+]
+
+
+---
+
+# Difference-in-Difference Models I
+
+.pull-left[
+
+- Often, we want to examine the consequences of a change, such as a law or policy
+
+- .green[**Example**]: how do States that implement law $X$ see changes in $Y$
+  - **Treatment**: States that implement law $X$
+  - **Control**: States that did not implement law $X$
+
+]
+
+---
+
+# Difference-in-Difference Models I
+
+.pull-left[
+
+- Often, we want to examine the consequences of a change, such as a law or policy
+
+- .green[**Example**]: how do States that implement law $X$ see changes in $Y$
+  - **Treatment**: States that implement law $X$
+  - **Control**: States that did not implement law $X$
+
+- If we have **panel data** with observations for all states before *and* after the change...
+    
+- Find the *difference* between treatment & control groups *in* their *differences* before and after the treatment period
+
+]
+
+--
+
+.pull-right[
+.center[
+![](https://www.dropbox.com/s/vpk560fok07yo9t/dndhot.jpg?raw=1)
+]
+]
 
 ---
 
 # Difference-in-Difference Models II
 
-.center[
-![](https://www.dropbox.com/s/vpk560fok07yo9t/dndhot.jpg?raw=1)
-]
-
----
-
-# Difference-in-Difference Models III
-
-- The .shout[difference-in-difference model] (aka .shout["diff-in-diff"] or .shout[DND"]) identifies treatment effect by differencing the difference pre- and post-treatment between treatment and control groups
+- The .shout[difference-in-difference model] (aka .shout["diff-in-diff"] or .shout[DND"]) identifies treatment effect by differencing the difference pre- and post-treatment values of $Y$ between treatment and control groups
 
 --
 
@@ -1310,7 +1375,7 @@ scale_color_manual(name = "State",
 
 ---
 
-class: inverse. center, middle
+class: inverse, center, middle
 
 # Generalizing DND Models
 

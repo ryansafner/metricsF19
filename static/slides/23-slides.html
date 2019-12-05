@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
   <head>
-    <title>4.2: Differences-in-Differences Models</title>
+    <title>4.2: Difference-in-Difference Models</title>
     <meta charset="utf-8" />
     <meta name="author" content="Ryan Safner  Assistant Professor of Economics    safner@hood.edu    ryansafner/metricsf19    metricsF19.classes.ryansafner.com" />
     <link href="libs/remark-css/hygge.css" rel="stylesheet" />
@@ -15,7 +15,7 @@
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
-# 4.2: Differences-in-Differences Models
+# 4.2: Difference-in-Difference Models
 ## ECON 480 · Econometrics · Fall 2019
 ### Ryan Safner<br> Assistant Professor of Economics <br> <a href="mailto:safner@hood.edu"><i class="fa fa-paper-plane fa-fw"></i> safner@hood.edu</a> <br> <a href="https://github.com/ryansafner/metricsf19"><i class="fa fa-github fa-fw"></i> ryansafner/metricsf19</a><br> <a href="https://metricsF19.classes.ryansafner.com"> <i class="fa fa-globe fa-fw"></i> metricsF19.classes.ryansafner.com</a><br>
 
@@ -23,6 +23,14 @@ class: center, middle, inverse, title-slide
 
 
 
+
+# Clever Research Designs Identify Causality
+
+&lt;img src="23-slides_files/figure-html/unnamed-chunk-1-1.png" width="936" style="display: block; margin: auto;" /&gt;
+
+Again, this toolkit of research designs to identify causal effects is the economist's comparative advantage that firms and governments want!
+
+---
 
 class: inverse, center, middle
 
@@ -32,26 +40,58 @@ class: inverse, center, middle
 
 # Difference-in-Difference Models I
 
+.pull-left[
+
 - Often, we want to examine the consequences of a change, such as a law or policy
-    - e.g. States that implemented law `\(X\)` saw a change in `\(Y\)`
-    - **Treatment**: States that implement law `\(X\)`
-    - **Control**: States that did not implement law `\(X\)`
-    - If we have **panel data** with observations for all states before *and* after the change:
-- Simple logic: compare difference in outcomes of treatment group (before and after treatment) with those of non-treated group (before and after same treatment period)
+
+]
+
+
+---
+
+# Difference-in-Difference Models I
+
+.pull-left[
+
+- Often, we want to examine the consequences of a change, such as a law or policy
+
+- .green[**Example**]: how do States that implement law `\(X\)` see changes in `\(Y\)`
+  - **Treatment**: States that implement law `\(X\)`
+  - **Control**: States that did not implement law `\(X\)`
+
+]
+
+---
+
+# Difference-in-Difference Models I
+
+.pull-left[
+
+- Often, we want to examine the consequences of a change, such as a law or policy
+
+- .green[**Example**]: how do States that implement law `\(X\)` see changes in `\(Y\)`
+  - **Treatment**: States that implement law `\(X\)`
+  - **Control**: States that did not implement law `\(X\)`
+
+- If we have **panel data** with observations for all states before *and* after the change...
+    
+- Find the *difference* between treatment &amp; control groups *in* their *differences* before and after the treatment period
+
+]
+
+--
+
+.pull-right[
+.center[
+![](https://www.dropbox.com/s/vpk560fok07yo9t/dndhot.jpg?raw=1)
+]
+]
 
 ---
 
 # Difference-in-Difference Models II
 
-.center[
-![](https://www.dropbox.com/s/vpk560fok07yo9t/dndhot.jpg?raw=1)
-]
-
----
-
-# Difference-in-Difference Models III
-
-- The .shout[difference-in-difference model] (aka .shout["diff-in-diff"] or .shout[DND"]) identifies treatment effect by differencing the difference pre- and post-treatment between treatment and control groups
+- The .shout[difference-in-difference model] (aka .shout["diff-in-diff"] or .shout[DND"]) identifies treatment effect by differencing the difference pre- and post-treatment values of `\(Y\)` between treatment and control groups
 
 --
 
@@ -83,30 +123,6 @@ class: inverse, center, middle
 
 .pull-left[
 
-&lt;img src="23-slides_files/figure-html/unnamed-chunk-2-1.png" width="504" /&gt;
-]
-
-.pull-right[
-
-- .red[Control group `\\((Treated = 0)\\)`]
-
-
-- .red[`\\(\hat{\beta_0}\\)`]: value of `\(Y\)` for **control** group **before** treatment
-
-- .red[`\\(\hat{\beta_2}\\)`]: time *difference* (for **control** group)
-
-
-]
-
----
-
-# Visualizing Diff-in-Diff
-
-`$$\hat{Y_{it}}=\beta_0+\beta_1 \text{Treated}_i +\beta_2 \text{After}_{t}+\beta_3 (\text{Treated}_i \times \text{After}_{t})+u_{it}$$`
-
-
-.pull-left[
-
 &lt;img src="23-slides_files/figure-html/unnamed-chunk-3-1.png" width="504" /&gt;
 ]
 
@@ -118,8 +134,6 @@ class: inverse, center, middle
 - .red[`\\(\hat{\beta_0}\\)`]: value of `\(Y\)` for **control** group **before** treatment
 
 - .red[`\\(\hat{\beta_2}\\)`]: time *difference* (for **control** group)
-
-- .green[Treated group `\\((Treated = 1)\\)`]
 
 
 ]
@@ -147,7 +161,6 @@ class: inverse, center, middle
 
 - .green[Treated group `\\((Treated = 1)\\)`]
 
-- `\(\hat{\beta_1}\)`: *difference* between groups **before** treatment
 
 ]
 
@@ -176,6 +189,33 @@ class: inverse, center, middle
 
 - `\(\hat{\beta_1}\)`: *difference* between groups **before** treatment
 
+]
+
+---
+
+# Visualizing Diff-in-Diff
+
+`$$\hat{Y_{it}}=\beta_0+\beta_1 \text{Treated}_i +\beta_2 \text{After}_{t}+\beta_3 (\text{Treated}_i \times \text{After}_{t})+u_{it}$$`
+
+
+.pull-left[
+
+&lt;img src="23-slides_files/figure-html/unnamed-chunk-6-1.png" width="504" /&gt;
+]
+
+.pull-right[
+
+- .red[Control group `\\((Treated = 0)\\)`]
+
+
+- .red[`\\(\hat{\beta_0}\\)`]: value of `\(Y\)` for **control** group **before** treatment
+
+- .red[`\\(\hat{\beta_2}\\)`]: time *difference* (for **control** group)
+
+- .green[Treated group `\\((Treated = 1)\\)`]
+
+- `\(\hat{\beta_1}\)`: *difference* between groups **before** treatment
+
 - .blue[`\\(\hat{\beta_3}\\)`]: difference-in-difference: .blue[treatment effect]
 ]
 
@@ -188,7 +228,7 @@ class: inverse, center, middle
 
 .pull-left[
 
-&lt;img src="23-slides_files/figure-html/unnamed-chunk-6-1.png" width="504" /&gt;
+&lt;img src="23-slides_files/figure-html/unnamed-chunk-7-1.png" width="504" /&gt;
 ]
 
 .pull-right[
@@ -207,7 +247,7 @@ class: inverse, center, middle
 
 .pull-left[
 
-&lt;img src="23-slides_files/figure-html/unnamed-chunk-7-1.png" width="504" /&gt;
+&lt;img src="23-slides_files/figure-html/unnamed-chunk-8-1.png" width="504" /&gt;
 ]
 
 .pull-right[
@@ -227,7 +267,7 @@ class: inverse, center, middle
 
 .pull-left[
 
-&lt;img src="23-slides_files/figure-html/unnamed-chunk-8-1.png" width="504" /&gt;
+&lt;img src="23-slides_files/figure-html/unnamed-chunk-9-1.png" width="504" /&gt;
 ]
 
 .pull-right[
@@ -251,7 +291,7 @@ class: inverse, center, middle
 
 .pull-left[
 
-&lt;img src="23-slides_files/figure-html/unnamed-chunk-9-1.png" width="504" /&gt;
+&lt;img src="23-slides_files/figure-html/unnamed-chunk-10-1.png" width="504" /&gt;
 ]
 
 .pull-right[
@@ -275,7 +315,7 @@ class: inverse, center, middle
 
 .pull-left[
 
-&lt;img src="23-slides_files/figure-html/unnamed-chunk-10-1.png" width="504" /&gt;
+&lt;img src="23-slides_files/figure-html/unnamed-chunk-11-1.png" width="504" /&gt;
 ]
 
 .pull-right[
@@ -302,7 +342,7 @@ class: inverse, center, middle
 
 .pull-left[
 
-&lt;img src="23-slides_files/figure-html/unnamed-chunk-11-1.png" width="504" /&gt;
+&lt;img src="23-slides_files/figure-html/unnamed-chunk-12-1.png" width="504" /&gt;
 ]
 
 .pull-right[
@@ -330,7 +370,7 @@ class: inverse, center, middle
 
 .pull-left[
 
-&lt;img src="23-slides_files/figure-html/unnamed-chunk-12-1.png" width="504" /&gt;
+&lt;img src="23-slides_files/figure-html/unnamed-chunk-13-1.png" width="504" /&gt;
 ]
 
 .pull-right[
@@ -372,7 +412,7 @@ class: inverse, center, middle
 
 .pull-left[
 
-&lt;img src="23-slides_files/figure-html/unnamed-chunk-13-1.png" width="504" /&gt;
+&lt;img src="23-slides_files/figure-html/unnamed-chunk-14-1.png" width="504" /&gt;
 ]
 
 .pull-right[
@@ -394,7 +434,7 @@ class: inverse, center, middle
 
 .pull-left[
 
-&lt;img src="23-slides_files/figure-html/unnamed-chunk-14-1.png" width="504" /&gt;
+&lt;img src="23-slides_files/figure-html/unnamed-chunk-15-1.png" width="504" /&gt;
 ]
 
 .pull-right[
@@ -654,11 +694,11 @@ hope %&gt;%
 
 # Example: Diff-in-Diff Graph
 
-&lt;img src="23-slides_files/figure-html/unnamed-chunk-19-1.png" width="1152" style="display: block; margin: auto;" /&gt;
+&lt;img src="23-slides_files/figure-html/unnamed-chunk-20-1.png" width="1152" style="display: block; margin: auto;" /&gt;
 
 ---
 
-class: inverse. center, middle
+class: inverse, center, middle
 
 # Generalizing DND Models
 
