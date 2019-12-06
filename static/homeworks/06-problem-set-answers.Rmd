@@ -1,0 +1,641 @@
+---
+title: "Problem Set 6 (Answers)"
+author: "Ryan Safner" # put your name here! 
+date: "ECON 480 - Fall 2019"
+output:
+  html_document:
+    df_print: paged
+    #theme: simplex
+    toc: true 
+    toc_depth: 3
+    toc_float: true
+    code_folding: show
+    highlight: tango
+---
+
+<!--CLICK "KNIT" ABOVE TO RENDER TO HTML, PDF, OR WORD OUTPUT
+In fact, try knitting right away and see what this produces!
+-->
+
+*Due by Thursday, November 21, 2019*
+
+# Instructions
+
+Answers may be longer than I would deem sufficient on an exam. Some might vary slightly based on points of interest, examples, or personal experience. These suggested answers are designed to give you both the answer and a short explanation of *why* it is the answer.
+
+# Theory and Concepts
+
+## Question 1
+**In your own words, describe what *fixed effects* are, when we can use them, and how they remove endogeneity.**
+
+---
+
+<!--WRITE YOUR ANSWERS BELOW -->
+
+---
+
+## Question 2
+**In your own words, describe the logic of a *difference-in-difference* model: what is it comparing against what, and how does it estimate the effect of treatment? What assumption must be made about the treatment and control group for the model to be valid?**
+
+---
+
+<!--WRITE YOUR ANSWERS BELOW -->
+
+---
+
+# R Questions
+
+Answer the following questions using `R`. When necessary, please write answers in the same document (knitted `Rmd` to `html` or `pdf`, typed `.doc(x)`, or handwritten) as your answers to the above questions. Be sure to include (email or print an `.R` file, or show in your knitted `markdown`) your code and the outputs of your code with the rest of your answers.
+
+## Question 3
+
+- [<i class="fas fa-table"></i> `PeaceCorps.csv`](http://metricsf19.classes.ryansafner.com/data/PeacceCorps.csv)
+
+How do people respond to changes in economic conditions? Are they more likely to pursue public service when private sector jobs are scarce? This dataset contains variables at the U.S. State (& D.C.) level:
+
+| Variable | Description |
+|----------|-------------|
+| `state` | U.S. State |
+| `year` | Year |
+| `appspc` | Applications to the Peace Corps (per capita) in State |
+| `unemployrate` | State unemployment rate |
+
+> Do more people apply to the Peace Corps when unemployment increases (and reduces other opportunities)?
+
+### Part A
+
+**Before looking at the data, what does your economic intuition tell you? Explain your hypothesis.**
+
+---
+
+<!--WRITE YOUR ANSWERS BELOW -->
+
+If joining the Peace Corps is a substitute for private sector jobs, then as unemployment rises, so too should applications. Although, it could also be possible that people also are more willing to opt out of the workforce when the economy is strong, so we should examine this empirically to be sure.
+
+---
+
+### Part B
+
+**To get the hang of the data we're working with, `count` (separately) the number of `state`s, and the number of `year`s. Get the number of `n_distinct()` `state`s and `year`s^[Do this inside the `summarize()` command], as well as the `distinct()` values of each^[Don't use the `summarize()` command for this part].**
+
+---
+
+<!--WRITE YOUR ANSWERS BELOW -->
+
+```{r}
+library(tidyverse)
+
+# load in data
+peacecorps<-read_csv("https://metricsf19.classes.ryansafner.com/data/PeaceCorps.csv")
+```
+
+```{r}
+# count number of states
+peacecorps %>%
+  count(state)
+
+# count number of years
+peacecorps %>%
+  count(year)
+
+# get number of distinct states and years
+peacecorps %>%
+  summarize(Num_states = n_distinct(state),
+            Num_years = n_distinct(year))
+
+# get distinct values of states
+peacecorps %>%
+  distinct(state)
+
+# get distinct values of years
+peacecorps %>%
+  distinct(year)
+```
+
+---
+
+### Part C
+
+**Continuing our pre-analysis inspection, (install, and) load the `plm` package, and check the dimensions of the data with `pdim`.**^[Set `index=c("state","year")` to indicate the group and time dimensions.]
+
+---
+
+<!--WRITE YOUR ANSWERS BELOW -->
+
+```{r}
+# install.packages("plm")
+
+# load plm
+library(plm)
+
+pdim(peacecorps, index=c("state", "year"))
+```
+
+---
+
+### Part D
+
+**Create a scatterplot of `appspc` (Y) on `unemployrate` (X). Which State is an outlier? How would this affect the pooled regression estimates? Create a *second* scatterplot that does not include this State.**
+
+---
+
+<!--WRITE YOUR ANSWERS BELOW -->
+
+```{r, fig.retina=3}
+ggplot(data = peacecorps)+
+    aes(x = unemployrate,
+        y = appspc)+
+    geom_point(aes(color = as.factor(state)))+
+    geom_smooth(method = "lm")+
+  scale_x_continuous(breaks=seq(0,20,2),
+                     labels = function(x){paste(x,"%", sep="")})+
+  labs(x = "Unemployment Rate",
+       y = "Peace Corps Applications (per capita)")+
+  theme_classic(base_family = "Fira Sans Condensed",
+           base_size=18)+
+  theme(legend.position = "none") # remove legend for State colors
+```
+
+We can see there are very clear outliers at the top. Let's plot `text` instead of `point`s, using the `stateshort` to see which observations are which states:
+
+```{r, fig.retina=3}
+ggplot(data = peacecorps)+
+    aes(x = unemployrate,
+        y = appspc)+
+    geom_text(aes(color = as.factor(state), label = stateshort))+ #<<
+    geom_smooth(method = "lm")+
+  scale_x_continuous(breaks=seq(0,20,2),
+                     labels = function(x){paste(x,"%", sep="")})+
+  labs(x = "Unemployment Rate",
+       y = "Peace Corps Applications (per capita)")+
+  theme_classic(base_family = "Fira Sans Condensed",
+           base_size=18)+
+  theme(legend.position = "none") # remove legend for State colors
+```
+
+Clearly `DIS`, which is District of Columbia, are the outliers. Let's make a second scatterplot without them:
+
+```{r, fig.retina=3}
+peacecorps %>%
+  filter(state != "DISTRICT OF COLUMBIA") %>%
+ggplot(data = .)+
+    aes(x = unemployrate,
+        y = appspc)+
+    geom_point(aes(color = as.factor(state)))+
+    geom_smooth(method = "lm")+
+  scale_x_continuous(breaks=seq(0,20,2),
+                     labels = function(x){paste(x,"%", sep="")})+
+  labs(x = "Unemployment Rate",
+       y = "Peace Corps Applications (per capita)")+
+  theme_classic(base_family = "Fira Sans Condensed",
+           base_size=18)+
+  theme(legend.position = "none") # remove legend for State colors
+```
+
+---
+
+### Part E
+
+**Run two *pooled* regressions, one with the outliers, and one without them. Write out the estimated regression equation for each. Interpret the coefficient, and comment on how it changes between the two regressions.**
+
+---
+
+<!--WRITE YOUR ANSWERS BELOW -->
+
+```{r}
+pooled<-lm(appspc ~ unemployrate, data = peacecorps)
+summary(pooled)
+```
+
+$$\widehat{\text{Apps per capita}_{it}}=46.23+0.84 \, \text{Unemployment Rate}_{it}$$
+
+For every 1 percentage point increase in unemployment, there are 0.46 more applications to the Peace Corps per capita.
+
+```{r}
+peacecorps_no_outliers<-peacecorps %>%
+  filter(state != "DISTRICT OF COLUMBIA")
+
+pooled_no_outliers<-lm(appspc ~ unemployrate, data = peacecorps_no_outliers)
+summary(pooled_no_outliers)
+```
+
+$$\widehat{\text{Apps per capita}_{it}}=48.59-0.37 \, \text{Unemployment Rate}_{it}$$
+
+For every 1 percentage point increase in unemployment, there are 0.37 *fewer* applications to the Peace Corps per capita.
+
+The coefficient changes signs and becomes a smaller magnitude by dropping the outliers (DC)!
+
+---
+
+### Part F
+
+**Now run a regression with State fixed effects using the dummy variable method.^[Ensure that `state` is a factor variable, and insert in the regression. You can either `mutate()` it into a `factor` beforehand, or just do `as.factor(state)` in the `lm` command.] Interpret the marginal effect of `unemployrate` on `appspc`. How did it change?**
+
+---
+
+<!--WRITE YOUR ANSWERS BELOW -->
+
+```{r, fig.retina=3}
+fe_reg<-lm(appspc ~ unemployrate + factor(state), data = peacecorps)
+summary(fe_reg)
+```
+
+For every 1 percentage point increase in the unemployment rate, there are 0.66 more applications to the Peace Corps per capita. It remained positive, and shrank in size, from the original regression (with outliers).
+
+---
+
+### Part G
+
+**Find the coefficient for Maryland and interpret it. How many applications per capita does Maryland have?**
+
+---
+
+<!--WRITE YOUR ANSWERS BELOW -->
+
+This is just like any model with dummy variables representing different categories. The constant (12.61) represents the *reference category* not put in the regression (to avoid the dummy variable trap), i.e. `ALABAMA.` 
+
+The coefficient on Maryland is 45.19. This means that, on average, there are 45.19 *more* applications per capita in Maryland *than Alabama* over the time period in the data. To get the average for Maryland, we add $12.61+45.19=57.80$.
+
+```{r}
+# if we want to extract it using R
+library(broom)
+
+fe_reg_tidy<-tidy(fe_reg)
+
+AL<-fe_reg_tidy %>%
+  filter(term == "(Intercept)") %>%
+  pull(estimate)
+
+MD_AL_diff<-fe_reg_tidy %>%
+  filter(term == "factor(state)MARYLAND") %>%
+  pull(estimate)
+
+AL+MD_AL_diff
+```
+
+---
+
+### Part H
+
+**Now try using the `plm()` command, which de-means the data, and make sure you get the same results as Part F.^[Inside `plm()`, set `index = "state"` to indicate variable, and `model = "within"` to indicate a fixed effects model.] Do you get the same marginal effect of `unemployrate` on `appspc`?**
+
+---
+
+<!--WRITE YOUR ANSWERS BELOW -->
+
+```{r}
+fe_reg_alt<-plm(appspc ~ unemployrate, index = "state", model = "within", data = peacecorps)
+summary(fe_reg_alt)
+```
+
+
+---
+
+### Part I
+
+**Now include *year* fixed effects in your regression, using the dummy variable method. Interpret the marginal effect of `unemployrate` on `appspc`. How did it change?**
+
+---
+
+<!--WRITE YOUR ANSWERS BELOW -->
+
+```{r}
+fe_2way_reg<-lm(appspc ~ unemployrate + factor(state) + factor(year), data = peacecorps)
+summary(fe_2way_reg)
+```
+
+For every 1 percentage point increase in the unemployment rate, there are 0.71 applications per capita to the Peace Corps.
+
+---
+
+### Part I
+
+**What would be the predicted number of applications in Maryland in 2011 at an unemployment rate of 5%?**
+
+---
+
+<!--WRITE YOUR ANSWERS BELOW -->
+
+$$\begin{align*}
+\widehat{\text{Apps per capita}_{it}}&=14.49 +0.71 \, \text{Unemployment Rate}_{it} + 45.24 \, \text{Maryland_i} -8.89 \text{2007}_t \\
+\widehat{\text{Apps per capita}_{MD, 2011}}&=14.49 +0.71 \, (5) + 45.24 \, (1) -8.89 (1) \\
+\widehat{\text{Apps per capita}_{MD, 2011}}& \approx 54.09
+\end{align*}$$
+
+```{r}
+# if we want to extract it using R
+fe_2way_reg<-tidy(fe_2way_reg)
+
+constant<-fe_2way_reg %>%
+  filter(term == "(Intercept)") %>%
+  pull(estimate)
+
+unemploy_me<-fe_2way_reg %>%
+  filter(term == "unemployrate") %>%
+  pull(estimate)
+
+MD_dif<-fe_2way_reg %>%
+  filter(term == "factor(state)MARYLAND") %>%
+  pull(estimate)
+
+dif_2007<-fe_2way_reg %>%
+  filter(term == "factor(year)2007") %>%
+  pull(estimate)
+
+constant+unemploy_me*5+MD_dif+dif_2007
+
+# some rounding error
+```
+
+---
+
+### Part K
+
+**Now try using the `plm()` command, which de-means the data, and make sure you get the same results as Part I.^[Inside `plm()`, set `index = c("state", "year")` to indicate both variables, and `effect = "twoways"` to indicate a 2-way fixed effects model.] Do you get the same marginal effect of `unemployrate` on `appspc`?**
+
+---
+
+<!--WRITE YOUR ANSWERS BELOW -->
+
+```{r}
+fe_2way_reg_alt<-plm(appspc ~ unemployrate, index = c("state", "year"), data = peacecorps, effect = "twoways")
+summary(fe_2way_reg_alt)
+```
+
+---
+
+### Part L
+
+**Can there still be endogeneity in this model? Give some examples.**
+
+---
+
+<!--WRITE YOUR ANSWERS BELOW -->
+
+Yes. There may be other time-varying variables that are omitted and correlated with unemployment, but not picked up in the time-fixed effect since they are not the same in each state. Examples could be a local market bubble some years in Texas or Nevada, but not in Maine, or bad weather in Florida one year, but not in Wyoming, etc.^[It's better to use the `plm()`-generated regressions so as to avoid the multitude of coefficients for the state and year dummies! You certainly could use the dummy variable ones and manually list all of the variables to suppress in the table inside `omit_coefs()`...]
+
+---
+
+### Part M
+**Create a nice regression table (using `huxtable`) for comparison of the regressions in E, G, and I.**
+
+---
+
+<!--WRITE YOUR ANSWERS BELOW -->
+```{r}
+library(huxtable)
+huxreg(pooled,
+       pooled_no_outliers,
+       fe_reg_alt,
+       fe_2way_reg_alt,
+         coefs = c("Constant" = "(Intercept)",
+                 "Unemployment Rate" = "unemployrate"),
+       statistics = c("N" = "nobs",
+                      "R-Squared" = "r.squared",
+                      "SER" = "sigma"),
+       note = NULL, # suppress footnote for stars, to insert Fixed Effects Row below
+       number_format = 3) %>%
+
+add_rows(c("Outliers", "Yes", "No DC", "Yes", "Yes"), # add row for outliers
+         after = 5) %>% # insert after 5th row
+add_rows(c("Fixed Effects", "None", "None", "State", "State and Year"), # add fixed effects row
+         after = 6) # insert after 6th row
+
+```
+
+
+## Question 4
+
+- [<i class="fas fa-table"></i> `TexasSchools.csv`](http://metricsf19.classes.ryansafner.com/data/TexasSchools.csv)
+
+Are teachers paid more when school board members are elected "off cycle" when there are not major national political elections (e.g. odd years) than "on cycle?" The argument is that during "off" years, without attention on state or national elections, voters will pay less attention to the election, and teachers can more effectively mobilize for higher pay, versus "on" years where voters are paying more attention. This data comes from Anzia, Sarah (2012), "The Election Timing Effect: Evidence from a Policy Intervention in Texas." *Quarterly Journal of Political Science* 7(3): 277-297, and follows 1,020 Texas school board districts from 2003–2009.
+
+From 2003–2006, all districts elected their school board members off-cycle. A change in Texas policy in 2006 led some, but not all, districts to elect their school board members on-cycle from 2007 onwards.
+
+| Variable | Description |
+|----------|-------------|
+| `LnAvgSalary` | logged average salary of teachers in district |
+| `Year` | Year |
+| `OnCycle` | `=1` if school boards elected on-cycle (e.g. same year as national and state elections), `=0` if elected off-cycle |
+| `pol_freedom` | Political freedom index score (2018) from 1 (least) top 10 (most free) |
+| `CycleSwitch` | `=1` if district switched from off- to on-cycle elections |
+| `AfterSwitch` | `=1` if year is after 2006 |
+
+### Part A
+
+**Run a pooled regression model of `LnAvgSalary` on `OnCycle`. Write the estimated regression equation, and interpret the coefficient on `OnCycle.` Are there any sources of bias (consider in particular the argument in the question prompt)?**
+
+---
+
+<!--WRITE YOUR ANSWERS BELOW -->
+
+```{r}
+# load in data
+texas<-read_csv("https://metricsf19.classes.ryansafner.com/data/TexasSchools.csv")
+```
+
+```{r, fig.retina=3}
+pooled_reg<-lm(LnAvgSalary~OnCycle, data = texas)
+summary(pooled_reg)
+```
+
+$$\widehat{\text{log(Average Salary})_it} = 10.67-0.03 \, \text{OnCycle}_{it}$$
+
+Recognize this is a linear-log model and $X$ is a dummy variable. School board elections that are held `OnCycle` $(=1)$ lead to $\hat{\beta_1 \times 100\% = −0.03 \times 100\% = −3\%$ lower teacher salaries. This is highly statistically significant.
+
+This is almost certainly biased. There are probably things correlated at the district level between both whether or not districts vote (or switch to voting) on cycle/off cycle and with teacher salaries. Perhaps some districts have strong/weak teachers unions and that determines whether they choose to vote on or off cycle (off cycle would be preferable, and perhaps districts with strong teachers unions kept the elections off cycle).
+
+Also, there could be changes in the entire State over time-perhaps all Texas teacher salaries were increasing or decreasing over the years.
+
+---
+
+### Part B
+
+**Some schools decided to switch to an on-cycle election after 2006. Consider this, `CycleSwitch` the "treatment." Create a variable to indicate post-treatment years (i.e. years after 2006). Call it `After`. Create a second, *interaction* variable to capture the interaction effect between those districts that *switched*, and *after* the treatment.**
+
+---
+
+<!--WRITE YOUR ANSWERS BELOW -->
+
+```{r}
+# create a variable, that is a factor, using ifelse() function
+# # if the year is greater than 2006, mark "After" as 1,
+# # If the year is NOT greater than 2006, market "After" a 0
+texas<-texas %>%
+  mutate(After = factor(ifelse(test = Year>2006,
+                        yes = 1,
+                        no = 0)))
+head(texas)
+```
+
+---
+
+### Part C
+
+**Now estimate a difference-in-difference model with your variables in Part B: `CycleSwitch` is the treatment variable, `After` is your post-treatment indicator, and add an _interaction_ variable to capture the interaction effect between those districts that _switched_, and _after_ the treatment. Write down the estimated regression equation (to four decimal places). **
+
+---
+
+<!--WRITE YOUR ANSWERS BELOW -->
+
+```{r}
+dnd<-lm(LnAvgSalary ~ CycleSwitch + After + CycleSwitch:After, data = texas)
+summary(dnd)
+```
+
+$$\widehat{\text{Log(Average Salary)}_{it}}=10.6711-0.0240 \, \text{Cycle Switch}_{i} + 0.0093 \, \text{After}_t - 0.0086 \, (\text{Cycle Switch}_i \times \text{After}_t)$$
+
+---
+
+### Part D
+
+**Interpret what each coefficient means from Part C.**
+
+---
+
+<!--WRITE YOUR ANSWERS BELOW -->
+
+- $\hat{\beta_0}$: districts before 2007 that did not switch had `ln(AvgSalary)` of 10.6711
+- $\hat{\beta_1}$: districts before 2007 that did switch had `ln(AvgSalary)` 0.0240 lower
+than districts that did not switch
+- $\hat{\beta_2}$: all districts after the change had `ln(AvgSalary)` 0.0093 higher than before the change
+- $\hat{\beta_3}$: districts that made a switch had a 0.0086 *lower* change in `ln(AvgSalary)` over time than districts that did not switch
+
+---
+
+### Part E
+
+**Using your regression equation in Part C, calculate the expected logged average salary $(Y)$ for districts in Texas:**
+
+- i. *Before* the switch that did *not* switch
+- ii. *After* the switch that did *not* switch
+- iii. *Before* the switch that *did* switch
+- iv. *After* the switch that *did* switch
+
+---
+
+<!--WRITE YOUR ANSWERS BELOW -->
+
+- i. Before change and did not switch: $\hat{\beta_0} = 10.6711$
+- ii. After change and did not switch: $\hat{\beta_0}+\hat{\beta_2} = 10.6711 + 0.0093 = 10.6804$
+- iii. Before change and did switch: $\hat{\beta_0}+\hat{\beta_1} = 10.6711 − 0.0240 = 10.6471$
+- iv. After change and did switch: $\hat{\beta_0}+\hat{\beta_1}+\hat{\beta_2}+\hat{\beta_3} = 10.6711−0.0240+ 0.0093 − 0.0086 = 10.6478$
+
+
+---
+
+### Part F
+
+**Confirm your estimates in Part E by finding the mean logged average salary for each of those four groups in the data.^[Hint, `filter()` properly then `summarize()`.]**
+
+---
+
+<!--WRITE YOUR ANSWERS BELOW -->
+
+```{r}
+# avg log salary for districts BEFORE that did NOT switch
+texas %>%
+  filter(CycleSwitch == 0,
+         After == 0) %>%
+  summarize(average = mean(LnAvgSalary, na.rm=T)) # need to remove NA's
+
+# avg log salary for districts AFTER that did NOT switch
+texas %>%
+  filter(CycleSwitch == 0,
+         After == 1) %>%
+  summarize(average = mean(LnAvgSalary, na.rm=T)) # need to remove NA's
+
+# avg log salary for districts BEFORE that DID switch
+texas %>%
+  filter(CycleSwitch == 1,
+         After == 0) %>%
+  summarize(average = mean(LnAvgSalary, na.rm=T)) # need to remove NA's
+
+# avg log salary for districts AFTER that DID switch
+texas %>%
+  filter(CycleSwitch == 1,
+         After == 1) %>%
+  summarize(average = mean(LnAvgSalary, na.rm=T)) # need to remove NA's
+```
+
+---
+
+### Part G
+
+**Write out the difference-in-difference equation, and calculate the difference-in-difference. Make sure it matches your estimate from the regression.**
+
+---
+
+<!--WRITE YOUR ANSWERS BELOW -->
+
+$$\begin{align*}
+		\Delta \Delta ln(AvgSalary)&=(Switched_{after}-Switched_{before})-(Didn't_{after}-Didn't_{before})\\
+		&=(10.6478-10.6471)-(10.6804-10.6711)\\
+		&=(0.0007)-(0.0093)\\
+		&=-0.0086\\ \end{align*}$$
+
+This is $\beta_3$.
+
+---
+
+### Part H
+
+**Can we say anything about the types of districts that switched? Can we say anything about all salaries in the districts in the years after the switch?**
+
+---
+
+<!--WRITE YOUR ANSWERS BELOW -->
+
+We can see that the districts that switched paid 2.3% less to their teachers to begin with. $\beta_2$ shows the difference, before treatment, between the treated (districts that switched) and control groups (districts that did not switch). 
+	
+We can see that all districts saw a 0.93% increase in teacher salaries after the years after the switch. $\beta_3$ shows the difference, for both the treatment and control, of salaries over time (before and after the switch).
+
+---
+
+### Part I
+
+**Now let’s generalize the diff-in-diff model. Instead of the treatment and post-treatment dummies, use district-and year-fixed effects and the interaction term. Interpret the coefficient on the interaction term**^[This is doable with the dummy variable method, but there will be a *lot* of dummies! I suggest using `plm()`.]
+
+---
+
+<!--WRITE YOUR ANSWERS BELOW -->
+
+```{r}
+# make sure DistNumber and Year are factors for plm
+texas<-texas %>%
+  mutate_at(c("DistNumber", "Year"), factor)
+head(texas) # make sure it worked
+
+dnd_fe_reg<-plm(LnAvgSalary ~ CycleSwitch*After, index=c("DistNumber", "Year"), effect = "twoways", data = texas)
+summary(dnd_fe_reg)
+```
+
+Districts that switched to On Cycle saw teacher salaries decrease by 8.67%. No change from our original model!
+
+---
+
+### Part J
+
+**Create a nice regression table (using `huxtable`) for comparison of the regressions in (a), (c), and (i).**
+
+---
+
+<!--WRITE YOUR ANSWERS BELOW -->
+
+```{r}
+huxreg(pooled_reg,
+       dnd,
+       dnd_fe_reg,
+         coefs = c("Constant" = "(Intercept)",
+                 "On Cycle" = "OnCycle",
+                 "Switched" = "CycleSwitch",
+                 "After Switch" = "After1",
+                 "Interaction" = "CycleSwitch:After1"),
+       statistics = c("N" = "nobs",
+                      "R-Squared" = "r.squared",
+                      "SER" = "sigma"),
+       note = NULL, # suppress footnote for stars, to insert Fixed Effects Row below
+       number_format = 3) %>%
+add_rows(c("Fixed Effects", "None", "None", "District and Year"), # add fixed effects row
+         after = 11) # insert after 11th row
+```

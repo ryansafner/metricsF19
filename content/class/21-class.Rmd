@@ -31,7 +31,7 @@ Interpretting logged variables can often be difficult to remember, so here I rep
 
 | Linear-Log | Log-Linear | Log-Log |
 |:----------:|:----------:|:-------:|
-| ![](21-slides_files/figure-html/unnamed-chunk-14-1.png) | ![](21-slides_files/figure-html/unnamed-chunk-20-1.png) | ![](21-slides_files/figure-html/unnamed-chunk-25-1.png) |
+| ![](https://metricsf19.classes.ryansafner.com/slides/21-slides_files/figure-html/unnamed-chunk-14-1.png) | ![](https://metricsf19.classes.ryansafner.com/slides/21-slides_files/figure-html/unnamed-chunk-20-1.png) | ![](https://metricsf19.classes.ryansafner.com/slides/21-slides_files/figure-html/unnamed-chunk-25-1.png) |
 | $\hat{Y_i}=\hat{\beta_0}+\hat{\beta_1}\mathbf{ln(X_i)}$ | $\mathbf{ln(\hat{Y_i})}=\hat{\beta_0}+\hat{\beta_1}X_i$ | $\mathbf{ln(\hat{Y_i})}=\hat{\beta_0}+\hat{\beta_1}\mathbf{ln(X_i)}$ |
 | $R^2=0.65$ | $R^2=0.30$ | $R^2=0.61$ |
 

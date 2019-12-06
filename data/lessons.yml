@@ -156,7 +156,16 @@ lessons:
     class: "23-class"
     slides: "23-slides"
 
-  - title: '<span class="fake-header-table">5. Advanced Regression</span>'
+  - title: '<i class="fas fa-laptop-code"></i> **Problem Set 6** (Ungraded)'
+    assignment: "06-problem-set"
+    
+  - title: "**Final Exam** 11:30AM Thurs December 12" 
+    assignment: "02-exam"
+
+  - title: "**Empirical Research Paper Project Due December 17**" 
+    assignment: "paper-project"
+    
+  - title: '<span class="fake-header-table">End of Semester/Advanced Regression</span>'
     header: True
     
   - title: "5.1 Instrumental Variables Models"
@@ -166,9 +175,3 @@ lessons:
   - title: "5.3 Binary Dependent Variables Models"
 
   - title: "5.4 Machine Learning"
-
-  - title: '<span class="fake-header-table">Final Exam</span>'
-    header: True
-
-  - title: "**Empirical Research Paper Project Due December 17**" 
-    assignment: "paper-project"
