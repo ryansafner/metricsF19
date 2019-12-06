@@ -5,3 +5,5 @@
 public/
 static/data/paperlengthsregcsv.csv
 static/exams/
+.log
+.synctex.gz
