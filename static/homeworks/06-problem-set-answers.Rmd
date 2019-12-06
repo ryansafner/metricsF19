@@ -31,6 +31,17 @@ Answers may be longer than I would deem sufficient on an exam. Some might vary s
 ---
 
 <!--WRITE YOUR ANSWERS BELOW -->
+Fixed effects can be used for panel data, where each observation$_{it}$ belongs to a group $i$ and a time period $t$. Running a simple OLS model as usual, known as a **pooled model** would be biased due to systematic relationships within and between groups and time periods that cause $X_{it}$ to be endogenous:
+
+$$\widehat{Y_{it}}=\beta_0+\beta_1 X_{it}+u_{it}$$
+
+Group-fixed effects $(\alpha_i$) pull out of the error term all of the factors that explain $Y_{it}$ that are stable over time within each individual group ($i$), but vary across groups. For example, if groups are U.S. states, state-fixed effects pull out all of the error term all of the idiosyncrasies of each state that do not change over time, such as cultural differences, geographical differences, historical differences, population differences, etc. Group fixed effects *do not* pull out factors that change over time, such as federal laws passed, recessions affecting all states, etc.
+	
+Time-fixed effects $(\theta_i)$ pull out of the error term all of the factors that explain $Y_{it}$ that change over time but do not vary across groups. For example, if groups are U.S. states, and time is in years, year-fixed effects pull out all of the error term all of the changes over the years that affect all U.S. states, such as recessions, inflation, national population growth, national immigration trends, or federal laws passed that affect all states. Time-fixed effects *do not* pull out factors that do not change over time. 
+	
+$$\widehat{Y_{it}}=\beta_0+\beta_1 X_{it}+ \alpha_{i} + \theta_{t} + \epsilon_{it}$$
+	
+Mechanically, OLS estimates a separate constant for each group (and/or each time period), giving the expected value of $Y_{it}$ for that group or time-period. This can be done by either de-meaning the data and calculating OLS coefficients by exploiting the variation *within* each group and/or time period (which is why fixed effects estimators are called "within" estimators), or by creating a dummy variable for each group and/or time period (and omitting one of each, to avoid the dummy variable trap). 
 
 ---
 
@@ -40,6 +51,34 @@ Answers may be longer than I would deem sufficient on an exam. Some might vary s
 ---
 
 <!--WRITE YOUR ANSWERS BELOW -->
+$$\widehat{Y_{it}}=\beta_0+\beta_1 \text{Treated}_i +\beta_2 \text{After}_{t}+\beta_3 (\text{Treated}_i \times \text{After}_{t})+u_{it}$$
+
+A difference-in-difference model compares the difference before and after a treatment between a group that receives the treatment and a group that does not. By doing so, we can isolate the effect of the treatment. It is easiest to see in the following equation:
+
+$$\Delta \Delta Y = (\text{Treated}_{after}-\text{Treated}_{before})-(\text{Control}_{after}-\text{Control}_{before})$$
+
+In OLS regression, we can simply make two dummy variables for observations$_it$ depending on the group and the time period each observation is:  
+
+$$\text{Treated}_i = \begin{cases}
+        1 & \text{if } i \text{ receives treatment} \\
+   			0 & \text{if } i \text{ does not receive treatment }\\
+  		\end{cases}$$
+  		
+$$\text{After}_t = \begin{cases}
+    		1 & \text{if } t \text{is after treatment period} \\
+   			0 & \text{if } t \text{is before treatment period}\\
+  		\end{cases}$$
+
+Lastly, we make an interaction term $\text{Treated}_i * \text{After}_t$ which isolates the treatment effect, captured by the coefficient on this term, $\beta_3$. 
+
+Diff-in-diff models assume a counterfactual that if the treated group did not receive treatment, it would have experience the same change as the control group over the pre- to post-treatment period. 
+
+A classic example is if a state(s) passes a law and others do not. We want to compare the difference in the difference before and after the law was passed between states that passed the law and states that did not: 
+
+$$\Delta_i \Delta_t Outcome = (\text{Passed}_{after}-\text{Passed}_{before})-(\text{Didn't}_{after}-\text{Didn't}_{before})$$
+
+"Treatment$_i$" and time-fixed effects for "After$_t$" to estimate the treatment effect (still $\beta_3$): 
+$$\widehat{Y_{it}}=\alpha_i +\theta_{t}+\beta_3 (\text{Treated}_i \times \text{After}_{t})+\epsilon_{it}$$
 
 ---
 
