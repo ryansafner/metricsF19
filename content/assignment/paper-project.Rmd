@@ -15,7 +15,7 @@ source(file.path(here::here(), "lib", "graphics.R"))
 > "No economist has achieved scientific success as a result of a statistically significant coefficient. Massed observations, clever common sense, elegant theorems, new policies, sagacious economic reasoning, historical perspective, relevant accounting, these have all led to scientific success. Statistical significance has not." --- McCloskey and Ziliak, "The Cult of Statistical Significance" (1996: 112)
 
 - [<i class="fas fa-external-link-square-alt"></i> Writing and Reading Empirical Papers Slides](/slides/paper-slides.html)
-- [<i class="fas fa-github"></i> Example Paper Project](https://github.com/ryansafner/example_empirical_paper)
+- [<i class="fab fa-github"></i> Example Paper Project](https://github.com/ryansafner/example_empirical_paper)
 
 # Overview 
 
